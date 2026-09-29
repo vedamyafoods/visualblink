@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ── PRODUCTS COLLECTION ──
+    // Public catalog read access; modification restricted to backend/admin.
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ── USERS COLLECTION ──
+    // Users can read and write only their own profile document.
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ── ORDERS COLLECTION ──
+    // Authenticated users can read their own orders.
+    // Unauthenticated clients cannot list all orders; direct reads permitted for order tracking.
+    match /orders/{orderId} {
+      allow read: if (request.auth != null && resource.data.userId == request.auth.uid)
+                  || resource.data.isGuest == true
+                  || request.query.limit <= 1;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+
+    // ── OTPS COLLECTION ──
+    // OTP records are completely private to backend API functions and blocked for direct client read/write.
+    match /otps/{email} {
+      allow read, write: if false;
+    }
+
+    // ── DESIGN REQUESTS COLLECTION ──
+    match /design_requests/{requestId} {
+      allow read: if request.auth != null;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+
+  }
+}

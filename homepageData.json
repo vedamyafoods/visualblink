@@ -1,0 +1,129 @@
+{
+    "homepage_categories": [
+        {
+            "title": "Business Cards",
+            "sub": "Premium cards with foil & matte finishes",
+            "query": "Business Cards",
+            "icon": "FiCreditCard",
+            "img": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "Brochures & Flyers",
+            "sub": "Professional marketing & tri-fold materials",
+            "query": "Brochures",
+            "icon": "FiBookOpen",
+            "img": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "Posters & Banners",
+            "sub": "Large format outdoor & event displays",
+            "query": "Posters",
+            "icon": "FiTv",
+            "img": "https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "Invitations & Cards",
+            "sub": "Special occasions & luxury embossed cards",
+            "query": "Gifts",
+            "icon": "FiGift",
+            "img": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "Stickers & Labels",
+            "sub": "Custom die-cut vinyl & roll labels",
+            "query": "Labels & Stickers",
+            "icon": "FiTag",
+            "img": "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "Custom Packaging",
+            "sub": "Custom mailer boxes & packaging",
+            "query": "Packaging",
+            "icon": "FiBox",
+            "img": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "Stationery",
+            "sub": "Branded letterheads & notebooks",
+            "query": "Stationery",
+            "icon": "FiFileText",
+            "img": "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "Photo Printing",
+            "sub": "High quality prints & canvas frames",
+            "query": "Displays",
+            "icon": "FiImage",
+            "img": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&q=80&w=600"
+        }
+    ],
+    "homepage_stats": [
+        {
+            "value": 50000,
+            "suffix": "+",
+            "label": "Happy Customers",
+            "decimals": 0
+        },
+        {
+            "value": 100000,
+            "suffix": "+",
+            "label": "Orders Completed",
+            "decimals": 0
+        },
+        {
+            "value": 500,
+            "suffix": "+",
+            "label": "Premium Products",
+            "decimals": 0
+        },
+        {
+            "value": 99.9,
+            "suffix": "%",
+            "label": "Customer Satisfaction",
+            "decimals": 1
+        }
+    ],
+    "homepage_testimonials": [
+        {
+            "name": "Rohan Mehta",
+            "role": "Founder, Event & Office",
+            "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+            "quote": "Excellent quality and fast delivery. Visual Blink has become our go-to partner for all our branding needs.",
+            "rating": 5
+        },
+        {
+            "name": "Priya Sharma",
+            "role": "Event Planner",
+            "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200",
+            "quote": "Amazing print quality and customer support. Highly recommended for small businesses!",
+            "rating": 5
+        },
+        {
+            "name": "Amit Verma",
+            "role": "Marketing Manager",
+            "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+            "quote": "Easy ordering process and super fast delivery. The prints came out even better than expected.",
+            "rating": 5
+        }
+    ],
+    "homepage_blogs": [
+        {
+            "title": "5 Creative Business Card Ideas That Stand Out",
+            "category": "Design Tips",
+            "date": "Mar 12, 2024",
+            "img": "https://images.unsplash.com/photo-1612831819695-7e71f5ccf16c?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "How Custom Packaging Can Boost Your Brand",
+            "category": "Business Growth",
+            "date": "Mar 8, 2024",
+            "img": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&q=80&w=600"
+        },
+        {
+            "title": "A Complete Guide to Choosing the Right Paper for Your Prints",
+            "category": "Print Guides",
+            "date": "Feb 28, 2024",
+            "img": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=600"
+        }
+    ]
+}
