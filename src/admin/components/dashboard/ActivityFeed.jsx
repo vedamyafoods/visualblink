@@ -1,65 +1,73 @@
 import React from 'react';
-import { 
-  CheckCircle, 
-  FileCheck, 
-  Palette, 
-  Truck, 
-  Zap, 
-  PlusCircle, 
-  Receipt, 
-  Send 
+import {
+  CheckCircle,
+  FileCheck,
+  Palette,
+  Truck,
+  Zap,
+  PlusCircle,
+  Receipt,
+  Send
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 
 export const ActivityFeed = () => {
-  const { setWalkInModalOpen, setQuickInvoiceModalOpen, setActiveTab } = useAdmin();
+  const { setWalkInModalOpen, setQuickInvoiceModalOpen, setActiveTab, orders } = useAdmin();
 
-  const activities = [
-    {
-      id: 1,
-      type: 'artwork',
-      text: 'Pre-flight verified: CMYK & Bleed approved for PRT-98421 (Soft-Touch Cards)',
-      time: '12 mins ago',
-      icon: FileCheck,
-      iconBg: 'bg-emerald-100 text-emerald-600',
-    },
-    {
-      id: 2,
-      type: 'express',
-      text: 'Dunzo rider assigned to PRT-98422 (Zest Coffee Pouches)',
-      time: '25 mins ago',
-      icon: Zap,
-      iconBg: 'bg-red-100 text-red-600',
-    },
-    {
-      id: 3,
-      type: 'proof',
-      text: 'Digital proof uploaded to Cloudinary for DSGN-104 (Priya Nair)',
-      time: '42 mins ago',
-      icon: Palette,
-      iconBg: 'bg-blue-100 text-blue-600',
-    },
-    {
-      id: 4,
-      type: 'dispatch',
-      text: 'AWB BD-883920192 generated via BlueDart Air for PRT-98423',
-      time: '1 hour ago',
-      icon: Truck,
-      iconBg: 'bg-sky-100 text-sky-600',
-    },
-    {
-      id: 5,
-      type: 'order',
-      text: 'New Walk-in Order PRT-98426 created at counter (₹11,210)',
-      time: '2 hours ago',
-      icon: CheckCircle,
-      iconBg: 'bg-purple-100 text-purple-600',
-    }
-  ];
+  const generateActivities = () => {
+    return orders
+      .filter(o => o.createdAt)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 5)
+      .map((o, idx) => {
+        let text = `New Order ${o.id || o.orderId} created (₹${o.totalAmount?.toLocaleString() || o.pricing?.grandTotal?.toLocaleString() || 0})`;
+        let icon = CheckCircle;
+        let iconBg = 'bg-purple-100 text-purple-600';
+        let type = 'order';
+
+        if (o.status === "Dispatched") {
+          text = `Order ${o.id || o.orderId} dispatched via ${o.deliveryMethod || 'Courier'}`;
+          icon = Truck;
+          iconBg = 'bg-sky-100 text-sky-600';
+          type = 'dispatch';
+        } else if (o.status === "Artwork Verification") {
+          text = `Pre-flight verification required for ${o.id || o.orderId}`;
+          icon = FileCheck;
+          iconBg = 'bg-amber-100 text-amber-600';
+          type = 'artwork';
+        } else if (o.status === "In Production") {
+          text = `Order ${o.id || o.orderId} moved to production queue`;
+          icon = Palette;
+          iconBg = 'bg-blue-100 text-blue-600';
+          type = 'production';
+        }
+
+        let timeStr = new Date(o.createdAt).toLocaleDateString();
+        const diffHours = Math.floor((new Date() - new Date(o.createdAt)) / 3600000);
+        if (diffHours === 0) {
+          timeStr = 'Recently updated';
+        } else if (diffHours < 24) {
+          timeStr = `${diffHours} hours ago`;
+        } else if (diffHours < 48) {
+          timeStr = 'Yesterday';
+        }
+
+        return {
+          id: o.id || idx.toString(),
+          type,
+          text,
+          time: timeStr,
+          icon,
+          iconBg
+        };
+      });
+  };
+
+  const dynamicActivities = generateActivities();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      
+
       {/* Activity Feed */}
       <div className="lg:col-span-2 bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
         <h3 className="font-bold text-slate-900 text-sm mb-4">
@@ -67,7 +75,7 @@ export const ActivityFeed = () => {
         </h3>
 
         <div className="space-y-4">
-          {activities.map((act) => {
+          {dynamicActivities.length > 0 ? dynamicActivities.map((act) => {
             const Icon = act.icon;
             return (
               <div key={act.id} className="flex items-start gap-3">
@@ -84,7 +92,7 @@ export const ActivityFeed = () => {
                 </div>
               </div>
             );
-          })}
+          }) : <div className="text-slate-400 text-[14px]">No recent operational activity recorded.</div>}
         </div>
       </div>
 

@@ -21,12 +21,13 @@ import { StatsManager } from './StatsManager';
 import { TestimonialsManager } from './TestimonialsManager';
 import { BlogsManager } from './BlogsManager';
 import { HomepageCategoriesManager } from './HomepageCategoriesManager';
+import { MegamenuManager } from './MegamenuManager';
 
 export const HomepageManager = () => {
   const { homepageSettings, updateHomepageSettings } = useAdmin();
 
   const [formData, setFormData] = useState(homepageSettings || {});
-  const [activeTab, setActiveTab] = useState('hero'); // 'hero', 'categories', 'preview'
+  const [activeTab, setActiveTab] = useState('navigation'); // 'hero', 'categories', 'navigation', 'preview'
   const [uploadingField, setUploadingField] = useState(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -178,13 +179,24 @@ export const HomepageManager = () => {
 
         <button
           type="button"
+          onClick={() => setActiveTab('navigation')}
+          className={`px-5 py-2.5 rounded-xl text-[14px] font-bold transition flex items-center gap-2 cursor-pointer border shrink-0 ${activeTab === 'navigation'
+            ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+            : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+            }`}
+        >
+          <Layers className="w-4 h-4" /> 3. Header Navigation (Megamenu)
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveTab('stats')}
           className={`px-5 py-2.5 rounded-xl text-[14px] font-bold transition flex items-center gap-2 cursor-pointer border shrink-0 ${activeTab === 'stats'
             ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
             : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
             }`}
         >
-          <Sparkles className="w-4 h-4" /> 3. Built for Business Stats
+          <Sparkles className="w-4 h-4" /> 4. Built for Business Stats
         </button>
 
         <button
@@ -195,7 +207,7 @@ export const HomepageManager = () => {
             : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
             }`}
         >
-          <Star className="w-4 h-4" /> 4. Customer Testimonials
+          <Star className="w-4 h-4" /> 5. Customer Testimonials
         </button>
 
         <button
@@ -206,7 +218,7 @@ export const HomepageManager = () => {
             : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
             }`}
         >
-          <Type className="w-4 h-4" /> 5. Latest Blog Posts
+          <Type className="w-4 h-4" /> 6. Latest Blog Posts
         </button>
 
         <button
@@ -473,6 +485,11 @@ export const HomepageManager = () => {
 
           <HomepageCategoriesManager />
         </div>
+      )}
+
+      {/* TAB: HEADER NAVIGATION STUDIO */}
+      {activeTab === 'navigation' && (
+        <MegamenuManager />
       )}
 
       {/* TAB 3: LIVE CUSTOMER STOREFRONT PREVIEW */}

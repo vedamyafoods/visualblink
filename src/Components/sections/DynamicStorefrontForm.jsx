@@ -8,7 +8,7 @@ export const DynamicStorefrontForm = ({
   onValueChange
 }) => {
   if (!customSections || customSections.length === 0) return null;
-c
+  
   return (
     <div className="space-y-8">
       {customSections.map((sec, sIdx) => {

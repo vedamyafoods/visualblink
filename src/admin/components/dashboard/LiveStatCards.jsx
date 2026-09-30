@@ -1,27 +1,54 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  IndianRupee, 
-  Printer, 
-  Clock, 
-  FileCheck, 
-  Zap, 
-  TrendingUp, 
-  ArrowUpRight 
+import {
+  IndianRupee,
+  Printer,
+  Clock,
+  FileCheck,
+  Zap,
+  TrendingUp,
+  ArrowUpRight
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 
 export const LiveStatCards = () => {
-  const { orders, expressOrdersCount, pendingArtworkCount } = useAdmin();
+  const { orders, expressOrdersCount, pendingArtworkCount, products, categories } = useAdmin();
 
   const totalRevenue = orders.reduce((sum, o) => sum + (o.totalAmount || o.pricing?.grandTotal || 0), 0);
   const inProductionCount = orders.filter(o => o.status === 'In Production').length;
 
+  // Calculate dynamic stats
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  let todayRev = 0;
+  let yesterdayRev = 0;
+  let todayOrders = 0;
+
+  orders.forEach(o => {
+    if (!o.createdAt) return;
+    const d = new Date(o.createdAt);
+    const amt = o.totalAmount || o.pricing?.grandTotal || 0;
+    if (d >= today) {
+      todayRev += amt;
+      todayOrders += 1;
+    } else if (d >= yesterday && d < today) {
+      yesterdayRev += amt;
+    }
+  });
+
+  const revGrowth = yesterdayRev > 0 ? Math.round(((todayRev - yesterdayRev) / yesterdayRev) * 100) : 0;
+  const revChangeStr = yesterdayRev === 0 && todayRev > 0
+    ? "+100% vs yesterday"
+    : `${revGrowth >= 0 ? '+' : ''}${revGrowth}% vs yesterday`;
+
   const stats = [
     {
-      title: "Today's Revenue",
+      title: "Total Revenue",
       value: `₹${totalRevenue.toLocaleString()}`,
-      change: "+18.4% vs yesterday",
+      change: `₹${todayRev.toLocaleString()} today (${revChangeStr})`,
       isPositive: true,
       icon: IndianRupee,
       gradient: "from-blue-600 to-indigo-600",
@@ -30,7 +57,7 @@ export const LiveStatCards = () => {
     {
       title: "Total Print Orders",
       value: orders.length,
-      change: "+12 orders in pipeline",
+      change: `+${todayOrders} orders today`,
       isPositive: true,
       icon: Printer,
       gradient: "from-sky-500 to-blue-500",
@@ -63,10 +90,28 @@ export const LiveStatCards = () => {
       gradient: "from-red-600 to-rose-600",
       accentBg: "bg-red-50 text-red-600 animate-pulse",
     },
+    {
+      title: "Active Products",
+      value: products.length || 0,
+      change: "Live storefront catalog",
+      isPositive: true,
+      icon: Printer,
+      gradient: "from-fuchsia-600 to-pink-600",
+      accentBg: "bg-fuchsia-50 text-fuchsia-600",
+    },
+    {
+      title: "Total Categories",
+      value: categories.length || 0,
+      change: "Dynamic megamenu nodes",
+      isPositive: true,
+      icon: FileCheck,
+      gradient: "from-teal-500 to-emerald-500",
+      accentBg: "bg-teal-50 text-teal-600",
+    }
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (

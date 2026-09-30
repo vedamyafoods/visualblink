@@ -44,36 +44,14 @@ export function Navbar({ currentPage, setCurrentPage }) {
     setMobileMenuOpen(false)
   }
 
-  // Target 6 Categories in specific order required
-  const targetCategories = [
-    'Business Cards',
-    'Apparel',
-    'Gifts',
-    'Invitations',
-    'Corporate Gifting',
-    'Printing'
-  ]
 
-  // Get matching category object from live data or fallback defaults
-  const getCategoryData = (catName) => {
-    const found = liveMegamenuCats.find(
-      (c) => (c.title || c.categoryQuery || '').toLowerCase() === catName.toLowerCase()
-    )
-    if (found) return found;
-
-    const defaultFound = DEFAULT_MEGAMENU_CATEGORIES.find(
-      (c) => (c.title || c.categoryQuery || '').toLowerCase() === catName.toLowerCase()
-    )
-    return defaultFound || { title: catName, categoryQuery: catName, items: [] }
-  }
 
   return (
     <header className="w-full font-sans sticky top-0 z-50 transition-all duration-300">
 
       {/* Main Single White Header */}
-      <div className={`bg-white transition-all duration-300 border-b ${
-        isScrolled ? 'py-3 shadow-md border-slate-200' : 'py-4 border-[#E2E8F0]'
-      }`}>
+      <div className={`bg-white transition-all duration-300 border-b ${isScrolled ? 'py-3 shadow-md border-slate-200' : 'py-4 border-[#E2E8F0]'
+        }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 sm:gap-6">
 
           {/* Brand Logo */}
@@ -94,20 +72,20 @@ export function Navbar({ currentPage, setCurrentPage }) {
             </span>
           </button>
 
-          {/* Navigation Links: Exactly 6 Categories with Dropdowns */}
+          {/* Navigation Links: Dynamic Categories with Dropdowns */}
           <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
-            {targetCategories.map((catName) => {
-              const catData = getCategoryData(catName);
+            {liveMegamenuCats.map((catData, idx) => {
+              const catName = catData.title;
               const subItems = catData.items || [];
 
               return (
-                <div key={catName} className="relative group">
+                <div key={`${catData.id || idx}`} className="relative group">
                   <button
                     onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName }, '#catalog')}
                     className="flex items-center gap-1 py-1 text-[14px] xl:text-[14.5px] font-extrabold text-[#0F172A] group-hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer whitespace-nowrap"
                   >
                     <span>{catName}</span>
-                    <FiChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#C026D3] transition-transform group-hover:rotate-180" />
+                    {subItems.length > 0 && <FiChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#C026D3] transition-transform group-hover:rotate-180" />}
                   </button>
 
                   {/* Dropdown Menu on Hover */}
@@ -117,9 +95,9 @@ export function Navbar({ currentPage, setCurrentPage }) {
                         <div className="text-[10px] font-black text-[#C026D3] uppercase tracking-wider px-2 py-1 border-b border-slate-100 mb-1">
                           {catName}
                         </div>
-                        {subItems.map((sub) => (
+                        {subItems.map((sub, sIdx) => (
                           <button
-                            key={sub.name}
+                            key={sIdx}
                             onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, search: sub.name }, '#catalog')}
                             className="block w-full text-left px-2.5 py-1.5 text-[13px] font-bold text-slate-700 hover:text-[#C026D3] hover:bg-pink-50/60 rounded-xl transition-colors border-none bg-transparent cursor-pointer"
                           >
@@ -213,13 +191,13 @@ export function Navbar({ currentPage, setCurrentPage }) {
             Categories
           </div>
 
-          {targetCategories.map((catName) => {
-            const catData = getCategoryData(catName);
+          {liveMegamenuCats.map((catData, idx) => {
+            const catName = catData.title;
             const subItems = catData.items || [];
             const isOpen = openMobileSubcat === catName;
 
             return (
-              <div key={catName} className="space-y-1">
+              <div key={`${catData.id || idx}`} className="space-y-1">
                 <button
                   onClick={() => {
                     if (subItems.length > 0) {
@@ -238,9 +216,9 @@ export function Navbar({ currentPage, setCurrentPage }) {
 
                 {isOpen && subItems.length > 0 && (
                   <div className="pl-4 space-y-1 border-l-2 border-pink-200 ml-3 py-1">
-                    {subItems.map((sub) => (
+                    {subItems.map((sub, sIdx) => (
                       <button
-                        key={sub.name}
+                        key={sIdx}
                         onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, search: sub.name }, '#catalog')}
                         className="block w-full text-left px-3 py-1.5 text-[13px] font-bold text-slate-600 hover:text-[#C026D3] border-none bg-transparent cursor-pointer"
                       >
