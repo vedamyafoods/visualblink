@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AdminProvider, useAdmin } from './context/AdminContext';
+import { AdminRoute } from './components/AdminRoute';
 import { AdminSidebar } from './components/layout/AdminSidebar';
 import { AdminHeader } from './components/layout/AdminHeader';
 import { AdminCommandPalette } from './components/layout/AdminCommandPalette';
@@ -86,7 +87,9 @@ const AdminContent = ({ onSwitchToWebsite }) => {
 export const AdminApp = ({ onSwitchToWebsite }) => {
   return (
     <AdminProvider>
-      <AdminContent onSwitchToWebsite={onSwitchToWebsite} />
+      <AdminRoute>
+        <AdminContent onSwitchToWebsite={onSwitchToWebsite} />
+      </AdminRoute>
     </AdminProvider>
   );
 };

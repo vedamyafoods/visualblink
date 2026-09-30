@@ -18,11 +18,15 @@ import {
   Printer,
   UserCheck,
   ArrowLeftRight,
-  X
+  X,
+  LogOut
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
+import { useAuth } from '../../../context/AuthContext';
+import { BRANDING } from '../../../config/branding';
 
 export const AdminSidebar = ({ onSwitchToWebsite, isMobileOpen, onCloseMobileSidebar }) => {
+  const { logout } = useAuth();
   const {
     activeTab,
     setActiveTab,
@@ -88,17 +92,16 @@ export const AdminSidebar = ({ onSwitchToWebsite, isMobileOpen, onCloseMobileSid
       {/* Brand Header */}
       <div className="h-16 flex items-center justify-between px-4 border-b border-slate-100 shrink-0">
         <div className="flex items-center gap-3 overflow-hidden">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-sky-500 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 shrink-0">
-            <Printer className="w-5 h-5" />
-          </div>
-          {(!sidebarCollapsed || isMobileOpen) && (
+          {(!sidebarCollapsed || isMobileOpen) ? (
             <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-tight bg-gradient-to-r from-slate-900 via-slate-700 to-blue-600 bg-clip-text text-transparent">
-                PRINTIGLY
-              </span>
-              <span className="text-[9px] uppercase font-bold tracking-widest text-blue-600">
+              <img src={BRANDING.logoUrl} alt={BRANDING.logoAlt} className="h-8 w-auto object-contain" />
+              <span className="text-[9px] uppercase font-bold tracking-widest text-blue-600 mt-1">
                 Backoffice Ops v2.4
               </span>
+            </div>
+          ) : (
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
+              <img src={BRANDING.logoUrl} alt={BRANDING.logoAlt} className="h-6 w-auto object-contain" />
             </div>
           )}
         </div>
@@ -192,12 +195,27 @@ export const AdminSidebar = ({ onSwitchToWebsite, isMobileOpen, onCloseMobileSid
         <button
           onClick={() => {
             if (onCloseMobileSidebar) onCloseMobileSidebar();
-            onSwitchToWebsite();
+            if (typeof onSwitchToWebsite === 'function') {
+              onSwitchToWebsite();
+            }
+            window.location.href = "/";
           }}
           className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-[14px] font-bold bg-white hover:bg-slate-100 text-blue-600 transition-colors border border-slate-200 cursor-pointer shadow-3xs"
         >
           <ArrowLeftRight className="w-3.5 h-3.5" />
           {(!sidebarCollapsed || isMobileOpen) && <span>Customer Website</span>}
+        </button>
+        <button
+          onClick={async () => {
+            if (onCloseMobileSidebar) onCloseMobileSidebar();
+            await logout();
+            window.location.href = "/admin"; // Force reload to login UI
+          }}
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-[14px] font-bold bg-white hover:bg-red-50 text-red-600 transition-colors border border-red-100 hover:border-red-200 cursor-pointer shadow-3xs group"
+          title="Sign Out"
+        >
+          <LogOut className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+          {(!sidebarCollapsed || isMobileOpen) && <span>Secure Sign Out</span>}
         </button>
       </div>
     </div>

@@ -11,6 +11,8 @@ import {
 import { useAuth } from '../../context/AuthContext'
 import { SearchModal } from '../common/SearchModal'
 import { subscribeToMegamenuCategories, DEFAULT_MEGAMENU_CATEGORIES } from '../../services/firebase'
+import { BRANDING } from '../../config/branding'
+const createSlug = (str) => (str || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 export function Navbar({ currentPage, setCurrentPage }) {
   const { cartItems } = useAuth()
@@ -50,7 +52,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
     <header className="w-full font-sans sticky top-0 z-50 transition-all duration-300">
 
       {/* Main Single White Header */}
-      <div className={`bg-white transition-all duration-300 border-b ${isScrolled ? 'py-3 shadow-md border-slate-200' : 'py-4 border-[#E2E8F0]'
+      <div className={`bg-white transition-all duration-300 border-b ${isScrolled ? ' shadow-md border-slate-200' : 'border-[#E2E8F0]'
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 sm:gap-6">
 
@@ -59,17 +61,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
             onClick={() => handleLinkClick('home')}
             className="flex flex-col text-left border-none bg-transparent cursor-pointer flex-shrink-0 group"
           >
-            <div className="flex items-center gap-1.5 leading-none">
-              <span className="text-2xl sm:text-[26px] font-black text-[#0F172A] tracking-tight">
-                Visual
-              </span>
-              <span className="text-2xl sm:text-[26px] font-black text-gradient tracking-tight">
-                BLINK
-              </span>
-            </div>
-            <span className="text-[8px] sm:text-[8.5px] font-black text-slate-400 tracking-[0.25em] uppercase mt-1">
-              DESIGN • PRINT • BRAND
-            </span>
+            <img src={BRANDING.logoUrl} alt={BRANDING.logoAlt} className="h-10 sm:h-23 w-auto object-contain" />
           </button>
 
           {/* Navigation Links: Dynamic Categories with Dropdowns */}
@@ -98,7 +90,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
                         {subItems.map((sub, sIdx) => (
                           <button
                             key={sIdx}
-                            onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, search: sub.name }, '#catalog')}
+                            onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, subcategory: createSlug(sub.name) }, '#catalog')}
                             className="block w-full text-left px-2.5 py-1.5 text-[13px] font-bold text-slate-700 hover:text-[#C026D3] hover:bg-pink-50/60 rounded-xl transition-colors border-none bg-transparent cursor-pointer"
                           >
                             {sub.name}
@@ -219,7 +211,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
                     {subItems.map((sub, sIdx) => (
                       <button
                         key={sIdx}
-                        onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, search: sub.name }, '#catalog')}
+                        onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, subcategory: createSlug(sub.name) }, '#catalog')}
                         className="block w-full text-left px-3 py-1.5 text-[13px] font-bold text-slate-600 hover:text-[#C026D3] border-none bg-transparent cursor-pointer"
                       >
                         {sub.name}

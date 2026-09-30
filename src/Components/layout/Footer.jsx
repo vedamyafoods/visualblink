@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FiFacebook, FiInstagram, FiLinkedin, FiYoutube, FiArrowRight } from 'react-icons/fi'
+import { BRANDING } from '../../config/branding'
 
 export function Footer({ setCurrentPage }) {
   const [email, setEmail] = useState('')
@@ -24,27 +25,17 @@ export function Footer({ setCurrentPage }) {
   return (
     <footer className="bg-[#F9FAFB] text-[#0F172A] font-sans pt-14 pb-8 border-t border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Top 4 Column Grid (Matching Screenshot 2) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-12 border-b border-slate-200">
-          
+
           {/* Col 1: Brand Info & Socials (4 Cols) */}
           <div className="lg:col-span-4 flex flex-col text-left">
             <button
               onClick={() => handleLink('home')}
               className="flex flex-col text-left mb-3 border-none bg-transparent cursor-pointer group w-fit"
             >
-              <div className="flex items-center gap-1.5 leading-none">
-                <span className="text-2xl font-black text-[#0F172A] tracking-tight">
-                  Visual
-                </span>
-                <span className="text-2xl font-black text-gradient tracking-tight">
-                  BLINK
-                </span>
-              </div>
-              <span className="text-[8px] font-black text-slate-400 tracking-[0.25em] uppercase mt-1">
-                DESIGN • PRINT • BRAND
-              </span>
+              <img src={BRANDING.logoUrl} alt={BRANDING.logoAlt} className="h-23 w-auto object-contain" />
             </button>
 
             <p className="text-[13.5px] text-slate-500 font-normal leading-relaxed mb-6 max-w-sm">

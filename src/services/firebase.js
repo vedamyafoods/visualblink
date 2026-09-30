@@ -27,13 +27,13 @@ import {
 
 // Firebase Config initialized with live project credentials & env var fallback
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBhjJ-PpJRsPwa7jk7FIcbfhWj5rmG4TRM",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "printing-1620d.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "printing-1620d",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "printing-1620d.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "805681838557",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:805681838557:web:8b222db2ea987cd90f9e34",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-F1K3KBMDGW"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiArrowRight } from 'react-icons/fi'
+import { BRANDING } from '../../config/branding'
 
 export function DiscountCTA({ setCurrentPage }) {
   const handleLink = (page) => {
@@ -12,18 +13,18 @@ export function DiscountCTA({ setCurrentPage }) {
   return (
     <section className="py-12 sm:py-16 bg-[#F9FAFB] font-sans border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Dark Slate Container (Matching Screenshot 2) */}
         <div className="bg-[#0F172A] rounded-3xl p-8 sm:p-12 lg:p-14 relative overflow-hidden text-white shadow-2xl">
-          
+
           {/* Subtle Background Radial Glow */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#D946EF]/20 to-[#E11D48]/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
-            
+
             {/* Left Content (7 Cols) */}
             <div className="lg:col-span-7 flex flex-col items-start text-left">
-              
+
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-slate-400 text-[14px] font-black tracking-widest uppercase">
                   LET'S CREATE TOGETHER
@@ -70,7 +71,7 @@ export function DiscountCTA({ setCurrentPage }) {
                   />
                   {/* Overlay Watermark Badge */}
                   <div className="absolute bottom-3 right-3 text-right bg-slate-950/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/60">
-                    <span className="block text-[10px] font-black text-white tracking-widest">Visual BLINK</span>
+                    <img src={BRANDING.logoUrl} alt={BRANDING.logoAlt} className="h-5 w-auto object-contain mx-auto mb-1" />
                     <span className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Print • Create • Repeat</span>
                   </div>
                 </div>

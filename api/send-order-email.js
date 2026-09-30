@@ -4,12 +4,12 @@ import { getFirestore, doc, getDoc, collection, query, where, getDocs, updateDoc
 
 // Initialize Firebase JS SDK for serverless environment
 const firebaseConfig = {
-  apiKey: process.env.VITE_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY || "AIzaSyBhjJ-PpJRsPwa7jk7FIcbfhWj5rmG4TRM",
-  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN || "printing-1620d.firebaseapp.com",
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID || "printing-1620d",
-  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET || "printing-1620d.firebasestorage.app",
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID || "805681838557",
-  appId: process.env.VITE_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID || "1:805681838557:web:8b222db2ea987cd90f9e34",
+  apiKey: process.env.VITE_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID,
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
@@ -78,7 +78,7 @@ function generateCustomerEmailHtml(order) {
     const unitPrice = item.unitPrice || 0;
     const totalPrice = item.totalPrice || (unitPrice * qty);
     const variant = escapeHtml(item.variant || '');
-    
+
     let filesListHtml = '';
     if (item.artworkFiles && Array.isArray(item.artworkFiles) && item.artworkFiles.length > 0) {
       filesListHtml = item.artworkFiles.map(f => `
@@ -277,7 +277,7 @@ function generateAdminEmailHtml(order) {
     const pName = escapeHtml(item.productName || item.name || `Item ${idx + 1}`);
     const qty = item.quantity || item.qty || 1;
     const variant = escapeHtml(item.variant || '');
-    
+
     return `
       <tr style="border-bottom: 1px solid #e2e8f0;">
         <td style="padding: 10px 12px; font-size: 12px; font-weight: bold; color: #0f172a;">${pName}</td>
@@ -293,7 +293,7 @@ function generateAdminEmailHtml(order) {
     artworkHtml = artwork.map((art, idx) => {
       const fileName = escapeHtml(art.fileName || art.originalName || `Artwork ${idx + 1}`);
       const secureUrl = art.secureUrl || art.url || '';
-      
+
       return `
         <div style="background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
           <div style="font-size: 12px; font-weight: bold; color: #0f172a; margin-bottom: 4px;">

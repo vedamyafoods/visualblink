@@ -7,6 +7,7 @@ export const BasicDetailsSection = ({
   setFormData,
   products = [],
   megamenuCategories,
+  navigationMenus = [],
   updateMegamenuCategories,
   showInlineCatInput,
   setShowInlineCatInput,
@@ -242,8 +243,8 @@ export const BasicDetailsSection = ({
               className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-800 focus:outline-none focus:border-blue-500 bg-white text-[14px]"
             >
               <option value="">-- Select Subcategory (Optional) --</option>
-              {((megamenuCategories || []).find(c => (c.categoryQuery || c.title) === formData.category || c.title === formData.category)?.items || []).map((sub, i) => (
-                <option key={i} value={sub.name}>{sub.name}</option>
+              {(navigationMenus || []).flatMap(c => c.items || []).map((sub, i) => (
+                <option key={`${sub.name}-${i}`} value={sub.name}>{sub.name}</option>
               ))}
             </select>
           )}

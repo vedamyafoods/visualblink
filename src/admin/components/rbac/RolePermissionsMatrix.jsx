@@ -1,10 +1,12 @@
-import React from 'react';
-import { 
-  ShieldCheck, 
-  Lock, 
-  Key, 
-  UserCheck, 
-  CheckCircle2, 
+import React, { useState, useEffect } from 'react';
+import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { db } from '../../../services/firebase';
+import {
+  ShieldCheck,
+  Lock,
+  Key,
+  UserCheck,
+  CheckCircle2,
   XCircle,
   Database,
   Sparkles
@@ -13,6 +15,17 @@ import { useAdmin } from '../../context/AdminContext';
 
 export const RolePermissionsMatrix = () => {
   const { userRole, setUserRole } = useAdmin();
+  const [logs, setLogs] = useState([]);
+
+  useEffect(() => {
+    const logsRef = collection(db, 'adminLogs');
+    const q = query(logsRef, orderBy('timestamp', 'desc'), limit(15));
+    const unsub = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setLogs(data);
+    });
+    return () => unsub();
+  }, []);
 
   const permissionsList = [
     { module: "Dashboard KPI Analytics", superAdmin: true, productionMgr: true, designer: true },
@@ -28,7 +41,7 @@ export const RolePermissionsMatrix = () => {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Top Banner */}
       <div className="bg-gradient-to-r from-blue-50/50 via-white to-slate-50 rounded-2xl p-6 text-slate-800 shadow-sm flex flex-wrap items-center justify-between gap-4 border border-slate-200/80">
         <div>
@@ -110,6 +123,60 @@ export const RolePermissionsMatrix = () => {
                   </td>
                 </tr>
               ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Admin Authentication Activity Logs */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden mt-8">
+        <div className="bg-slate-900 px-6 py-4 border-b border-slate-800 flex justify-between items-center">
+          <div className="flex items-center gap-2 text-white">
+            <Lock className="w-4 h-4 text-emerald-400" />
+            <h3 className="font-bold text-[14px]">Authentication Activity & Security Logs</h3>
+          </div>
+          <span className="bg-slate-800 text-slate-300 text-[10px] uppercase font-bold tracking-widest px-2 py-1 rounded">Live Stream</span>
+        </div>
+        <div className="overflow-x-auto max-h-80 custom-scrollbar">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="py-2.5 px-5">Timestamp</th>
+                <th className="py-2.5 px-4">Event</th>
+                <th className="py-2.5 px-4">IP Hash</th>
+                <th className="py-2.5 px-4">Ident / User</th>
+                <th className="py-2.5 px-4">Reason / Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-[13px]">
+              {logs.length === 0 ? (
+                <tr><td colSpan={5} className="py-4 text-center text-slate-500 font-medium">No recent security events.</td></tr>
+              ) : (
+                logs.map((log) => (
+                  <tr key={log.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-5 text-slate-500 whitespace-nowrap">
+                      {new Date(log.timestamp).toLocaleString()}
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className={`inline-flex items-center px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${log.type === 'login_success' ? 'bg-emerald-100 text-emerald-700' :
+                          log.type === 'login_failed' ? 'bg-amber-100 text-amber-700' :
+                            'bg-red-100 text-red-700'
+                        }`}>
+                        {log.type.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-slate-400 font-mono text-[11px]">
+                      {log.ipHash ? log.ipHash.substring(0, 12) + '...' : 'N/A'}
+                    </td>
+                    <td className="py-3 px-4 text-slate-600 font-medium truncate max-w-[150px]">
+                      {log.emailHash ? log.emailHash.substring(0, 8) + '...' : (log.uid || 'N/A')}
+                    </td>
+                    <td className="py-3 px-4 text-slate-600">
+                      {log.reason || 'N/A'}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

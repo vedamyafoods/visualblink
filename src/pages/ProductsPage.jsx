@@ -26,19 +26,14 @@ import {
   FiLayers
 } from 'react-icons/fi'
 import { useAuth } from '../context/AuthContext'
-import { subscribeToProducts } from '../services/firebase'
+import { subscribeToProducts, subscribeToMegamenuCategories } from '../services/firebase'
 import { ProductDetailPage } from './ProductDetailPage'
 
-// Helper to normalize product categories into the 6 primary site categories
+const createSlug = (str) => (str || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+// Helper deleted: canonical mappings forced "Stationery" into "Printing". Now we just use the raw category name.
 export const getCanonicalCategory = (categoryName) => {
   if (!categoryName) return 'Printing';
-  const c = categoryName.toLowerCase().trim();
-  if (c === 'business cards' || (c.includes('card') && !c.includes('wedding') && !c.includes('invitation') && !c.includes('id'))) return 'Business Cards';
-  if (c === 'apparel' || c.includes('apparel') || c.includes('t-shirt') || c.includes('polo') || c.includes('shirt') || c.includes('hoodie')) return 'Apparel';
-  if (c === 'gifts' || (c.includes('gift') && !c.includes('corporate')) || c.includes('mug') || c.includes('frame') || c.includes('lamp')) return 'Gifts';
-  if (c === 'invitations' || c.includes('invitation') || c.includes('wedding') || c.includes('birthday')) return 'Invitations';
-  if (c === 'corporate gifting' || c.includes('corporate') || c.includes('packaging') || c.includes('box') || c.includes('merch')) return 'Corporate Gifting';
-  if (c === 'printing' || c.includes('print') || c.includes('stationery') || c.includes('banner') || c.includes('flyer') || c.includes('sticker') || c.includes('bill')) return 'Printing';
   return categoryName;
 };
 
@@ -58,7 +53,9 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
     return getSearchParams().get('search') || '';
   });
 
-  const [selectedSubcategory, setSelectedSubcategory] = useState('All');
+  const [selectedSubcategory, setSelectedSubcategory] = useState(() => {
+    return getSearchParams().get('subcategory') || 'All';
+  });
   const [selectedFinish, setSelectedFinish] = useState('All');
   const [selectedTurnaround, setSelectedTurnaround] = useState('All');
   const [selectedOrientation, setSelectedOrientation] = useState('All');
@@ -72,15 +69,27 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
 
   // Real-time Products State from Firestore
   const [liveProducts, setLiveProducts] = useState([])
+  const [liveMegamenuCats, setLiveMegamenuCats] = useState([])
   const [loadingProducts, setLoadingProducts] = useState(true)
 
   // Subscribe to live Firestore products
   useEffect(() => {
-    const unsubscribe = subscribeToProducts((prods) => {
+    let prodsUnsub;
+    let menuUnsub;
+
+    prodsUnsub = subscribeToProducts((prods) => {
       setLiveProducts(prods || []);
       setLoadingProducts(false);
     });
-    return () => unsubscribe();
+
+    menuUnsub = subscribeToMegamenuCategories((data) => {
+      setLiveMegamenuCats(data || []);
+    });
+
+    return () => {
+      if (prodsUnsub) prodsUnsub();
+      if (menuUnsub) menuUnsub();
+    };
   }, []);
 
   // Listen & sync state automatically with URL searchParams (popstate, urlchange & hashchange)
@@ -89,11 +98,12 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
       const searchParams = getSearchParams();
       const cat = searchParams.get('category') || 'All';
       const q = searchParams.get('search') || '';
+      const subcat = searchParams.get('subcategory') || 'All';
       const currentSku = searchParams.get('sku');
 
       setActiveCategoryState(cat);
       setSearchTermState(q);
-      setSelectedSubcategory('All');
+      setSelectedSubcategory(subcat);
 
       const allProds = liveProducts;
       if (currentSku && allProds.length > 0) {
@@ -162,19 +172,21 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
     'Printing'
   ];
 
-  // Subcategories mapping by main category
-  const subcategoryMap = {
-    'Business Cards': ['Standard Cards', 'Spot UV Cards', 'Die Cut Cards', 'Metallic Foil Cards', 'Soft-Touch Velvet Cards', 'Luxury Thick Cards'],
-    'Apparel': ['Custom T-Shirts & Polos', 'Polo T-Shirts', 'Custom T-Shirts', 'Hoodies & Sweatshirts', 'Caps & Hats', 'Tote Bags & Aprons'],
-    'Gifts': ['Photo Mugs', 'Customized Keychains', 'Custom Wall Calendars', 'Water Bottles', 'Desk Accessories', 'Frames & Lamps'],
-    'Invitations': ['Wedding Cards', 'Birthday Cards', 'Thank You Cards', 'Save the Date Cards', 'Luxury Foil Invitations', 'Envelope & Seal Sets'],
-    'Corporate Gifting': ['Executive Gift Sets', 'Branded Pens & Notebooks', 'Custom Lanyards & Badges', 'Desk Organizers', 'Custom Packaging Boxes', 'Rigid Gift Boxes'],
-    'Printing': ['Flyers & Pamphlets', 'Flex & Vinyl Banners', 'GST Bill Books (NCR)', 'Custom Stickers & Labels', 'Brochures & Folders', 'Posters & Wall Art']
+  // Subcategories mapping by liveMegamenuCats
+  const getSubcategoriesForActive = () => {
+    if (activeCategory === 'All') {
+      return liveMegamenuCats.flatMap(c => (c.items || []).map(i => i.name));
+    }
+    // Try to find the exact match from liveMegamenuCats
+    const foundCat = liveMegamenuCats.find(c =>
+      (c.categoryQuery || c.title || '').toLowerCase() === activeCategory.toLowerCase() ||
+      (c.title || '').toLowerCase() === activeCategory.toLowerCase()
+    );
+    if (!foundCat) return [];
+    return (foundCat.items || []).map(sub => sub.name);
   };
 
-  const availableSubcategories = activeCategory !== 'All' && subcategoryMap[activeCategory]
-    ? subcategoryMap[activeCategory]
-    : Object.values(subcategoryMap).flat();
+  const availableSubcategories = getSubcategoriesForActive();
 
   const finishes = ['All', 'Spot UV', 'Metallic Foil', 'Soft-Touch Velvet', 'Die Cut', 'Textured Paper', 'Matte/Gloss', 'Vinyl Waterproof'];
 
@@ -184,15 +196,18 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
   const filteredProducts = pool.filter((p) => {
     const pCanonical = getCanonicalCategory(p.category);
 
+    // Subcategory Matching
+    const activeSubSlug = createSlug(selectedSubcategory);
+    const prodSubSlug = createSlug(p.subcategory);
+    const matchesSubcategory = selectedSubcategory === 'All' ||
+      prodSubSlug === activeSubSlug ||
+      (p.tags && Array.isArray(p.tags) && p.tags.some(t => createSlug(t) === activeSubSlug));
+
     // Category Matching
     const matchesCategory = activeCategory === 'All' ||
-      pCanonical === activeCategory ||
-      (p.industries && Array.isArray(p.industries) && p.industries.some(i => i.toLowerCase() === activeCategory.toLowerCase()));
-
-    // Subcategory Matching
-    const matchesSubcategory = selectedSubcategory === 'All' ||
-      (p.subcategory || '').toLowerCase() === selectedSubcategory.toLowerCase() ||
-      (p.tags && Array.isArray(p.tags) && p.tags.some(t => t.toLowerCase() === selectedSubcategory.toLowerCase()));
+      createSlug(pCanonical) === createSlug(activeCategory) ||
+      (p.industries && Array.isArray(p.industries) && p.industries.some(i => createSlug(i) === createSlug(activeCategory))) ||
+      (selectedSubcategory !== 'All' && matchesSubcategory); // If subcategory exactly matches, ignore category spelling typos
 
     // Finish Matching
     const matchesFinish = selectedFinish === 'All' ||
@@ -425,11 +440,12 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                 </h3>
                 <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
                   {['All', ...availableSubcategories].map((sub) => {
-                    const isSelected = selectedSubcategory === sub;
+                    const subSlug = sub === 'All' ? 'All' : createSlug(sub);
+                    const isSelected = selectedSubcategory === subSlug || selectedSubcategory === sub;
                     return (
                       <button
                         key={sub}
-                        onClick={() => setSelectedSubcategory(sub)}
+                        onClick={() => setSelectedSubcategory(subSlug)}
                         className={`w-full text-left px-3 py-2 rounded-xl text-[12px] font-bold transition border cursor-pointer ${isSelected
                           ? 'bg-[#07152F] text-white border-[#07152F]'
                           : 'bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-100'

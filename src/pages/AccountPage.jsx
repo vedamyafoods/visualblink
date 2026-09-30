@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  FiUser, 
-  FiMail, 
-  FiPhone, 
-  FiBriefcase, 
-  FiMapPin, 
-  FiPlus, 
-  FiEdit3, 
-  FiTrash2, 
-  FiCheckCircle, 
-  FiPackage, 
-  FiLogOut, 
-  FiArrowRight, 
-  FiTruck, 
-  FiClock, 
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiBriefcase,
+  FiMapPin,
+  FiPlus,
+  FiEdit3,
+  FiTrash2,
+  FiCheckCircle,
+  FiPackage,
+  FiLogOut,
+  FiArrowRight,
+  FiTruck,
+  FiClock,
   FiShield,
   FiFileText,
   FiEye
@@ -24,14 +24,14 @@ import { useAuth } from '../context/AuthContext';
 import { subscribeToUserOrders } from '../services/firebase';
 
 export function AccountPage({ setCurrentPage }) {
-  const { 
-    currentUser, 
-    userProfile, 
-    updateUserProfile, 
-    saveAddress, 
-    deleteAddress, 
-    setDefaultAddress, 
-    logout 
+  const {
+    currentUser,
+    userProfile,
+    updateUserProfile,
+    saveAddress,
+    deleteAddress,
+    setDefaultAddress,
+    logout
   } = useAuth();
 
   const [activeTab, setActiveTab] = useState('orders'); // 'orders', 'addresses', 'profile'
@@ -81,8 +81,8 @@ export function AccountPage({ setCurrentPage }) {
   useEffect(() => {
     if (currentUser) {
       const unsubscribe = subscribeToUserOrders(
-        currentUser.uid, 
-        currentUser.email, 
+        currentUser.uid,
+        currentUser.email,
         (ordersList) => {
           setUserOrders(ordersList || []);
           setLoadingOrders(false);
@@ -94,32 +94,18 @@ export function AccountPage({ setCurrentPage }) {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    if (!currentUser) {
+      if (setCurrentPage) {
+        setCurrentPage('login');
+      } else {
+        window.location.search = '?page=login';
+      }
+    }
+  }, [currentUser, setCurrentPage]);
+
   if (!currentUser) {
-    return (
-      <div className="min-h-screen bg-[#FAFBFD] font-sans text-[#0B1633] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-16 h-16 rounded-full bg-blue-50 text-[#FF5A1F] flex items-center justify-center text-2xl font-bold mb-4 shadow-sm border border-blue-100">
-          <FiUser className="w-8 h-8" />
-        </div>
-        <h2 className="text-2xl font-extrabold text-[#0B1633] mb-2">Access Your Account</h2>
-        <p className="text-slate-500 text-[14px] sm:text-sm max-w-md mb-6 font-medium">
-          Sign in to view your real-time print orders, edit saved shipping addresses, and manage custom preferences.
-        </p>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setCurrentPage && setCurrentPage('login')}
-            className="px-6 py-3 rounded-2xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] uppercase tracking-wider shadow-lg shadow-[#FF5A1F]/20 transition border-none cursor-pointer"
-          >
-            Sign In Now
-          </button>
-          <button
-            onClick={() => setCurrentPage && setCurrentPage('signup')}
-            className="px-6 py-3 rounded-2xl bg-white border border-slate-200 text-slate-800 font-extrabold text-[14px] hover:bg-slate-50 transition cursor-pointer"
-          >
-            Create Account
-          </button>
-        </div>
-      </div>
-    );
+    return null; // Don't render anything while redirecting
   }
 
   const handleProfileSubmit = async (e) => {
@@ -189,7 +175,7 @@ export function AccountPage({ setCurrentPage }) {
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633] pb-16">
-      
+
       {/* Top Banner Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-12 sm:py-16 relative overflow-hidden border-b border-slate-800">
         <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-[#FF5A1F]/10 blur-[120px] pointer-events-none" />
@@ -225,17 +211,16 @@ export function AccountPage({ setCurrentPage }) {
       {/* Main Account Dashboard */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
+
           {/* Left Sidebar Navigation Tabs */}
           <div className="lg:col-span-3 space-y-2">
             <div className="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-xs space-y-1">
               <button
                 onClick={() => setActiveTab('orders')}
-                className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center justify-between cursor-pointer border-none ${
-                  activeTab === 'orders'
+                className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center justify-between cursor-pointer border-none ${activeTab === 'orders'
                     ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
                     : 'bg-transparent text-slate-700 hover:bg-slate-100'
-                }`}
+                  }`}
               >
                 <span className="flex items-center gap-2.5">
                   <FiPackage className="w-4 h-4" /> My Print Orders
@@ -247,11 +232,10 @@ export function AccountPage({ setCurrentPage }) {
 
               <button
                 onClick={() => setActiveTab('addresses')}
-                className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center justify-between cursor-pointer border-none ${
-                  activeTab === 'addresses'
+                className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center justify-between cursor-pointer border-none ${activeTab === 'addresses'
                     ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
                     : 'bg-transparent text-slate-700 hover:bg-slate-100'
-                }`}
+                  }`}
               >
                 <span className="flex items-center gap-2.5">
                   <FiMapPin className="w-4 h-4" /> Saved Address Book
@@ -263,11 +247,10 @@ export function AccountPage({ setCurrentPage }) {
 
               <button
                 onClick={() => setActiveTab('profile')}
-                className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center gap-2.5 cursor-pointer border-none ${
-                  activeTab === 'profile'
+                className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center gap-2.5 cursor-pointer border-none ${activeTab === 'profile'
                     ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
                     : 'bg-transparent text-slate-700 hover:bg-slate-100'
-                }`}
+                  }`}
               >
                 <FiUser className="w-4 h-4" /> Profile & GST Details
               </button>
@@ -422,9 +405,8 @@ export function AccountPage({ setCurrentPage }) {
                     {userProfile.addresses.map((addr) => (
                       <div
                         key={addr.id}
-                        className={`bg-white p-5 rounded-3xl border transition relative flex flex-col justify-between ${
-                          addr.isDefault ? 'border-[#FF5A1F] shadow-sm ring-1 ring-[#FF5A1F]/20' : 'border-slate-200 hover:border-slate-300'
-                        }`}
+                        className={`bg-white p-5 rounded-3xl border transition relative flex flex-col justify-between ${addr.isDefault ? 'border-[#FF5A1F] shadow-sm ring-1 ring-[#FF5A1F]/20' : 'border-slate-200 hover:border-slate-300'
+                          }`}
                       >
                         <div>
                           <div className="flex items-center justify-between mb-2">

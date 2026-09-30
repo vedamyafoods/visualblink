@@ -1,7 +1,7 @@
 // Live Cloudinary API & Media Utility Helper
 
-const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dcjn4y284';
-const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'print85';
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 /**
  * Upload file to Cloudinary via Unsigned API using XMLHttpRequest for progress tracking
@@ -132,6 +132,6 @@ export async function uploadToCloudinary(file, folder = 'artwork_uploads', onPro
 export function getCloudinaryTransformedUrl(url, transformation = 'c_fill,w_800,q_auto,f_auto') {
   if (!url) return '';
   if (!url.includes('cloudinary.com')) return url;
-  
+
   return url.replace('/upload/', `/upload/${transformation}/`);
 }

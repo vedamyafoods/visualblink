@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { 
-  auth, 
-  subscribeToAuth, 
-  signUpUser, 
-  signInUser, 
+import {
+  auth,
+  subscribeToAuth,
+  signUpUser,
+  signInUser,
   signOutUser,
   signInWithGoogleProvider,
   sendOtpToEmail,
@@ -22,6 +22,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login'); // 'login' or 'signup'
@@ -49,23 +50,31 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     try {
       localStorage.setItem('printigly_cart', JSON.stringify(cartItems));
-    } catch (e) {}
+    } catch (e) { }
   }, [cartItems]);
 
   // Sync wishlistItems to LocalStorage whenever modified
   useEffect(() => {
     try {
       localStorage.setItem('printigly_wishlist', JSON.stringify(wishlistItems));
-    } catch (e) {}
+    } catch (e) { }
   }, [wishlistItems]);
 
   // Subscribe to Firebase Auth state & User Profile Document
   useEffect(() => {
-    let unsubscribeProfile = () => {};
+    let unsubscribeProfile = () => { };
 
     const unsubscribeAuth = subscribeToAuth(async (user) => {
       setCurrentUser(user);
       if (user) {
+
+        try {
+          const idTokenResult = await user.getIdTokenResult();
+          setIsAdmin(!!idTokenResult.claims.admin || idTokenResult.claims.role === 'admin');
+        } catch (e) {
+          setIsAdmin(false);
+        }
+
         // Real-time listener to Firestore user document
         unsubscribeProfile = subscribeToUserProfile(user.uid, (data) => {
           if (data) {
@@ -97,6 +106,7 @@ export const AuthProvider = ({ children }) => {
         }
       } else {
         setUserProfile(null);
+        setIsAdmin(false);
       }
       setLoading(false);
     });
@@ -308,6 +318,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={{
       currentUser,
       userProfile,
+      isAdmin,
       updateUserProfile,
       saveAddress,
       deleteAddress,

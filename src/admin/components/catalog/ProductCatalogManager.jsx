@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 import { uploadToCloudinary } from '../../../services/cloudinary';
-import { DEFAULT_CATALOG_OPTIONS, subscribeToHomepageCategories } from '../../../services/firebase';
+import { DEFAULT_CATALOG_OPTIONS, subscribeToHomepageCategories, subscribeToMegamenuCategories } from '../../../services/firebase';
 
 // Sub-Section Components
 import { FormSectionCustomizerToolbar } from './sections/FormSectionCustomizerToolbar';
@@ -282,6 +282,7 @@ export const ProductCatalogManager = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [homepageCats, setHomepageCats] = useState([]);
+  const [liveNavigationMenus, setLiveNavigationMenus] = useState([]);
 
   React.useEffect(() => {
     const unsub = subscribeToHomepageCategories((data) => {
@@ -290,7 +291,15 @@ export const ProductCatalogManager = () => {
         { id: 'cat_2', title: 'Brochures & Flyers', query: 'brochures' }
       ]);
     });
-    return () => unsub();
+
+    const unsubNav = subscribeToMegamenuCategories((data) => {
+      setLiveNavigationMenus(data || []);
+    });
+
+    return () => {
+      unsub();
+      unsubNav();
+    };
   }, []);
 
   // Category & Subcategory Quick-Add States
@@ -951,6 +960,7 @@ export const ProductCatalogManager = () => {
                     setFormData={setFormData}
                     products={products}
                     megamenuCategories={homepageCats}
+                    navigationMenus={liveNavigationMenus}
                     updateMegamenuCategories={null} // Handled by inner saveHomepageCategory call directly
                     showInlineCatInput={showInlineCatInput}
                     setShowInlineCatInput={setShowInlineCatInput}
