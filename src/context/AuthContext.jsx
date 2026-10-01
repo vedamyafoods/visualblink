@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [otpSessionVerified, setOtpSessionVerified] = useState(false);
   const [loading, setLoading] = useState(true);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login'); // 'login' or 'signup'
@@ -70,9 +71,14 @@ export const AuthProvider = ({ children }) => {
 
         try {
           const idTokenResult = await user.getIdTokenResult();
-          setIsAdmin(!!idTokenResult.claims.admin || idTokenResult.claims.role === 'admin');
+          const isAdminClaim = !!idTokenResult.claims.admin || idTokenResult.claims.role === 'admin';
+          setIsAdmin(isAdminClaim);
+          const authTime = idTokenResult.claims.auth_time || 0;
+          const otpTime = idTokenResult.claims.otpVerifiedAt || 0;
+          setOtpSessionVerified(isAdminClaim || (otpTime >= authTime));
         } catch (e) {
           setIsAdmin(false);
+          setOtpSessionVerified(false);
         }
 
         // Real-time listener to Firestore user document
@@ -107,6 +113,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         setUserProfile(null);
         setIsAdmin(false);
+        setOtpSessionVerified(false);
       }
       setLoading(false);
     });
@@ -319,6 +326,8 @@ export const AuthProvider = ({ children }) => {
       currentUser,
       userProfile,
       isAdmin,
+      otpSessionVerified,
+      setOtpSessionVerified,
       updateUserProfile,
       saveAddress,
       deleteAddress,

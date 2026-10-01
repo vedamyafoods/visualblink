@@ -37,12 +37,27 @@ export function SignupPage({ setCurrentPage }) {
 
     setLoading(true);
     try {
-      await signup(email, password, displayName, "", "");
+      const userResult = await signup(email, password, displayName, "", "");
       setSuccess('Account created successfully!');
+
+      if (userResult) {
+        try {
+          const idToken = await userResult.getIdToken(false);
+          await fetch('/api/send-otp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ email: userResult.email, uid: userResult.uid })
+          });
+        } catch (err) { }
+      }
+
       if (setCurrentPage) {
-        setCurrentPage('account');
+        setCurrentPage('verify-otp');
       } else {
-        window.location.search = '?page=account';
+        window.location.search = '?page=verify-otp';
       }
     } catch (err) {
       console.error(err);
@@ -63,12 +78,26 @@ export function SignupPage({ setCurrentPage }) {
     setSuccess('');
     setLoading(true);
     try {
-      await loginWithGoogle();
+      const userResult = await loginWithGoogle();
       setSuccess('Signed in with Google!');
+      if (userResult) {
+        try {
+          const idToken = await userResult.getIdToken(false);
+          await fetch('/api/send-otp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ email: userResult.email, uid: userResult.uid })
+          });
+        } catch (err) { }
+      }
+
       if (setCurrentPage) {
-        setCurrentPage('account');
+        setCurrentPage('verify-otp');
       } else {
-        window.location.search = '?page=account';
+        window.location.search = '?page=verify-otp';
       }
     } catch (err) {
       console.error(err);

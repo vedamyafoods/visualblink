@@ -42,21 +42,26 @@ export const auth = getAuth(app);
 
 // ── Firebase Auth Helpers ──
 export const signUpUser = async (email, password, displayName, phone = '', company = '') => {
-  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const normalizedEmail = (email || '').trim().toLowerCase();
+  const userCredential = await createUserWithEmailAndPassword(auth, normalizedEmail, password);
   const user = userCredential.user;
 
   if (displayName) {
     await updateProfile(user, { displayName });
   }
 
-  // Save user profile document in Firestore
+  // Save user profile document in Firestore consistently
   await setDoc(doc(db, 'users', user.uid), {
     uid: user.uid,
-    email: user.email,
+    email: user.email.toLowerCase(),
+    name: displayName || user.email.split('@')[0],
     displayName: displayName || user.email.split('@')[0],
     phone,
     company,
+    role: 'customer',
+    provider: 'password',
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     cart: [],
     wishlist: []
   });
@@ -65,7 +70,8 @@ export const signUpUser = async (email, password, displayName, phone = '', compa
 };
 
 export const signInUser = async (email, password) => {
-  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  const normalizedEmail = (email || '').trim().toLowerCase();
+  const userCredential = await signInWithEmailAndPassword(auth, normalizedEmail, password);
   return userCredential.user;
 };
 
@@ -80,13 +86,24 @@ export const signInWithGoogleProvider = async () => {
   if (!docSnap.exists()) {
     await setDoc(userRef, {
       uid: user.uid,
-      email: user.email,
-      displayName: user.displayName || user.email.split('@')[0],
+      email: (user.email || '').toLowerCase(),
+      name: user.displayName || user.email?.split('@')[0] || 'Google User',
+      displayName: user.displayName || user.email?.split('@')[0] || 'Google User',
       photoURL: user.photoURL || '',
-      authProvider: 'google',
+      provider: 'google',
+      role: 'customer',
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       cart: [],
       wishlist: []
+    });
+  } else {
+    // Safely update profile without overwriting roles
+    await updateDoc(userRef, {
+      updatedAt: new Date().toISOString(),
+      name: user.displayName || docSnap.data().name,
+      displayName: user.displayName || docSnap.data().displayName,
+      photoURL: user.photoURL || docSnap.data().photoURL
     });
   }
   return user;

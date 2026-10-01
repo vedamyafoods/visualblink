@@ -31,7 +31,8 @@ export function AccountPage({ setCurrentPage }) {
     saveAddress,
     deleteAddress,
     setDefaultAddress,
-    logout
+    logout,
+    otpSessionVerified
   } = useAuth();
 
   const [activeTab, setActiveTab] = useState('orders'); // 'orders', 'addresses', 'profile'
@@ -95,14 +96,20 @@ export function AccountPage({ setCurrentPage }) {
   }, [currentUser]);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (currentUser && !otpSessionVerified) {
+      if (setCurrentPage) {
+        setCurrentPage('verify-otp');
+      } else {
+        window.location.search = '?page=verify-otp';
+      }
+    } else if (!currentUser) {
       if (setCurrentPage) {
         setCurrentPage('login');
       } else {
         window.location.search = '?page=login';
       }
     }
-  }, [currentUser, setCurrentPage]);
+  }, [currentUser, otpSessionVerified, setCurrentPage]);
 
   if (!currentUser) {
     return null; // Don't render anything while redirecting
@@ -218,8 +225,8 @@ export function AccountPage({ setCurrentPage }) {
               <button
                 onClick={() => setActiveTab('orders')}
                 className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center justify-between cursor-pointer border-none ${activeTab === 'orders'
-                    ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
-                    : 'bg-transparent text-slate-700 hover:bg-slate-100'
+                  ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
+                  : 'bg-transparent text-slate-700 hover:bg-slate-100'
                   }`}
               >
                 <span className="flex items-center gap-2.5">
@@ -233,8 +240,8 @@ export function AccountPage({ setCurrentPage }) {
               <button
                 onClick={() => setActiveTab('addresses')}
                 className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center justify-between cursor-pointer border-none ${activeTab === 'addresses'
-                    ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
-                    : 'bg-transparent text-slate-700 hover:bg-slate-100'
+                  ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
+                  : 'bg-transparent text-slate-700 hover:bg-slate-100'
                   }`}
               >
                 <span className="flex items-center gap-2.5">
@@ -248,8 +255,8 @@ export function AccountPage({ setCurrentPage }) {
               <button
                 onClick={() => setActiveTab('profile')}
                 className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center gap-2.5 cursor-pointer border-none ${activeTab === 'profile'
-                    ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
-                    : 'bg-transparent text-slate-700 hover:bg-slate-100'
+                  ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
+                  : 'bg-transparent text-slate-700 hover:bg-slate-100'
                   }`}
               >
                 <FiUser className="w-4 h-4" /> Profile & GST Details

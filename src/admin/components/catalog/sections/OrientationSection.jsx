@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Maximize2, AlignJustify, AlignCenter, Plus, X } from 'lucide-react';
 
 export const OrientationSection = ({ formData, setFormData, catalogOptions, updateCatalogOptions }) => {
-  if (formData.enableOrientation === false) return null;
-
   const [isAdding, setIsAdding] = useState(false);
   const [customInput, setCustomInput] = useState('');
+
+  if (formData.enableOrientation === false) return null;
 
   const defaultOrientations = [
     { key: 'horizontal', title: 'Landscape', subtitle: 'Width > Height' },
@@ -79,11 +79,10 @@ export const OrientationSection = ({ formData, setFormData, catalogOptions, upda
             <div
               key={item.key}
               onClick={() => handleSelect(item.key)}
-              className={`group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 transition-all cursor-pointer font-extrabold text-[13px] ${
-                isSelected
+              className={`group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 transition-all cursor-pointer font-extrabold text-[13px] ${isSelected
                   ? 'border-blue-600 bg-blue-50 text-blue-700 shadow-sm'
                   : 'border-slate-200 bg-white text-slate-600 hover:border-blue-300'
-              }`}
+                }`}
             >
               <button
                 type="button"
@@ -94,9 +93,8 @@ export const OrientationSection = ({ formData, setFormData, catalogOptions, upda
                 <X className="w-3.5 h-3.5" />
               </button>
 
-              <div className={`w-10 h-7 rounded-lg border-2 flex items-center justify-center ${
-                isSelected ? 'border-blue-500 bg-blue-100' : 'border-slate-300 bg-slate-50'
-              }`}>
+              <div className={`w-10 h-7 rounded-lg border-2 flex items-center justify-center ${isSelected ? 'border-blue-500 bg-blue-100' : 'border-slate-300 bg-slate-50'
+                }`}>
                 {item.key === 'vertical' ? (
                   <AlignCenter className="w-4 h-4 text-blue-600" />
                 ) : (

@@ -26,6 +26,7 @@ import { OrderDetailsPage } from './pages/OrderDetailsPage'
 import { CustomQuotePage } from './pages/CustomQuotePage'
 import { LoginPage } from './pages/LoginPage'
 import { SignupPage } from './pages/SignupPage'
+import { VerifyOtpPage } from './pages/VerifyOtpPage'
 import { AccountPage } from './pages/AccountPage'
 import { AdminApp } from './admin/AdminApp'
 
@@ -83,7 +84,7 @@ function AppContent() {
       window.history.pushState(null, '', url.toString());
       window.dispatchEvent(new Event('popstate'));
       window.dispatchEvent(new Event('urlchange'));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   // Sync state on browser back/forward buttons (popstate, urlchange & hashchange)
@@ -187,6 +188,7 @@ function AppContent() {
         )}
         {currentPage === 'checkout' && (
           <CheckoutPage
+            setCurrentPage={setCurrentPage}
             onSuccess={() => setCurrentPage('order-success')}
             onNavigateCart={() => setCurrentPage('cart')}
           />
@@ -199,6 +201,7 @@ function AppContent() {
         )}
         {currentPage === 'orders' && (
           <OrdersPage
+            setCurrentPage={setCurrentPage}
             onNavigateHome={() => setCurrentPage('home')}
             onNavigateDetails={(orderId) => setCurrentPage('order-details', { id: orderId })}
           />
@@ -215,18 +218,27 @@ function AppContent() {
         )}
         {currentPage === 'login' && (
           <LoginPage
+            setCurrentPage={setCurrentPage}
             onNavigateSignup={() => setCurrentPage('signup')}
             onSuccess={() => setCurrentPage('home')}
           />
         )}
         {currentPage === 'signup' && (
           <SignupPage
+            setCurrentPage={setCurrentPage}
             onNavigateLogin={() => setCurrentPage('login')}
-            onSuccess={() => setCurrentPage('home')}
+            onSuccess={() => setCurrentPage('verify-otp')}
+          />
+        )}
+        {currentPage === 'verify-otp' && (
+          <VerifyOtpPage
+            setCurrentPage={setCurrentPage}
+            destinationPage="account"
           />
         )}
         {currentPage === 'account' && (
           <AccountPage
+            setCurrentPage={setCurrentPage}
             onNavigateOrders={() => setCurrentPage('orders')}
           />
         )}

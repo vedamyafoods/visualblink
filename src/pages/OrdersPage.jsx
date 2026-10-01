@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  FiPackage, 
-  FiTruck, 
-  FiClock, 
-  FiCheckCircle, 
-  FiArrowRight, 
-  FiSearch, 
+import {
+  FiPackage,
+  FiTruck,
+  FiClock,
+  FiCheckCircle,
+  FiArrowRight,
+  FiSearch,
   FiFileText,
   FiEye,
   FiShoppingBag
@@ -14,7 +14,7 @@ import { useAuth } from '../context/AuthContext';
 import { subscribeToUserOrders } from '../services/firebase';
 
 export function OrdersPage({ setCurrentPage }) {
-  const { currentUser } = useAuth();
+  const { currentUser, otpSessionVerified } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,6 +35,16 @@ export function OrdersPage({ setCurrentPage }) {
       setLoading(false);
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (currentUser && !otpSessionVerified) {
+      if (setCurrentPage) setCurrentPage('verify-otp');
+    }
+  }, [currentUser, otpSessionVerified, setCurrentPage]);
+
+  if (currentUser && !otpSessionVerified) {
+    return null;
+  }
 
   if (!currentUser) {
     return (
@@ -57,7 +67,7 @@ export function OrdersPage({ setCurrentPage }) {
   }
 
   const filteredOrders = orders.filter(o => {
-    const matchesSearch = 
+    const matchesSearch =
       (o.orderId || o.id || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
       (o.items || []).some(i => (i.productName || i.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
 
@@ -69,7 +79,7 @@ export function OrdersPage({ setCurrentPage }) {
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633] pb-20">
-      
+
       {/* Page Hero Header */}
       <section className="bg-[#07152F] text-white py-12 sm:py-16 relative overflow-hidden border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -89,31 +99,28 @@ export function OrdersPage({ setCurrentPage }) {
 
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        
+
         {/* Filters & Search Toolbar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
           <div className="flex items-center gap-2 bg-white p-1 rounded-2xl border border-slate-200 shadow-xs w-full sm:w-auto">
             <button
               onClick={() => setActiveFilter('all')}
-              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${
-                activeFilter === 'all' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
-              }`}
+              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${activeFilter === 'all' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
+                }`}
             >
               All Orders ({orders.length})
             </button>
             <button
               onClick={() => setActiveFilter('active')}
-              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${
-                activeFilter === 'active' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
-              }`}
+              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${activeFilter === 'active' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
+                }`}
             >
               In Production ({orders.filter(o => o.status !== 'Delivered').length})
             </button>
             <button
               onClick={() => setActiveFilter('delivered')}
-              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${
-                activeFilter === 'delivered' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
-              }`}
+              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${activeFilter === 'delivered' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
+                }`}
             >
               Delivered ({orders.filter(o => o.status === 'Delivered').length})
             </button>
@@ -186,11 +193,10 @@ export function OrdersPage({ setCurrentPage }) {
                     </div>
 
                     <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                      <span className={`px-3 py-1 rounded-xl text-[14px] font-extrabold border ${
-                        ord.status === 'Delivered' 
-                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200' 
+                      <span className={`px-3 py-1 rounded-xl text-[14px] font-extrabold border ${ord.status === 'Delivered'
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                           : 'bg-amber-50 text-amber-800 border-amber-200'
-                      }`}>
+                        }`}>
                         ● {ord.status || 'Payment Confirmed'}
                       </span>
 

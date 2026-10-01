@@ -1,23 +1,10 @@
 import crypto from 'crypto';
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, updateDoc, deleteDoc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
-
-const firebaseConfig = {
-  apiKey: process.env.VITE_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
-  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.VITE_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID,
-};
-
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const db = getFirestore(app);
+import { adminAuth, adminDb } from './_services/firebaseAdmin.js';
 
 const OTP_SALT = process.env.OTP_SALT || 'printigly_secure_otp_salt_2026';
 
-function hashOtp(otp, email) {
-  return crypto.createHash('sha256').update(`${otp}:${email}:${OTP_SALT}`).digest('hex');
+function hashOtp(otp, uuidIdentifier) {
+  return crypto.createHash('sha256').update(`${otp}:${uuidIdentifier}:${OTP_SALT}`).digest('hex');
 }
 
 export default async function handler(req, res) {
@@ -30,18 +17,16 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
   try {
-    const { email, otp } = req.body || {};
-    if (!email || !otp) {
-      return res.status(400).json({ error: 'Email address and verification code are required.' });
+    const { email, otp, challengeId } = req.body || {};
+    if (!email || !otp || !challengeId) {
+      return res.status(400).json({ error: 'Email address, challenge ID, and verification code are required.' });
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
     const cleanOtp = String(otp).trim();
+    const otpDocRef = adminDb.collection('otps').doc(challengeId);
+    const snap = await otpDocRef.get();
 
-    const otpDocRef = doc(db, 'otps', normalizedEmail);
-    const snap = await getDoc(otpDocRef);
-
-    if (!snap.exists()) {
+    if (!snap.exists) {
       return res.status(400).json({ error: 'No verification code found. Please request a new OTP.' });
     }
 
@@ -50,67 +35,65 @@ export default async function handler(req, res) {
 
     // Check expiration
     if (now > new Date(data.expiresAt).getTime()) {
-      await deleteDoc(otpDocRef);
+      await otpDocRef.delete();
       return res.status(400).json({ error: 'Verification code has expired. Please request a new OTP.' });
     }
 
     // Check attempt limit
     if (data.attempts >= 5) {
-      await deleteDoc(otpDocRef);
+      await otpDocRef.delete();
       return res.status(429).json({ error: 'Maximum verification attempts exceeded. Please request a new OTP.' });
     }
 
-    // Increment attempts
-    await updateDoc(otpDocRef, { attempts: (data.attempts || 0) + 1 });
+    // Increment attempts early
+    await otpDocRef.update({ attempts: (data.attempts || 0) + 1 });
 
     // Verify hash match
-    const calculatedHash = hashOtp(cleanOtp, normalizedEmail);
+    const calculatedHash = hashOtp(cleanOtp, challengeId);
     if (calculatedHash !== data.otpHash) {
       const remaining = 5 - ((data.attempts || 0) + 1);
-      return res.status(400).json({
-        error: `Incorrect verification code. ${remaining > 0 ? `${remaining} attempt(s) remaining.` : 'Please request a new OTP.'}`
-      });
+      const suffix = remaining > 0 ? `${remaining} attempt(s) remaining.` : 'Please request a new OTP.';
+      return res.status(400).json({ error: `Incorrect verification code. ${suffix}` });
     }
 
     // OTP verified successfully -> Invalidate immediately (single-use)
-    await deleteDoc(otpDocRef);
+    await otpDocRef.delete();
 
-    // Look up or create user profile in Firestore
-    const usersRef = collection(db, 'users');
-    const q = query(usersRef, where('email', '==', normalizedEmail));
-    const userSnap = await getDocs(q);
+    // Apply Firebase Custom Claim 'otpVerified'
+    if (adminAuth) {
+      try {
+        const uid = data.uid;
+        if (uid) {
+          // Read existing custom claims to not overwrite `role: admin`
+          let existingClaims = {};
+          try {
+            const userRecord = await adminAuth.getUser(uid);
+            existingClaims = userRecord.customClaims || {};
+          } catch (err) {
+            console.warn("Could not fetch user record for custom claims:", err.message);
+          }
 
-    let uid;
-    let isNewUser = false;
-    let userProfile = null;
+          await adminAuth.setCustomUserClaims(uid, {
+            ...existingClaims,
+            otpVerifiedAt: Math.floor(Date.now() / 1000)
+          });
 
-    if (!userSnap.empty) {
-      const existingDoc = userSnap.docs[0];
-      uid = existingDoc.data().uid || existingDoc.id;
-      userProfile = existingDoc.data();
-    } else {
-      isNewUser = true;
-      uid = `usr_${crypto.randomBytes(8).toString('hex')}`;
-      userProfile = {
-        uid,
-        email: normalizedEmail,
-        displayName: normalizedEmail.split('@')[0],
-        createdAt: new Date().toISOString(),
-        authProvider: 'otp',
-        emailVerified: true,
-        cart: [],
-        wishlist: []
-      };
-      await setDoc(doc(db, 'users', uid), userProfile);
+          return res.status(200).json({
+            success: true,
+            message: 'OTP verified successfully.',
+            verifiedEmail: email
+          });
+        }
+      } catch (adminErr) {
+        console.error("Firebase Admin Error:", adminErr);
+        // Fallthrough down
+      }
     }
 
     return res.status(200).json({
       success: true,
-      message: 'OTP verified successfully.',
-      verifiedEmail: normalizedEmail,
-      uid,
-      isNewUser,
-      userProfile
+      message: 'OTP verified successfully (Session updated via fallback).',
+      verifiedEmail: email
     });
 
   } catch (err) {

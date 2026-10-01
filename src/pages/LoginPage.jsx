@@ -26,12 +26,29 @@ export function LoginPage({ setCurrentPage }) {
         setError('Please enter your email address to reset password.');
         return;
       }
+      const normalizedEmail = email.trim().toLowerCase();
       setLoading(true);
       try {
-        await sendPasswordResetEmail(auth, email);
+        const existsRes = await fetch('/api/check-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: normalizedEmail })
+        });
+
+        if (existsRes.ok) {
+          const data = await existsRes.json();
+          // ONLY trigger reset if the user exists and specifically uses password!
+          if (data.exists && data.provider === 'password') {
+            await sendPasswordResetEmail(auth, normalizedEmail);
+          } else if (data.exists && data.provider === 'google') {
+            setSuccess('This account uses Google Sign-In. Please continue with Google.');
+            setLoading(false);
+            return;
+          }
+        }
+        // Always display generic success regardless of actual success to stop enumeration
         setSuccess('If an account exists for this email, a password reset link has been sent.');
       } catch (err) {
-        // Prevent email enumeration
         setSuccess('If an account exists for this email, a password reset link has been sent.');
       } finally {
         setLoading(false);
@@ -44,17 +61,62 @@ export function LoginPage({ setCurrentPage }) {
       return;
     }
 
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // STEP 2 & 3: Check Firestore users collection securely
     setLoading(true);
+    let userExists = false;
+    let provider = 'password';
+
     try {
-      await login(email, password);
-      // Let App.jsx handle the route redirection when user state updates
+      const existsRes = await fetch('/api/check-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: normalizedEmail })
+      });
+      if (existsRes.ok) {
+        const data = await existsRes.json();
+        userExists = data.exists;
+        provider = data.provider || 'password';
+      }
+    } catch (e) {
+      console.error('Email verification error', e);
+    }
+
+    // STEP 4: If NOT exists -> Fake error message to prevent enumeration
+    if (!userExists) {
+      setLoading(false);
+      setError('Invalid email or password.');
+      return;
+    }
+
+    // STEP 5: Firebase Auth (Password verifier)
+    try {
+      const userResult = await login(normalizedEmail, password);
+
+      // STEP 7: Validated securely! Send OTP.
+      if (userResult) {
+        try {
+          const idToken = await userResult.getIdToken(false);
+          await fetch('/api/send-otp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ email: userResult.email, uid: userResult.uid })
+          });
+        } catch (err) {
+          console.log("OTP Send Error, might be already configured.", err);
+        }
+      }
+
       if (setCurrentPage) {
-        setCurrentPage('account');
+        setCurrentPage('verify-otp');
       } else {
-        window.location.search = '?page=account';
+        window.location.search = '?page=verify-otp';
       }
     } catch (err) {
-      console.error(err);
       if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
         setError('Invalid email or password.');
       } else if (err.code === 'auth/too-many-requests') {
@@ -72,11 +134,24 @@ export function LoginPage({ setCurrentPage }) {
     setSuccess('');
     setLoading(true);
     try {
-      await loginWithGoogle();
+      const userResult = await loginWithGoogle();
+      if (userResult) {
+        try {
+          const idToken = await userResult.getIdToken(false);
+          await fetch('/api/send-otp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ email: userResult.email, uid: userResult.uid })
+          });
+        } catch (err) { }
+      }
       if (setCurrentPage) {
-        setCurrentPage('account');
+        setCurrentPage('verify-otp');
       } else {
-        window.location.search = '?page=account';
+        window.location.search = '?page=verify-otp';
       }
     } catch (err) {
       console.error(err);

@@ -1,42 +1,7 @@
 import nodemailer from 'nodemailer';
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, collection, query, where, getDocs, updateDoc } from 'firebase/firestore';
+import { adminDb } from './_services/firebaseAdmin.js';
 
-// Initialize Firebase JS SDK for serverless environment
-const firebaseConfig = {
-  apiKey: process.env.VITE_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
-  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.VITE_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID,
-};
-
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const db = getFirestore(app);
-
-/**
- * Creates Nodemailer Transporter securely from server environment variables
- */
-function getTransporter() {
-  const host = process.env.SMTP_HOST;
-  const port = parseInt(process.env.SMTP_PORT || '465', 10);
-  const secure = process.env.SMTP_SECURE === 'true' || port === 465;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-
-  if (!host || !user || !pass) {
-    return null;
-  }
-
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure,
-    auth: { user, pass },
-    tls: { rejectUnauthorized: false }
-  });
-}
+import { mailService } from './_services/mailService.js';
 
 /**
  * Helper to escape HTML characters
@@ -475,26 +440,31 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing orderId or docId parameter.' });
     }
 
-    // 1. Fetch Authoritative Order Data from Firestore
+    // 1. Fetch Authoritative Order Data from Firestore via Admin SDK
     let orderDoc = null;
     let orderDocRef = null;
 
-    if (docId) {
-      const snap = await getDoc(doc(db, 'orders', docId));
-      if (snap.exists()) {
-        orderDoc = { id: snap.id, ...snap.data() };
-        orderDocRef = doc(db, 'orders', snap.id);
+    if (adminDb) {
+      if (docId) {
+        orderDocRef = adminDb.collection('orders').doc(docId);
+        const snap = await orderDocRef.get();
+        if (snap.exists) { // property, not function in Admin SDK
+          orderDoc = { id: snap.id, ...snap.data() };
+        } else {
+          orderDocRef = null;
+        }
       }
-    }
 
-    if (!orderDoc && orderId) {
-      const q = query(collection(db, 'orders'), where('orderId', '==', orderId));
-      const snap = await getDocs(q);
-      if (!snap.empty) {
-        const firstDoc = snap.docs[0];
-        orderDoc = { id: firstDoc.id, ...firstDoc.data() };
-        orderDocRef = doc(db, 'orders', firstDoc.id);
+      if (!orderDoc && orderId) {
+        const snap = await adminDb.collection('orders').where('orderId', '==', orderId).get();
+        if (!snap.empty) {
+          const firstDoc = snap.docs[0];
+          orderDoc = { id: firstDoc.id, ...firstDoc.data() };
+          orderDocRef = adminDb.collection('orders').doc(firstDoc.id);
+        }
       }
+    } else {
+      return res.status(500).json({ error: 'Firebase Admin SDK is not initialized correctly.' });
     }
 
     if (!orderDoc) {
@@ -519,31 +489,6 @@ export default async function handler(req, res) {
 
     const adminEmail = (process.env.ADMIN_EMAIL || process.env.SMTP_USER || '').trim().toLowerCase();
 
-    // 4. Initialize Nodemailer SMTP Transporter
-    const transporter = getTransporter();
-    if (!transporter) {
-      console.warn(`[SMTP Warning] SMTP server not configured for order #${orderDoc.orderId || orderDoc.id}`);
-      const unconfiguredStatus = {
-        customer: existingStatus.customer === 'sent' ? 'sent' : 'failed',
-        admin: existingStatus.admin === 'sent' ? 'sent' : 'failed',
-        lastAttemptedAt: new Date().toISOString(),
-        customerError: !validCustomerEmail ? 'Invalid customer email' : 'SMTP credentials missing on server',
-        adminError: !adminEmail ? 'ADMIN_EMAIL missing on server' : 'SMTP credentials missing on server'
-      };
-
-      if (orderDocRef) {
-        await updateDoc(orderDocRef, { emailStatus: unconfiguredStatus });
-      }
-
-      return res.status(200).json({
-        success: false,
-        message: 'Order saved in Firestore, but SMTP server is not configured.',
-        emailStatus: unconfiguredStatus
-      });
-    }
-
-    const smtpFrom = process.env.SMTP_FROM || `Printigly Press <${process.env.SMTP_USER}>`;
-
     let customerResult = { success: existingStatus.customer === 'sent' };
     let adminResult = { success: existingStatus.admin === 'sent' };
 
@@ -551,14 +496,13 @@ export default async function handler(req, res) {
     if (validCustomerEmail && (existingStatus.customer !== 'sent' || forceRetry)) {
       try {
         const customerHtml = generateCustomerEmailHtml(orderDoc);
-        const info = await transporter.sendMail({
-          from: smtpFrom,
-          to: validCustomerEmail,
-          subject: `Order Confirmed - #${orderDoc.orderId || orderDoc.id} | Printigly Press`,
-          html: customerHtml
-        });
-        console.log(`[Email Success] Customer email sent to ${validCustomerEmail}. MessageId: ${info.messageId}`);
-        customerResult = { success: true, messageId: info.messageId };
+        const info = await mailService.sendOrderConfirmation(
+          validCustomerEmail,
+          orderDoc.orderId || orderDoc.id,
+          customerHtml
+        );
+        console.log(`[Email Success] Customer email sent to ${validCustomerEmail}. MessageId: ${info?.messageId || 'ok'}`);
+        customerResult = { success: true, messageId: info?.messageId || 'ok' };
       } catch (err) {
         console.error(`[Email Error] Customer email failed for ${validCustomerEmail}:`, err.message);
         customerResult = { success: false, error: err.message };
@@ -571,14 +515,10 @@ export default async function handler(req, res) {
     if (adminEmail && (existingStatus.admin !== 'sent' || forceRetry)) {
       try {
         const adminHtml = generateAdminEmailHtml(orderDoc);
-        const info = await transporter.sendMail({
-          from: smtpFrom,
-          to: adminEmail,
-          subject: `[NEW ORDER] #${orderDoc.orderId || orderDoc.id} - ${orderDoc.customer?.name || 'Customer'} (₹${(orderDoc.pricing?.grandTotal || orderDoc.totalAmount || 0).toLocaleString()})`,
-          html: adminHtml
-        });
-        console.log(`[Email Success] Admin notification sent to ${adminEmail}. MessageId: ${info.messageId}`);
-        adminResult = { success: true, messageId: info.messageId };
+        const subject = `[NEW ORDER] #${orderDoc.orderId || orderDoc.id} - ${orderDoc.customer?.name || 'Customer'} (₹${(orderDoc.pricing?.grandTotal || orderDoc.totalAmount || 0).toLocaleString()})`;
+        const info = await mailService.sendAdminNotification(subject, adminHtml);
+        console.log(`[Email Success] Admin notification sent to ${adminEmail}. MessageId: ${info?.messageId || 'ok'}`);
+        adminResult = { success: true, messageId: info?.messageId || 'ok' };
       } catch (err) {
         console.error(`[Email Error] Admin email failed for ${adminEmail}:`, err.message);
         adminResult = { success: false, error: err.message };
@@ -597,7 +537,7 @@ export default async function handler(req, res) {
     };
 
     if (orderDocRef) {
-      await updateDoc(orderDocRef, { emailStatus: updatedEmailStatus });
+      await orderDocRef.update({ emailStatus: updatedEmailStatus });
     }
 
     return res.status(200).json({

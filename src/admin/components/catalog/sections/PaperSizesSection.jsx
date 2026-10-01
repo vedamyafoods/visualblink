@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { FileText, Tag, Plus, X } from 'lucide-react';
 
 export const PaperSizesSection = ({ formData, setFormData, catalogOptions, updateCatalogOptions }) => {
-  if (formData.enablePaperSizes === false) return null;
-
   const [isAddingCustom, setIsAddingCustom] = useState(false);
   const [customSizeInput, setCustomSizeInput] = useState('');
+
+  if (formData.enablePaperSizes === false) return null;
 
   // Default paper sizes if catalogOptions is not populated yet
   const defaultSizes = ['A3', 'A4', 'A5', 'A6', 'DL', 'Letter', 'Legal', '1/3 Size', '1/4 Size', '1/6 Size'];
@@ -89,11 +89,10 @@ export const PaperSizesSection = ({ formData, setFormData, catalogOptions, updat
             <div
               key={size}
               onClick={() => handleToggleSize(size)}
-              className={`group relative px-3 py-1.5 rounded-xl border-2 font-extrabold text-[12px] transition-all cursor-pointer flex items-center gap-1.5 ${
-                isSelected
+              className={`group relative px-3 py-1.5 rounded-xl border-2 font-extrabold text-[12px] transition-all cursor-pointer flex items-center gap-1.5 ${isSelected
                   ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                   : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400'
-              }`}
+                }`}
             >
               <Tag className="w-3 h-3" />
               <span>{size}</span>
@@ -102,9 +101,8 @@ export const PaperSizesSection = ({ formData, setFormData, catalogOptions, updat
               <button
                 type="button"
                 onClick={(e) => handleDeleteSizeOption(size, e)}
-                className={`ml-1 p-0.5 rounded-full hover:bg-red-500 hover:text-white transition-opacity border-none bg-transparent cursor-pointer ${
-                  isSelected ? 'text-blue-100 hover:text-white' : 'text-slate-400 hover:text-white'
-                }`}
+                className={`ml-1 p-0.5 rounded-full hover:bg-red-500 hover:text-white transition-opacity border-none bg-transparent cursor-pointer ${isSelected ? 'text-blue-100 hover:text-white' : 'text-slate-400 hover:text-white'
+                  }`}
                 title={`Delete ${size} size option`}
               >
                 <X className="w-3.5 h-3.5" />

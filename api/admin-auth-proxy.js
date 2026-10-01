@@ -1,15 +1,11 @@
 import crypto from 'crypto';
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from 'firebase/firestore';
+import { adminDb } from './_services/firebaseAdmin.js';
 
 const firebaseConfig = {
     apiKey: process.env.VITE_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
     authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
     projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
 };
-
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const db = getFirestore(app);
 
 const HASH_SALT = process.env.IP_HASH_SALT || 'printigly_security_salt';
 const MAX_ATTEMPTS = 5;
@@ -39,30 +35,35 @@ export default async function handler(req, res) {
         const emailHash = hashString(email.toLowerCase().trim());
         const userAgent = req.headers['user-agent'] || 'Unknown';
 
-        // 1. Check Rate Limits
-        const limitDocRef = doc(db, 'authSecurity', ipHash);
-        const limitSnap = await getDoc(limitDocRef);
+        // 1. Check Rate Limits (Only if Admin SDK is configured)
+        let limitDocRef = null;
+        let limitSnap = null;
         const now = Date.now();
 
-        if (limitSnap.exists()) {
-            const data = limitSnap.data();
-            const blockedUntil = new Date(data.blockedUntil || 0).getTime();
+        if (adminDb) {
+            limitDocRef = adminDb.collection('authSecurity').doc(ipHash);
+            limitSnap = await limitDocRef.get();
 
-            if (now < blockedUntil) {
-                // Blocked. Do not verify password. Log block event.
-                await setDoc(doc(collection(db, 'adminLogs')), {
-                    type: "login_blocked",
-                    timestamp: new Date().toISOString(),
-                    ipHash,
-                    emailHash,
-                    userAgent,
-                    reason: "Too many failed attempts. Rate limit enforced.",
-                    blocked: true
-                });
+            if (limitSnap.exists) {
+                const data = limitSnap.data();
+                const blockedUntil = new Date(data.blockedUntil || 0).getTime();
 
-                return res.status(429).json({
-                    error: "Too many unsuccessful login attempts. Please try again later."
-                });
+                if (now < blockedUntil) {
+                    // Blocked. Do not verify password. Log block event.
+                    await adminDb.collection('adminLogs').add({
+                        type: "login_blocked",
+                        timestamp: new Date().toISOString(),
+                        ipHash,
+                        emailHash,
+                        userAgent,
+                        reason: "Too many failed attempts. Rate limit enforced.",
+                        blocked: true
+                    });
+
+                    return res.status(429).json({
+                        error: "Too many unsuccessful login attempts. Please try again later."
+                    });
+                }
             }
         }
 
@@ -76,42 +77,45 @@ export default async function handler(req, res) {
         const verifyData = await verifyRes.json();
 
         if (!verifyRes.ok) {
+            console.error('[Admin Auth Proxy] Firebase Verification Failed:', verifyData);
             // 3. Increment Failed Attempts
-            const currentFails = limitSnap.exists() ? (limitSnap.data().failedAttempts || 0) : 0;
-            const newFails = currentFails + 1;
-            let newBlockedUntil = 0;
-            let blockedEvent = false;
+            if (adminDb && limitDocRef) {
+                const currentFails = limitSnap.exists ? (limitSnap.data().failedAttempts || 0) : 0;
+                const newFails = currentFails + 1;
+                let newBlockedUntil = 0;
+                let blockedEvent = false;
 
-            if (newFails >= MAX_ATTEMPTS) {
-                newBlockedUntil = now + BLOCK_DURATION_MS;
-                blockedEvent = true;
+                if (newFails >= MAX_ATTEMPTS) {
+                    newBlockedUntil = now + BLOCK_DURATION_MS;
+                    blockedEvent = true;
+                }
+
+                await limitDocRef.set({
+                    failedAttempts: newFails,
+                    lastFailedAt: new Date(now).toISOString(),
+                    blockedUntil: newBlockedUntil ? new Date(newBlockedUntil).toISOString() : 0,
+                    updatedAt: new Date(now).toISOString()
+                }, { merge: true });
+
+                // Log Failed Attempt
+                await adminDb.collection('adminLogs').add({
+                    type: blockedEvent ? "login_blocked" : "login_failed",
+                    timestamp: new Date().toISOString(),
+                    ipHash,
+                    emailHash,
+                    userAgent,
+                    reason: "Invalid email or password.",
+                    blocked: blockedEvent
+                });
             }
-
-            await setDoc(limitDocRef, {
-                failedAttempts: newFails,
-                lastFailedAt: new Date(now).toISOString(),
-                blockedUntil: newBlockedUntil ? new Date(newBlockedUntil).toISOString() : 0,
-                updatedAt: new Date(now).toISOString()
-            }, { merge: true });
-
-            // Log Failed Attempt
-            await setDoc(doc(collection(db, 'adminLogs')), {
-                type: blockedEvent ? "login_blocked" : "login_failed",
-                timestamp: new Date().toISOString(),
-                ipHash,
-                emailHash,
-                userAgent,
-                reason: "Invalid email or password.",
-                blocked: blockedEvent
-            });
 
             // Email enumeration protection: keep message generic
             return res.status(401).json({ error: "Invalid email or password." });
         }
 
         // 4. Verification Succeeded! Reset rate limits.
-        if (limitSnap.exists()) {
-            await setDoc(limitDocRef, {
+        if (adminDb && limitDocRef && limitSnap.exists) {
+            await limitDocRef.set({
                 failedAttempts: 0,
                 blockedUntil: 0,
                 updatedAt: new Date(now).toISOString()
@@ -119,16 +123,18 @@ export default async function handler(req, res) {
         }
 
         // Also Log Success
-        await setDoc(doc(collection(db, 'adminLogs')), {
-            type: "login_success",
-            timestamp: new Date().toISOString(),
-            ipHash,
-            emailHash,
-            uid: verifyData.localId,
-            userAgent,
-            reason: "Successful login.",
-            blocked: false
-        });
+        if (adminDb) {
+            await adminDb.collection('adminLogs').add({
+                type: "login_success",
+                timestamp: new Date().toISOString(),
+                ipHash,
+                emailHash,
+                uid: verifyData.localId,
+                userAgent,
+                reason: "Successful login.",
+                blocked: false
+            });
+        }
 
         // We do NOT return the idToken. We just tell the frontend it's safe to proceed logging in natively.
         return res.status(200).json({ success: true, message: "OK" });

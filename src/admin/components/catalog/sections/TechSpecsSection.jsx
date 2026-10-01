@@ -11,9 +11,9 @@ export const TechSpecsSection = ({
   catalogOptions,
   updateCatalogOptions
 }) => {
-  if (formData.enableTechSpecs === false) return null;
-
   const [isAdding, setIsAdding] = useState(false);
+
+  if (formData.enableTechSpecs === false) return null;
 
   const handleAddSpec = () => {
     if (newSpecKey.trim() && newSpecVal.trim()) {
