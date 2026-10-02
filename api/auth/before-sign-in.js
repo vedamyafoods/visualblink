@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, collection } from 'firebase/firestore';
 import crypto from 'crypto';
 
 // Initialize Firebase SDK for serverless environment
