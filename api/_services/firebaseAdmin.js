@@ -20,14 +20,19 @@ function getAdminApp() {
         return undefined;
     }
 
-    return initializeApp({
-        credential: cert({
-            projectId,
-            clientEmail,
-            privateKey
-        }),
-        projectId
-    });
+    try {
+        return initializeApp({
+            credential: cert({
+                projectId,
+                clientEmail,
+                privateKey
+            }),
+            projectId
+        });
+    } catch (err) {
+        console.error('Firebase Admin SDK Initialization Error:', err);
+        return undefined;
+    }
 }
 
 export const adminApp = getAdminApp();

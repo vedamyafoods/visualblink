@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { adminDb } from './_services/firebaseAdmin.js';
 
 const firebaseConfig = {
