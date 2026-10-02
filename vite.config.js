@@ -1,11 +1,14 @@
-import { defineConfig, loadEnv } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  // Expose .env variables to the Dev Config / Vite SSR process
-  process.env = { ...process.env, ...loadEnv(mode, process.cwd(), '') };
+  // Pass env vars to local dev server (without envPrefix)
+  const envConfig = loadEnv(mode, process.cwd(), '');
+  for (const k in envConfig) {
+    if (!process.env[k]) process.env[k] = envConfig[k];
+  }
 
   return {
     plugins: [
