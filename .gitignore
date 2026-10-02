@@ -15,14 +15,8 @@ dist-ssr
 # Environment variables (NEVER commit these)
 .env
 .env.local
-.env.development
-.env.development.local
 .env.production
-.env.production.local
-.env.test
-.env.test.local
 .env.*.local
-.vercel
 
 # Editor directories and files
 .vscode/*

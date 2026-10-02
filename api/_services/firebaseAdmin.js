@@ -20,28 +20,14 @@ function getAdminApp() {
         return undefined;
     }
 
-    // Safely remove any surrounding quotes that might have been pasted into Vercel
-    let cleanPrivateKey = privateKey;
-    if (cleanPrivateKey.startsWith('"') && cleanPrivateKey.endsWith('"')) {
-        cleanPrivateKey = cleanPrivateKey.slice(1, -1);
-    }
-    if (cleanPrivateKey.startsWith("'") && cleanPrivateKey.endsWith("'")) {
-        cleanPrivateKey = cleanPrivateKey.slice(1, -1);
-    }
-
-    try {
-        return initializeApp({
-            credential: cert({
-                projectId: projectId.trim(),
-                clientEmail: clientEmail.trim(),
-                privateKey: cleanPrivateKey
-            }),
-            projectId: projectId.trim()
-        });
-    } catch (err) {
-        console.error('Firebase Admin Init Error:', err.message);
-        return undefined;
-    }
+    return initializeApp({
+        credential: cert({
+            projectId,
+            clientEmail,
+            privateKey
+        }),
+        projectId
+    });
 }
 
 export const adminApp = getAdminApp();
