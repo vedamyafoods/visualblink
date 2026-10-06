@@ -184,7 +184,7 @@ export const PrintOptionsMatrixManager = () => {
         <div className="flex items-center gap-3 relative z-10 shrink-0">
           <button
             onClick={() => setShowAddSectionModal(true)}
-            className="px-4 py-2.5 rounded-xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-lg shadow-[#FF5A1F]/30 transition cursor-pointer border-none"
+            className="px-4 py-2.5 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-lg shadow-[#025afc]/30 transition cursor-pointer border-none"
           >
             <Plus className="w-4 h-4" /> Add Custom Matrix Section
           </button>
@@ -283,7 +283,7 @@ export const PrintOptionsMatrixManager = () => {
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2 text-slate-900 font-extrabold text-sm">
-                <FolderPlus className="w-5 h-5 text-[#FF5A1F]" />
+                <FolderPlus className="w-5 h-5 text-[#025afc]" />
                 <span>Add Custom Option Matrix</span>
               </div>
               <button
@@ -329,7 +329,7 @@ export const PrintOptionsMatrixManager = () => {
               <button
                 type="button"
                 onClick={handleCreateNewSection}
-                className="px-5 py-2 rounded-xl bg-[#FF5A1F] text-white font-extrabold text-[14px] cursor-pointer border-none shadow-md shadow-[#FF5A1F]/20"
+                className="px-5 py-2 rounded-xl bg-[#025afc] text-white font-extrabold text-[14px] cursor-pointer border-none shadow-md shadow-[#025afc]/20"
               >
                 Create Section
               </button>

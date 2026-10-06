@@ -44,7 +44,7 @@ transporter.verify((error, success) => {
     transporter.sendMail({
       from: env.SMTP_FROM || env.SMTP_USER,
       to: env.SMTP_USER,
-      subject: 'Test Email from Printigly',
+      subject: 'Test Email from VisualBlink',
       text: 'This is a test email from Antigravity SMTP verifier.'
     }).then(info => {
       console.log("Email sent successfully!", info.messageId);

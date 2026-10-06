@@ -58,7 +58,7 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
         {/* Dynamic Title / Breadcrumb */}
         <div className="flex flex-col min-w-0">
           <div className="hidden sm:flex items-center gap-1.5 text-[10px] text-slate-400 font-extrabold tracking-wider uppercase">
-            <span>Printigly</span>
+            <span>VisualBlink</span>
             <span>/</span>
             <span className="text-blue-600 font-black">{activeTab.replace('_', ' ')}</span>
           </div>
@@ -131,7 +131,7 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
             <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-200/80 py-1.5 text-[14px] text-slate-700 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
               <div className="px-3 py-2 border-b border-slate-100">
                 <p className="font-extrabold text-slate-900">Admin User</p>
-                <p className="text-slate-400 text-[10px] truncate">operations@printigly.com</p>
+                <p className="text-slate-400 text-[10px] truncate">operations@visualblink.com</p>
                 <span className="inline-block mt-1 px-1.5 py-0.2 rounded bg-blue-50 text-blue-700 font-bold text-[9px]">
                   Role: {userRole}
                 </span>

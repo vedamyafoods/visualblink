@@ -8,7 +8,7 @@ export const DynamicStorefrontForm = ({
   onValueChange
 }) => {
   if (!customSections || customSections.length === 0) return null;
-  
+
   return (
     <div className="space-y-8">
       {customSections.map((sec, sIdx) => {
@@ -22,7 +22,7 @@ export const DynamicStorefrontForm = ({
             {sec.title && (
               <div className="border-b border-slate-200 pb-2">
                 <h3 className="font-extrabold text-[15px] text-slate-900 uppercase tracking-wide flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#025afc]"></span>
                   {sec.title}
                 </h3>
               </div>
@@ -50,7 +50,7 @@ export const DynamicStorefrontForm = ({
                         <select
                           value={currentValue}
                           onChange={(e) => onValueChange(fieldId, e.target.value, field)}
-                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[14px] font-bold text-slate-800 appearance-none focus:outline-none focus:border-[#EA580C] focus:ring-2 focus:ring-[#EA580C]/10 shadow-3xs cursor-pointer"
+                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[14px] font-bold text-slate-800 appearance-none focus:outline-none focus:border-[#025afc] focus:ring-2 focus:ring-[#025afc]/10 shadow-3xs cursor-pointer"
                         >
                           {(!field.options || field.options.length === 0) ? (
                             <option value="">No options configured</option>
@@ -80,7 +80,7 @@ export const DynamicStorefrontForm = ({
                         value={currentValue}
                         onChange={(e) => onValueChange(fieldId, e.target.value, field)}
                         placeholder={field.placeholder || 'Enter text...'}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[14px] font-bold text-slate-800 focus:outline-none focus:border-[#EA580C] focus:ring-2 focus:ring-[#EA580C]/10 shadow-3xs"
+                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[14px] font-bold text-slate-800 focus:outline-none focus:border-[#025afc] focus:ring-2 focus:ring-[#025afc]/10 shadow-3xs"
                       />
                     )}
 
@@ -91,7 +91,7 @@ export const DynamicStorefrontForm = ({
                         value={currentValue}
                         onChange={(e) => onValueChange(fieldId, e.target.value, field)}
                         placeholder={field.placeholder || '1'}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[14px] font-bold text-slate-800 focus:outline-none focus:border-[#EA580C] focus:ring-2 focus:ring-[#EA580C]/10 shadow-3xs"
+                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[14px] font-bold text-slate-800 focus:outline-none focus:border-[#025afc] focus:ring-2 focus:ring-[#025afc]/10 shadow-3xs"
                       />
                     )}
 
@@ -108,8 +108,8 @@ export const DynamicStorefrontForm = ({
                               type="button"
                               onClick={() => onValueChange(fieldId, optVal, field)}
                               className={`p-3 rounded-xl border-2 font-bold text-[13.5px] transition-all cursor-pointer flex items-center justify-between ${isSelected
-                                  ? 'bg-[#FFF7ED] border-[#EA580C] text-[#EA580C] shadow-3xs'
-                                  : 'bg-white border-slate-200 text-slate-800 hover:border-orange-300'
+                                ? 'bg-[#FFF7ED] border-[#025afc] text-[#025afc] shadow-3xs'
+                                : 'bg-white border-slate-200 text-slate-800 hover:border-blue-300'
                                 }`}
                             >
                               <span>{optLabel}</span>
@@ -144,12 +144,12 @@ export const DynamicStorefrontForm = ({
                                 onValueChange(fieldId, nextList, field);
                               }}
                               className={`p-3 rounded-xl border-2 font-bold text-[13.5px] transition-all cursor-pointer flex items-center justify-between ${isChecked
-                                  ? 'bg-[#FFF7ED] border-[#EA580C] text-[#EA580C] shadow-3xs'
-                                  : 'bg-white border-slate-200 text-slate-800 hover:border-orange-300'
+                                ? 'bg-[#FFF7ED] border-[#025afc] text-[#025afc] shadow-3xs'
+                                : 'bg-white border-slate-200 text-slate-800 hover:border-blue-300'
                                 }`}
                             >
                               <div className="flex items-center gap-2">
-                                <div className={`w-4 h-4 rounded flex items-center justify-center border ${isChecked ? 'bg-[#EA580C] border-[#EA580C] text-white' : 'border-slate-300 bg-white'
+                                <div className={`w-4 h-4 rounded flex items-center justify-center border ${isChecked ? 'bg-[#025afc] border-[#025afc] text-white' : 'border-slate-300 bg-white'
                                   }`}>
                                   {isChecked && <FiCheck className="w-3 h-3 text-white" />}
                                 </div>
@@ -181,16 +181,16 @@ export const DynamicStorefrontForm = ({
                               type="button"
                               onClick={() => onValueChange(fieldId, optVal, field)}
                               className={`group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 transition-all cursor-pointer font-extrabold text-[13px] ${isSelected
-                                  ? 'bg-[#FFF7ED] border-[#EA580C] text-[#EA580C] shadow-sm'
-                                  : 'bg-white border-slate-200 text-slate-800 hover:border-orange-300'
+                                ? 'bg-[#FFF7ED] border-[#025afc] text-[#025afc] shadow-sm'
+                                : 'bg-white border-slate-200 text-slate-800 hover:border-blue-300'
                                 }`}
                             >
-                              <div className={`w-10 h-7 rounded-lg border-2 flex items-center justify-center ${isSelected ? 'border-[#EA580C] bg-orange-100' : 'border-slate-300 bg-slate-50'
+                              <div className={`w-10 h-7 rounded-lg border-2 flex items-center justify-center ${isSelected ? 'border-[#025afc] bg-blue-100' : 'border-slate-300 bg-slate-50'
                                 }`}>
                                 {isPortrait ? (
-                                  <AlignCenter className={`w-4 h-4 ${isSelected ? 'text-[#EA580C]' : 'text-slate-600'}`} />
+                                  <AlignCenter className={`w-4 h-4 ${isSelected ? 'text-[#025afc]' : 'text-slate-600'}`} />
                                 ) : (
-                                  <AlignJustify className={`w-4 h-4 ${isSelected ? 'text-[#EA580C]' : 'text-slate-600'}`} />
+                                  <AlignJustify className={`w-4 h-4 ${isSelected ? 'text-[#025afc]' : 'text-slate-600'}`} />
                                 )}
                               </div>
                               <span className="text-center mt-1">{optLabel}</span>
@@ -202,6 +202,13 @@ export const DynamicStorefrontForm = ({
                             </button>
                           );
                         })}
+                      </div>
+                    )}
+
+                    {/* CONTROL TYPE 7: STATIC INFO BLOCK (For Tech Specs) */}
+                    {field.type === 'info' && (
+                      <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-xl px-4 py-3 text-[14px] font-bold text-slate-800 shadow-sm">
+                        {currentValue}
                       </div>
                     )}
 

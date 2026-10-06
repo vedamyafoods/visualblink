@@ -7,7 +7,7 @@ const firebaseConfig = {
     projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
 };
 
-const HASH_SALT = process.env.IP_HASH_SALT || 'printigly_security_salt';
+const HASH_SALT = process.env.IP_HASH_SALT || 'visualblink_security_salt';
 const MAX_ATTEMPTS = 5;
 const BLOCK_DURATION_MS = 3 * 60 * 60 * 1000; // 3 hours
 

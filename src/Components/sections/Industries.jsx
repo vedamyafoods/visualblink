@@ -39,15 +39,15 @@ export function Industries({ setCurrentPage }) {
   return (
     <section className="py-12 sm:py-16 bg-[#F9FAFB] font-sans border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[#C026D3] text-[14px] font-black tracking-widest uppercase">
+              <span className="text-[#025afc] text-[14px] font-black tracking-widest uppercase">
                 SOLUTIONS FOR EVERY INDUSTRY
               </span>
-              <span className="h-[2px] w-8 bg-gradient-to-r from-[#D946EF] to-[#E11D48] inline-block rounded-full" />
+              <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
@@ -57,7 +57,7 @@ export function Industries({ setCurrentPage }) {
 
           <button
             onClick={() => handleLink()}
-            className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#C026D3] hover:text-[#E11D48] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
+            className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#025afc] hover:text-[#6a32f0] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
           >
             <span>See All Solutions</span>
             <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -88,7 +88,7 @@ export function Industries({ setCurrentPage }) {
               {/* Body Content */}
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-[16px] font-black text-[#0F172A] group-hover:text-[#C026D3] transition-colors mb-1">
+                  <h3 className="text-[16px] font-black text-[#0F172A] group-hover:text-[#025afc] transition-colors mb-1">
                     {sol.title}
                   </h3>
                   <p className="text-[14px] text-slate-500 font-normal leading-relaxed">
@@ -96,7 +96,7 @@ export function Industries({ setCurrentPage }) {
                   </p>
                 </div>
 
-                <div className="mt-4 pt-2 flex items-center gap-1 text-[14px] font-bold text-[#C026D3] group-hover:text-[#E11D48] transition-colors">
+                <div className="mt-4 pt-2 flex items-center gap-1 text-[14px] font-bold text-[#025afc] group-hover:text-[#6a32f0] transition-colors">
                   <span>Explore</span>
                   <FiArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </div>

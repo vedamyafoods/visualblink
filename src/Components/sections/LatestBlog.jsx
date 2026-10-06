@@ -48,10 +48,10 @@ export function LatestBlog({ setCurrentPage }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[#C026D3] text-[14px] font-black tracking-widest uppercase">
+              <span className="text-[#025afc] text-[14px] font-black tracking-widest uppercase">
                 TIPS, IDEAS & INSPIRATION
               </span>
-              <span className="h-[2px] w-8 bg-gradient-to-r from-[#D946EF] to-[#E11D48] inline-block rounded-full" />
+              <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
@@ -61,7 +61,7 @@ export function LatestBlog({ setCurrentPage }) {
 
           <button
             onClick={handleLink}
-            className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#C026D3] hover:text-[#E11D48] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
+            className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#025afc] hover:text-[#6a32f0] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
           >
             <span>View All Posts</span>
             <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -96,7 +96,7 @@ export function LatestBlog({ setCurrentPage }) {
                 {/* Content Area */}
                 <div className="p-5">
                   <p className="text-[14px] text-slate-400 font-semibold mb-2">{post.date}</p>
-                  <h3 className="text-[16px] font-black text-[#0F172A] group-hover:text-[#C026D3] transition-colors leading-snug line-clamp-2">
+                  <h3 className="text-[16px] font-black text-[#0F172A] group-hover:text-[#025afc] transition-colors leading-snug line-clamp-2">
                     {post.title}
                   </h3>
                 </div>
@@ -104,7 +104,7 @@ export function LatestBlog({ setCurrentPage }) {
 
               {/* Read More Link */}
               <div className="px-5 pb-5 pt-0">
-                <div className="inline-flex items-center gap-1.5 text-[14px] font-bold text-[#C026D3] group-hover:text-[#E11D48] transition-colors">
+                <div className="inline-flex items-center gap-1.5 text-[14px] font-bold text-[#025afc] group-hover:text-[#6a32f0] transition-colors">
                   <span>Read More</span>
                   <FiArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </div>

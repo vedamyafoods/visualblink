@@ -88,7 +88,7 @@ function generateCustomerEmailHtml(order) {
             <tr>
               <td style="background-color: #07152F; padding: 32px 24px; text-align: center; color: #ffffff;">
                 <div style="font-size: 24px; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; margin-bottom: 4px;">
-                  PRINTIGLY<span style="color: #FF5A1F;">PRESS</span>
+                  VISUALBLINK<span style="color: #025afc;">PRESS</span>
                 </div>
                 <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; margin-bottom: 20px;">
                   Enterprise Print & Packaging
@@ -106,7 +106,7 @@ function generateCustomerEmailHtml(order) {
                   Dear <strong>${customerName}</strong>,
                 </p>
                 <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 24px;">
-                  Thank you for placing your order with Printigly Press! Your print order <strong style="color: #0f172a;">#${orderId}</strong> has been received and sent directly into our live production pipeline.
+                  Thank you for placing your order with VisualBlink Press! Your print order <strong style="color: #0f172a;">#${orderId}</strong> has been received and sent directly into our live production pipeline.
                 </p>
 
                 <!-- ORDER INFO BOX -->
@@ -168,7 +168,7 @@ function generateCustomerEmailHtml(order) {
                         </tr>
                         <tr style="border-top: 2px solid #e2e8f0;">
                           <td style="padding: 10px 0 4px 0; font-size: 15px; font-weight: 900; color: #0f172a;">Total Amount:</td>
-                          <td style="padding: 10px 0 4px 0; text-align: right; font-size: 18px; font-weight: 900; color: #FF5A1F;">₹${grandTotal.toLocaleString()}</td>
+                          <td style="padding: 10px 0 4px 0; text-align: right; font-size: 18px; font-weight: 900; color: #025afc;">₹${grandTotal.toLocaleString()}</td>
                         </tr>
                       </table>
                     </td>
@@ -200,8 +200,8 @@ function generateCustomerEmailHtml(order) {
             <!-- FOOTER -->
             <tr>
               <td style="background-color: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b;">
-                <p style="margin: 0 0 8px 0;">Need help with your order? Reach out to our print support team at <a href="mailto:support@printigly.com" style="color: #FF5A1F; text-decoration: none; font-weight: bold;">support@printigly.com</a>.</p>
-                <p style="margin: 0; color: #94a3b8; font-size: 11px;">© ${new Date().getFullYear()} Printigly Press. All rights reserved.</p>
+                <p style="margin: 0 0 8px 0;">Need help with your order? Reach out to our print support team at <a href="mailto:support@visualblink.com" style="color: #025afc; text-decoration: none; font-weight: bold;">support@visualblink.com</a>.</p>
+                <p style="margin: 0; color: #94a3b8; font-size: 11px;">© ${new Date().getFullYear()} VisualBlink Press. All rights reserved.</p>
               </td>
             </tr>
 
@@ -399,7 +399,7 @@ function generateAdminEmailHtml(order) {
             <!-- FOOTER -->
             <tr>
               <td style="background-color: #07152F; padding: 16px; text-align: center; color: #94a3b8; font-size: 11px;">
-                Printigly Press Automated Order Dispatch System
+                VisualBlink Press Automated Order Dispatch System
               </td>
             </tr>
 

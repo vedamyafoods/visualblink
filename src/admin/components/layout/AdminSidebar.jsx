@@ -67,7 +67,7 @@ export const AdminSidebar = ({ onSwitchToWebsite, isMobileOpen, onCloseMobileSid
         // Hiding legacy pages
         // { id: 'category_manager', label: 'Category & Subcategory Mgr', icon: Grid, badge: 'Live', badgeColor: 'bg-emerald-600 text-white' },
         // { id: 'print_matrix', label: 'Options & Finishes Matrix', icon: Layers, badge: 'Global', badgeColor: 'bg-blue-600 text-white' },
-        { id: 'homepage_customizer', label: 'Homepage Studio', icon: Sparkles, badge: 'Live', badgeColor: 'bg-gradient-to-r from-[#FF5A1F] to-amber-500 text-white' },
+        { id: 'homepage_customizer', label: 'Homepage Studio', icon: Sparkles, badge: 'Live', badgeColor: 'bg-gradient-to-r from-[#025afc] to-amber-500 text-white' },
         { id: 'pricing', label: 'Pricing & GST Engine', icon: Calculator },
         { id: 'cloudinary', label: 'Cloudinary Asset Hub', icon: ImageIcon },
       ]

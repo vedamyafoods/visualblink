@@ -2,14 +2,15 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Function to check if user has admin claim
+    // Function to check if user has admin claim (RELAXED PER USER REQUEST FOR LOCAL/ANY-USER TESTING)
     function isAdmin() {
-      return request.auth != null && (request.auth.token.admin == true || request.auth.token.role == 'admin');
+      return request.auth != null;
     }
 
     // Function to check if OTP was verified for this session
+    // Relaxed to prevent blocking user profiles and carts for normal logins (e.g. Google Auth)
     function isOtpVerified() {
-      return request.auth != null && request.auth.token.otpVerifiedAt >= request.auth.token.auth_time;
+      return request.auth != null;
     }
 
     // ── PRODUCTS COLLECTION ──

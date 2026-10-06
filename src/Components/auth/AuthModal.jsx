@@ -41,7 +41,7 @@ export function AuthModal() {
         {/* Modal Header */}
         <div className="p-6 bg-[#07152F] text-white flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-extrabold tracking-widest text-[#FF5A1F] uppercase">Printigly Auth</span>
+            <span className="text-[10px] font-extrabold tracking-widest text-[#025afc] uppercase">VisualBlink Auth</span>
             <h3 className="text-xl font-black text-white">
               {authModalTab === 'login' ? 'Sign In to Account' : 'Create Customer Account'}
             </h3>
@@ -58,13 +58,13 @@ export function AuthModal() {
         <div className="flex border-b border-slate-100 bg-slate-50 text-[14px] font-bold">
           <button
             onClick={() => { setAuthModalTab('login'); setError(''); }}
-            className={`flex-1 py-3 text-center transition ${authModalTab === 'login' ? 'bg-white text-[#FF5A1F] border-b-2 border-[#FF5A1F]' : 'text-slate-500 hover:text-slate-900'}`}
+            className={`flex-1 py-3 text-center transition ${authModalTab === 'login' ? 'bg-white text-[#025afc] border-b-2 border-[#025afc]' : 'text-slate-500 hover:text-slate-900'}`}
           >
             Sign In
           </button>
           <button
             onClick={() => { setAuthModalTab('signup'); setError(''); }}
-            className={`flex-1 py-3 text-center transition ${authModalTab === 'signup' ? 'bg-white text-[#FF5A1F] border-b-2 border-[#FF5A1F]' : 'text-slate-500 hover:text-slate-900'}`}
+            className={`flex-1 py-3 text-center transition ${authModalTab === 'signup' ? 'bg-white text-[#025afc] border-b-2 border-[#025afc]' : 'text-slate-500 hover:text-slate-900'}`}
           >
             Create Account
           </button>
@@ -91,7 +91,7 @@ export function AuthModal() {
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   placeholder="Aarav Sharma"
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                 />
               </div>
             </div>
@@ -107,7 +107,7 @@ export function AuthModal() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="aarav@company.com"
-                className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
               />
             </div>
           </div>
@@ -122,7 +122,7 @@ export function AuthModal() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
               />
             </div>
           </div>
@@ -138,7 +138,7 @@ export function AuthModal() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+91 98450..."
-                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                   />
                 </div>
               </div>
@@ -151,7 +151,7 @@ export function AuthModal() {
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                     placeholder="Nexus Labs"
-                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                   />
                 </div>
               </div>
@@ -161,7 +161,7 @@ export function AuthModal() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3 rounded-xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] shadow-md transition cursor-pointer"
+            className="w-full py-3 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] shadow-md transition cursor-pointer"
           >
             {submitting 
               ? 'Connecting to Firebase...' 

@@ -7,7 +7,7 @@ export function GoogleReviewsSection({ reviews = [], avgRating = '5.0', totalRev
   return (
     <section className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 border-t border-slate-200 mt-12">
       <div className="max-w-7xl mx-auto space-y-8">
-        
+
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs">
           <div className="space-y-2">
@@ -48,7 +48,7 @@ export function GoogleReviewsSection({ reviews = [], avgRating = '5.0', totalRev
           {reviews.map((item, idx) => (
             <div
               key={item.id || idx}
-              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-3xs flex flex-col justify-between space-y-4 hover:border-orange-300 transition-colors"
+              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-3xs flex flex-col justify-between space-y-4 hover:border-blue-300 transition-colors"
             >
               <div className="space-y-3">
                 {/* Author Info */}
@@ -108,7 +108,7 @@ export function GoogleReviewsSection({ reviews = [], avgRating = '5.0', totalRev
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs uppercase tracking-wider flex items-center gap-2 border border-slate-300 shadow-3xs transition text-decoration-none"
           >
-            <FiMessageSquare className="w-4 h-4 text-[#EA580C]" /> Leave a Review
+            <FiMessageSquare className="w-4 h-4 text-[#025afc]" /> Leave a Review
           </a>
         </div>
 

@@ -594,8 +594,8 @@ export const DEFAULT_CATALOG_OPTIONS = {
 };
 
 // ── Firestore Subscriptions for Homepage Settings & Catalog Options ──
-const HOMEPAGE_SETTINGS_KEY = 'printigly_homepage_settings';
-const CATALOG_OPTIONS_KEY = 'printigly_catalog_options';
+const HOMEPAGE_SETTINGS_KEY = 'visualblink_homepage_settings';
+const CATALOG_OPTIONS_KEY = 'visualblink_catalog_options';
 
 export const subscribeToHomepageSettings = (onUpdate) => {
   const getLocal = () => {
@@ -924,7 +924,7 @@ export const DEFAULT_MEGAMENU_CATEGORIES = [
   }
 ];
 
-const MEGAMENU_CATEGORIES_KEY = 'printigly_megamenu_categories';
+const MEGAMENU_CATEGORIES_KEY = 'visualblink_megamenu_categories';
 
 export const subscribeToMegamenuCategories = (onUpdate) => {
   const getLocal = () => {

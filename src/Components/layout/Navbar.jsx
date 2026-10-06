@@ -74,24 +74,24 @@ export function Navbar({ currentPage, setCurrentPage }) {
                 <div key={`${catData.id || idx}`} className="relative group">
                   <button
                     onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName }, '#catalog')}
-                    className="flex items-center gap-1 py-1 text-[14px] xl:text-[14.5px] font-extrabold text-[#0F172A] group-hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer whitespace-nowrap"
+                    className="flex items-center gap-1 py-1 text-[14px] xl:text-[14.5px] font-extrabold text-[#0F172A] group-hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer whitespace-nowrap"
                   >
                     <span>{catName}</span>
-                    {subItems.length > 0 && <FiChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#C026D3] transition-transform group-hover:rotate-180" />}
+                    {subItems.length > 0 && <FiChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#025afc] transition-transform group-hover:rotate-180" />}
                   </button>
 
                   {/* Dropdown Menu on Hover */}
                   {subItems.length > 0 && (
                     <div className="absolute top-full left-0 pt-2 w-60 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                       <div className="bg-white border border-slate-200 rounded-2xl shadow-xl p-3 space-y-1">
-                        <div className="text-[10px] font-black text-[#C026D3] uppercase tracking-wider px-2 py-1 border-b border-slate-100 mb-1">
+                        <div className="text-[10px] font-black text-[#025afc] uppercase tracking-wider px-2 py-1 border-b border-slate-100 mb-1">
                           {catName}
                         </div>
                         {subItems.map((sub, sIdx) => (
                           <button
                             key={sIdx}
                             onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, subcategory: createSlug(sub.name) }, '#catalog')}
-                            className="block w-full text-left px-2.5 py-1.5 text-[13px] font-bold text-slate-700 hover:text-[#C026D3] hover:bg-pink-50/60 rounded-xl transition-colors border-none bg-transparent cursor-pointer"
+                            className="block w-full text-left px-2.5 py-1.5 text-[13px] font-bold text-slate-700 hover:text-[#025afc] hover:bg-blue-50/60 rounded-xl transition-colors border-none bg-transparent cursor-pointer"
                           >
                             {sub.name}
                           </button>
@@ -110,7 +110,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
             {/* Search Trigger Icon */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="p-2.5 rounded-full hover:bg-slate-100 text-slate-700 hover:text-[#C026D3] transition cursor-pointer border-none bg-transparent flex items-center justify-center"
+              className="p-2.5 rounded-full hover:bg-slate-100 text-slate-700 hover:text-[#025afc] transition cursor-pointer border-none bg-transparent flex items-center justify-center"
               title="Search products..."
             >
               <FiSearch className="w-5 h-5" />
@@ -128,12 +128,12 @@ export function Navbar({ currentPage, setCurrentPage }) {
             {/* Cart Button */}
             <button
               onClick={() => handleLinkClick('cart')}
-              className="relative p-2.5 rounded-full bg-pink-50 hover:bg-pink-100 text-[#C026D3] transition cursor-pointer border border-pink-200/60 flex items-center justify-center"
+              className="relative p-2.5 rounded-full bg-blue-50 hover:bg-pink-100 text-[#025afc] transition cursor-pointer border border-pink-200/60 flex items-center justify-center"
               title="Cart"
             >
-              <FiShoppingBag className="w-4.5 h-4.5 text-[#C026D3]" />
+              <FiShoppingBag className="w-4.5 h-4.5 text-[#025afc]" />
               {cartItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#E11D48] text-white font-extrabold text-[9px] w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                <span className="absolute -top-1 -right-1 bg-[#6a32f0] text-white font-extrabold text-[9px] w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
                   {cartItems.length}
                 </span>
               )}
@@ -179,7 +179,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
             />
           </div>
 
-          <div className="text-[11px] font-black uppercase text-[#C026D3] tracking-wider pb-1">
+          <div className="text-[11px] font-black uppercase text-[#025afc] tracking-wider pb-1">
             Categories
           </div>
 
@@ -212,7 +212,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
                       <button
                         key={sIdx}
                         onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, subcategory: createSlug(sub.name) }, '#catalog')}
-                        className="block w-full text-left px-3 py-1.5 text-[13px] font-bold text-slate-600 hover:text-[#C026D3] border-none bg-transparent cursor-pointer"
+                        className="block w-full text-left px-3 py-1.5 text-[13px] font-bold text-slate-600 hover:text-[#025afc] border-none bg-transparent cursor-pointer"
                       >
                         {sub.name}
                       </button>

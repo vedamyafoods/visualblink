@@ -44,16 +44,16 @@ export function Footer({ setCurrentPage }) {
 
             {/* Social Icons (Rounded Outline Buttons matching Screenshot 2) */}
             <div className="flex gap-2.5 text-slate-600">
-              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#D946EF] hover:to-[#E11D48] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
+              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#05defd] hover:to-[#6a32f0] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
                 <FiInstagram className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#D946EF] hover:to-[#E11D48] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
+              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#05defd] hover:to-[#6a32f0] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
                 <FiFacebook className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#D946EF] hover:to-[#E11D48] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
+              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#05defd] hover:to-[#6a32f0] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
                 <FiLinkedin className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#D946EF] hover:to-[#E11D48] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
+              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#05defd] hover:to-[#6a32f0] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
                 <FiYoutube className="w-4 h-4" />
               </a>
             </div>
@@ -63,11 +63,11 @@ export function Footer({ setCurrentPage }) {
           <div className="lg:col-span-2 text-left">
             <h4 className="text-[14px] font-black text-[#0F172A] uppercase tracking-wider mb-4">Quick Links</h4>
             <ul className="space-y-2.5 text-[14px] font-semibold text-slate-500">
-              <li><button onClick={() => handleLink('home')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Home</button></li>
-              <li><button onClick={() => handleLink('products')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Products</button></li>
-              <li><button onClick={() => handleLink('services')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Services</button></li>
-              <li><button onClick={() => handleLink('about')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">About</button></li>
-              <li><button onClick={() => handleLink('contact')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Contact</button></li>
+              <li><button onClick={() => handleLink('home')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Home</button></li>
+              <li><button onClick={() => handleLink('products')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Products</button></li>
+              <li><button onClick={() => handleLink('services')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Services</button></li>
+              <li><button onClick={() => handleLink('about')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">About</button></li>
+              <li><button onClick={() => handleLink('contact')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Contact</button></li>
             </ul>
           </div>
 
@@ -75,11 +75,11 @@ export function Footer({ setCurrentPage }) {
           <div className="lg:col-span-3 text-left">
             <h4 className="text-[14px] font-black text-[#0F172A] uppercase tracking-wider mb-4">Our Services</h4>
             <ul className="space-y-2.5 text-[14px] font-semibold text-slate-500">
-              <li><button onClick={() => handleLink('services')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Design Support</button></li>
-              <li><button onClick={() => handleLink('products')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Custom Printing</button></li>
-              <li><button onClick={() => handleLink('products', { category: 'Gifts' })} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Corporate Gifting</button></li>
-              <li><button onClick={() => handleLink('quote')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Bulk Orders</button></li>
-              <li><button onClick={() => handleLink('help')} className="hover:text-[#C026D3] transition-colors border-none bg-transparent cursor-pointer p-0">Pan India Delivery</button></li>
+              <li><button onClick={() => handleLink('services')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Design Support</button></li>
+              <li><button onClick={() => handleLink('products')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Custom Printing</button></li>
+              <li><button onClick={() => handleLink('products', { category: 'Gifts' })} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Corporate Gifting</button></li>
+              <li><button onClick={() => handleLink('quote')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Bulk Orders</button></li>
+              <li><button onClick={() => handleLink('help')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Pan India Delivery</button></li>
             </ul>
           </div>
 
@@ -96,7 +96,7 @@ export function Footer({ setCurrentPage }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full bg-slate-200/60 border border-slate-200 rounded-full py-2.5 pl-4 pr-12 text-[14px] text-[#0F172A] placeholder-slate-400 focus:outline-none focus:border-[#C026D3] font-medium"
+                className="w-full bg-slate-200/60 border border-slate-200 rounded-full py-2.5 pl-4 pr-12 text-[14px] text-[#0F172A] placeholder-slate-400 focus:outline-none focus:border-[#025afc] font-medium"
                 required
               />
               <button
@@ -114,7 +114,7 @@ export function Footer({ setCurrentPage }) {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 text-[14px] font-semibold text-slate-400">
           <p>© 2026 Visual Blink. All rights reserved.</p>
           <p className="flex items-center gap-1">
-            Designed to Print a Better Tomorrow. <span className="text-[#E11D48]">❤️</span>
+            Designed to Print a Better Tomorrow. <span className="text-[#6a32f0]">❤️</span>
           </p>
         </div>
 

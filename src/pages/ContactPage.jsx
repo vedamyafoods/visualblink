@@ -25,12 +25,12 @@ export function ContactPage() {
       
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#FF5A1F]/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
           <div className="flex items-center gap-2 mb-3 justify-center sm:justify-start text-[14px] font-semibold text-slate-400">
             <span>Home</span>
             <span>/</span>
-            <span className="text-[#FF5A1F] font-bold">Contact Us</span>
+            <span className="text-[#025afc] font-bold">Contact Us</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
             Get in Touch
@@ -48,14 +48,14 @@ export function ContactPage() {
           {/* Contact Info Sidebar (4 cols) */}
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-[#07152F] text-white rounded-[20px] p-7 border border-slate-800 shadow-xl relative overflow-hidden">
-              <span className="text-[#FF5A1F] text-[14px] font-extrabold tracking-widest uppercase mb-2 block">
+              <span className="text-[#025afc] text-[14px] font-extrabold tracking-widest uppercase mb-2 block">
                 DIRECT CONTACT
               </span>
               <h3 className="text-2xl font-extrabold text-white mb-6">Contact Details</h3>
 
               <div className="space-y-5">
                 <div className="flex items-start gap-3.5">
-                  <div className="w-10 h-10 rounded-[12px] bg-white/10 flex items-center justify-center text-[#FF5A1F] flex-shrink-0">
+                  <div className="w-10 h-10 rounded-[12px] bg-white/10 flex items-center justify-center text-[#025afc] flex-shrink-0">
                     <FiMapPin className="w-5 h-5" />
                   </div>
                   <div>
@@ -65,7 +65,7 @@ export function ContactPage() {
                 </div>
 
                 <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-[12px] bg-white/10 flex items-center justify-center text-[#FF5A1F] flex-shrink-0">
+                  <div className="w-10 h-10 rounded-[12px] bg-white/10 flex items-center justify-center text-[#025afc] flex-shrink-0">
                     <FiPhone className="w-5 h-5" />
                   </div>
                   <div>
@@ -75,7 +75,7 @@ export function ContactPage() {
                 </div>
 
                 <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-[12px] bg-white/10 flex items-center justify-center text-[#FF5A1F] flex-shrink-0">
+                  <div className="w-10 h-10 rounded-[12px] bg-white/10 flex items-center justify-center text-[#025afc] flex-shrink-0">
                     <FiMail className="w-5 h-5" />
                   </div>
                   <div>
@@ -85,7 +85,7 @@ export function ContactPage() {
                 </div>
 
                 <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-[12px] bg-white/10 flex items-center justify-center text-[#FF5A1F] flex-shrink-0">
+                  <div className="w-10 h-10 rounded-[12px] bg-white/10 flex items-center justify-center text-[#025afc] flex-shrink-0">
                     <FiClock className="w-5 h-5" />
                   </div>
                   <div>
@@ -112,7 +112,7 @@ export function ContactPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Enter your name"
-                    className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] font-medium"
+                    className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc] font-medium"
                   />
                 </div>
                 <div>
@@ -123,7 +123,7 @@ export function ContactPage() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="Enter your email"
-                    className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] font-medium"
+                    className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc] font-medium"
                   />
                 </div>
               </div>
@@ -136,7 +136,7 @@ export function ContactPage() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+91 00000 00000"
-                    className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] font-medium"
+                    className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc] font-medium"
                   />
                 </div>
                 <div>
@@ -144,7 +144,7 @@ export function ContactPage() {
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] font-medium"
+                    className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc] font-medium"
                   >
                     <option>General Inquiry</option>
                     <option>Bulk Order Quote</option>
@@ -162,13 +162,13 @@ export function ContactPage() {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Describe your printing requirements or questions..."
-                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] font-medium"
+                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc] font-medium"
                 />
               </div>
 
               <button
                 type="submit"
-                className="bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] px-8 py-3.5 rounded-[12px] transition-all border-none cursor-pointer flex items-center gap-2 shadow-md shadow-[#FF5A1F]/20"
+                className="bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] px-8 py-3.5 rounded-[12px] transition-all border-none cursor-pointer flex items-center gap-2 shadow-md shadow-[#025afc]/20"
               >
                 {submitted ? (
                   <>

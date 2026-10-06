@@ -87,7 +87,7 @@ export function OrderSuccessPage({ setCurrentPage }) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[14px] font-semibold text-slate-700">
             <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-slate-200/80 space-y-1">
               <span className="text-[10px] text-slate-400 font-bold uppercase block">Total Amount</span>
-              <strong className="text-xl font-black text-[#FF5A1F]">₹{(order?.totalAmount || order?.pricing?.grandTotal || 0).toLocaleString()}</strong>
+              <strong className="text-xl font-black text-[#025afc]">₹{(order?.totalAmount || order?.pricing?.grandTotal || 0).toLocaleString()}</strong>
             </div>
 
             <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-slate-200/80 space-y-1">
@@ -116,7 +116,7 @@ export function OrderSuccessPage({ setCurrentPage }) {
                       <span className="font-extrabold text-slate-900 block">{item.productName}</span>
                       <span className="text-slate-400 text-[14px] font-medium">Quantity: {item.quantity} units</span>
                     </div>
-                    <span className="font-bold text-[#FF5A1F]">₹{(item.totalPrice || item.unitPrice * item.quantity).toLocaleString()}</span>
+                    <span className="font-bold text-[#025afc]">₹{(item.totalPrice || item.unitPrice * item.quantity).toLocaleString()}</span>
                   </div>
                 ))}
               </div>
@@ -155,7 +155,7 @@ export function OrderSuccessPage({ setCurrentPage }) {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <button
             onClick={() => setCurrentPage('order-details', { orderId })}
-            className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] uppercase tracking-wider shadow-lg shadow-[#FF5A1F]/20 flex items-center justify-center gap-2 cursor-pointer transition border-none"
+            className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] uppercase tracking-wider shadow-lg shadow-[#025afc]/20 flex items-center justify-center gap-2 cursor-pointer transition border-none"
           >
             <FiTruck className="w-4 h-4" /> Track Order in Real-Time
           </button>

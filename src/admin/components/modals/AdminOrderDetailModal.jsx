@@ -53,7 +53,7 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
 
   const sendWhatsAppProof = () => {
     const phoneNum = (order.customer?.phone || '').replace(/[^0-9]/g, '');
-    const message = `Hello ${order.customer?.name || 'Client'}, your order #${order.orderId || order.id} status is updated to: ${currentStatus}. Thank you for printing with Printigly!`;
+    const message = `Hello ${order.customer?.name || 'Client'}, your order #${order.orderId || order.id} status is updated to: ${currentStatus}. Thank you for printing with VisualBlink!`;
     window.open(`https://wa.me/${phoneNum}?text=${encodeURIComponent(message)}`, '_blank');
   };
 

@@ -156,7 +156,7 @@ function AppContent() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-300 relative selection:bg-purple-500 selection:text-white">
       {/* Top Scroll Progress Indicator */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-[#FF5A1F] z-50 transform-gpu origin-left"
+        className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-[#025afc] z-50 transform-gpu origin-left"
         style={{ scaleX: progress }}
       />
 

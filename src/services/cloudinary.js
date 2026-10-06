@@ -18,7 +18,7 @@ export async function uploadToCloudinary(file, folder = 'artwork_uploads', onPro
     formData.append('file', file);
     formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
     if (folder) {
-      formData.append('folder', `printigly/${folder}`);
+      formData.append('folder', `visualblink/${folder}`);
     }
 
     if (onProgress && xhr.upload) {
@@ -100,7 +100,7 @@ export async function uploadToCloudinary(file, folder = 'artwork_uploads', onPro
                 success: true,
                 secureUrl: base64Url,
                 url: base64Url,
-                publicId: `printigly_local_${Date.now()}`,
+                publicId: `visualblink_local_${Date.now()}`,
                 fileName: file.name,
                 originalFileName: file.name,
                 fileType: file.type || extension,

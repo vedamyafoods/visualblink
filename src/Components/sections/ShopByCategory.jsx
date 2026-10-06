@@ -86,10 +86,10 @@ export function ShopByCategory({ setCurrentPage }) {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[#C026D3] text-[14px] font-black tracking-widest uppercase">
+              <span className="text-[#025afc] text-[14px] font-black tracking-widest uppercase">
                 OUR PRODUCTS
               </span>
-              <span className="h-[2px] w-8 bg-gradient-to-r from-[#D946EF] to-[#E11D48] inline-block rounded-full" />
+              <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
@@ -99,7 +99,7 @@ export function ShopByCategory({ setCurrentPage }) {
 
           <button
             onClick={() => handleLink()}
-            className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#C026D3] hover:text-[#E11D48] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
+            className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#025afc] hover:text-[#6a32f0] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
           >
             <span>View All Products</span>
             <FiIcons.FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -133,7 +133,7 @@ export function ShopByCategory({ setCurrentPage }) {
                   />
 
                   {/* Top-Left Floating Circle Badge Icon (Matching Screenshot 2) */}
-                  <div className="absolute top-3.5 left-3.5 w-9 h-9 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-[#C026D3] group-hover:scale-110 transition-transform">
+                  <div className="absolute top-3.5 left-3.5 w-9 h-9 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-[#025afc] group-hover:scale-110 transition-transform">
                     <SafeIcon className="w-4.5 h-4.5" />
                   </div>
                 </div>
@@ -141,7 +141,7 @@ export function ShopByCategory({ setCurrentPage }) {
                 {/* Card Content Area */}
                 <div className="p-5 flex flex-col justify-between flex-1 bg-white">
                   <div>
-                    <h3 className="text-[16px] font-black text-[#0F172A] group-hover:text-[#C026D3] transition-colors mb-1.5 leading-snug">
+                    <h3 className="text-[16px] font-black text-[#0F172A] group-hover:text-[#025afc] transition-colors mb-1.5 leading-snug">
                       {cat.title}
                     </h3>
                     <p className="text-slate-500 text-[14px] font-normal leading-relaxed">
@@ -149,7 +149,7 @@ export function ShopByCategory({ setCurrentPage }) {
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-2 flex items-center gap-1.5 text-[14px] font-bold text-[#C026D3] group-hover:text-[#E11D48] transition-colors">
+                  <div className="mt-4 pt-2 flex items-center gap-1.5 text-[14px] font-bold text-[#025afc] group-hover:text-[#6a32f0] transition-colors">
                     <span>Explore Now</span>
                     <FiIcons.FiArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                   </div>

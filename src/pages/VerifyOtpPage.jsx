@@ -124,10 +124,10 @@ export function VerifyOtpPage({ setCurrentPage, destinationPage = 'account' }) {
         <div className="min-h-screen bg-[#FAFBFD] font-sans flex items-center justify-center p-4">
             <div className="max-w-md w-full bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 relative overflow-hidden">
 
-                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-[#FF5A1F]"></div>
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-[#025afc]"></div>
 
                 <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-blue-50 text-[#FF5A1F] rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100 shadow-sm">
+                    <div className="w-16 h-16 bg-blue-50 text-[#025afc] rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100 shadow-sm">
                         <FiShield className="w-7 h-7" />
                     </div>
                     <h2 className="text-2xl font-extrabold text-[#0B1633] mb-2 tracking-tight">
@@ -164,7 +164,7 @@ export function VerifyOtpPage({ setCurrentPage, destinationPage = 'account' }) {
                                 value={otp}
                                 onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
                                 placeholder="• • • • • •"
-                                className="w-full h-14 bg-[#F8FAFC] border border-slate-200 rounded-2xl text-center text-2xl font-bold tracking-[0.5em] text-[#0B1633] placeholder:text-slate-300 focus:outline-none focus:border-[#FF5A1F] focus:ring-4 focus:ring-[#FF5A1F]/10 transition-all font-mono"
+                                className="w-full h-14 bg-[#F8FAFC] border border-slate-200 rounded-2xl text-center text-2xl font-bold tracking-[0.5em] text-[#0B1633] placeholder:text-slate-300 focus:outline-none focus:border-[#025afc] focus:ring-4 focus:ring-[#025afc]/10 transition-all font-mono"
                                 required
                             />
                         </div>
@@ -172,7 +172,7 @@ export function VerifyOtpPage({ setCurrentPage, destinationPage = 'account' }) {
                         <button
                             type="submit"
                             disabled={loading || otp.length !== 6}
-                            className="w-full h-14 bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[15px] uppercase tracking-wider rounded-2xl shadow-lg shadow-[#FF5A1F]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed border-none flex items-center justify-center gap-2"
+                            className="w-full h-14 bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[15px] uppercase tracking-wider rounded-2xl shadow-lg shadow-[#025afc]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed border-none flex items-center justify-center gap-2"
                         >
                             {loading ? (
                                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

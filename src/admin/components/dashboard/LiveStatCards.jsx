@@ -78,7 +78,7 @@ export const LiveStatCards = () => {
       change: "Requires CMYK & Bleed check",
       isPositive: false,
       icon: FileCheck,
-      gradient: "from-amber-500 to-orange-500",
+      gradient: "from-amber-500 to-blue-500",
       accentBg: "bg-amber-50 text-amber-600",
     },
     {

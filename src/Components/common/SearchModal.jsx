@@ -139,7 +139,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
         
         {/* Search Input Bar */}
         <form onSubmit={handleSearchSubmit} className="relative flex items-center px-5 py-4 border-b border-slate-100 bg-slate-50/50">
-          <FiSearch className="w-5 h-5 text-[#FF5A1F] shrink-0 mr-3.5" />
+          <FiSearch className="w-5 h-5 text-[#025afc] shrink-0 mr-3.5" />
           <input
             ref={inputRef}
             type="text"
@@ -173,7 +173,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
             <div>
               <div className="flex items-center justify-between mb-3 text-[14px] text-slate-400 font-extrabold uppercase tracking-wider">
                 <span>Matching Products ({searchResults.length})</span>
-                {searchResults.length > 0 && <span className="text-[#FF5A1F]">Press Enter to view all</span>}
+                {searchResults.length > 0 && <span className="text-[#025afc]">Press Enter to view all</span>}
               </div>
 
               {searchResults.length > 0 ? (
@@ -182,7 +182,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
                     <div
                       key={prod.id}
                       onClick={() => handleProductClick(prod)}
-                      className="group flex items-center gap-4 p-3 rounded-2xl bg-slate-50 hover:bg-[#FF5A1F]/10 border border-slate-100 hover:border-[#FF5A1F]/30 transition-all cursor-pointer"
+                      className="group flex items-center gap-4 p-3 rounded-2xl bg-slate-50 hover:bg-[#025afc]/10 border border-slate-100 hover:border-[#025afc]/30 transition-all cursor-pointer"
                     >
                       <div className="w-14 h-14 rounded-xl overflow-hidden bg-white border border-slate-200 shrink-0 shadow-xs">
                         <img
@@ -193,24 +193,24 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-0.5">
-                          <span className="px-2 py-0.5 rounded-full bg-[#FF5A1F]/10 text-[#FF5A1F] text-[10px] font-black uppercase">
+                          <span className="px-2 py-0.5 rounded-full bg-[#025afc]/10 text-[#025afc] text-[10px] font-black uppercase">
                             {prod.category}
                           </span>
                           <span className="text-[14px] font-bold text-slate-400">
                             Min {prod.minOrderQty || 1} pcs
                           </span>
                         </div>
-                        <h4 className="text-sm font-extrabold text-slate-900 truncate group-hover:text-[#FF5A1F] transition-colors">
+                        <h4 className="text-sm font-extrabold text-slate-900 truncate group-hover:text-[#025afc] transition-colors">
                           {prod.title}
                         </h4>
                       </div>
                       <div className="text-right shrink-0">
-                        <span className="text-sm font-black text-[#FF5A1F] block">
+                        <span className="text-sm font-black text-[#025afc] block">
                           ₹{prod.basePrice || prod.price || 0}
                         </span>
                         <span className="text-[10px] text-slate-400 font-bold block">Starting at</span>
                       </div>
-                      <FiChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#FF5A1F] group-hover:translate-x-0.5 transition-all" />
+                      <FiChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#025afc] group-hover:translate-x-0.5 transition-all" />
                     </div>
                   ))}
                 </div>
@@ -228,7 +228,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
               {/* Popular Trending Queries */}
               <div>
                 <div className="flex items-center gap-1.5 text-[14px] text-slate-400 font-extrabold uppercase tracking-wider mb-3">
-                  <FiTrendingUp className="w-3.5 h-3.5 text-[#FF5A1F]" />
+                  <FiTrendingUp className="w-3.5 h-3.5 text-[#025afc]" />
                   <span>Popular Product Categories</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -239,9 +239,9 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
                       onClick={() => {
                         setQuery(chip);
                       }}
-                      className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-[#FF5A1F]/10 text-slate-800 hover:text-[#FF5A1F] text-[14px] font-bold transition border border-slate-200/80 hover:border-[#FF5A1F]/30 cursor-pointer flex items-center gap-1.5"
+                      className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-[#025afc]/10 text-slate-800 hover:text-[#025afc] text-[14px] font-bold transition border border-slate-200/80 hover:border-[#025afc]/30 cursor-pointer flex items-center gap-1.5"
                     >
-                      <FiZap className="w-3 h-3 text-[#FF5A1F]" />
+                      <FiZap className="w-3 h-3 text-[#025afc]" />
                       <span>{chip}</span>
                     </button>
                   ))}

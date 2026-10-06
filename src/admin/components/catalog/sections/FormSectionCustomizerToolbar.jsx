@@ -23,11 +23,10 @@ export const FormSectionCustomizerToolbar = ({ formData, setFormData }) => {
         <button
           type="button"
           onClick={() => setFormData({ ...formData, enableOrientation: !formData.enableOrientation })}
-          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${
-            formData.enableOrientation !== false
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enableOrientation !== false
               ? 'bg-blue-600 text-white border-blue-400 shadow-xs'
               : 'bg-slate-800/80 text-slate-400 border-slate-700'
-          }`}
+            }`}
         >
           <span>📐 Orientation</span>
           <span className="text-[10px] font-black">{formData.enableOrientation !== false ? 'ON' : 'OFF'}</span>
@@ -36,11 +35,10 @@ export const FormSectionCustomizerToolbar = ({ formData, setFormData }) => {
         <button
           type="button"
           onClick={() => setFormData({ ...formData, enablePaperSizes: !formData.enablePaperSizes })}
-          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${
-            formData.enablePaperSizes !== false
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enablePaperSizes !== false
               ? 'bg-blue-600 text-white border-blue-400 shadow-xs'
               : 'bg-slate-800/80 text-slate-400 border-slate-700'
-          }`}
+            }`}
         >
           <span>📄 Paper Sizes Badges</span>
           <span className="text-[10px] font-black">{formData.enablePaperSizes !== false ? 'ON' : 'OFF'}</span>
@@ -49,11 +47,10 @@ export const FormSectionCustomizerToolbar = ({ formData, setFormData }) => {
         <button
           type="button"
           onClick={() => setFormData({ ...formData, enableTechSpecs: !formData.enableTechSpecs })}
-          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${
-            formData.enableTechSpecs !== false
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enableTechSpecs !== false
               ? 'bg-blue-600 text-white border-blue-400 shadow-xs'
               : 'bg-slate-800/80 text-slate-400 border-slate-700'
-          }`}
+            }`}
         >
           <span>⚙️ Technical Specs</span>
           <span className="text-[10px] font-black">{formData.enableTechSpecs !== false ? 'ON' : 'OFF'}</span>
@@ -62,11 +59,10 @@ export const FormSectionCustomizerToolbar = ({ formData, setFormData }) => {
         <button
           type="button"
           onClick={() => setFormData({ ...formData, enableNcrEngine: !formData.enableNcrEngine })}
-          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${
-            formData.enableNcrEngine
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enableNcrEngine
               ? 'bg-emerald-600 text-white border-emerald-400 shadow-xs'
               : 'bg-slate-800/80 text-slate-400 border-slate-700'
-          }`}
+            }`}
         >
           <span>📑 NCR Bill Book Engine</span>
           <span className="text-[10px] font-black">{formData.enableNcrEngine ? 'ON' : 'OFF'}</span>
@@ -75,11 +71,10 @@ export const FormSectionCustomizerToolbar = ({ formData, setFormData }) => {
         <button
           type="button"
           onClick={() => setFormData({ ...formData, enableVisitingCardEngine: !formData.enableVisitingCardEngine })}
-          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${
-            formData.enableVisitingCardEngine
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enableVisitingCardEngine
               ? 'bg-purple-600 text-white border-purple-400 shadow-xs'
               : 'bg-slate-800/80 text-slate-400 border-slate-700'
-          }`}
+            }`}
         >
           <span>🎴 Visiting Card Masks</span>
           <span className="text-[10px] font-black">{formData.enableVisitingCardEngine ? 'ON' : 'OFF'}</span>
@@ -88,11 +83,10 @@ export const FormSectionCustomizerToolbar = ({ formData, setFormData }) => {
         <button
           type="button"
           onClick={() => setFormData({ ...formData, enableBrochureEngine: !formData.enableBrochureEngine })}
-          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${
-            formData.enableBrochureEngine
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enableBrochureEngine
               ? 'bg-indigo-600 text-white border-indigo-400 shadow-xs'
               : 'bg-slate-800/80 text-slate-400 border-slate-700'
-          }`}
+            }`}
         >
           <span>📖 Brochure Folds</span>
           <span className="text-[10px] font-black">{formData.enableBrochureEngine ? 'ON' : 'OFF'}</span>
@@ -101,11 +95,10 @@ export const FormSectionCustomizerToolbar = ({ formData, setFormData }) => {
         <button
           type="button"
           onClick={() => setFormData({ ...formData, enableStickerEngine: !formData.enableStickerEngine })}
-          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${
-            formData.enableStickerEngine
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enableStickerEngine
               ? 'bg-amber-600 text-white border-amber-400 shadow-xs'
               : 'bg-slate-800/80 text-slate-400 border-slate-700'
-          }`}
+            }`}
         >
           <span>🏷️ Sticker White Ink</span>
           <span className="text-[10px] font-black">{formData.enableStickerEngine ? 'ON' : 'OFF'}</span>
@@ -114,14 +107,25 @@ export const FormSectionCustomizerToolbar = ({ formData, setFormData }) => {
         <button
           type="button"
           onClick={() => setFormData({ ...formData, enableCustomArea: !formData.enableCustomArea })}
-          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${
-            formData.enableCustomArea
-              ? 'bg-orange-600 text-white border-orange-400 shadow-xs'
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enableCustomArea
+              ? 'bg-blue-600 text-white border-blue-400 shadow-xs'
               : 'bg-slate-800/80 text-slate-400 border-slate-700'
-          }`}
+            }`}
         >
           <span>📐 Area Calc (Sq.Ft)</span>
           <span className="text-[10px] font-black">{formData.enableCustomArea ? 'ON' : 'OFF'}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFormData({ ...formData, enableBackDesignUpload: !formData.enableBackDesignUpload })}
+          className={`p-2.5 rounded-xl border text-[12px] font-bold flex items-center justify-between cursor-pointer transition ${formData.enableBackDesignUpload
+              ? 'bg-red-600 text-white border-red-400 shadow-xs'
+              : 'bg-slate-800/80 text-slate-400 border-slate-700'
+            }`}
+        >
+          <span>🖼️ Back Design Upload</span>
+          <span className="text-[10px] font-black">{formData.enableBackDesignUpload ? 'ON' : 'OFF'}</span>
         </button>
       </div>
     </div>

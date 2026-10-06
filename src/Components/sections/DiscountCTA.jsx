@@ -18,7 +18,7 @@ export function DiscountCTA({ setCurrentPage }) {
         <div className="bg-[#0F172A] rounded-3xl p-8 sm:p-12 lg:p-14 relative overflow-hidden text-white shadow-2xl">
 
           {/* Subtle Background Radial Glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#D946EF]/20 to-[#E11D48]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#05defd]/20 to-[#6a32f0]/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
 
@@ -29,7 +29,7 @@ export function DiscountCTA({ setCurrentPage }) {
                 <span className="text-slate-400 text-[14px] font-black tracking-widest uppercase">
                   LET'S CREATE TOGETHER
                 </span>
-                <span className="h-[2px] w-8 bg-gradient-to-r from-[#D946EF] to-[#E11D48] inline-block rounded-full" />
+                <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
               </div>
 
               <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-white leading-tight tracking-tight mb-3">

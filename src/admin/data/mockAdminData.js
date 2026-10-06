@@ -1,4 +1,4 @@
-// Comprehensive Mock Data for Printigly Luxury Admin Backoffice
+// Comprehensive Mock Data for VisualBlink Luxury Admin Backoffice
 
 export const INITIAL_ORDERS = [
   {
@@ -416,7 +416,7 @@ export const INITIAL_PRODUCTS = [
       { tierMin: 2500, pricePerUnit: 3.50 }
     ],
     seo: {
-      metaTitle: "Buy Luxury Velvet Soft-Touch Business Cards Online | Printigly",
+      metaTitle: "Buy Luxury Velvet Soft-Touch Business Cards Online | VisualBlink",
       metaDescription: "Custom 350 GSM soft-touch business cards with gold foil accents. Same day dispatch available in Bangalore.",
       indexable: true
     }
@@ -450,7 +450,7 @@ export const INITIAL_PRODUCTS = [
       { tierMin: 10, pricePerUnit: 1450 }
     ],
     seo: {
-      metaTitle: "Custom Roll-Up Standees 6x3 ft | Express Printigly",
+      metaTitle: "Custom Roll-Up Standees 6x3 ft | Express VisualBlink",
       metaDescription: "High resolution non-tear standee banners with portable aluminum bag.",
       indexable: true
     }
@@ -485,7 +485,7 @@ export const INITIAL_PRODUCTS = [
       { tierMin: 1000, pricePerUnit: 98 }
     ],
     seo: {
-      metaTitle: "Custom Printed Rigid Gift Packaging Boxes | Printigly B2B",
+      metaTitle: "Custom Printed Rigid Gift Packaging Boxes | VisualBlink B2B",
       metaDescription: "Bespoke rigid boxes with magnetic lid for luxury products & luxury gifting.",
       indexable: true
     }
@@ -599,7 +599,7 @@ export const INITIAL_PRICING_RULES = {
 
 export const INITIAL_CLOUDINARY_MEDIA = [
   {
-    publicId: "printigly/mockups/business_cards_softtouch",
+    publicId: "visualblink/mockups/business_cards_softtouch",
     url: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop",
     transformedUrl: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop",
     title: "Soft Touch Card Mockup",
@@ -611,7 +611,7 @@ export const INITIAL_CLOUDINARY_MEDIA = [
     tags: ["stationery", "card", "mockup"]
   },
   {
-    publicId: "printigly/mockups/standee_banner_6x3",
+    publicId: "visualblink/mockups/standee_banner_6x3",
     url: "https://images.unsplash.com/photo-1542744094-3a3121699563?q=80&w=800&auto=format&fit=crop",
     transformedUrl: "https://images.unsplash.com/photo-1542744094-3a3121699563?q=80&w=800&auto=format&fit=crop",
     title: "Expo Standee Display Banner",
@@ -623,7 +623,7 @@ export const INITIAL_CLOUDINARY_MEDIA = [
     tags: ["banner", "standee", "expo"]
   },
   {
-    publicId: "printigly/mockups/rigid_gift_box",
+    publicId: "visualblink/mockups/rigid_gift_box",
     url: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=800&auto=format&fit=crop",
     transformedUrl: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=800&auto=format&fit=crop",
     title: "Luxury Rigid Box Mockup",

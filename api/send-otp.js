@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import { mailService } from './_services/mailService.js';
 import { adminDb, adminAuth } from './_services/firebaseAdmin.js';
 
-const OTP_SALT = process.env.OTP_SALT || 'printigly_secure_otp_salt_2026';
+const OTP_SALT = process.env.OTP_SALT || 'visualblink_secure_otp_salt_2026';
 
 function hashOtp(otp, uuidIdentifier) {
   return crypto.createHash('sha256').update(`${otp}:${uuidIdentifier}:${OTP_SALT}`).digest('hex');

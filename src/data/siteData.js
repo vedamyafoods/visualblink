@@ -48,7 +48,7 @@ export const categories = [
   { title: 'Business Cards', tag: 'Foil, matte, duplex', icon: FiLayers, tone: 'from-blue-500 to-cyan-400' },
   { title: 'Packaging', tag: 'Rigid boxes and mailers', icon: FiPackage, tone: 'from-violet-500 to-fuchsia-400' },
   { title: 'Labels', tag: 'Roll, sheet, waterproof', icon: FiFeather, tone: 'from-cyan-500 to-sky-400' },
-  { title: 'Stickers', tag: 'Die-cut and kiss-cut', icon: FiHeart, tone: 'from-rose-500 to-orange-400' },
+  { title: 'Stickers', tag: 'Die-cut and kiss-cut', icon: FiHeart, tone: 'from-rose-500 to-blue-400' },
   { title: 'Flyers', tag: 'Launches and promos', icon: FiArrowUpRight, tone: 'from-amber-500 to-lime-400' },
   { title: 'Posters', tag: 'Gallery-grade color', icon: FiAward, tone: 'from-emerald-500 to-teal-400' },
   { title: 'Banners', tag: 'Indoor and outdoor', icon: FiZap, tone: 'from-indigo-500 to-blue-400' },

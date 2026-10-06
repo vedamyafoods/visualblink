@@ -130,7 +130,7 @@ export const AdminProvider = ({ children }) => {
           id: `CUST-${100 + idx}`,
           name: o.customer?.name || 'Customer',
           company: o.customer?.company || 'Direct Client',
-          email: o.customer?.email || 'client@printigly.com',
+          email: o.customer?.email || 'client@visualblink.com',
           phone: o.customer?.phone || '+91 98000 00000',
           gstin: o.customer?.gstin || null,
           totalSpend: o.totalAmount || 0,

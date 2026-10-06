@@ -146,7 +146,7 @@ export const ensureCustomSections = (product) => {
     const specFields = Object.entries(product.specs).map(([key, val]) => ({
       id: generateId('f'),
       label: key.toUpperCase(),
-      type: 'text',
+      type: 'info',
       required: false,
       defaultValue: String(val),
       placeholder: String(val),

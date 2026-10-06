@@ -62,12 +62,12 @@ export function TrackOrderPage() {
       
       {/* Page Hero Header */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#FF5A1F]/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
           <div className="flex items-center gap-2 mb-3 justify-center sm:justify-start text-[14px] font-semibold text-slate-400">
             <span>Home</span>
             <span>/</span>
-            <span className="text-[#FF5A1F] font-bold">Track Order</span>
+            <span className="text-[#025afc] font-bold">Track Order</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
             Real-Time Order Tracking
@@ -93,14 +93,14 @@ export function TrackOrderPage() {
                 value={orderIdInput}
                 onChange={(e) => setOrderIdInput(e.target.value)}
                 placeholder="Enter Order ID (e.g. PRT-10293)"
-                className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-xl py-3.5 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] font-bold uppercase"
+                className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-xl py-3.5 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc] font-bold uppercase"
               />
             </div>
 
             <div className="sm:col-span-3">
               <button
                 type="submit"
-                className="w-full bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] py-3.5 rounded-xl transition border-none cursor-pointer shadow-md shadow-[#FF5A1F]/20 flex items-center justify-center gap-1.5 uppercase tracking-wider"
+                className="w-full bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] py-3.5 rounded-xl transition border-none cursor-pointer shadow-md shadow-[#025afc]/20 flex items-center justify-center gap-1.5 uppercase tracking-wider"
               >
                 <FiSearch className="w-4 h-4" /> Track Order
               </button>
@@ -111,7 +111,7 @@ export function TrackOrderPage() {
         {/* Tracking Results */}
         {loading && (
           <div className="text-center py-12">
-            <div className="w-10 h-10 border-4 border-[#FF5A1F] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <div className="w-10 h-10 border-4 border-[#025afc] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             <p className="text-[14px] text-slate-500 font-bold">Querying live press pipeline...</p>
           </div>
         )}
@@ -138,7 +138,7 @@ export function TrackOrderPage() {
                 </p>
               </div>
 
-              <div className="bg-orange-50 border border-orange-200 text-[#FF5A1F] font-black text-[14px] px-4 py-2 rounded-xl">
+              <div className="bg-blue-50 border border-blue-200 text-[#025afc] font-black text-[14px] px-4 py-2 rounded-xl">
                 Status: {currentStatus}
               </div>
             </div>
@@ -157,7 +157,7 @@ export function TrackOrderPage() {
                       key={idx}
                       className={`p-4 rounded-2xl border flex items-center justify-between transition-all text-[14px] ${
                         isCurrent
-                          ? 'border-[#FF5A1F] bg-orange-50/60 ring-2 ring-[#FF5A1F]/20'
+                          ? 'border-[#025afc] bg-blue-50/60 ring-2 ring-[#025afc]/20'
                           : isCompleted
                           ? 'border-emerald-200 bg-emerald-50/40 text-emerald-950'
                           : 'border-slate-200 bg-slate-50 text-slate-400'
@@ -166,7 +166,7 @@ export function TrackOrderPage() {
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-[14px] shrink-0 ${
                           isCurrent
-                            ? 'bg-[#FF5A1F] text-white'
+                            ? 'bg-[#025afc] text-white'
                             : isCompleted
                             ? 'bg-emerald-600 text-white'
                             : 'bg-slate-200 text-slate-500'
@@ -175,7 +175,7 @@ export function TrackOrderPage() {
                         </div>
 
                         <div>
-                          <strong className={`font-extrabold text-[14px] block ${isCurrent ? 'text-[#FF5A1F]' : isCompleted ? 'text-emerald-950' : 'text-slate-700'}`}>
+                          <strong className={`font-extrabold text-[14px] block ${isCurrent ? 'text-[#025afc]' : isCompleted ? 'text-emerald-950' : 'text-slate-700'}`}>
                             {stageName}
                           </strong>
                           <span className="text-[14px] text-slate-500 font-medium">
@@ -185,7 +185,7 @@ export function TrackOrderPage() {
                       </div>
 
                       {isCurrent && (
-                        <span className="px-3 py-1 bg-[#FF5A1F] text-white text-[10px] font-black rounded-full uppercase animate-pulse">
+                        <span className="px-3 py-1 bg-[#025afc] text-white text-[10px] font-black rounded-full uppercase animate-pulse">
                           Active
                         </span>
                       )}

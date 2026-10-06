@@ -117,13 +117,13 @@ export function SignupPage({ setCurrentPage }) {
             onClick={() => setCurrentPage && setCurrentPage('home')}
             className="inline-flex items-center gap-2 mb-6 border-none bg-transparent cursor-pointer group"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#FF5A1F] flex items-center justify-center shadow-lg shadow-[#FF5A1F]/20 group-hover:scale-105 transition-transform duration-200">
+            <div className="w-10 h-10 rounded-xl bg-[#025afc] flex items-center justify-center shadow-lg shadow-[#025afc]/20 group-hover:scale-105 transition-transform duration-200">
               <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M5 4v3H4a2 2 0 00-2 2v7a2 2 0 002 2h1v2a1 1 0 001 1h12a1 1 0 001-1v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a1 1 0 00-1-1H6a1 1 0 00-1 1zm2 0h10v3H7V4zm-3 7h16v5h-1v-1a1 1 0 00-1-1H6a1 1 0 00-1 1v1H4v-5zm3 6v-2h10v2H7z" />
               </svg>
             </div>
             <span className="text-2xl font-black text-[#0B1633] tracking-tight">
-              Printigly<span className="text-[#FF5A1F]">.</span>
+              VisualBlink<span className="text-[#025afc]">.</span>
             </span>
           </button>
 
@@ -164,7 +164,7 @@ export function SignupPage({ setCurrentPage }) {
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   placeholder="e.g. John Doe"
-                  className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 font-medium text-[14px] text-slate-900 focus:outline-none focus:border-[#FF5A1F] bg-slate-50/50"
+                  className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 font-medium text-[14px] text-slate-900 focus:outline-none focus:border-[#025afc] bg-slate-50/50"
                   disabled={loading}
                 />
               </div>
@@ -182,7 +182,7 @@ export function SignupPage({ setCurrentPage }) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
-                  className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 font-medium text-[14px] text-slate-900 focus:outline-none focus:border-[#FF5A1F] bg-slate-50/50"
+                  className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 font-medium text-[14px] text-slate-900 focus:outline-none focus:border-[#025afc] bg-slate-50/50"
                   disabled={loading}
                 />
               </div>
@@ -200,7 +200,7 @@ export function SignupPage({ setCurrentPage }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full pl-11 pr-11 py-3 rounded-2xl border border-slate-200 font-medium text-[14px] text-slate-900 focus:outline-none focus:border-[#FF5A1F] bg-slate-50/50"
+                  className="w-full pl-11 pr-11 py-3 rounded-2xl border border-slate-200 font-medium text-[14px] text-slate-900 focus:outline-none focus:border-[#025afc] bg-slate-50/50"
                   disabled={loading}
                 />
                 <button
@@ -225,7 +225,7 @@ export function SignupPage({ setCurrentPage }) {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full pl-11 pr-11 py-3 rounded-2xl border border-slate-200 font-medium text-[14px] text-slate-900 focus:outline-none focus:border-[#FF5A1F] bg-slate-50/50"
+                  className="w-full pl-11 pr-11 py-3 rounded-2xl border border-slate-200 font-medium text-[14px] text-slate-900 focus:outline-none focus:border-[#025afc] bg-slate-50/50"
                   disabled={loading}
                 />
               </div>
@@ -260,7 +260,7 @@ export function SignupPage({ setCurrentPage }) {
             Already have an account?{' '}
             <button
               onClick={() => setCurrentPage && setCurrentPage('login')}
-              className="font-extrabold text-[#FF5A1F] hover:underline bg-transparent border-none cursor-pointer"
+              className="font-extrabold text-[#025afc] hover:underline bg-transparent border-none cursor-pointer"
             >
               Sign In
             </button>

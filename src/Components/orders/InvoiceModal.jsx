@@ -22,7 +22,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto print:p-0 print:bg-white print:static">
       <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 print:shadow-none print:border-none print:w-full print:max-w-none">
-        
+
         {/* Controls Bar (Hidden during print) */}
         <div className="bg-[#07152F] text-white p-4 sm:p-5 flex items-center justify-between print:hidden">
           <div className="flex items-center gap-2">
@@ -35,7 +35,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrint}
-              className="px-4 py-2 rounded-xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] flex items-center gap-1.5 transition cursor-pointer border-none shadow-md"
+              className="px-4 py-2 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] flex items-center gap-1.5 transition cursor-pointer border-none shadow-md"
             >
               <FiPrinter className="w-4 h-4" /> Print / Download PDF
             </button>
@@ -48,13 +48,13 @@ export function InvoiceModal({ isOpen, onClose, order }) {
 
         {/* Invoice Document Canvas Body */}
         <div id="printable-invoice" className="p-8 sm:p-10 space-y-8 bg-white text-slate-900 font-sans text-[14px]">
-          
+
           {/* Top Header & Logo */}
           <div className="flex justify-between items-start border-b border-slate-200 pb-6">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="w-8 h-8 rounded-xl bg-[#FF5A1F] text-white font-black flex items-center justify-center text-base">P</span>
-                <span className="text-xl font-black tracking-tight text-[#07152F]">PRINTIGLY</span>
+                <span className="w-8 h-8 rounded-xl bg-[#025afc] text-white font-black flex items-center justify-center text-base">V</span>
+                <span className="text-xl font-black tracking-tight text-[#07152F]">VISUALBLINK</span>
               </div>
               <p className="text-slate-500 text-[14px]">Enterprise Printing & Packaging Studio</p>
               <p className="text-slate-500 text-[14px]">GSTIN: 29ABCDE1234F1Z5 • Pan-India Logistics Hub</p>
@@ -138,7 +138,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
                   <span className="font-bold">GST Inclusive</span>
                 </div>
               )}
-              <div className="flex justify-between pt-2 border-t-2 border-slate-900 text-sm font-black text-[#FF5A1F]">
+              <div className="flex justify-between pt-2 border-t-2 border-slate-900 text-sm font-black text-[#025afc]">
                 <span>Grand Total:</span>
                 <span>₹{totalAmount.toLocaleString()}</span>
               </div>
@@ -147,8 +147,8 @@ export function InvoiceModal({ isOpen, onClose, order }) {
 
           {/* Footer Note */}
           <div className="pt-8 border-t border-slate-200 text-center text-slate-400 text-[10px] font-medium">
-            <p>This is a computer-generated tax invoice issued by Printigly Technologies.</p>
-            <p>Thank you for choosing Printigly for your business print production!</p>
+            <p>This is a computer-generated tax invoice issued by VisualBlink Technologies.</p>
+            <p>Thank you for choosing VisualBlink for your business print production!</p>
           </div>
 
         </div>

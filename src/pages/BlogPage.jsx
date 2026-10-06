@@ -50,12 +50,12 @@ export function BlogPage() {
       
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#FF5A1F]/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
           <div className="flex items-center gap-2 mb-3 justify-center sm:justify-start text-[14px] font-semibold text-slate-400">
             <span>Home</span>
             <span>/</span>
-            <span className="text-[#FF5A1F] font-bold">Blog & Insights</span>
+            <span className="text-[#025afc] font-bold">Blog & Insights</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
             Print Design Insights
@@ -77,7 +77,7 @@ export function BlogPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search articles..."
-            className="w-full pl-12 pr-4 py-3 bg-white border border-[#E7EAF0] rounded-[12px] text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+            className="w-full pl-12 pr-4 py-3 bg-white border border-[#E7EAF0] rounded-[12px] text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
           />
         </div>
 
@@ -85,7 +85,7 @@ export function BlogPage() {
           {filtered.map((post) => (
             <article
               key={post.id}
-              className="group bg-white rounded-[16px] overflow-hidden border border-[#E7EAF0] hover:border-[#FF5A1F]/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+              className="group bg-white rounded-[16px] overflow-hidden border border-[#E7EAF0] hover:border-[#025afc]/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
             >
               <div className="relative h-[220px] w-full overflow-hidden bg-[#F7F8FA]">
                 <img
@@ -93,7 +93,7 @@ export function BlogPage() {
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <span className="absolute top-4 left-4 bg-[#FF5A1F] text-white text-[14px] font-extrabold px-3 py-1 rounded-full">
+                <span className="absolute top-4 left-4 bg-[#025afc] text-white text-[14px] font-extrabold px-3 py-1 rounded-full">
                   {post.tag}
                 </span>
               </div>
@@ -105,7 +105,7 @@ export function BlogPage() {
                     <span>•</span>
                     <span className="flex items-center gap-1"><FiClock className="w-3.5 h-3.5" /> {post.readTime}</span>
                   </div>
-                  <h2 className="text-[20px] font-bold text-[#0B1633] group-hover:text-[#FF5A1F] transition-colors leading-snug mb-3">
+                  <h2 className="text-[20px] font-bold text-[#0B1633] group-hover:text-[#025afc] transition-colors leading-snug mb-3">
                     {post.title}
                   </h2>
                   <p className="text-[#667085] text-[14px] leading-relaxed mb-6">
@@ -114,7 +114,7 @@ export function BlogPage() {
                 </div>
 
                 <div className="pt-4 border-t border-[#E7EAF0]">
-                  <button className="text-[#FF5A1F] font-bold text-[14px] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all border-none bg-transparent cursor-pointer p-0">
+                  <button className="text-[#025afc] font-bold text-[14px] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all border-none bg-transparent cursor-pointer p-0">
                     Read Full Article <FiArrowRight className="w-4 h-4" />
                   </button>
                 </div>

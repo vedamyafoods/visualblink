@@ -45,12 +45,12 @@ export function CategoryNav({ setCurrentPage }) {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.02, duration: 0.2 }}
-                  className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-pink-50/50 transition-all cursor-pointer group text-center border-none bg-transparent"
+                  className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-blue-50/50 transition-all cursor-pointer group text-center border-none bg-transparent"
                 >
-                  <div className="w-8.5 h-8.5 rounded-full bg-pink-50 text-[#C026D3] group-hover:bg-gradient-to-r group-hover:from-[#D946EF] group-hover:to-[#E11D48] group-hover:text-white flex items-center justify-center transition-all mb-1.5 flex-shrink-0">
-                    <SafeIcon className="w-4 h-4 text-[#C026D3] group-hover:text-white transition-colors" />
+                  <div className="w-8.5 h-8.5 rounded-full bg-blue-50 text-[#025afc] group-hover:bg-gradient-to-r group-hover:from-[#05defd] group-hover:to-[#6a32f0] group-hover:text-white flex items-center justify-center transition-all mb-1.5 flex-shrink-0">
+                    <SafeIcon className="w-4 h-4 text-[#025afc] group-hover:text-white transition-colors" />
                   </div>
-                  <span className="text-[14px] sm:text-[14px] font-bold text-slate-800 group-hover:text-[#C026D3] transition-colors leading-tight">
+                  <span className="text-[14px] sm:text-[14px] font-bold text-slate-800 group-hover:text-[#025afc] transition-colors leading-tight">
                     {cat.title}
                   </span>
                 </motion.button>

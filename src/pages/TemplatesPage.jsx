@@ -54,12 +54,12 @@ export function TemplatesPage() {
       
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#FF5A1F]/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
           <div className="flex items-center gap-2 mb-3 justify-center sm:justify-start text-[14px] font-semibold text-slate-400">
             <span>Home</span>
             <span>/</span>
-            <span className="text-[#FF5A1F] font-bold">Print Templates</span>
+            <span className="text-[#025afc] font-bold">Print Templates</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
             Free Print Dielines & Templates
@@ -81,7 +81,7 @@ export function TemplatesPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search templates (e.g., Business Card, Brochure...)"
-            className="w-full pl-12 pr-4 py-3 bg-white border border-[#E7EAF0] rounded-[12px] text-[14px] text-[#0B1633] placeholder-[#667085] focus:outline-none focus:border-[#FF5A1F] transition shadow-xs"
+            className="w-full pl-12 pr-4 py-3 bg-white border border-[#E7EAF0] rounded-[12px] text-[14px] text-[#0B1633] placeholder-[#667085] focus:outline-none focus:border-[#025afc] transition shadow-xs"
           />
         </div>
 
@@ -90,7 +90,7 @@ export function TemplatesPage() {
           {filtered.map((item) => (
             <div
               key={item.id}
-              className="group bg-white rounded-[16px] overflow-hidden border border-[#E7EAF0] hover:border-[#FF5A1F]/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+              className="group bg-white rounded-[16px] overflow-hidden border border-[#E7EAF0] hover:border-[#025afc]/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
             >
               <div className="relative h-[170px] w-full overflow-hidden bg-[#F7F8FA]">
                 <img
@@ -105,10 +105,10 @@ export function TemplatesPage() {
 
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
-                  <span className="text-[14px] font-extrabold text-[#FF5A1F] uppercase tracking-wider block mb-1">
+                  <span className="text-[14px] font-extrabold text-[#025afc] uppercase tracking-wider block mb-1">
                     {item.category}
                   </span>
-                  <h3 className="text-[16px] font-bold text-[#0B1633] group-hover:text-[#FF5A1F] transition-colors leading-snug mb-2">
+                  <h3 className="text-[16px] font-bold text-[#0B1633] group-hover:text-[#025afc] transition-colors leading-snug mb-2">
                     {item.title}
                   </h3>
                   <p className="text-[14px] text-[#667085] mb-4">
@@ -118,7 +118,7 @@ export function TemplatesPage() {
 
                 <div className="pt-3 border-t border-[#E7EAF0] flex items-center justify-between">
                   <span className="text-[14px] text-[#667085] font-medium">{item.downloads} downloads</span>
-                  <button className="inline-flex items-center gap-1.5 bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-bold text-[14px] px-3.5 py-2 rounded-[10px] transition cursor-pointer border-none shadow-xs">
+                  <button className="inline-flex items-center gap-1.5 bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] px-3.5 py-2 rounded-[10px] transition cursor-pointer border-none shadow-xs">
                     <FiDownload className="w-3.5 h-3.5" /> Download
                   </button>
                 </div>

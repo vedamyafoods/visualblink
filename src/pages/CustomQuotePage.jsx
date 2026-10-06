@@ -91,12 +91,12 @@ export function CustomQuotePage() {
       
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#FF5A1F]/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
           <div className="flex items-center gap-2 mb-3 justify-center sm:justify-start text-[14px] font-semibold text-slate-400">
             <span>Home</span>
             <span>/</span>
-            <span className="text-[#FF5A1F] font-bold">Custom Quote</span>
+            <span className="text-[#025afc] font-bold">Custom Quote</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
             Instant Custom Print Quote
@@ -124,7 +124,7 @@ export function CustomQuotePage() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="John Doe"
-                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
               <div>
@@ -134,7 +134,7 @@ export function CustomQuotePage() {
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                   placeholder="Acme Corp"
-                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
             </div>
@@ -148,7 +148,7 @@ export function CustomQuotePage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="john@example.com"
-                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
               <div>
@@ -159,7 +159,7 @@ export function CustomQuotePage() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   placeholder="+91 00000 00000"
-                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
             </div>
@@ -171,7 +171,7 @@ export function CustomQuotePage() {
                 <select
                   value={formData.productType}
                   onChange={(e) => setFormData({ ...formData, productType: e.target.value })}
-                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                 >
                   <option>Custom Packaging Box</option>
                   <option>Business Cards</option>
@@ -188,7 +188,7 @@ export function CustomQuotePage() {
                   value={formData.quantity}
                   onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
                   placeholder="e.g. 1000"
-                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -199,7 +199,7 @@ export function CustomQuotePage() {
                   value={formData.dimensions}
                   onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
                   placeholder="e.g. 10 x 8 x 4 inches"
-                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
             </div>
@@ -212,13 +212,13 @@ export function CustomQuotePage() {
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 placeholder="Mention specific Pantone colors, spot UV placement, embossing, or delivery deadlines..."
-                className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                className="w-full bg-[#F7F8FA] border border-[#E7EAF0] rounded-[10px] py-3 px-4 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc]"
               />
             </div>
 
             <button
               type="submit"
-              className="bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] px-8 py-3.5 rounded-[12px] transition border-none cursor-pointer flex items-center gap-2 shadow-md shadow-[#FF5A1F]/20"
+              className="bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] px-8 py-3.5 rounded-[12px] transition border-none cursor-pointer flex items-center gap-2 shadow-md shadow-[#025afc]/20"
             >
               {submitted ? (
                 <>

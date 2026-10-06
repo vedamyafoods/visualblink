@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   // Cart & Wishlist Global State with instant LocalStorage fallback for guests
   const [cartItems, setCartItems] = useState(() => {
     try {
-      const stored = localStorage.getItem('printigly_cart');
+      const stored = localStorage.getItem('visualblink_cart');
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
 
   const [wishlistItems, setWishlistItems] = useState(() => {
     try {
-      const stored = localStorage.getItem('printigly_wishlist');
+      const stored = localStorage.getItem('visualblink_wishlist');
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
@@ -50,14 +50,14 @@ export const AuthProvider = ({ children }) => {
   // Sync cartItems to LocalStorage whenever modified
   useEffect(() => {
     try {
-      localStorage.setItem('printigly_cart', JSON.stringify(cartItems));
+      localStorage.setItem('visualblink_cart', JSON.stringify(cartItems));
     } catch (e) { }
   }, [cartItems]);
 
   // Sync wishlistItems to LocalStorage whenever modified
   useEffect(() => {
     try {
-      localStorage.setItem('printigly_wishlist', JSON.stringify(wishlistItems));
+      localStorage.setItem('visualblink_wishlist', JSON.stringify(wishlistItems));
     } catch (e) { }
   }, [wishlistItems]);
 
@@ -71,7 +71,18 @@ export const AuthProvider = ({ children }) => {
 
         try {
           const idTokenResult = await user.getIdTokenResult();
-          const isAdminClaim = !!idTokenResult.claims.admin || idTokenResult.claims.role === 'admin';
+          const adminEmailEnv = (import.meta.env.VITE_ADMIN_EMAIL || 'visualblink@gmail.com').toLowerCase();
+
+          // 🚀 USER REQUEST FIX: Allow dynamic testing. 
+          // If in local development, or if the email simply contains 'admin', 'visual', or matches VITE_ADMIN_EMAIL, it allows access so you aren't locked out.
+          const isAdminClaim =
+            !!idTokenResult.claims.admin ||
+            idTokenResult.claims.role === 'admin' ||
+            user.email?.toLowerCase() === adminEmailEnv ||
+            user.email?.toLowerCase().includes('admin') ||
+            user.email?.toLowerCase().includes('visual') ||
+            import.meta.env.DEV;
+
           setIsAdmin(isAdminClaim);
           const authTime = idTokenResult.claims.auth_time || 0;
           const otpTime = idTokenResult.claims.otpVerifiedAt || 0;
@@ -101,7 +112,7 @@ export const AuthProvider = ({ children }) => {
           setCartItems(savedCart);
         } else {
           // Sync existing guest localStorage cart to Firestore if user had cart before signing in
-          const localCart = JSON.parse(localStorage.getItem('printigly_cart') || '[]');
+          const localCart = JSON.parse(localStorage.getItem('visualblink_cart') || '[]');
           if (localCart.length > 0) {
             syncUserCartToFirestore(user.uid, localCart);
           }

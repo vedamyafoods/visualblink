@@ -372,6 +372,7 @@ export const ProductCatalogManager = () => {
       enableOrientation: true,
       enablePaperSizes: true,
       enableTechSpecs: true,
+      enableBackDesignUpload: false,
       enableTieredPricing: true,
       enableCustomArea: false,
       enableNcrEngine: false,
@@ -418,6 +419,7 @@ export const ProductCatalogManager = () => {
       enableOrientation: prod.enableOrientation ?? true,
       enablePaperSizes: prod.enablePaperSizes ?? true,
       enableTechSpecs: prod.enableTechSpecs ?? true,
+      enableBackDesignUpload: prod.enableBackDesignUpload ?? false,
       enableTieredPricing: prod.enableTieredPricing ?? true,
       enableCustomArea: prod.enableCustomArea ?? false,
       enableNcrEngine: prod.enableNcrEngine ?? false,
@@ -972,11 +974,11 @@ export const ProductCatalogManager = () => {
                     setInlineSubcatInput={setInlineSubcatInput}
                   />
 
-                  {/* Form Section Customizer Toolbar HIDDEN */}
-                  {/* <FormSectionCustomizerToolbar
+                  {/* Form Section Customizer Toolbar */}
+                  <FormSectionCustomizerToolbar
                     formData={formData}
                     setFormData={setFormData}
-                  /> */}
+                  />
 
                   {/* DYNAMIC PRODUCT FORM BUILDER & SECTION CUSTOMIZER */}
                   <DynamicFormBuilder
@@ -1100,7 +1102,7 @@ export const ProductCatalogManager = () => {
                         type="text"
                         value={formData.seo?.metaTitle || ''}
                         onChange={(e) => setFormData({ ...formData, seo: { ...formData.seo, metaTitle: e.target.value } })}
-                        placeholder="e.g. Buy Luxury Business Cards Online | Printigly"
+                        placeholder="e.g. Buy Luxury Business Cards Online | VisualBlink"
                         className="w-full p-2.5 rounded-xl border border-slate-200 font-medium text-slate-800 focus:outline-none focus:border-blue-500 text-[14px]"
                       />
                     </div>

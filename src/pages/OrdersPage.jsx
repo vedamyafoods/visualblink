@@ -49,7 +49,7 @@ export function OrdersPage({ setCurrentPage }) {
   if (!currentUser) {
     return (
       <div className="min-h-screen bg-[#FAFBFD] font-sans text-[#0B1633] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-16 h-16 rounded-full bg-orange-50 text-[#FF5A1F] flex items-center justify-center text-2xl font-bold mb-4">
+        <div className="w-16 h-16 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center text-2xl font-bold mb-4">
           <FiPackage className="w-8 h-8" />
         </div>
         <h2 className="text-2xl font-extrabold text-[#0B1633] mb-2">Sign in to View Your Orders</h2>
@@ -58,7 +58,7 @@ export function OrdersPage({ setCurrentPage }) {
         </p>
         <button
           onClick={() => setCurrentPage('login')}
-          className="px-6 py-3 rounded-2xl bg-[#FF5A1F] text-white font-extrabold text-[14px] uppercase tracking-wider cursor-pointer border-none shadow-lg shadow-[#FF5A1F]/20"
+          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-extrabold text-[14px] uppercase tracking-wider cursor-pointer border-none shadow-lg shadow-[#025afc]/20"
         >
           Sign In Now
         </button>
@@ -86,7 +86,7 @@ export function OrdersPage({ setCurrentPage }) {
           <div className="flex items-center gap-2 mb-2 text-[14px] font-semibold text-slate-400">
             <span className="cursor-pointer hover:text-white" onClick={() => setCurrentPage('home')}>Home</span>
             <span>/</span>
-            <span className="text-[#FF5A1F] font-bold">My Orders</span>
+            <span className="text-[#025afc] font-bold">My Orders</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
             My Print Orders & Pipeline Tracking
@@ -133,7 +133,7 @@ export function OrdersPage({ setCurrentPage }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by Order ID or Product..."
-              className="w-full bg-white border border-slate-200 rounded-2xl pl-10 pr-4 py-2.5 text-[14px] font-semibold text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] shadow-xs"
+              className="w-full bg-white border border-slate-200 rounded-2xl pl-10 pr-4 py-2.5 text-[14px] font-semibold text-[#0B1633] focus:outline-none focus:border-[#025afc] shadow-xs"
             />
           </div>
         </div>
@@ -141,12 +141,12 @@ export function OrdersPage({ setCurrentPage }) {
         {/* Orders List */}
         {loading ? (
           <div className="text-center py-16">
-            <div className="w-10 h-10 border-4 border-[#FF5A1F] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <div className="w-10 h-10 border-4 border-[#025afc] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             <p className="text-[14px] text-slate-500 font-bold">Loading your print orders...</p>
           </div>
         ) : filteredOrders.length === 0 ? (
           <div className="bg-white rounded-3xl p-12 text-center max-w-md mx-auto border border-[#E7EAF0] shadow-sm space-y-4">
-            <div className="w-14 h-14 rounded-full bg-orange-50 text-[#FF5A1F] flex items-center justify-center mx-auto">
+            <div className="w-14 h-14 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center mx-auto">
               <FiPackage className="w-7 h-7" />
             </div>
             <h3 className="text-xl font-extrabold text-[#0B1633]">No Orders Found</h3>
@@ -155,7 +155,7 @@ export function OrdersPage({ setCurrentPage }) {
             </p>
             <button
               onClick={() => setCurrentPage('products')}
-              className="bg-[#FF5A1F] text-white font-extrabold text-[14px] px-5 py-3 rounded-2xl inline-flex items-center gap-2 cursor-pointer border-none shadow-md"
+              className="bg-[#025afc] text-white font-extrabold text-[14px] px-5 py-3 rounded-2xl inline-flex items-center gap-2 cursor-pointer border-none shadow-md"
             >
               <FiShoppingBag className="w-4 h-4" /> Explore Catalog
             </button>
@@ -179,7 +179,7 @@ export function OrdersPage({ setCurrentPage }) {
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-slate-100">
                     <div className="flex items-center gap-3">
                       <div className="w-11 h-11 rounded-2xl bg-[#07152F] text-white font-black flex items-center justify-center text-sm shadow-sm">
-                        <FiPackage className="w-5 h-5 text-[#FF5A1F]" />
+                        <FiPackage className="w-5 h-5 text-[#025afc]" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
@@ -187,7 +187,7 @@ export function OrdersPage({ setCurrentPage }) {
                           <span className="text-[14px] text-slate-400 font-medium">• Placed on {formattedDate}</span>
                         </div>
                         <p className="text-[14px] text-slate-500 font-medium mt-0.5">
-                          {itemsList.length} Item(s) • Total: <strong className="text-[#FF5A1F] font-black">₹{(ord.totalAmount || ord.pricing?.grandTotal || 0).toLocaleString()}</strong>
+                          {itemsList.length} Item(s) • Total: <strong className="text-[#025afc] font-black">₹{(ord.totalAmount || ord.pricing?.grandTotal || 0).toLocaleString()}</strong>
                         </p>
                       </div>
                     </div>

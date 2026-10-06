@@ -192,7 +192,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
         {/* Header */}
         <div className="bg-[#07152F] text-white p-5 sm:p-6 flex items-center justify-between border-b border-slate-800">
           <div>
-            <div className="flex items-center gap-2 text-[14px] font-bold text-[#FF5A1F] uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-[14px] font-bold text-[#025afc] uppercase tracking-wider mb-1">
               <FiUploadCloud className="w-4 h-4" /> Prepress Artwork Uploader
             </div>
             <h3 className="text-xl sm:text-2xl font-extrabold text-white">Upload Your Artwork</h3>
@@ -232,8 +232,8 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
             onClick={() => fileInputRef.current && fileInputRef.current.click()}
             className={`border-2 border-dashed rounded-3xl p-8 text-center cursor-pointer transition-all duration-200 ${
               dragActive 
-                ? 'border-[#FF5A1F] bg-orange-50/50 scale-[1.01]' 
-                : 'border-slate-300 hover:border-[#FF5A1F] bg-[#F7F8FA] hover:bg-white'
+                ? 'border-[#025afc] bg-blue-50/50 scale-[1.01]' 
+                : 'border-slate-300 hover:border-[#025afc] bg-[#F7F8FA] hover:bg-white'
             }`}
           >
             <input
@@ -244,11 +244,11 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
               className="hidden"
               onChange={(e) => e.target.files && handleFilesSelected(e.target.files)}
             />
-            <div className="w-14 h-14 rounded-2xl bg-orange-100/70 text-[#FF5A1F] flex items-center justify-center mx-auto mb-3">
+            <div className="w-14 h-14 rounded-2xl bg-blue-100/70 text-[#025afc] flex items-center justify-center mx-auto mb-3">
               <FiUploadCloud className="w-7 h-7" />
             </div>
             <h4 className="text-sm font-extrabold text-[#0B1633] mb-1">
-              Drag & Drop your artwork files here, or <span className="text-[#FF5A1F]">Browse</span>
+              Drag & Drop your artwork files here, or <span className="text-[#025afc]">Browse</span>
             </h4>
             <p className="text-[14px] text-slate-500 font-medium max-w-md mx-auto">
               Supports: <strong>JPG, PNG, PDF, AI, PSD, CDR</strong> (Max file size: {APP_CONFIG.MAX_ARTWORK_FILE_SIZE_MB}MB)
@@ -263,7 +263,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
                 <button
                   type="button"
                   onClick={() => fileInputRef.current && fileInputRef.current.click()}
-                  className="text-[#FF5A1F] hover:underline flex items-center gap-1 font-bold cursor-pointer"
+                  className="text-[#025afc] hover:underline flex items-center gap-1 font-bold cursor-pointer"
                 >
                   <FiPlus className="w-3.5 h-3.5" /> Add More Files
                 </button>
@@ -299,7 +299,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
                         {file.status === 'uploading' && (
                           <div className="w-full mt-1.5 space-y-1">
                             <div className="w-48 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                              <div className="h-full bg-[#FF5A1F] transition-all duration-300" style={{ width: `${file.progress}%` }} />
+                              <div className="h-full bg-[#025afc] transition-all duration-300" style={{ width: `${file.progress}%` }} />
                             </div>
                             <span className="text-[10px] text-slate-500 font-bold">Uploading to cloud... {file.progress}%</span>
                           </div>
@@ -352,7 +352,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
               value={artworkNotes}
               onChange={(e) => setArtworkNotes(e.target.value)}
               placeholder="Provide any specific notes for prepress operators (e.g. Print front and back separately, maintain CMYK breakdown)..."
-              className="w-full bg-[#F7F8FA] border border-slate-200 rounded-2xl p-3.5 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] font-medium resize-none"
+              className="w-full bg-[#F7F8FA] border border-slate-200 rounded-2xl p-3.5 text-[14px] text-[#0B1633] focus:outline-none focus:border-[#025afc] font-medium resize-none"
             />
           </div>
 
@@ -380,7 +380,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
             className={`px-7 py-3.5 rounded-xl font-extrabold text-[14px] uppercase tracking-wider shadow-lg flex items-center gap-2 cursor-pointer transition border-none ${
               isAnyUploading 
                 ? 'bg-slate-300 text-slate-500 cursor-not-allowed' 
-                : 'bg-[#FF5A1F] hover:bg-[#e44d15] text-white shadow-[#FF5A1F]/25 hover:scale-[1.02]'
+                : 'bg-[#025afc] hover:bg-[#6a32f0] text-white shadow-[#025afc]/25 hover:scale-[1.02]'
             }`}
           >
             {isAnyUploading ? (

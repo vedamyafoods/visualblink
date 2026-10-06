@@ -24,10 +24,10 @@ export function Hero({ setCurrentPage }) {
           >
             {/* Eyebrow Tag */}
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-[#C026D3] text-[14px] sm:text-[14px] font-black tracking-widest uppercase">
+              <span className="text-[#025afc] text-[14px] sm:text-[14px] font-black tracking-widest uppercase">
                 PRINTING MEETS CREATIVITY
               </span>
-              <span className="h-[2px] w-8 bg-gradient-to-r from-[#D946EF] to-[#E11D48] inline-block rounded-full" />
+              <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
             {/* Dominant Headline (Matching Screenshot 2) */}
@@ -62,7 +62,7 @@ export function Hero({ setCurrentPage }) {
             {/* 3 Trust Indicators */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-200/90 max-w-xl">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-pink-50 text-[#C026D3] flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center flex-shrink-0">
                   <FiAward className="w-4 h-4" />
                 </div>
                 <div className="text-left">
@@ -72,7 +72,7 @@ export function Hero({ setCurrentPage }) {
               </div>
 
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-pink-50 text-[#C026D3] flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center flex-shrink-0">
                   <FiTruck className="w-4 h-4" />
                 </div>
                 <div className="text-left">
@@ -82,7 +82,7 @@ export function Hero({ setCurrentPage }) {
               </div>
 
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-pink-50 text-[#C026D3] flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center flex-shrink-0">
                   <FiShield className="w-4 h-4" />
                 </div>
                 <div className="text-left">

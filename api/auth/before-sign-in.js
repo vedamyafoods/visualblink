@@ -15,7 +15,7 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
-const HASH_SALT = process.env.IP_HASH_SALT || 'printigly_security_salt';
+const HASH_SALT = process.env.IP_HASH_SALT || 'visualblink_security_salt';
 
 function hashIp(ip) {
     return crypto.createHash('sha256').update(`${ip}:${HASH_SALT}`).digest('hex');

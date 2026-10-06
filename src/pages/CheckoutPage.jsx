@@ -156,7 +156,7 @@ export function CheckoutPage({ setCurrentPage }) {
     if (!customerPhone.trim()) {
       errors.customerPhone = 'Mobile Phone number is required.';
     } else if (cleanPhone.length !== 10 || !/^[6-9]\d{9}$/.test(cleanPhone)) {
-      errors.customerPhone = 'Please enter a valid 10-digit mobile number (e.g. 9876543210).';
+      errors.customerPhone = 'Please enter a valid 10-digit mobile number (e.g. 9669155225).';
     }
 
     // 4. Delivery Address Line 1 Validation
@@ -418,7 +418,7 @@ export function CheckoutPage({ setCurrentPage }) {
         <p className="text-slate-500 text-[14px] mb-6">Please add items to cart before proceeding to checkout.</p>
         <button
           onClick={() => setCurrentPage('products')}
-          className="px-6 py-3 rounded-2xl bg-[#FF5A1F] text-white font-extrabold text-[14px] uppercase tracking-wider cursor-pointer border-none"
+          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-extrabold text-[14px] uppercase tracking-wider cursor-pointer border-none"
         >
           Return to Catalog
         </button>
@@ -435,7 +435,7 @@ export function CheckoutPage({ setCurrentPage }) {
           <div className="flex items-center gap-2 mb-2 text-[14px] font-semibold text-slate-400">
             <span className="cursor-pointer hover:text-white" onClick={() => setCurrentPage('cart')}>Cart</span>
             <span>/</span>
-            <span className="text-[#FF5A1F] font-bold">Secure Checkout</span>
+            <span className="text-[#025afc] font-bold">Secure Checkout</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Checkout & Order Authorization
@@ -461,7 +461,7 @@ export function CheckoutPage({ setCurrentPage }) {
             {/* SECTION 1: CUSTOMER DETAILS */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
               <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
-                <FiUser className="w-4 h-4 text-[#FF5A1F]" /> 1. Customer Information
+                <FiUser className="w-4 h-4 text-[#025afc]" /> 1. Customer Information
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[14px]">
@@ -476,7 +476,7 @@ export function CheckoutPage({ setCurrentPage }) {
                       if (fieldErrors.customerName) setFieldErrors(prev => ({ ...prev, customerName: null }));
                     }}
                     placeholder="John Doe"
-                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.customerName ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#FF5A1F]'
+                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.customerName ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#025afc]'
                       }`}
                   />
                   {fieldErrors.customerName && (
@@ -497,7 +497,7 @@ export function CheckoutPage({ setCurrentPage }) {
                       if (fieldErrors.customerEmail) setFieldErrors(prev => ({ ...prev, customerEmail: null }));
                     }}
                     placeholder="john@example.com"
-                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.customerEmail ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#FF5A1F]'
+                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.customerEmail ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#025afc]'
                       }`}
                   />
                   {fieldErrors.customerEmail && (
@@ -522,8 +522,8 @@ export function CheckoutPage({ setCurrentPage }) {
                       setCustomerPhone(val);
                       if (fieldErrors.customerPhone) setFieldErrors(prev => ({ ...prev, customerPhone: null }));
                     }}
-                    placeholder="9876543210"
-                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.customerPhone ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#FF5A1F]'
+                    placeholder="9669155225"
+                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.customerPhone ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#025afc]'
                       }`}
                   />
                   {fieldErrors.customerPhone ? (
@@ -541,7 +541,7 @@ export function CheckoutPage({ setCurrentPage }) {
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2">
-                  <FiMapPin className="w-4 h-4 text-[#FF5A1F]" /> 2. Delivery Address
+                  <FiMapPin className="w-4 h-4 text-[#025afc]" /> 2. Delivery Address
                 </h3>
               </div>
 
@@ -553,7 +553,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     <button
                       type="button"
                       onClick={handleAddNewAddress}
-                      className={`text-[14px] font-extrabold flex items-center gap-1 cursor-pointer transition ${selectedAddressId === 'new' ? 'text-[#FF5A1F]' : 'text-slate-500 hover:text-[#FF5A1F]'
+                      className={`text-[14px] font-extrabold flex items-center gap-1 cursor-pointer transition ${selectedAddressId === 'new' ? 'text-[#025afc]' : 'text-slate-500 hover:text-[#025afc]'
                         }`}
                     >
                       <FiPlus className="w-3.5 h-3.5" /> Enter New Address
@@ -569,16 +569,16 @@ export function CheckoutPage({ setCurrentPage }) {
                           type="button"
                           onClick={() => handleSelectSavedAddress(addr)}
                           className={`p-3.5 rounded-2xl border text-left text-[14px] transition cursor-pointer relative ${isSelected
-                            ? 'border-[#FF5A1F] bg-orange-50/40 ring-2 ring-[#FF5A1F]/20'
+                            ? 'border-[#025afc] bg-blue-50/40 ring-2 ring-[#025afc]/20'
                             : 'border-slate-200 bg-[#F7F8FA] hover:border-slate-300'
                             }`}
                         >
                           <div className="flex items-center justify-between font-extrabold text-[#0B1633] mb-1">
                             <span className="flex items-center gap-1.5 truncate">
-                              {isSelected && <FiCheckCircle className="w-3.5 h-3.5 text-[#FF5A1F] shrink-0" />}
+                              {isSelected && <FiCheckCircle className="w-3.5 h-3.5 text-[#025afc] shrink-0" />}
                               {addr.name || customerName || 'Saved Address'}
                             </span>
-                            <span className={`px-2 py-0.5 rounded-md text-[9.5px] uppercase font-bold shrink-0 ${isSelected ? 'bg-[#FF5A1F] text-white' : 'bg-slate-200 text-slate-700'
+                            <span className={`px-2 py-0.5 rounded-md text-[9.5px] uppercase font-bold shrink-0 ${isSelected ? 'bg-[#025afc] text-white' : 'bg-slate-200 text-slate-700'
                               }`}>
                               {addr.type || (addr.isDefault ? 'Default' : 'Address')}
                             </span>
@@ -595,11 +595,11 @@ export function CheckoutPage({ setCurrentPage }) {
                       type="button"
                       onClick={handleAddNewAddress}
                       className={`p-3.5 rounded-2xl border text-left text-[14px] transition cursor-pointer flex flex-col justify-center items-center text-center gap-1 ${selectedAddressId === 'new'
-                        ? 'border-[#FF5A1F] bg-orange-50/40 ring-2 ring-[#FF5A1F]/20 text-[#FF5A1F]'
-                        : 'border-dashed border-slate-300 bg-white hover:border-[#FF5A1F] text-slate-500 hover:text-[#FF5A1F]'
+                        ? 'border-[#025afc] bg-blue-50/40 ring-2 ring-[#025afc]/20 text-[#025afc]'
+                        : 'border-dashed border-slate-300 bg-white hover:border-[#025afc] text-slate-500 hover:text-[#025afc]'
                         }`}
                     >
-                      <FiPlus className="w-5 h-5 text-[#FF5A1F]" />
+                      <FiPlus className="w-5 h-5 text-[#025afc]" />
                       <span className="font-extrabold">Deliver to New Address</span>
                       <span className="text-[10px] text-slate-400">Fill in form details below</span>
                     </button>
@@ -620,7 +620,7 @@ export function CheckoutPage({ setCurrentPage }) {
                       if (fieldErrors.addressLine1) setFieldErrors(prev => ({ ...prev, addressLine1: null }));
                     }}
                     placeholder="e.g. Flat 304, Sunshine Towers, MG Road"
-                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.addressLine1 ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#FF5A1F]'
+                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.addressLine1 ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#025afc]'
                       }`}
                   />
                   {fieldErrors.addressLine1 && (
@@ -637,7 +637,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     value={addressLine2}
                     onChange={(e) => setAddressLine2(e.target.value)}
                     placeholder="e.g. Indiranagar Layout"
-                    className="w-full bg-[#F7F8FA] border border-slate-200 rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                    className="w-full bg-[#F7F8FA] border border-slate-200 rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                   />
                 </div>
 
@@ -648,7 +648,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     value={landmark}
                     onChange={(e) => setLandmark(e.target.value)}
                     placeholder="e.g. Near Metro Station"
-                    className="w-full bg-[#F7F8FA] border border-slate-200 rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                    className="w-full bg-[#F7F8FA] border border-slate-200 rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                   />
                 </div>
 
@@ -663,7 +663,7 @@ export function CheckoutPage({ setCurrentPage }) {
                       if (fieldErrors.city) setFieldErrors(prev => ({ ...prev, city: null }));
                     }}
                     placeholder="Bengaluru"
-                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.city ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#FF5A1F]'
+                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.city ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#025afc]'
                       }`}
                   />
                   {fieldErrors.city && (
@@ -684,7 +684,7 @@ export function CheckoutPage({ setCurrentPage }) {
                       if (fieldErrors.state) setFieldErrors(prev => ({ ...prev, state: null }));
                     }}
                     placeholder="Karnataka"
-                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.state ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#FF5A1F]'
+                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.state ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#025afc]'
                       }`}
                   />
                   {fieldErrors.state && (
@@ -710,7 +710,7 @@ export function CheckoutPage({ setCurrentPage }) {
                       if (fieldErrors.pincode) setFieldErrors(prev => ({ ...prev, pincode: null }));
                     }}
                     placeholder="560001"
-                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.pincode ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#FF5A1F]'
+                    className={`w-full bg-[#F7F8FA] border rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none transition ${fieldErrors.pincode ? 'border-rose-400 focus:border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-[#025afc]'
                       }`}
                   />
                   {fieldErrors.pincode ? (
@@ -729,7 +729,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     type="checkbox"
                     checked={saveToProfile}
                     onChange={(e) => setSaveToProfile(e.target.checked)}
-                    className="rounded border-slate-300 text-[#FF5A1F] focus:ring-[#FF5A1F]"
+                    className="rounded border-slate-300 text-[#025afc] focus:ring-[#025afc]"
                   />
                   <span>Save this address to my profile address book for future orders</span>
                 </label>
@@ -740,15 +740,15 @@ export function CheckoutPage({ setCurrentPage }) {
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2">
-                  <FiBriefcase className="w-4 h-4 text-[#FF5A1F]" /> 3. GST & Business Details
+                  <FiBriefcase className="w-4 h-4 text-[#025afc]" /> 3. GST & Business Details
                 </h3>
 
-                <label className="flex items-center gap-2 text-[14px] font-extrabold text-[#FF5A1F] cursor-pointer">
+                <label className="flex items-center gap-2 text-[14px] font-extrabold text-[#025afc] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={isB2B}
                     onChange={(e) => setIsB2B(e.target.checked)}
-                    className="rounded border-slate-300 text-[#FF5A1F] focus:ring-[#FF5A1F]"
+                    className="rounded border-slate-300 text-[#025afc] focus:ring-[#025afc]"
                   />
                   <span>I am purchasing for a business</span>
                 </label>
@@ -762,8 +762,8 @@ export function CheckoutPage({ setCurrentPage }) {
                       type="text"
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
-                      placeholder="e.g. Printigly Technologies Pvt Ltd"
-                      className="w-full bg-[#F7F8FA] border border-slate-200 rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none focus:border-[#FF5A1F]"
+                      placeholder="e.g. VisualBlink Technologies Pvt Ltd"
+                      className="w-full bg-[#F7F8FA] border border-slate-200 rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none focus:border-[#025afc]"
                     />
                   </div>
 
@@ -775,7 +775,7 @@ export function CheckoutPage({ setCurrentPage }) {
                       value={gstin}
                       onChange={(e) => setGstin(e.target.value.toUpperCase())}
                       placeholder="e.g. 29ABCDE1234F1Z5"
-                      className="w-full bg-[#F7F8FA] border border-slate-200 rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none focus:border-[#FF5A1F] uppercase"
+                      className="w-full bg-[#F7F8FA] border border-slate-200 rounded-xl p-3 text-[14px] font-bold text-[#0B1633] focus:outline-none focus:border-[#025afc] uppercase"
                     />
                   </div>
                 </div>
@@ -785,7 +785,7 @@ export function CheckoutPage({ setCurrentPage }) {
             {/* SECTION 4: PAYMENT METHOD SELECTOR */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
               <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
-                <FiCreditCard className="w-4 h-4 text-[#FF5A1F]" /> 4. Select Payment Method
+                <FiCreditCard className="w-4 h-4 text-[#025afc]" /> 4. Select Payment Method
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -794,7 +794,7 @@ export function CheckoutPage({ setCurrentPage }) {
                   type="button"
                   onClick={() => setPaymentMethod('cashfree')}
                   className={`p-4 rounded-2xl border text-left transition cursor-pointer ${paymentMethod === 'cashfree'
-                    ? 'border-[#FF5A1F] bg-orange-50/50 ring-2 ring-[#FF5A1F]/20'
+                    ? 'border-[#025afc] bg-blue-50/50 ring-2 ring-[#025afc]/20'
                     : 'border-slate-200 bg-[#F7F8FA] hover:border-slate-300'
                     }`}
                 >
@@ -813,7 +813,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     type="button"
                     onClick={() => setPaymentMethod('cod')}
                     className={`p-4 rounded-2xl border text-left transition cursor-pointer ${paymentMethod === 'cod'
-                      ? 'border-[#FF5A1F] bg-orange-50/50 ring-2 ring-[#FF5A1F]/20'
+                      ? 'border-[#025afc] bg-blue-50/50 ring-2 ring-[#025afc]/20'
                       : 'border-slate-200 bg-[#F7F8FA] hover:border-slate-300'
                       }`}
                   >
@@ -834,8 +834,8 @@ export function CheckoutPage({ setCurrentPage }) {
           {/* RIGHT ORDER SUMMARY SIDEBAR (4 cols) */}
           <div className="lg:col-span-4 space-y-5 sticky top-24">
 
-            <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-5">
-              <h3 className="text-lg font-extrabold text-[#0B1633] border-b border-slate-100 pb-3">
+            <div className="bg-[#eff6ff] rounded-3xl p-6 border border-blue-100 shadow-sm space-y-5 text-slate-900">
+              <h3 className="text-lg font-bold text-slate-900 border-b border-blue-200/60 pb-3">
                 Order Summary ({cartItems.length} items)
               </h3>
 
@@ -856,7 +856,7 @@ export function CheckoutPage({ setCurrentPage }) {
               </div>
 
               {/* Price Breakdown */}
-              <div className="space-y-2 pt-3 border-t border-slate-100 text-[14px] font-semibold text-slate-600">
+              <div className="space-y-2 pt-3 border-t border-blue-200/60 text-[14px] font-semibold text-slate-600">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span className="font-extrabold text-slate-900">₹{subtotal.toLocaleString()}</span>
@@ -885,9 +885,9 @@ export function CheckoutPage({ setCurrentPage }) {
               </div>
 
               {/* Grand Total */}
-              <div className="pt-4 border-t border-slate-200 flex justify-between items-baseline">
-                <span className="text-[14px] font-bold text-slate-500">Total Payable</span>
-                <span className="text-3xl font-black text-[#FF5A1F]">₹{grandTotal.toLocaleString()}</span>
+              <div className="pt-4 border-t border-blue-200/60 flex justify-between items-baseline">
+                <span className="text-[14px] font-bold text-slate-700 uppercase tracking-wider">Total Payable</span>
+                <span className="text-2xl font-bold text-[#025afc]">₹{grandTotal.toLocaleString()}</span>
               </div>
 
               {/* Final Submit Button */}
@@ -896,7 +896,7 @@ export function CheckoutPage({ setCurrentPage }) {
                   type="button"
                   disabled={isSubmitting}
                   onClick={handleCashfreePayment}
-                  className="w-full py-4 rounded-2xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-[#FF5A1F]/25 flex items-center justify-center gap-2 cursor-pointer transition border-none hover:scale-[1.02]"
+                  className="w-full py-4 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-[#025afc]/25 flex items-center justify-center gap-2 cursor-pointer transition border-none hover:scale-[1.02]"
                 >
                   {isSubmitting ? 'Initializing Payment...' : `Pay Online ₹${grandTotal.toLocaleString()}`}
                 </button>

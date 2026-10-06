@@ -25,10 +25,10 @@ export function HelpCenterPage() {
   ]
 
   const categories = [
-    { title: 'Artwork & Bleed Setup', icon: <FiFileText className="w-5 h-5 text-[#FF5A1F]" /> },
-    { title: 'Shipping & Delivery', icon: <FiTruck className="w-5 h-5 text-[#FF5A1F]" /> },
-    { title: 'Billing & Invoicing', icon: <FiCreditCard className="w-5 h-5 text-[#FF5A1F]" /> },
-    { title: 'Returns & Reprints', icon: <FiRefreshCw className="w-5 h-5 text-[#FF5A1F]" /> },
+    { title: 'Artwork & Bleed Setup', icon: <FiFileText className="w-5 h-5 text-[#025afc]" /> },
+    { title: 'Shipping & Delivery', icon: <FiTruck className="w-5 h-5 text-[#025afc]" /> },
+    { title: 'Billing & Invoicing', icon: <FiCreditCard className="w-5 h-5 text-[#025afc]" /> },
+    { title: 'Returns & Reprints', icon: <FiRefreshCw className="w-5 h-5 text-[#025afc]" /> },
   ]
 
   return (
@@ -36,12 +36,12 @@ export function HelpCenterPage() {
       
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#FF5A1F]/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
           <div className="flex items-center gap-2 mb-3 justify-center sm:justify-start text-[14px] font-semibold text-slate-400">
             <span>Home</span>
             <span>/</span>
-            <span className="text-[#FF5A1F] font-bold">Help Center</span>
+            <span className="text-[#025afc] font-bold">Help Center</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
             Help & Knowledge Base
@@ -58,8 +58,8 @@ export function HelpCenterPage() {
         {/* Topic Categories */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
           {categories.map((c) => (
-            <div key={c.title} className="bg-white rounded-[16px] p-6 border border-[#E7EAF0] shadow-xs hover:border-[#FF5A1F]/40 hover:shadow-md transition cursor-pointer flex items-center gap-4">
-              <div className="w-11 h-11 rounded-[12px] bg-[#FF5A1F]/10 flex items-center justify-center flex-shrink-0">
+            <div key={c.title} className="bg-white rounded-[16px] p-6 border border-[#E7EAF0] shadow-xs hover:border-[#025afc]/40 hover:shadow-md transition cursor-pointer flex items-center gap-4">
+              <div className="w-11 h-11 rounded-[12px] bg-[#025afc]/10 flex items-center justify-center flex-shrink-0">
                 {c.icon}
               </div>
               <h3 className="text-[14px] font-bold text-[#0B1633] leading-snug">{c.title}</h3>
@@ -79,7 +79,7 @@ export function HelpCenterPage() {
                   className="w-full text-left flex items-center justify-between gap-4 border-none bg-transparent cursor-pointer py-2"
                 >
                   <span className="text-[15px] font-bold text-[#0B1633]">{faq.q}</span>
-                  <FiChevronDown className={`w-5 h-5 text-[#FF5A1F] transition-transform duration-200 ${openFaq === idx ? 'rotate-180' : ''}`} />
+                  <FiChevronDown className={`w-5 h-5 text-[#025afc] transition-transform duration-200 ${openFaq === idx ? 'rotate-180' : ''}`} />
                 </button>
                 {openFaq === idx && (
                   <p className="text-[#667085] text-[14px] leading-relaxed pt-2">

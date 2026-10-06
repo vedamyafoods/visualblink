@@ -185,11 +185,11 @@ export function AccountPage({ setCurrentPage }) {
 
       {/* Top Banner Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-12 sm:py-16 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-[#FF5A1F]/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-[#FF5A1F] text-white font-black text-2xl flex items-center justify-center shadow-lg shadow-[#FF5A1F]/30 border border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-[#025afc] text-white font-black text-2xl flex items-center justify-center shadow-lg shadow-[#025afc]/30 border border-white/20">
                 {(currentUser.displayName || userProfile?.displayName || currentUser.email || 'U').substring(0, 1).toUpperCase()}
               </div>
               <div>
@@ -225,7 +225,7 @@ export function AccountPage({ setCurrentPage }) {
               <button
                 onClick={() => setActiveTab('orders')}
                 className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center justify-between cursor-pointer border-none ${activeTab === 'orders'
-                  ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
+                  ? 'bg-[#025afc] text-white shadow-md shadow-[#025afc]/20'
                   : 'bg-transparent text-slate-700 hover:bg-slate-100'
                   }`}
               >
@@ -240,7 +240,7 @@ export function AccountPage({ setCurrentPage }) {
               <button
                 onClick={() => setActiveTab('addresses')}
                 className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center justify-between cursor-pointer border-none ${activeTab === 'addresses'
-                  ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
+                  ? 'bg-[#025afc] text-white shadow-md shadow-[#025afc]/20'
                   : 'bg-transparent text-slate-700 hover:bg-slate-100'
                   }`}
               >
@@ -255,7 +255,7 @@ export function AccountPage({ setCurrentPage }) {
               <button
                 onClick={() => setActiveTab('profile')}
                 className={`w-full p-3 rounded-xl text-left text-[14px] font-bold transition flex items-center gap-2.5 cursor-pointer border-none ${activeTab === 'profile'
-                  ? 'bg-[#FF5A1F] text-white shadow-md shadow-[#FF5A1F]/20'
+                  ? 'bg-[#025afc] text-white shadow-md shadow-[#025afc]/20'
                   : 'bg-transparent text-slate-700 hover:bg-slate-100'
                   }`}
               >
@@ -266,7 +266,7 @@ export function AccountPage({ setCurrentPage }) {
             {/* Quick Support Card */}
             <div className="bg-gradient-to-br from-slate-900 to-indigo-950 p-5 rounded-2xl text-white space-y-2 border border-slate-800 shadow-xs">
               <span className="text-[10px] font-black uppercase text-amber-400 tracking-wider">Need Custom Assistance?</span>
-              <h4 className="font-extrabold text-[14px]">Printigly Dedicated Support</h4>
+              <h4 className="font-extrabold text-[14px]">VisualBlink Dedicated Support</h4>
               <p className="text-[14px] text-slate-300">
                 Call our press team directly for express 24h dispatch or custom packaging specs.
               </p>
@@ -289,7 +289,7 @@ export function AccountPage({ setCurrentPage }) {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-extrabold text-[#0B1633] flex items-center gap-2">
-                    <FiPackage className="w-5 h-5 text-[#FF5A1F]" /> Print Orders History ({userOrders.length})
+                    <FiPackage className="w-5 h-5 text-[#025afc]" /> Print Orders History ({userOrders.length})
                   </h3>
                   <span className="text-[14px] text-slate-500 font-medium">Real-time sync with Firebase Firestore</span>
                 </div>
@@ -300,7 +300,7 @@ export function AccountPage({ setCurrentPage }) {
                   </div>
                 ) : userOrders.length === 0 ? (
                   <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
-                    <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#FF5A1F] flex items-center justify-center mx-auto text-xl font-bold">
+                    <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#025afc] flex items-center justify-center mx-auto text-xl font-bold">
                       <FiPackage className="w-7 h-7" />
                     </div>
                     <h4 className="font-extrabold text-slate-900 text-sm">No Orders Placed Yet</h4>
@@ -309,7 +309,7 @@ export function AccountPage({ setCurrentPage }) {
                     </p>
                     <button
                       onClick={() => setCurrentPage && setCurrentPage('products')}
-                      className="px-6 py-2.5 rounded-xl bg-[#FF5A1F] text-white font-extrabold text-[14px] hover:bg-[#e44d15] cursor-pointer border-none shadow-md shadow-[#FF5A1F]/20"
+                      className="px-6 py-2.5 rounded-xl bg-[#025afc] text-white font-extrabold text-[14px] hover:bg-[#6a32f0] cursor-pointer border-none shadow-md shadow-[#025afc]/20"
                     >
                       Browse Products Catalog
                     </button>
@@ -334,7 +334,7 @@ export function AccountPage({ setCurrentPage }) {
                             </button>
                             <button
                               onClick={() => setCurrentPage && setCurrentPage('track', { orderId: ord.orderId || ord.id })}
-                              className="px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#FF5A1F] font-extrabold text-[14px] flex items-center gap-1 border border-orange-200 cursor-pointer"
+                              className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#025afc] font-extrabold text-[14px] flex items-center gap-1 border border-blue-200 cursor-pointer"
                             >
                               <FiTruck className="w-3.5 h-3.5" /> Track Status
                             </button>
@@ -365,7 +365,7 @@ export function AccountPage({ setCurrentPage }) {
                           <span className="text-slate-500 font-medium">Shipping Address: <strong className="text-slate-800">{ord.deliveryAddress || ord.customer?.city || 'India'}</strong></span>
                           <div className="text-right">
                             <span className="text-[10px] text-slate-400 block font-bold uppercase">Total Order Amount</span>
-                            <span className="font-black text-base text-[#FF5A1F]">₹{(ord.totalAmount || ord.pricing?.grandTotal || 0).toLocaleString()}</span>
+                            <span className="font-black text-base text-[#025afc]">₹{(ord.totalAmount || ord.pricing?.grandTotal || 0).toLocaleString()}</span>
                           </div>
                         </div>
                       </div>
@@ -381,13 +381,13 @@ export function AccountPage({ setCurrentPage }) {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-extrabold text-[#0B1633] flex items-center gap-2">
-                      <FiMapPin className="w-5 h-5 text-[#FF5A1F]" /> Saved Shipping Address Book
+                      <FiMapPin className="w-5 h-5 text-[#025afc]" /> Saved Shipping Address Book
                     </h3>
                     <p className="text-[14px] text-slate-500 font-medium">Select or add shipping addresses for instant 1-click checkout</p>
                   </div>
                   <button
                     onClick={() => openAddressModal()}
-                    className="px-4 py-2.5 rounded-2xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-md shadow-[#FF5A1F]/20 cursor-pointer border-none"
+                    className="px-4 py-2.5 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
                   >
                     <FiPlus className="w-4 h-4" /> Add New Address
                   </button>
@@ -412,7 +412,7 @@ export function AccountPage({ setCurrentPage }) {
                     {userProfile.addresses.map((addr) => (
                       <div
                         key={addr.id}
-                        className={`bg-white p-5 rounded-3xl border transition relative flex flex-col justify-between ${addr.isDefault ? 'border-[#FF5A1F] shadow-sm ring-1 ring-[#FF5A1F]/20' : 'border-slate-200 hover:border-slate-300'
+                        className={`bg-white p-5 rounded-3xl border transition relative flex flex-col justify-between ${addr.isDefault ? 'border-[#025afc] shadow-sm ring-1 ring-[#025afc]/20' : 'border-slate-200 hover:border-slate-300'
                           }`}
                       >
                         <div>
@@ -479,7 +479,7 @@ export function AccountPage({ setCurrentPage }) {
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <div>
                     <h3 className="text-lg font-extrabold text-[#0B1633] flex items-center gap-2">
-                      <FiUser className="w-5 h-5 text-[#FF5A1F]" /> Personal Profile & Business GSTIN
+                      <FiUser className="w-5 h-5 text-[#025afc]" /> Personal Profile & Business GSTIN
                     </h3>
                     <p className="text-[14px] text-slate-500 font-medium">Manage your personal contact info and B2B GST details for tax invoices</p>
                   </div>
@@ -508,7 +508,7 @@ export function AccountPage({ setCurrentPage }) {
                           required
                           value={profileForm.displayName}
                           onChange={(e) => setProfileForm({ ...profileForm, displayName: e.target.value })}
-                          className="w-full p-3 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                          className="w-full p-3 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                         />
                       </div>
 
@@ -528,8 +528,8 @@ export function AccountPage({ setCurrentPage }) {
                           type="tel"
                           value={profileForm.phone}
                           onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                          placeholder="+91 98765 43210"
-                          className="w-full p-3 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                          placeholder="+91 9669155225"
+                          className="w-full p-3 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                         />
                       </div>
 
@@ -540,7 +540,7 @@ export function AccountPage({ setCurrentPage }) {
                           value={profileForm.company}
                           onChange={(e) => setProfileForm({ ...profileForm, company: e.target.value })}
                           placeholder="e.g. Acme Innovations Pvt Ltd"
-                          className="w-full p-3 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                          className="w-full p-3 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                         />
                       </div>
 
@@ -551,7 +551,7 @@ export function AccountPage({ setCurrentPage }) {
                           value={profileForm.gstin}
                           onChange={(e) => setProfileForm({ ...profileForm, gstin: e.target.value })}
                           placeholder="29AAAAA0000A1Z5"
-                          className="w-full p-3 rounded-xl border border-slate-200 font-mono font-bold uppercase focus:outline-none focus:border-[#FF5A1F]"
+                          className="w-full p-3 rounded-xl border border-slate-200 font-mono font-bold uppercase focus:outline-none focus:border-[#025afc]"
                         />
                       </div>
                     </div>
@@ -559,7 +559,7 @@ export function AccountPage({ setCurrentPage }) {
                     <div className="flex items-center gap-3 pt-2">
                       <button
                         type="submit"
-                        className="px-6 py-2.5 rounded-xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] shadow-md shadow-[#FF5A1F]/20 cursor-pointer border-none"
+                        className="px-6 py-2.5 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
                       >
                         Save Profile to Firebase
                       </button>
@@ -616,7 +616,7 @@ export function AccountPage({ setCurrentPage }) {
           >
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-                <FiMapPin className="w-4 h-4 text-[#FF5A1F]" />
+                <FiMapPin className="w-4 h-4 text-[#025afc]" />
                 {editingAddressId ? 'Edit Shipping Address' : 'Add New Shipping Address'}
               </h3>
               <button
@@ -642,7 +642,7 @@ export function AccountPage({ setCurrentPage }) {
                   required
                   value={addressForm.name}
                   onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -654,8 +654,8 @@ export function AccountPage({ setCurrentPage }) {
                   maxLength={10}
                   value={addressForm.phone}
                   onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
-                  placeholder="9876543210"
-                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                  placeholder="9669155225"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -667,7 +667,7 @@ export function AccountPage({ setCurrentPage }) {
                   value={addressForm.addressLine1}
                   onChange={(e) => setAddressForm({ ...addressForm, addressLine1: e.target.value })}
                   placeholder="Building No, Flat No, Street Name"
-                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -678,7 +678,7 @@ export function AccountPage({ setCurrentPage }) {
                   value={addressForm.addressLine2}
                   onChange={(e) => setAddressForm({ ...addressForm, addressLine2: e.target.value })}
                   placeholder="Area, Sector, Locality"
-                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -689,7 +689,7 @@ export function AccountPage({ setCurrentPage }) {
                   required
                   value={addressForm.city}
                   onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -702,7 +702,7 @@ export function AccountPage({ setCurrentPage }) {
                   value={addressForm.pincode}
                   onChange={(e) => setAddressForm({ ...addressForm, pincode: e.target.value.replace(/\D/g, '').slice(0, 6) })}
                   placeholder="560038"
-                  className="w-full p-2.5 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -711,7 +711,7 @@ export function AccountPage({ setCurrentPage }) {
                 <select
                   value={addressForm.type}
                   onChange={(e) => setAddressForm({ ...addressForm, type: e.target.value })}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-[#FF5A1F] bg-white"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-[#025afc] bg-white"
                 >
                   <option value="Home">Home</option>
                   <option value="Office">Office / Work</option>
@@ -724,7 +724,7 @@ export function AccountPage({ setCurrentPage }) {
                   id="isDefaultChk"
                   checked={addressForm.isDefault}
                   onChange={(e) => setAddressForm({ ...addressForm, isDefault: e.target.checked })}
-                  className="w-4 h-4 text-[#FF5A1F] rounded"
+                  className="w-4 h-4 text-[#025afc] rounded"
                 />
                 <label htmlFor="isDefaultChk" className="font-bold text-slate-700">Set as Default Address</label>
               </div>
@@ -740,7 +740,7 @@ export function AccountPage({ setCurrentPage }) {
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 rounded-xl bg-[#FF5A1F] text-white font-extrabold shadow-md shadow-[#FF5A1F]/20 cursor-pointer border-none"
+                className="px-6 py-2 rounded-xl bg-[#025afc] text-white font-extrabold shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
               >
                 Save Address
               </button>

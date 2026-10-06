@@ -138,7 +138,7 @@ export const HomepageManager = () => {
           <button
             type="button"
             onClick={handleSave}
-            className="px-6 py-3 rounded-2xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-lg shadow-[#FF5A1F]/30 transition cursor-pointer border-none"
+            className="px-6 py-3 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-lg shadow-[#025afc]/30 transition cursor-pointer border-none"
           >
             {saveSuccess ? (
               <>
@@ -294,7 +294,7 @@ export const HomepageManager = () => {
                     hero: { ...formData.hero, headlineLine2: e.target.value }
                   })}
                   placeholder="e.g. Perfected."
-                  className="w-full p-3 rounded-xl border border-slate-200 font-extrabold text-[#FF5A1F] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full p-3 rounded-xl border border-slate-200 font-extrabold text-[#025afc] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -464,7 +464,7 @@ export const HomepageManager = () => {
                     ...formData,
                     categoriesSection: { ...formData.categoriesSection, headingHighlight: e.target.value }
                   })}
-                  className="w-full p-3 rounded-xl border border-slate-200 font-bold text-[#FF5A1F] focus:outline-none focus:border-[#FF5A1F]"
+                  className="w-full p-3 rounded-xl border border-slate-200 font-bold text-[#025afc] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -508,13 +508,13 @@ export const HomepageManager = () => {
 
             {/* Mock Hero Section */}
             <div className="bg-[#07152F] rounded-2xl p-6 border border-slate-800 space-y-6">
-              <span className="bg-[#FF5A1F]/15 border border-[#FF5A1F]/30 text-[#FF5A1F] text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full inline-block">
+              <span className="bg-[#025afc]/15 border border-[#025afc]/30 text-[#025afc] text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full inline-block">
                 {formData.hero?.eyebrowText}
               </span>
 
               <h1 className="text-3xl font-bold text-white leading-snug">
                 {formData.hero?.headlineLine1} <br />
-                <span className="text-[#FF5A1F]">{formData.hero?.headlineLine2}</span>
+                <span className="text-[#025afc]">{formData.hero?.headlineLine2}</span>
               </h1>
 
               <p className="text-[14px] text-slate-400 max-w-xl">
@@ -522,7 +522,7 @@ export const HomepageManager = () => {
               </p>
 
               <div className="flex items-center gap-3">
-                <button type="button" className="px-5 py-2.5 rounded-xl bg-[#FF5A1F] text-white font-bold text-[14px] border-none">
+                <button type="button" className="px-5 py-2.5 rounded-xl bg-[#025afc] text-white font-bold text-[14px] border-none">
                   {formData.hero?.primaryCtaText}
                 </button>
                 <button type="button" className="px-5 py-2.5 rounded-xl bg-white/10 text-white font-bold text-[14px] border border-white/20">
@@ -543,11 +543,11 @@ export const HomepageManager = () => {
             {/* Mock Categories Section */}
             <div className="space-y-4">
               <div>
-                <span className="text-[#FF5A1F] text-[10px] font-extrabold uppercase tracking-widest">
+                <span className="text-[#025afc] text-[10px] font-extrabold uppercase tracking-widest">
                   {formData.categoriesSection?.badgeText}
                 </span>
                 <h2 className="text-xl font-bold text-white">
-                  {formData.categoriesSection?.headingLine1} <span className="text-[#FF5A1F]">{formData.categoriesSection?.headingHighlight}</span>
+                  {formData.categoriesSection?.headingLine1} <span className="text-[#025afc]">{formData.categoriesSection?.headingHighlight}</span>
                 </h2>
               </div>
 

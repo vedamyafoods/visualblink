@@ -44,10 +44,10 @@ export function Testimonials() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[#C026D3] text-[14px] font-black tracking-widest uppercase">
+              <span className="text-[#025afc] text-[14px] font-black tracking-widest uppercase">
                 OUR CUSTOMERS
               </span>
-              <span className="h-[2px] w-8 bg-gradient-to-r from-[#D946EF] to-[#E11D48] inline-block rounded-full" />
+              <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
@@ -55,7 +55,7 @@ export function Testimonials() {
             </h2>
           </div>
 
-          <button className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#C026D3] hover:text-[#E11D48] transition-colors border-none bg-transparent cursor-pointer group shrink-0">
+          <button className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#025afc] hover:text-[#6a32f0] transition-colors border-none bg-transparent cursor-pointer group shrink-0">
             <span>View All Reviews</span>
             <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
@@ -70,7 +70,7 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.06, duration: 0.35 }}
-              className="bg-[#F9FAFB] rounded-2xl p-6 border border-slate-200 shadow-2xs hover:shadow-md hover:border-[#C026D3]/40 transition-all duration-300 flex flex-col justify-between"
+              className="bg-[#F9FAFB] rounded-2xl p-6 border border-slate-200 shadow-2xs hover:shadow-md hover:border-[#025afc]/40 transition-all duration-300 flex flex-col justify-between"
             >
               <div>
                 {/* 5 Stars */}

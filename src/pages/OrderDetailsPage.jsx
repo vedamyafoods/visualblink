@@ -53,7 +53,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FAFBFD] flex items-center justify-center p-6 text-center">
-        <div className="w-10 h-10 border-4 border-[#FF5A1F] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <div className="w-10 h-10 border-4 border-[#025afc] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
         <p className="text-[14px] text-slate-500 font-bold">Fetching order details...</p>
       </div>
     );
@@ -66,7 +66,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
         <p className="text-slate-500 text-[14px] mb-6">Could not locate details for Order #{orderId}.</p>
         <button
           onClick={() => setCurrentPage('account')}
-          className="px-6 py-3 rounded-2xl bg-[#FF5A1F] text-white font-extrabold text-[14px] uppercase cursor-pointer border-none"
+          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-extrabold text-[14px] uppercase cursor-pointer border-none"
         >
           Return to My Account
         </button>
@@ -97,13 +97,13 @@ export function OrderDetailsPage({ setCurrentPage }) {
             onClick={() => setCurrentPage('account')}
             className="inline-flex items-center gap-1.5 text-[14px] font-bold text-slate-400 hover:text-white transition cursor-pointer mb-4 bg-transparent border-none"
           >
-            <FiArrowLeft className="w-4 h-4 text-[#FF5A1F]" /> Back to My Orders
+            <FiArrowLeft className="w-4 h-4 text-[#025afc]" /> Back to My Orders
           </button>
 
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="px-2.5 py-0.5 rounded-full bg-[#FF5A1F]/20 text-[#FF5A1F] text-[10px] font-black uppercase tracking-wider border border-[#FF5A1F]/30">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#025afc]/20 text-[#025afc] text-[10px] font-black uppercase tracking-wider border border-[#025afc]/30">
                   Live Press Status Tracking
                 </span>
                 <span className="text-slate-400 text-[14px]">• Placed {formattedDate}</span>
@@ -115,7 +115,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
 
             <button
               onClick={() => setIsInvoiceOpen(true)}
-              className="px-5 py-3 rounded-2xl bg-[#FF5A1F] hover:bg-[#e44d15] text-white font-extrabold text-[14px] uppercase tracking-wider shadow-lg shadow-[#FF5A1F]/20 flex items-center gap-2 transition cursor-pointer border-none"
+              className="px-5 py-3 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] uppercase tracking-wider shadow-lg shadow-[#025afc]/20 flex items-center gap-2 transition cursor-pointer border-none"
             >
               <FiPrinter className="w-4 h-4" /> Download Tax Invoice
             </button>
@@ -130,14 +130,14 @@ export function OrderDetailsPage({ setCurrentPage }) {
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <div>
               <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2">
-                <FiTruck className="w-5 h-5 text-[#FF5A1F]" /> Real-Time Production & Dispatch Timeline
+                <FiTruck className="w-5 h-5 text-[#025afc]" /> Real-Time Production & Dispatch Timeline
               </h3>
               <p className="text-[14px] text-slate-500 mt-0.5">
                 Automatically updates live as prepress operators advance your order in the studio.
               </p>
             </div>
 
-            <span className="px-3.5 py-1.5 rounded-xl bg-orange-50 text-[#FF5A1F] font-black text-[14px] border border-orange-200">
+            <span className="px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#025afc] font-black text-[14px] border border-blue-200">
               Current Stage: {currentStatus}
             </span>
           </div>
@@ -153,7 +153,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
                   key={idx}
                   className={`p-3.5 rounded-2xl border transition-all text-[14px] space-y-1.5 ${
                     isCurrent
-                      ? 'border-[#FF5A1F] bg-orange-50/60 ring-2 ring-[#FF5A1F]/20'
+                      ? 'border-[#025afc] bg-blue-50/60 ring-2 ring-[#025afc]/20'
                       : isCompleted
                       ? 'border-emerald-300 bg-emerald-50/40 text-emerald-950'
                       : 'border-slate-200 bg-slate-50/50 text-slate-400'
@@ -162,7 +162,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
                   <div className="flex items-center justify-between">
                     <span className={`w-6 h-6 rounded-full flex items-center justify-center font-black text-[10px] ${
                       isCurrent
-                        ? 'bg-[#FF5A1F] text-white'
+                        ? 'bg-[#025afc] text-white'
                         : isCompleted
                         ? 'bg-emerald-600 text-white'
                         : 'bg-slate-200 text-slate-600'
@@ -171,12 +171,12 @@ export function OrderDetailsPage({ setCurrentPage }) {
                     </span>
 
                     {isCurrent && (
-                      <span className="w-2 h-2 rounded-full bg-[#FF5A1F] animate-ping" />
+                      <span className="w-2 h-2 rounded-full bg-[#025afc] animate-ping" />
                     )}
                   </div>
 
                   <strong className={`font-black block text-[14px] leading-tight ${
-                    isCurrent ? 'text-[#FF5A1F]' : isCompleted ? 'text-emerald-900' : 'text-slate-700'
+                    isCurrent ? 'text-[#025afc]' : isCompleted ? 'text-emerald-900' : 'text-slate-700'
                   }`}>
                     {stage.name}
                   </strong>
@@ -197,7 +197,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
             {/* Order Items */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
               <h3 className="text-base font-extrabold text-[#0B1633] border-b border-slate-100 pb-3 flex items-center gap-2">
-                <FiPackage className="w-4 h-4 text-[#FF5A1F]" /> Print Order Items
+                <FiPackage className="w-4 h-4 text-[#025afc]" /> Print Order Items
               </h3>
 
               <div className="space-y-4">
@@ -220,7 +220,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
 
                     <div className="text-left sm:text-right shrink-0">
                       <span className="text-[14px] text-slate-400 font-bold block">Item Subtotal</span>
-                      <strong className="text-base font-black text-[#FF5A1F]">
+                      <strong className="text-base font-black text-[#025afc]">
                         ₹{(item.totalPrice || (item.quantity * item.unitPrice) || 0).toLocaleString()}
                       </strong>
                     </div>
@@ -232,7 +232,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
             {/* Uploaded Artwork References */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
               <h3 className="text-base font-extrabold text-[#0B1633] border-b border-slate-100 pb-3 flex items-center gap-2">
-                <FiFileText className="w-4 h-4 text-[#FF5A1F]" /> Submitted Production Artwork Files ({artworkList.length})
+                <FiFileText className="w-4 h-4 text-[#025afc]" /> Submitted Production Artwork Files ({artworkList.length})
               </h3>
 
               {artworkList.length === 0 ? (
@@ -310,14 +310,14 @@ export function OrderDetailsPage({ setCurrentPage }) {
 
               <div className="pt-3 border-t border-slate-200 flex justify-between items-baseline">
                 <span className="text-[14px] font-bold text-slate-500">Grand Total</span>
-                <span className="text-2xl font-black text-[#FF5A1F]">₹{(order.totalAmount || order.pricing?.grandTotal || 0).toLocaleString()}</span>
+                <span className="text-2xl font-black text-[#025afc]">₹{(order.totalAmount || order.pricing?.grandTotal || 0).toLocaleString()}</span>
               </div>
             </div>
 
             {/* Delivery Destination Card */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-3 text-[14px]">
               <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
-                <FiMapPin className="w-4 h-4 text-[#FF5A1F]" /> Shipping Destination
+                <FiMapPin className="w-4 h-4 text-[#025afc]" /> Shipping Destination
               </h3>
 
               <div className="space-y-1 text-slate-700 font-medium leading-relaxed">

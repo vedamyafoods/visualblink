@@ -19,7 +19,7 @@ export function HowItWorks() {
       ),
       bottomIcon: <FiShoppingBag className="w-4 h-4 text-white" />,
       themeColor: '#E55325',
-      badgeBorder: 'border-[#E55325]',
+      badgeBorder: 'border-[#FCECE7]',
       badgeText: 'text-[#E55325]',
       waveFill: '#FCECE7',
       circleBg: 'bg-[#FCE6DF]',
@@ -109,17 +109,17 @@ export function HowItWorks() {
   return (
     <section className="py-16 sm:py-20 bg-[#FAFBFD] font-sans border-b border-[#E7EAF0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header Matching Reference Image 100% */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E55325] inline-block" />
-            <span className="h-[2px] w-8 bg-[#E55325] inline-block rounded-full" />
-            <span className="text-[#E55325] text-[14px] font-extrabold tracking-widest uppercase px-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#025afc] inline-block" />
+            <span className="h-[2px] w-8 bg-[#025afc] inline-block rounded-full" />
+            <span className="text-[#025afc] text-[14px] font-extrabold tracking-widest uppercase px-1">
               SIMPLE 4-STEP JOURNEY
             </span>
-            <span className="h-[2px] w-8 bg-[#E55325] inline-block rounded-full" />
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E55325] inline-block" />
+            <span className="h-[2px] w-8 bg-[#025afc] inline-block rounded-full" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#025afc] inline-block" />
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-bold text-[#07152F] tracking-tight">
@@ -130,7 +130,7 @@ export function HowItWorks() {
           </p>
 
           {/* Underline Indicator */}
-          <div className="w-12 h-1 bg-[#E55325] rounded-full mx-auto mt-4" />
+          <div className="w-12 h-1 bg-[#025afc] rounded-full mx-auto mt-4" />
         </div>
 
         {/* 4 Process Cards Grid */}
@@ -145,7 +145,7 @@ export function HowItWorks() {
           >
             {steps.map((step, index) => (
               <div key={step.title} className="relative flex flex-col items-center pt-5">
-                
+
                 {/* Dotted Arrow Connector between cards (Desktop) */}
                 {index < 3 && (
                   <div className="hidden lg:flex absolute top-[48%] -right-4 z-30 items-center text-slate-400">
@@ -198,12 +198,12 @@ export function HowItWorks() {
                   <div className="w-full absolute bottom-0 inset-x-0">
                     {/* Solid Bottom Border Bar */}
                     <div className={`w-full h-[12px] ${step.bottomBg}`} />
-                    
+
                     {/* Centered Floating Notch Tab Badge */}
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center">
                       {/* Top connector dot above tab */}
                       <div className={`w-1.5 h-1.5 rounded-full ${step.bottomBg} mb-0.5 opacity-60`} />
-                      
+
                       {/* Tab Pill */}
                       <div className={`w-12 h-9 ${step.bottomBg} rounded-t-[14px] rounded-b-[10px] flex items-center justify-center shadow-md`}>
                         {step.bottomIcon}
@@ -220,10 +220,10 @@ export function HowItWorks() {
         {/* Bottom Trust Card Banner Matching Reference Image 100% */}
         <div className="mt-16 max-w-5xl mx-auto bg-white rounded-2xl sm:rounded-full border border-[#E7EAF0] shadow-sm p-4 sm:p-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100 text-left sm:text-center lg:text-left">
-            
+
             {/* Feature 1 */}
             <div className="flex items-center gap-3.5 justify-center py-2 sm:py-0 px-2">
-              <div className="w-10 h-10 rounded-full bg-[#FCECE7] flex items-center justify-center flex-shrink-0 text-[#E55325]">
+              <div className="w-10 h-10 rounded-full bg-[#FCECE7] flex items-center justify-center flex-shrink-0 text-[#025afc]">
                 <FiShield className="w-5 h-5" />
               </div>
               <div>

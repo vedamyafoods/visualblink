@@ -40,7 +40,7 @@ export const mailService = {
       <div style="font-family: sans-serif; padding: 20px;">
         <h2>Your Visual Blink verification code</h2>
         <p>Please use the following 6-digit code to verify your login:</p>
-        <h1 style="color: #FF5A1F; letter-spacing: 2px;">${otpCode}</h1>
+        <h1 style="color: #025afc; letter-spacing: 2px;">${otpCode}</h1>
         <p>This code will expire in 10 minutes.</p>
         <p>If you did not request this code, please securely ignore this email.</p>
       </div>

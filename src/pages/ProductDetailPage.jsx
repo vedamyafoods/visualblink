@@ -24,6 +24,7 @@ import { subscribeToHomepageTestimonials } from '../services/firebase';
 import { GoogleReviewsSection } from '../Components/sections/GoogleReviewsSection';
 import { DynamicStorefrontForm } from '../Components/sections/DynamicStorefrontForm';
 import { ensureCustomSections } from '../utils/customSectionsHelper';
+import { FiAlertTriangle } from 'react-icons/fi';
 
 // Helper to convert camelCase keys like 'paperStock' -> 'Paper Stock'
 const formatKeyToTitle = (key) => {
@@ -93,7 +94,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
 
   // Minimum Order Quantity from product or default 100
-  const minPieces = product.minOrderQty || 100;
+  const minPieces = product.minOrderQty;
 
   const [isCustomQty, setIsCustomQty] = useState(false);
   const [customQtyInput, setCustomQtyInput] = useState(minPieces);
@@ -320,6 +321,12 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
 
   const handleAddToCart = () => {
+    // Validate design upload is required before adding to cart
+    if (!uploadedFrontFile) {
+      alert("Please upload your design before proceeding to checkout. It is a required step.");
+      return;
+    }
+
     // Use already calculated summary
     const dynamicOptionsSummary = dynamicOptionsSummaryForUI;
 
@@ -347,7 +354,8 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
     });
 
     setAddedSuccess(true);
-    setTimeout(() => setAddedSuccess(false), 2000);
+    // Remove auto-close timeout so the sticky bar remains until they click it, or just keep a longer timeout.
+    setTimeout(() => setAddedSuccess(false), 5000);
   };
 
   const handleBuyNow = () => {
@@ -407,15 +415,15 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-[13.5px] font-extrabold text-slate-700 hover:text-[#EA580C] transition cursor-pointer bg-transparent border-none"
+            className="inline-flex items-center gap-2 text-[13.5px] font-extrabold text-slate-700 hover:text-[#025afc] transition cursor-pointer bg-transparent border-none"
           >
-            <FiArrowLeft className="w-4 h-4 text-[#EA580C]" /> Back to Products
+            <FiArrowLeft className="w-4 h-4 text-[#025afc]" /> Back to Products
           </button>
 
           <div className="flex items-center gap-2 text-[13px] text-slate-500 font-medium">
             <span>Home</span>
             <span>/</span>
-            <span className="text-[#EA580C] font-bold">{product.category}</span>
+            <span className="text-[#025afc] font-bold">{product.category}</span>
             <span className="hidden sm:inline">/</span>
             <span className="text-slate-900 font-bold truncate max-w-[200px] hidden sm:inline">{product.title}</span>
           </div>
@@ -477,7 +485,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                     type="button"
                     onClick={() => setSelectedImage(img)}
                     className={`w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all cursor-pointer shrink-0 ${selectedImage === img
-                      ? 'border-[#EA580C] ring-2 ring-[#EA580C]/20 scale-105'
+                      ? 'border-[#025afc] ring-2 ring-[#025afc]/20 scale-105'
                       : 'border-slate-200 opacity-80 hover:opacity-100'
                       }`}
                   >
@@ -507,11 +515,21 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
           {/* RIGHT COLUMN: PRODUCT CONFIGURATION & ORDER SUMMARY (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
 
+            {/* Government Auth Warning Banner */}
+            <div className="bg-[#FFFDF4] border border-amber-200 rounded-xl p-4 flex items-start gap-3 sm:gap-4 shadow-sm">
+              <div className="bg-amber-100 p-2 rounded-full shrink-0">
+                <FiAlertTriangle className="w-5 h-5 text-amber-600" />
+              </div>
+              <p className="text-slate-700 text-sm font-medium leading-relaxed m-0 mt-0.5">
+                We do not print <strong className="font-extrabold">{product.title || product.category || 'this item'}</strong> for government-related works without proper authorization. If you place an order, you must provide an authorization letter from a higher authority. Failure to submit documentation will result in the cancellation of your order.
+              </p>
+            </div>
+
             {/* Header Information (Matching Screenshot 1) */}
             <div className="space-y-2.5">
               {/* Category Pill Tag */}
               <div>
-                <span className="px-3.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider text-[#EA580C] bg-[#FFF7ED] border border-[#EA580C]/40 inline-block">
+                <span className="px-3.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider text-[#025afc] bg-[#eff6ff] border border-[#025afc]/40 inline-block">
                   {product.category || 'PRINTING'}
                 </span>
               </div>
@@ -535,7 +553,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
               {/* Price Range Sub-Header (Matching Screenshot 1) */}
               <div className="flex items-baseline gap-2 pt-1">
                 <span className="text-sm font-medium text-slate-500">From</span>
-                <span className="text-2xl sm:text-3xl font-black text-[#EA580C]">
+                <span className="text-2xl sm:text-3xl font-bold text-[#025afc]">
                   ₹{lowestPrice.toFixed(2)}
                 </span>
                 <span className="text-sm font-medium text-slate-500">
@@ -573,7 +591,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                         step="0.1"
                         value={customHeight}
                         onChange={(e) => setCustomHeight(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-[14px] text-slate-900 focus:outline-none focus:border-[#EA580C]"
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-[14px] text-slate-900 focus:outline-none focus:border-[#025afc]"
                       />
                     </div>
                     <div>
@@ -584,14 +602,14 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                         step="0.1"
                         value={customWidth}
                         onChange={(e) => setCustomWidth(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-[14px] text-slate-900 focus:outline-none focus:border-[#EA580C]"
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-[14px] text-slate-900 focus:outline-none focus:border-[#025afc]"
                       />
                     </div>
                   </div>
 
                   <div className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between text-[13px] font-bold text-slate-700">
                     <span>Calculated Area:</span>
-                    <span className="text-sm font-black text-[#EA580C]">
+                    <span className="text-sm font-black text-[#025afc]">
                       {calculatedAreaSqCm > 0 ? `${customHeight}ft × ${customWidth}ft = ${calculatedAreaSqCm} sq.ft` : 'Enter dimensions'}
                     </span>
                   </div>
@@ -613,7 +631,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {(product.tieredPricing && product.tieredPricing.length > 0 ? product.tieredPricing : [
-                    { tierMin: product.minOrderQty || 100, pricePerUnit: product.basePrice || 5.0 }
+                    { tierMin: product.minOrderQty, pricePerUnit: product.basePrice }
                   ]).map((t, idx) => {
                     const isSelected = !isCustomQty && quantity === t.tierMin;
                     return (
@@ -625,12 +643,12 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                           setQuantity(t.tierMin);
                         }}
                         className={`p-3 rounded-xl text-center border-2 transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${isSelected
-                          ? 'bg-[#FFF7ED] border-[#EA580C] text-[#EA580C] shadow-3xs'
-                          : 'bg-white border-slate-200 text-slate-800 hover:border-orange-300'
+                          ? 'bg-[#eff6ff] border-[#025afc] text-[#025afc] shadow-3xs'
+                          : 'bg-white border-slate-200 text-slate-800 hover:border-blue-300'
                           }`}
                       >
                         <span className="font-black text-[14px]">{t.tierMin.toLocaleString()} {pUnit}</span>
-                        <span className={`text-[11.5px] font-medium ${isSelected ? 'text-[#EA580C]' : 'text-slate-500'}`}>
+                        <span className={`text-[11.5px] font-medium ${isSelected ? 'text-[#025afc]' : 'text-slate-500'}`}>
                           ₹{t.pricePerUnit.toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}
                         </span>
                       </button>
@@ -643,7 +661,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                   <button
                     type="button"
                     onClick={() => setIsCustomQty(!isCustomQty)}
-                    className="text-[12px] font-bold text-[#EA580C] hover:underline bg-transparent border-none cursor-pointer"
+                    className="text-[12px] font-bold text-[#025afc] hover:underline bg-transparent border-none cursor-pointer"
                   >
                     {isCustomQty ? '← Select Preset Quantity Cards' : '+ Enter Custom Quantity'}
                   </button>
@@ -663,7 +681,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                           setCustomQtyInput(val);
                           setQuantity(val);
                         }}
-                        className="w-32 p-2 bg-white border border-slate-300 rounded-lg font-bold text-sm text-slate-900 focus:outline-none focus:border-[#EA580C]"
+                        className="w-32 p-2 bg-white border border-slate-300 rounded-lg font-bold text-sm text-slate-900 focus:outline-none focus:border-[#025afc]"
                       />
                     </div>
                   )}
@@ -673,7 +691,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
               {/* UPLOAD YOUR DESIGN BOX (Matching Screenshot 2) */}
               <div className="bg-[#FAFBFD] p-5 rounded-2xl border border-slate-200 space-y-4">
                 <div className="flex items-center gap-2">
-                  <FiUploadCloud className="w-5 h-5 text-[#EA580C]" />
+                  <FiUploadCloud className="w-5 h-5 text-[#025afc]" />
                   <h4 className="font-black text-[14px] text-slate-900 uppercase tracking-wide">
                     Upload Your Design
                   </h4>
@@ -681,15 +699,15 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {/* Front Design Dropzone */}
-                  <label className="border-2 border-dashed border-slate-300 hover:border-[#EA580C] bg-white rounded-2xl p-4 text-center cursor-pointer transition-colors block group">
-                    <div className="w-9 h-9 rounded-full bg-orange-50 text-[#EA580C] flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform">
+                  <label className="border-2 border-dashed border-slate-300 hover:border-[#025afc] bg-white rounded-2xl p-4 text-center cursor-pointer transition-colors block group">
+                    <div className="w-9 h-9 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform">
                       <FiUploadCloud className="w-5 h-5" />
                     </div>
                     <span className="font-bold text-[13px] text-slate-900 block">
                       {uploadedFrontFile ? `Front: ${uploadedFrontFile.name}` : 'Front Design'}
                     </span>
                     <span className="text-[11px] text-slate-400 font-medium block">
-                      Drop file or <span className="text-[#EA580C] underline font-bold">browse</span>
+                      Drop file or <span className="text-[#025afc] underline font-bold">browse</span>
                     </span>
                     <input
                       type="file"
@@ -698,17 +716,17 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                     />
                   </label>
 
-                  {/* Back Design Dropzone (if double-sided or optional) */}
-                  {selectedVariants.sides?.toLowerCase().includes('double') || selectedVariants.sides?.toLowerCase().includes('both') ? (
-                    <label className="border-2 border-dashed border-slate-300 hover:border-[#EA580C] bg-white rounded-2xl p-4 text-center cursor-pointer transition-colors block group">
-                      <div className="w-9 h-9 rounded-full bg-orange-50 text-[#EA580C] flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform">
+                  {/* Back Design Dropzone (if double-sided, or if admin explicitly enables it) */}
+                  {product.enableBackDesignUpload || (selectedVariants.sides?.toLowerCase().includes('double') || selectedVariants.sides?.toLowerCase().includes('both')) ? (
+                    <label className="border-2 border-dashed border-slate-300 hover:border-[#025afc] bg-white rounded-2xl p-4 text-center cursor-pointer transition-colors block group">
+                      <div className="w-9 h-9 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform">
                         <FiUploadCloud className="w-5 h-5" />
                       </div>
                       <span className="font-bold text-[13px] text-slate-900 block">
                         {uploadedBackFile ? `Back: ${uploadedBackFile.name}` : 'Back Design'}
                       </span>
                       <span className="text-[11px] text-slate-400 font-medium block">
-                        Drop file or <span className="text-[#EA580C] underline font-bold">browse</span>
+                        Drop file or <span className="text-[#025afc] underline font-bold">browse</span>
                       </span>
                       <input
                         type="file"
@@ -729,13 +747,13 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                   value={designNotes}
                   onChange={(e) => setDesignNotes(e.target.value)}
                   placeholder="Design notes or special instructions..."
-                  className="w-full p-3 rounded-xl border border-slate-200 text-[13px] font-medium text-slate-800 bg-white focus:outline-none focus:border-[#EA580C] resize-none"
+                  className="w-full p-3 rounded-xl border border-slate-200 text-[13px] font-medium text-slate-800 bg-white focus:outline-none focus:border-[#025afc] resize-none"
                 />
               </div>
 
-              {/* ORDER SUMMARY DARK CARD (Matching Screenshot 2) */}
-              <div className="bg-[#0F172A] text-white rounded-2xl p-6 shadow-xl space-y-4">
-                <h4 className="font-black text-base text-white border-b border-slate-800 pb-3">
+              {/* ORDER SUMMARY LIGHT BLUE CARD */}
+              <div className="bg-[#eff6ff] text-slate-900 rounded-2xl p-6 border border-blue-100 space-y-4">
+                <h4 className="font-bold text-lg text-slate-900 border-b border-blue-200/60 pb-3">
                   Order Summary
                 </h4>
 
@@ -743,28 +761,28 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                   {/* Selected Options List */}
                   {Object.entries(displayOptions).map(([key, val]) => (
                     <div key={key} className="flex items-center justify-between font-medium">
-                      <span className="text-slate-400">{hasDynamicFields ? key : formatKeyToTitle(key)}</span>
-                      <span className="font-bold text-white text-right">{val}</span>
+                      <span className="text-slate-500 uppercase text-xs font-bold tracking-wider">{hasDynamicFields ? key : formatKeyToTitle(key)}</span>
+                      <span className="font-bold text-slate-800 text-right">{val}</span>
                     </div>
                   ))}
 
                   {/* Quantity Row */}
-                  <div className="flex items-center justify-between font-medium">
-                    <span className="text-slate-400">Quantity</span>
-                    <span className="font-bold text-white">{quantity.toLocaleString()} {pUnit}</span>
+                  <div className="flex items-center justify-between font-medium pt-1">
+                    <span className="text-slate-500 uppercase text-xs font-bold tracking-wider">Quantity</span>
+                    <span className="font-bold text-slate-800">{quantity.toLocaleString()} {pUnit}</span>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-800 space-y-2">
+                  <div className="pt-3 mt-1 border-t border-blue-200/60 space-y-2">
                     {/* Unit Price Row */}
                     <div className="flex items-center justify-between font-medium">
-                      <span className="text-slate-400">Unit Price</span>
-                      <span className="font-bold text-white font-mono">₹{unitPrice.toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}</span>
+                      <span className="text-slate-500 uppercase text-xs font-bold tracking-wider">Unit Price</span>
+                      <span className="font-bold text-slate-800">₹{unitPrice.toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}</span>
                     </div>
 
                     {/* Total Row */}
-                    <div className="flex items-center justify-between pt-1">
-                      <span className="font-bold text-white text-base">Total</span>
-                      <span className="font-black text-2xl text-[#EA580C]">
+                    <div className="flex items-center justify-between pt-2">
+                      <span className="font-bold text-slate-900 text-lg">Total</span>
+                      <span className="font-bold text-2xl text-[#025afc]">
                         ₹{totalPrice.toFixed(2)}
                       </span>
                     </div>
@@ -777,7 +795,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="w-full py-4 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-black text-base uppercase tracking-wider shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 cursor-pointer transition-all border-none active:scale-[0.99]"
+                  className="w-full py-4 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-black text-base uppercase tracking-wider shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer transition-all border-none active:scale-[0.99]"
                 >
                   {addedSuccess ? (
                     <>
@@ -815,22 +833,22 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                 </div>
                 <div className="flex items-center gap-2 text-slate-600">
                   <span className="text-[#25D366] font-black">💬</span>
-                  <span>Need urgent delivery or custom sizes? <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="text-[#EA580C] hover:underline font-bold">WhatsApp us</a></span>
+                  <span>Need urgent delivery or custom sizes? <a href="https://wa.me/919669155225" target="_blank" rel="noopener noreferrer" className="text-[#025afc] hover:underline font-bold">WhatsApp us</a></span>
                 </div>
               </div>
 
               {/* CTA ACTION BUTTONS: GET QUOTE & CALL NOW (Matching Screenshot 1) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <a
-                  href="https://wa.me/919876543210?text=Hello%20Printigly,%20I%20need%20a%20quote%20for%20product%20details"
+                  href="https://wa.me/919669155225?text=Hello%20VisualBlink,%20I%20need%20a%20quote%20for%20product%20details"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition-colors border-none text-decoration-none"
                 >
-                  <FiFileText className="w-4 h-4" /> Get Quote
+                  <FiFileText className="w-4 h-4" /> Get Quote On WhatsApp
                 </a>
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+919669155225"
                   className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition-colors border-none text-decoration-none"
                 >
                   <FiZap className="w-4 h-4" /> Call Now
@@ -849,7 +867,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                   className="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between cursor-pointer border-none bg-transparent hover:bg-slate-50 transition"
                 >
                   <span className="flex items-center gap-2">
-                    <FiFileText className="w-4 h-4 text-[#EA580C]" /> Product Description & Overview
+                    <FiFileText className="w-4 h-4 text-[#025afc]" /> Product Description & Overview
                   </span>
                   {openAccordion === 'description' ? <FiChevronUp className="w-4 h-4 text-slate-400" /> : <FiChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
@@ -871,7 +889,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                     className="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between cursor-pointer border-none bg-transparent hover:bg-slate-50 transition"
                   >
                     <span className="flex items-center gap-2">
-                      <FiInfo className="w-4 h-4 text-[#EA580C]" /> Technical Specifications
+                      <FiInfo className="w-4 h-4 text-[#025afc]" /> Technical Specifications
                     </span>
                     {openAccordion === 'specs' ? <FiChevronUp className="w-4 h-4 text-slate-400" /> : <FiChevronDown className="w-4 h-4 text-slate-400" />}
                   </button>
@@ -911,7 +929,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
               const relImg = relProd.images?.[0] || relProd.image;
               const relPrice = relProd.basePrice || relProd.price || 299;
               return (
-                <div key={relProd.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:border-orange-300 transition-all flex flex-col justify-between group">
+                <div key={relProd.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:border-blue-300 transition-all flex flex-col justify-between group">
                   <div>
                     <div className="h-44 bg-slate-100 relative overflow-hidden">
                       {relImg ? (
@@ -921,18 +939,18 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                           <FiPackage className="w-8 h-8 text-slate-300" />
                         </div>
                       )}
-                      <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-orange-50 text-[#EA580C] font-extrabold text-[10px] uppercase border border-orange-200">
+                      <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-[#025afc] font-extrabold text-[10px] uppercase border border-blue-200">
                         {relProd.category || 'Printing'}
                       </span>
                     </div>
 
                     <div className="p-4 space-y-2">
-                      <h4 className="font-extrabold text-sm text-slate-900 line-clamp-1 group-hover:text-[#EA580C] transition-colors">
+                      <h4 className="font-extrabold text-sm text-slate-900 line-clamp-1 group-hover:text-[#025afc] transition-colors">
                         {relProd.title}
                       </h4>
                       <div className="flex items-baseline gap-1 text-slate-500 text-xs font-bold">
                         <span>From</span>
-                        <span className="text-base font-black text-[#EA580C]">₹{relPrice}</span>
+                        <span className="text-base font-black text-[#025afc]">₹{relPrice}</span>
                       </div>
                     </div>
                   </div>
@@ -946,7 +964,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                         }
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-[#EA580C] text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors border-none cursor-pointer"
+                      className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-[#025afc] text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors border-none cursor-pointer"
                     >
                       Select options
                     </button>
@@ -965,6 +983,25 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
         productTitle={product.title || product.name}
       />
 
+      {/* Sticky Bottom Go To Cart Popup */}
+      {addedSuccess && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-50 flex items-center justify-between sm:justify-center sm:gap-6 animate-slideUp">
+          <div className="flex items-center gap-3">
+            <FiCheckCircle className="w-6 h-6 text-emerald-500" />
+            <div>
+              <h4 className="font-bold text-slate-900 text-[15px]">Item added to cart</h4>
+              <p className="text-xs font-medium text-slate-500 hidden sm:block">You can continue shopping or proceed to checkout.</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onNavigateCart}
+            className="bg-[#025afc] hover:bg-[#6a32f0] text-white px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-colors shadow-md shadow-blue-500/20 cursor-pointer border-none"
+          >
+            Go To Cart
+          </button>
+        </div>
+      )}
     </div>
   );
 }
