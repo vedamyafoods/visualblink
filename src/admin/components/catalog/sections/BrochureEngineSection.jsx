@@ -71,11 +71,11 @@ export const BrochureEngineSection = ({ formData, setFormData, catalogOptions, u
   return (
     <div className="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-200/80 shadow-3xs space-y-4">
       <div className="flex items-center justify-between border-b border-indigo-200/60 pb-2.5">
-        <h4 className="font-extrabold text-indigo-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
+        <h4 className="font-bold text-indigo-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-indigo-600" />
           Brochure & Leaflet Folds Engine
         </h4>
-        <span className="text-[10px] font-black text-indigo-700 bg-indigo-100 px-2.5 py-0.5 rounded-full border border-indigo-300">
+        <span className="text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2.5 py-0.5 rounded-full border border-indigo-300">
           Fold Pattern Engine Active
         </span>
       </div>
@@ -105,7 +105,7 @@ export const BrochureEngineSection = ({ formData, setFormData, catalogOptions, u
 
         <div className="md:col-span-2 flex items-center justify-between p-3 bg-white rounded-xl border border-indigo-200">
           <div>
-            <span className="font-extrabold text-[13px] text-indigo-950 flex items-center gap-1.5">
+            <span className="font-bold text-[13px] text-indigo-950 flex items-center gap-1.5">
               <Folders className="w-4 h-4 text-indigo-600" /> Automated Machine Creasing & Scoring
             </span>
             <p className="text-[11px] text-slate-500 font-medium">Prevents paper cracking along fold lines on 170+ GSM cardstocks</p>
@@ -113,11 +113,10 @@ export const BrochureEngineSection = ({ formData, setFormData, catalogOptions, u
           <button
             type="button"
             onClick={() => updateBrochure('creasingRequired', !brochureConfig.creasingRequired)}
-            className={`px-4 py-2 rounded-xl text-[12px] font-black cursor-pointer border transition ${
-              brochureConfig.creasingRequired
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-3xs'
-                : 'bg-slate-100 text-slate-500 border-slate-200'
-            }`}
+            className={`px-4 py-2 rounded-xl text-[12px] font-bold cursor-pointer border transition ${brochureConfig.creasingRequired
+              ? 'bg-indigo-600 text-white border-indigo-600 shadow-3xs'
+              : 'bg-slate-100 text-slate-500 border-slate-200'
+              }`}
           >
             {brochureConfig.creasingRequired ? 'CREASING INCLUDED' : 'NO CREASING'}
           </button>

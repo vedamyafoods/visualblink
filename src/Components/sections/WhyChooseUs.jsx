@@ -46,7 +46,7 @@ export function WhyChooseUs() {
                   <Icon className="w-5.5 h-5.5" />
                 </div>
                 <div>
-                  <h3 className="text-[15.5px] font-black text-[#0F172A] mb-1">
+                  <h3 className="text-[15.5px] font-bold text-[#0F172A] mb-1">
                     {f.title}
                   </h3>
                   <p className="text-slate-500 text-[14px] font-normal leading-relaxed">

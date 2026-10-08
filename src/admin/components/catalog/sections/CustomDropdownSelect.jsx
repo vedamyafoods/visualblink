@@ -93,7 +93,7 @@ export const CustomDropdownSelect = ({
           <button
             type="button"
             onClick={() => setIsAdding(true)}
-            className="px-3 py-2.5 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 font-extrabold text-[12px] border border-blue-200 cursor-pointer shrink-0 flex items-center gap-1 transition"
+            className="px-3 py-2.5 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold text-[12px] border border-blue-200 cursor-pointer shrink-0 flex items-center gap-1 transition"
             title="Add Custom Option"
           >
             <Plus className="w-3.5 h-3.5 text-blue-600" />
@@ -105,7 +105,7 @@ export const CustomDropdownSelect = ({
       {/* Inline Input Box when Custom is selected or clicked */}
       {isAdding && (
         <div className="p-3 bg-blue-50/70 border border-blue-300 rounded-xl space-y-2 animate-in fade-in">
-          <span className="text-[11px] font-black uppercase text-blue-900 tracking-wider flex items-center gap-1">
+          <span className="text-[11px] font-bold uppercase text-blue-900 tracking-wider flex items-center gap-1">
             <Plus className="w-3.5 h-3.5 text-blue-600" /> Enter Custom Option Details
           </span>
           <div className="flex items-center gap-2">
@@ -134,7 +134,7 @@ export const CustomDropdownSelect = ({
             <button
               type="button"
               onClick={handleAddSubmit}
-              className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[12.5px] cursor-pointer border-none shadow-3xs shrink-0"
+              className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[12.5px] cursor-pointer border-none shadow-3xs shrink-0"
             >
               Add
             </button>
@@ -153,17 +153,17 @@ export const CustomDropdownSelect = ({
       {/* Selected Option Custom Price Setting Input (Requirement 3 for Binding & Finish, etc.) */}
       {allowPrice && selectedObj && !isAdding && onUpdatePrice && (
         <div className="flex items-center justify-between p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl">
-          <span className="text-[11.5px] font-extrabold text-emerald-900 flex items-center gap-1">
+          <span className="text-[11.5px] font-bold text-emerald-900 flex items-center gap-1">
             💵 Custom Price for "{selectedObj.name}":
           </span>
           <div className="flex items-center gap-1.5 w-32">
-            <span className="text-[12px] font-black text-emerald-700">₹</span>
+            <span className="text-[12px] font-bold text-emerald-700">₹</span>
             <input
               type="number"
               step="0.5"
               value={selectedObj.price}
               onChange={(e) => onUpdatePrice(selectedObj.name, parseFloat(e.target.value) || 0)}
-              className="w-full p-1.5 rounded-lg border border-emerald-300 font-black text-emerald-900 text-[13px] bg-white focus:outline-none focus:border-emerald-600 text-right"
+              className="w-full p-1.5 rounded-lg border border-emerald-300 font-bold text-emerald-900 text-[13px] bg-white focus:outline-none focus:border-emerald-600 text-right"
               placeholder="0"
             />
           </div>
@@ -174,7 +174,7 @@ export const CustomDropdownSelect = ({
       {showManageList && (
         <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase text-slate-500 tracking-wider">
+            <span className="text-[10px] font-bold uppercase text-slate-500 tracking-wider">
               Existing Options ({normalizedOptions.length}) - Hover to Delete
             </span>
           </div>
@@ -186,7 +186,7 @@ export const CustomDropdownSelect = ({
               >
                 <span>{opt.name}</span>
                 {allowPrice && opt.price > 0 && (
-                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-1 rounded">
+                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1 rounded">
                     +₹{opt.price}
                   </span>
                 )}

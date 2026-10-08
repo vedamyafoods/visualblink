@@ -1,10 +1,10 @@
 import React from 'react';
-import { 
-  Calculator, 
-  Percent, 
-  Zap, 
-  Save, 
-  ShieldCheck, 
+import {
+  Calculator,
+  Percent,
+  Zap,
+  Save,
+  ShieldCheck,
   DollarSign,
   Plus,
   Trash2
@@ -37,14 +37,14 @@ export const PricingEngineManager = () => {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Top Banner */}
       <div className="bg-gradient-to-r from-blue-50/60 via-white to-slate-50 rounded-2xl p-6 text-slate-800 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-wider text-blue-600 mb-1">
             <Calculator className="w-4 h-4 text-blue-600" /> Taxation & Surcharge Architecture
           </div>
-          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
             Dynamic Pricing Engine & Bulk Discount Matrix
           </h2>
           <p className="text-[14px] text-slate-500 mt-1 max-w-xl font-medium">
@@ -54,17 +54,17 @@ export const PricingEngineManager = () => {
 
         <button
           onClick={handleSave}
-          className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[14px] flex items-center gap-2 shadow-md shadow-blue-500/20 transition-all border-none cursor-pointer"
+          className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] flex items-center gap-2 shadow-md shadow-blue-500/20 transition-all border-none cursor-pointer"
         >
           <Save className="w-4 h-4" /> Save Pricing Engine Rules
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
+
         {/* GST Settings Card */}
         <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
-          <div className="flex items-center gap-2 text-slate-900 font-extrabold text-sm border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2 text-slate-900 font-bold text-sm border-b border-slate-100 pb-3">
             <ShieldCheck className="w-4 h-4 text-emerald-600" /> Global GST Config (India Tax)
           </div>
 
@@ -78,7 +78,7 @@ export const PricingEngineManager = () => {
                   onChange={(e) => setPricingRules({ ...pricingRules, globalGstPercent: parseFloat(e.target.value) || 0 })}
                   className="w-full p-2.5 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500"
                 />
-                <span className="font-extrabold text-slate-500">% GST</span>
+                <span className="font-bold text-slate-500">% GST</span>
               </div>
               <p className="text-[14px] text-slate-500 mt-1">Applied automatically to subtotal as IGST (18%) or CGST+SGST (9%+9%).</p>
             </div>
@@ -87,7 +87,7 @@ export const PricingEngineManager = () => {
 
         {/* Rush Fee Modifier Card */}
         <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
-          <div className="flex items-center gap-2 text-slate-900 font-extrabold text-sm border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2 text-slate-900 font-bold text-sm border-b border-slate-100 pb-3">
             <Zap className="w-4 h-4 text-red-600 fill-red-500" /> Rush Fee Printing Modifiers
           </div>
 
@@ -120,10 +120,10 @@ export const PricingEngineManager = () => {
         {/* Volume Discount Rules Card */}
         <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div className="flex items-center gap-2 text-slate-900 font-extrabold text-sm">
+            <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
               <Percent className="w-4 h-4 text-blue-600" /> Volume Discount Builder
             </div>
-            <button 
+            <button
               onClick={addDiscountRule}
               className="p-1 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 text-[14px] font-bold"
               title="Add Threshold Rule"

@@ -21,9 +21,9 @@ export const QuickInvoiceModal = () => {
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
+
         <div className="p-4 border-b border-slate-200/80 bg-white text-slate-950 flex items-center justify-between">
-          <h3 className="font-extrabold text-sm flex items-center gap-2 text-slate-900">
+          <h3 className="font-bold text-sm flex items-center gap-2 text-slate-900">
             <FileText className="w-4 h-4 text-blue-600" /> B2B GST Tax Invoice Generator
           </h3>
           <button onClick={() => setQuickInvoiceModalOpen(false)} className="text-slate-450 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-50 transition-colors border-none bg-transparent cursor-pointer">
@@ -66,7 +66,7 @@ export const QuickInvoiceModal = () => {
           <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2 font-mono text-[14px]">
             <div className="flex justify-between"><span>Base Taxable Amount:</span><span>₹{amount.toLocaleString()}</span></div>
             <div className="flex justify-between text-blue-600"><span>18% GST (CGST 9% + SGST 9%):</span><span>₹{gstTax.toLocaleString()}</span></div>
-            <div className="flex justify-between font-extrabold text-slate-900 text-[14px] pt-2 border-t">
+            <div className="flex justify-between font-bold text-slate-900 text-[14px] pt-2 border-t">
               <span>Gross Invoice Total:</span><span>₹{total.toLocaleString()}</span>
             </div>
           </div>

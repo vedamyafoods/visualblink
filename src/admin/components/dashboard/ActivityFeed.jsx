@@ -99,10 +99,10 @@ export const ActivityFeed = () => {
       {/* Quick Action Shortcuts Panel */}
       <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50/20 text-slate-800 rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between">
         <div>
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-blue-600">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600">
             Rapid Dispatch Controls
           </span>
-          <h3 className="font-extrabold text-base text-slate-900 mt-1 mb-2">
+          <h3 className="font-bold text-base text-slate-900 mt-1 mb-2">
             Admin Quick Actions
           </h3>
           <p className="text-[14px] text-slate-500 mb-6 leading-relaxed">

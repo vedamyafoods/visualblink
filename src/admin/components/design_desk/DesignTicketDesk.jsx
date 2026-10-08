@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  Palette, 
-  UserCheck, 
-  Upload, 
-  Send, 
-  CheckCircle2, 
-  Clock, 
+import {
+  Palette,
+  UserCheck,
+  Upload,
+  Send,
+  CheckCircle2,
+  Clock,
   ExternalLink,
   MessageSquare,
   Sparkles,
@@ -15,10 +15,10 @@ import { useAdmin } from '../../context/AdminContext';
 import { uploadToCloudinary } from '../../../services/cloudinary';
 
 export const DesignTicketDesk = () => {
-  const { 
-    designRequests, 
-    assignDesignerToTicket, 
-    uploadTicketProof 
+  const {
+    designRequests,
+    assignDesignerToTicket,
+    uploadTicketProof
   } = useAdmin();
 
   const [selectedTicket, setSelectedTicket] = useState(null);
@@ -40,14 +40,14 @@ export const DesignTicketDesk = () => {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Top Banner */}
       <div className="bg-gradient-to-r from-purple-50/60 via-white to-slate-50 rounded-2xl p-6 text-slate-800 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-wider text-purple-600 mb-1">
             <Sparkles className="w-4 h-4 text-purple-600" /> Dedicated Design Assistance Hub
           </div>
-          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
             Custom Design Request Desk (+₹299 Fee Tier)
           </h2>
           <p className="text-[14px] text-slate-500 mt-1 max-w-xl font-medium">
@@ -57,8 +57,8 @@ export const DesignTicketDesk = () => {
 
         <div className="flex items-center gap-3">
           <div className="px-4 py-2 rounded-xl bg-purple-50 border border-purple-200 text-center">
-            <div className="text-lg font-black text-purple-700">{designRequests.length}</div>
-            <div className="text-[10px] text-purple-600 uppercase font-extrabold">Total Tickets</div>
+            <div className="text-lg font-bold text-purple-700">{designRequests.length}</div>
+            <div className="text-[10px] text-purple-600 uppercase font-bold">Total Tickets</div>
           </div>
         </div>
       </div>
@@ -66,20 +66,19 @@ export const DesignTicketDesk = () => {
       {/* Ticket Desk Queue Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {designRequests.map((ticket) => (
-          <div 
+          <div
             key={ticket.id}
             className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4 relative hover:border-purple-300 transition-all"
           >
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
-                <span className="font-extrabold text-sm text-slate-900">{ticket.id}</span>
+                <span className="font-bold text-sm text-slate-900">{ticket.id}</span>
                 <span className="text-[14px] text-slate-500 ml-2 font-mono">• Order: {ticket.orderId}</span>
               </div>
-              <span className={`px-2.5 py-0.5 rounded-full text-[14px] font-bold border ${
-                ticket.status === 'Proof Generated' 
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
-                  : 'bg-purple-50 text-purple-700 border-purple-200'
-              }`}>
+              <span className={`px-2.5 py-0.5 rounded-full text-[14px] font-bold border ${ticket.status === 'Proof Generated'
+                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                : 'bg-purple-50 text-purple-700 border-purple-200'
+                }`}>
                 {ticket.status}
               </span>
             </div>

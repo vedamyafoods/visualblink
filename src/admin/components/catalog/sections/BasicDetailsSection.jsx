@@ -38,7 +38,7 @@ export const BasicDetailsSection = ({
 
   return (
     <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-3xs space-y-4">
-      <h4 className="font-extrabold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
+      <h4 className="font-bold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
         <Package className="w-4 h-4" /> Basic Details & Classification
       </h4>
 
@@ -62,7 +62,7 @@ export const BasicDetailsSection = ({
             step="0.01"
             value={formData.basePrice}
             onChange={(e) => setFormData({ ...formData, basePrice: parseFloat(e.target.value) || 0 })}
-            className="w-full p-3 rounded-xl border border-slate-200 font-extrabold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
+            className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
           />
         </div>
 
@@ -73,7 +73,7 @@ export const BasicDetailsSection = ({
             value={formData.unit || 'pcs'}
             onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
             placeholder="e.g. pcs, pages, kg, bundle"
-            className="w-full p-3 rounded-xl border border-slate-200 font-extrabold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
+            className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
           />
         </div>
 
@@ -84,7 +84,7 @@ export const BasicDetailsSection = ({
             min="1"
             value={formData.minOrderQty || 100}
             onChange={(e) => setFormData({ ...formData, minOrderQty: parseInt(e.target.value) || 1 })}
-            className="w-full p-3 rounded-xl border border-slate-200 font-extrabold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
+            className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
           />
         </div>
 
@@ -95,7 +95,7 @@ export const BasicDetailsSection = ({
             <button
               type="button"
               onClick={() => setShowInlineCatInput(!showInlineCatInput)}
-              className="text-[10px] font-extrabold text-blue-600 hover:text-blue-800 bg-blue-50 px-2 py-0.5 rounded-lg flex items-center gap-1 cursor-pointer border-none"
+              className="text-[10px] font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-2 py-0.5 rounded-lg flex items-center gap-1 cursor-pointer border-none"
             >
               <Plus className="w-3 h-3" /> Quick Add Category
             </button>
@@ -140,7 +140,7 @@ export const BasicDetailsSection = ({
                     setShowInlineCatInput(false);
                   }
                 }}
-                className="px-4 py-2.5 rounded-xl bg-blue-600 text-white font-extrabold text-[14px] hover:bg-blue-700 cursor-pointer border-none shrink-0 shadow-3xs"
+                className="px-4 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-[14px] hover:bg-blue-700 cursor-pointer border-none shrink-0 shadow-3xs"
               >
                 Save
               </button>
@@ -180,7 +180,7 @@ export const BasicDetailsSection = ({
             <button
               type="button"
               onClick={() => setShowInlineSubcatInput(!showInlineSubcatInput)}
-              className="text-[10px] font-extrabold text-blue-600 hover:text-blue-800 bg-blue-50 px-2 py-0.5 rounded-lg flex items-center gap-1 cursor-pointer border-none"
+              className="text-[10px] font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-2 py-0.5 rounded-lg flex items-center gap-1 cursor-pointer border-none"
             >
               <Plus className="w-3 h-3" /> Quick Add Subcategory
             </button>
@@ -224,7 +224,7 @@ export const BasicDetailsSection = ({
                     setShowInlineSubcatInput(false);
                   }
                 }}
-                className="px-4 py-2.5 rounded-xl bg-blue-600 text-white font-extrabold text-[14px] hover:bg-blue-700 cursor-pointer border-none shrink-0 shadow-3xs"
+                className="px-4 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-[14px] hover:bg-blue-700 cursor-pointer border-none shrink-0 shadow-3xs"
               >
                 Save
               </button>
@@ -321,7 +321,7 @@ export const BasicDetailsSection = ({
         <div className="md:col-span-2 pt-3 border-t border-slate-100 space-y-2">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <label className="block font-extrabold text-slate-900 text-[13px] uppercase tracking-wider text-blue-600">
+              <label className="block font-bold text-slate-900 text-[13px] uppercase tracking-wider text-blue-600">
                 Related Products Selection (Cross-sell on Detail Page)
               </label>
               <p className="text-[11px] text-slate-500 font-medium">
@@ -333,12 +333,12 @@ export const BasicDetailsSection = ({
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, relatedProductIds: [] })}
-                  className="text-[10px] font-black text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-lg border border-red-200 cursor-pointer transition border-none"
+                  className="text-[10px] font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-lg border border-red-200 cursor-pointer transition border-none"
                 >
                   Clear All ({selectedRelatedIds.length})
                 </button>
               )}
-              <span className="text-[10.5px] font-extrabold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200">
+              <span className="text-[10.5px] font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200">
                 {selectedRelatedIds.length} Selected
               </span>
             </div>
@@ -392,26 +392,26 @@ export const BasicDetailsSection = ({
                         )}
 
                         {/* Top-Right Selection Badge */}
-                        <div className={`absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-md transition-all ${isSelected ? 'bg-blue-600 text-white scale-110 font-black text-xs' : 'bg-white/90 text-slate-400 text-[10px] border border-slate-300'
+                        <div className={`absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-md transition-all ${isSelected ? 'bg-blue-600 text-white scale-110 font-bold text-xs' : 'bg-white/90 text-slate-400 text-[10px] border border-slate-300'
                           }`}>
                           {isSelected ? '✓' : '○'}
                         </div>
 
                         {/* Category Pill Tag */}
-                        <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-slate-900/80 backdrop-blur-xs text-white font-black text-[9px] uppercase tracking-wider">
+                        <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-slate-900/80 backdrop-blur-xs text-white font-bold text-[9px] uppercase tracking-wider">
                           {p.category || 'SKU'}
                         </span>
                       </div>
 
                       {/* Product Info */}
                       <div className="p-2.5 space-y-1">
-                        <h5 className="font-extrabold text-[12.5px] text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                        <h5 className="font-bold text-[12.5px] text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colors">
                           {p.title}
                         </h5>
                         <div className="flex items-center justify-between text-[11px]">
-                          <span className="font-black text-blue-600">Base ₹{p.basePrice || p.price || 0}</span>
+                          <span className="font-bold text-blue-600">Base ₹{p.basePrice || p.price || 0}</span>
                           {isSelected && (
-                            <span className="text-[9px] font-black uppercase text-blue-700 bg-blue-100 px-1.5 py-0.5 rounded">
+                            <span className="text-[9px] font-bold uppercase text-blue-700 bg-blue-100 px-1.5 py-0.5 rounded">
                               Selected
                             </span>
                           )}

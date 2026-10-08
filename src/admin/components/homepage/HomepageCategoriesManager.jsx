@@ -98,14 +98,14 @@ export const HomepageCategoriesManager = () => {
     return (
         <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 mt-6">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 className="font-extrabold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2">
+                <h3 className="font-bold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2">
                     <Layers className="w-4 h-4" /> Category Grid Display Cards ({categories.length})
                 </h3>
                 <div className="flex gap-2">
                     <button
                         type="button"
                         onClick={handleAdd}
-                        className="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-extrabold text-[14px] flex items-center gap-1.5 border border-blue-200 cursor-pointer shadow-3xs"
+                        className="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-[14px] flex items-center gap-1.5 border border-blue-200 cursor-pointer shadow-3xs"
                     >
                         <Plus className="w-4 h-4" /> Add New Category Card
                     </button>
@@ -122,7 +122,7 @@ export const HomepageCategoriesManager = () => {
                 {categories.map((cat, idx) => (
                     <div key={cat.id || idx} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/60 hover:bg-white hover:shadow-md transition space-y-3">
                         <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-black uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
+                            <span className="text-[10px] font-bold uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
                                 Card #{idx + 1}
                             </span>
                             <button
@@ -161,7 +161,7 @@ export const HomepageCategoriesManager = () => {
                                         type="text"
                                         value={cat.title || ''}
                                         onChange={(e) => handleUpdate(idx, 'title', e.target.value)}
-                                        className="w-full p-2 rounded-lg border border-slate-200 font-extrabold text-slate-900 bg-white focus:outline-none focus:border-blue-500"
+                                        className="w-full p-2 rounded-lg border border-slate-200 font-bold text-slate-900 bg-white focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
 

@@ -21,7 +21,7 @@ export const DynamicStorefrontForm = ({
             {/* Section Title Header */}
             {sec.title && (
               <div className="border-b border-slate-200 pb-2">
-                <h3 className="font-extrabold text-[15px] text-slate-900 uppercase tracking-wide flex items-center gap-2">
+                <h3 className="font-bold text-[15px] text-slate-900 uppercase tracking-wide flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#025afc]"></span>
                   {sec.title}
                 </h3>
@@ -114,7 +114,7 @@ export const DynamicStorefrontForm = ({
                             >
                               <span>{optLabel}</span>
                               {opt.priceModifier > 0 && (
-                                <span className="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                                <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
                                   +₹{opt.priceModifier}
                                 </span>
                               )}
@@ -156,7 +156,7 @@ export const DynamicStorefrontForm = ({
                                 <span>{optLabel}</span>
                               </div>
                               {opt.priceModifier > 0 && (
-                                <span className="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                                <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
                                   +₹{opt.priceModifier}
                                 </span>
                               )}
@@ -180,7 +180,7 @@ export const DynamicStorefrontForm = ({
                               key={opt.id || oIdx}
                               type="button"
                               onClick={() => onValueChange(fieldId, optVal, field)}
-                              className={`group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 transition-all cursor-pointer font-extrabold text-[13px] ${isSelected
+                              className={`group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 transition-all cursor-pointer font-bold text-[13px] ${isSelected
                                 ? 'bg-[#FFF7ED] border-[#025afc] text-[#025afc] shadow-sm'
                                 : 'bg-white border-slate-200 text-slate-800 hover:border-blue-300'
                                 }`}

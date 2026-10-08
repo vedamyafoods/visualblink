@@ -48,20 +48,20 @@ export function LatestBlog({ setCurrentPage }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[#025afc] text-[14px] font-black tracking-widest uppercase">
+              <span className="text-[#025afc] text-[14px] font-bold tracking-widest uppercase">
                 TIPS, IDEAS & INSPIRATION
               </span>
               <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] tracking-tight">
               Latest from Our <span className="text-gradient">Blog</span>
             </h2>
           </div>
 
           <button
             onClick={handleLink}
-            className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#025afc] hover:text-[#6a32f0] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
+            className="inline-flex items-center gap-1.5 text-[14px] font-bold text-[#025afc] hover:text-[#6a32f0] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
           >
             <span>View All Posts</span>
             <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -88,7 +88,7 @@ export function LatestBlog({ setCurrentPage }) {
                     alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-3 left-3 btn-gradient text-white text-[10.5px] font-extrabold px-3 py-1 rounded-full shadow-sm">
+                  <span className="absolute top-3 left-3 btn-gradient text-white text-[10.5px] font-bold px-3 py-1 rounded-full shadow-sm">
                     {post.category}
                   </span>
                 </div>
@@ -96,7 +96,7 @@ export function LatestBlog({ setCurrentPage }) {
                 {/* Content Area */}
                 <div className="p-5">
                   <p className="text-[14px] text-slate-400 font-semibold mb-2">{post.date}</p>
-                  <h3 className="text-[16px] font-black text-[#0F172A] group-hover:text-[#025afc] transition-colors leading-snug line-clamp-2">
+                  <h3 className="text-[16px] font-bold text-[#0F172A] group-hover:text-[#025afc] transition-colors leading-snug line-clamp-2">
                     {post.title}
                   </h3>
                 </div>

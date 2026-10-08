@@ -8,7 +8,7 @@ export function TrustedBy() {
       <div className="overflow-hidden">
         <div className="marquee flex w-max items-center gap-5">
           {items.map((brand, index) => (
-            <div key={`${brand}-${index}`} className="grid h-14 min-w-40 place-items-center rounded-full border border-slate-200 bg-slate-50 px-8 text-sm font-extrabold uppercase tracking-[0.18em] text-slate-500 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
+            <div key={`${brand}-${index}`} className="grid h-14 min-w-40 place-items-center rounded-full border border-slate-200 bg-slate-50 px-8 text-sm font-bold uppercase tracking-[0.18em] text-slate-500 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
               {brand}
             </div>
           ))}

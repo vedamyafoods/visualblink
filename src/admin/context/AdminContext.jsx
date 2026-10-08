@@ -131,7 +131,7 @@ export const AdminProvider = ({ children }) => {
           name: o.customer?.name || 'Customer',
           company: o.customer?.company || 'Direct Client',
           email: o.customer?.email || 'client@visualblink.com',
-          phone: o.customer?.phone || '+91 98000 00000',
+          phone: o.customer?.phone || '+91 96691 55225',
           gstin: o.customer?.gstin || null,
           totalSpend: o.totalAmount || 0,
           totalOrders: 1,
@@ -218,13 +218,25 @@ export const AdminProvider = ({ children }) => {
 
   // Update Order Status Handler (Syncs to Firestore)
   const updateOrderStatus = async (orderId, newStatus) => {
+    // Optimistic update
     setOrders(prevOrders =>
       prevOrders.map(o => o.id === orderId ? { ...o, status: newStatus } : o)
     );
     if (selectedOrder && selectedOrder.id === orderId) {
       setSelectedOrder(prev => ({ ...prev, status: newStatus }));
     }
-    await updateOrderStatusInFirestore(orderId, newStatus);
+
+    // Secure API Call
+    try {
+      await fetch('/api/update-order-admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, newStatus })
+      });
+    } catch (e) {
+      console.warn('API sync failed, falling back to local');
+      await updateOrderStatusInFirestore(orderId, newStatus);
+    }
   };
 
   // Add Walk-in Order Handler (Saves to Firestore)

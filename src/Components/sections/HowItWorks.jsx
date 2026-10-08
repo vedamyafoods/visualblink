@@ -115,7 +115,7 @@ export function HowItWorks() {
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#025afc] inline-block" />
             <span className="h-[2px] w-8 bg-[#025afc] inline-block rounded-full" />
-            <span className="text-[#025afc] text-[14px] font-extrabold tracking-widest uppercase px-1">
+            <span className="text-[#025afc] text-[14px] font-bold tracking-widest uppercase px-1">
               SIMPLE 4-STEP JOURNEY
             </span>
             <span className="h-[2px] w-8 bg-[#025afc] inline-block rounded-full" />
@@ -156,7 +156,7 @@ export function HowItWorks() {
 
                 {/* Top Number Badge Floating Above Card */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
-                  <div className={`w-11 h-11 rounded-full bg-white border-[2px] ${step.badgeBorder} shadow-sm flex items-center justify-center text-[14px] font-black ${step.badgeText}`}>
+                  <div className={`w-11 h-11 rounded-full bg-white border-[2px] ${step.badgeBorder} shadow-sm flex items-center justify-center text-[14px] font-bold ${step.badgeText}`}>
                     {step.num}
                   </div>
                   {/* Small vertical connector line & dot */}

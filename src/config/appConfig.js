@@ -7,6 +7,9 @@ export const APP_CONFIG = {
   PREVIEWABLE_EXTENSIONS: ['jpg', 'jpeg', 'png', 'pdf'],
 
   // Payment & COD Configuration
+  WHATSAPP_NUMBER: "919669155225",
+  CONTACT_NUMBER: "+91 96691 55225",
+
   ALLOW_COD: true,
   COD_MIN_ORDER_AMOUNT: 0,
   COD_MAX_ORDER_AMOUNT: 50000,

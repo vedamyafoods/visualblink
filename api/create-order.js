@@ -1,28 +1,5 @@
 import nodemailer from 'nodemailer';
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import {
-  getFirestore,
-  doc,
-  getDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-  runTransaction,
-  serverTimestamp
-} from 'firebase/firestore';
-
-const firebaseConfig = {
-  apiKey: process.env.VITE_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
-  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.VITE_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID,
-};
-
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const db = getFirestore(app);
+import { adminDb } from './_services/firebaseAdmin.js';
 
 function getTransporter() {
   const host = process.env.SMTP_HOST;
@@ -77,9 +54,8 @@ export default async function handler(req, res) {
 
     // 1. Idempotency Check: Prevent duplicate orders
     const effectiveIdempotencyKey = idempotencyKey || req.body.orderId;
-    if (effectiveIdempotencyKey) {
-      const qKey = query(collection(db, 'orders'), where('idempotencyKey', '==', effectiveIdempotencyKey));
-      const keySnap = await getDocs(qKey);
+    if (effectiveIdempotencyKey && adminDb) {
+      const keySnap = await adminDb.collection('orders').where('idempotencyKey', '==', effectiveIdempotencyKey).get();
       if (!keySnap.empty) {
         const existingOrder = keySnap.docs[0].data();
         console.log(`[Order API] Duplicate checkout prevented for key: ${effectiveIdempotencyKey}`);
@@ -97,8 +73,10 @@ export default async function handler(req, res) {
 
     let createdOrderObj = null;
 
+    if (!adminDb) throw new Error("Firebase Admin not configured");
+
     // 2. Execute Atomic Firestore Transaction (Validate stock, recalculate prices, deduct stock, create order)
-    await runTransaction(db, async (transaction) => {
+    await adminDb.runTransaction(async (transaction) => {
       let recalculatedSubtotal = 0;
       const validatedItems = [];
 
@@ -109,10 +87,10 @@ export default async function handler(req, res) {
         let pName = item.productName || item.name || 'Custom Printed Product';
 
         if (prodId) {
-          const prodRef = doc(db, 'products', String(prodId));
+          const prodRef = adminDb.collection('products').doc(String(prodId));
           const prodSnap = await transaction.get(prodRef);
 
-          if (prodSnap.exists()) {
+          if (prodSnap.exists) { // Admin SDK uses .exists not .exists()
             const prodData = prodSnap.data();
             pName = prodData.name || pName;
             actualUnitPrice = prodData.basePrice || prodData.price || actualUnitPrice;
@@ -161,8 +139,10 @@ export default async function handler(req, res) {
       }
 
       const grandTotal = Math.max(0, Math.round(recalculatedSubtotal - couponDiscount + expressFee + shippingFee));
+      const advancePaymentAmount = Math.ceil(grandTotal / 2);
+      const remainingPaymentAmount = grandTotal - advancePaymentAmount;
 
-      const newOrderRef = doc(collection(db, 'orders'));
+      const newOrderRef = adminDb.collection('orders').doc();
       const orderId = newOrderRef.id;
 
       createdOrderObj = {
@@ -193,6 +173,8 @@ export default async function handler(req, res) {
           gstPercentage: 18,
           gstAmount: 0, // GST Inclusive
           grandTotal,
+          advancePaymentAmount,
+          remainingPaymentAmount,
           totalAmount: grandTotal
         },
         subtotal: recalculatedSubtotal,
@@ -203,11 +185,11 @@ export default async function handler(req, res) {
           method: paymentMethod || 'cod',
           status: paymentStatus || (paymentMethod === 'razorpay' ? 'paid' : 'pending'),
           razorpayPaymentId: razorpayPaymentId || null,
-          paidAt: paymentStatus === 'paid' ? new Date().toISOString() : null
+          paidAt: paymentStatus === 'Advance Paid' ? new Date().toISOString() : null
         },
         paymentMethod: paymentMethod || 'cod',
         paymentStatus: paymentStatus || (paymentMethod === 'razorpay' ? 'paid' : 'pending'),
-        status: paymentStatus === 'paid' ? 'Payment Confirmed' : 'Artwork Verification',
+        status: (paymentStatus === 'paid' || paymentStatus === 'Advance Paid') ? 'Payment Confirmed' : 'Artwork Verification',
         isExpress: !!isExpress,
         artwork: artwork || [],
         emailStatus: {

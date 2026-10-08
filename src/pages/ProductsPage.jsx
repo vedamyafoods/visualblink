@@ -275,7 +275,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
                 Full Print & Packaging Catalog
               </h1>
               <p className="text-slate-300 text-sm sm:text-base font-medium max-w-2xl mt-2">
@@ -323,13 +323,13 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
         {/* Results Bar & Active Filter Chips */}
         <div className="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="font-extrabold text-[#0B1633] text-sm">
-              Showing <span className="text-[#025afc] font-black">{filteredProducts.length}</span> of {pool.length} SKUs
+            <span className="font-bold text-[#0B1633] text-sm">
+              Showing <span className="text-[#025afc] font-bold">{filteredProducts.length}</span> of {pool.length} SKUs
             </span>
 
             {/* Active Category Filter Chip */}
             {activeCategory !== 'All' && (
-              <span className="px-3 py-1 rounded-full bg-[#07152F] text-white text-[12px] font-extrabold flex items-center gap-1.5 shadow-xs">
+              <span className="px-3 py-1 rounded-full bg-[#07152F] text-white text-[12px] font-bold flex items-center gap-1.5 shadow-xs">
                 <span>Category: {activeCategory}</span>
                 <button
                   onClick={() => setActiveCategory('All')}
@@ -342,7 +342,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
 
             {/* Active Search Term Filter Chip */}
             {searchTerm && (
-              <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-[12px] font-extrabold flex items-center gap-1.5 border border-purple-200">
+              <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-[12px] font-bold flex items-center gap-1.5 border border-purple-200">
                 <span>Keyword: "{searchTerm}"</span>
                 <button
                   onClick={() => {
@@ -381,7 +381,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-extrabold text-slate-800 focus:outline-none focus:border-[#025afc] cursor-pointer"
+                className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#025afc] cursor-pointer"
               >
                 <option value="featured">Featured SKUs</option>
                 <option value="price-low">Price: Low to High</option>
@@ -399,7 +399,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
 
             {/* Categories Card */}
             <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs space-y-3">
-              <h3 className="font-black text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 pb-2.5">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 pb-2.5">
                 <span>Categories</span>
                 <span className="text-[10px] font-bold text-slate-400">{categories.length - 1}</span>
               </h3>
@@ -416,7 +416,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`w-full text-left px-3.5 py-2.5 rounded-2xl text-[13px] font-extrabold transition-all flex items-center justify-between border cursor-pointer ${isSelected
+                      className={`w-full text-left px-3.5 py-2.5 rounded-2xl text-[13px] font-bold transition-all flex items-center justify-between border cursor-pointer ${isSelected
                         ? 'bg-[#025afc] text-white border-[#025afc] shadow-xs'
                         : 'bg-slate-50 text-slate-700 border-slate-100 hover:bg-slate-100'
                         }`}
@@ -435,7 +435,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
             {/* Subcategories Filter Card */}
             {availableSubcategories.length > 0 && (
               <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs space-y-3">
-                <h3 className="font-black text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 pb-2.5">
+                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 pb-2.5">
                   <span>Subcategories</span>
                 </h3>
                 <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
@@ -461,7 +461,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
 
             {/* Price Filter Slider Card */}
             <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs space-y-3">
-              <h3 className="font-black text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 pb-2.5">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 pb-2.5">
                 <span>Price Range (₹)</span>
                 <span className="text-[11px] font-bold text-[#025afc]">₹{minPrice} - ₹{maxPrice}+</span>
               </h3>
@@ -482,7 +482,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
 
             {/* Finishes Filter Card */}
             <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs space-y-3">
-              <h3 className="font-black text-xs uppercase tracking-wider text-slate-400 border-b border-slate-100 pb-2.5">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400 border-b border-slate-100 pb-2.5">
                 Finishing Effects
               </h3>
               <div className="flex flex-wrap gap-1.5">
@@ -514,7 +514,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                 <div className="flex justify-center mb-4">
                   <div className="w-10 h-10 border-4 border-blue-200 border-t-[#025afc] rounded-full animate-spin"></div>
                 </div>
-                <h3 className="text-lg font-black text-slate-900">Loading Products...</h3>
+                <h3 className="text-lg font-bold text-slate-900">Loading Products...</h3>
                 <p className="text-slate-500 text-xs font-medium">Please wait while we fetch the latest catalog.</p>
               </div>
             ) : filteredProducts.length === 0 ? (
@@ -522,13 +522,13 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                 <div className="w-16 h-16 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center mx-auto text-2xl">
                   <FiShoppingBag />
                 </div>
-                <h3 className="text-lg font-black text-slate-900">No Products Listed</h3>
+                <h3 className="text-lg font-bold text-slate-900">No Products Listed</h3>
                 <p className="text-slate-500 text-xs font-medium">
                   There are currently no products matching your active filters.
                 </p>
                 <button
                   onClick={clearAllFilters}
-                  className="px-6 py-3 rounded-2xl bg-[#07152F] text-white font-extrabold text-xs uppercase tracking-wider hover:bg-slate-800 transition cursor-pointer border-none shadow-md"
+                  className="px-6 py-3 rounded-2xl bg-[#07152F] text-white font-bold text-xs uppercase tracking-wider hover:bg-slate-800 transition cursor-pointer border-none shadow-md"
                 >
                   Reset All Filters & View Full Catalog
                 </button>
@@ -557,12 +557,12 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                           />
 
                           {/* Price Tag Badge */}
-                          <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-[#07152F]/90 backdrop-blur-xs text-white font-black text-xs border border-white/20">
+                          <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-[#07152F]/90 backdrop-blur-xs text-white font-bold text-xs border border-white/20">
                             From ₹{prod.basePrice || prod.price}
                           </div>
 
                           {/* Category Tag */}
-                          <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-xs text-[#025afc] font-black text-[10px] uppercase tracking-wider border border-slate-200">
+                          <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-xs text-[#025afc] font-bold text-[10px] uppercase tracking-wider border border-slate-200">
                             {getCanonicalCategory(prod.category)}
                           </div>
 
@@ -585,7 +585,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                         <div className="p-5 space-y-2">
                           <h3
                             onClick={() => setSelectedProduct(prod)}
-                            className="font-black text-base text-[#0B1633] line-clamp-1 group-hover:text-[#025afc] transition-colors cursor-pointer"
+                            className="font-bold text-base text-[#0B1633] line-clamp-1 group-hover:text-[#025afc] transition-colors cursor-pointer"
                           >
                             {prod.title}
                           </h3>
@@ -615,7 +615,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                         <button
                           type="button"
                           onClick={() => setSelectedProduct(prod)}
-                          className="flex-1 py-2.5 px-3 rounded-2xl bg-[#07152F] hover:bg-[#025afc] text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors border-none cursor-pointer shadow-xs"
+                          className="flex-1 py-2.5 px-3 rounded-2xl bg-[#07152F] hover:bg-[#025afc] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors border-none cursor-pointer shadow-xs"
                         >
                           Configure & Buy <FiArrowRight className="w-3.5 h-3.5" />
                         </button>

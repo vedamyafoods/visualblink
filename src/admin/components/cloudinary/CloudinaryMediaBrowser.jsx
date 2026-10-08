@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { 
-  Image as ImageIcon, 
-  Upload, 
-  Copy, 
-  Check, 
-  Search, 
-  Tag, 
-  ExternalLink, 
+import {
+  Image as ImageIcon,
+  Upload,
+  Copy,
+  Check,
+  Search,
+  Tag,
+  ExternalLink,
   Sparkles,
   Folder
 } from 'lucide-react';
@@ -48,14 +48,14 @@ export const CloudinaryMediaBrowser = () => {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const filteredMedia = cloudinaryMedia.filter(m => 
+  const filteredMedia = cloudinaryMedia.filter(m =>
     m.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     m.tags.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
     <div className="space-y-6">
-      
+
       {/* Top Banner & Upload Dropzone */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -63,7 +63,7 @@ export const CloudinaryMediaBrowser = () => {
             <div className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-wider text-blue-600 mb-1">
               <Sparkles className="w-4 h-4 text-blue-600" /> Embedded Cloudinary Asset Manager & CDN
             </div>
-            <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">
               Cloudinary Asset Library & Media Hub
             </h2>
             <p className="text-[14px] text-slate-500 mt-1 max-w-2xl">
@@ -71,7 +71,7 @@ export const CloudinaryMediaBrowser = () => {
             </p>
           </div>
 
-          <label className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[14px] flex items-center gap-2 cursor-pointer shadow-md shadow-blue-500/20 transition-all border-none">
+          <label className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] flex items-center gap-2 cursor-pointer shadow-md shadow-blue-500/20 transition-all border-none">
             <Upload className="w-4 h-4" />
             <span>{uploading ? 'Uploading to Cloudinary...' : 'Upload New Media Asset'}</span>
             <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
@@ -81,11 +81,11 @@ export const CloudinaryMediaBrowser = () => {
         {/* Drag and Drop Zone Header */}
         <label className="block border-2 border-dashed border-blue-200 hover:border-blue-500 bg-blue-50/30 hover:bg-blue-50 rounded-2xl p-6 text-center cursor-pointer transition-colors">
           <div className="flex flex-col items-center justify-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center font-extrabold">
+            <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
               <Upload className="w-6 h-6" />
             </div>
             <div>
-              <span className="font-extrabold text-slate-900 text-[14px] block">
+              <span className="font-bold text-slate-900 text-[14px] block">
                 {uploading ? 'Processing & Optimizing Image...' : 'Click or Drag & Drop File to Upload to Cloudinary'}
               </span>
               <span className="text-[14px] text-slate-500 font-medium">Supports PNG, JPG, WEBP, SVG • Auto-generated WebP thumbnails</span>
@@ -113,9 +113,9 @@ export const CloudinaryMediaBrowser = () => {
           <div key={media.publicId} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
             <div>
               <div className="h-44 bg-slate-900 relative overflow-hidden flex items-center justify-center">
-                <img 
-                  src={media.url} 
-                  alt={media.title} 
+                <img
+                  src={media.url}
+                  alt={media.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-2 right-2 px-2 py-0.5 rounded bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-mono">
@@ -129,7 +129,7 @@ export const CloudinaryMediaBrowser = () => {
                   <span>{media.folder}</span>
                 </div>
                 <h4 className="font-bold text-[14px] text-slate-900 truncate">{media.title}</h4>
-                
+
                 <div className="flex flex-wrap gap-1">
                   {media.tags.map((t, idx) => (
                     <span key={idx} className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-medium flex items-center gap-0.5">

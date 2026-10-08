@@ -11,7 +11,7 @@ export function SectionTitle({ eyebrow, title, text, align = 'center' }) {
       transition={{ duration: 0.65, ease: 'easeOut' }}
     >
       {eyebrow && <Badge>{eyebrow}</Badge>}
-      <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">
+      <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl">
         {title}
       </h2>
       {text && <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">{text}</p>}

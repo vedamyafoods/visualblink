@@ -3,13 +3,13 @@ import { Search, X, Kanban, Package, Users, Palette, Zap, Calculator } from 'luc
 import { useAdmin } from '../../context/AdminContext';
 
 export const AdminCommandPalette = () => {
-  const { 
-    commandPaletteOpen, 
-    setCommandPaletteOpen, 
-    orders, 
-    products, 
-    customers, 
-    setActiveTab, 
+  const {
+    commandPaletteOpen,
+    setCommandPaletteOpen,
+    orders,
+    products,
+    customers,
+    setActiveTab,
     setSelectedOrder,
     setPreflightModalOpen
   } = useAdmin();
@@ -18,8 +18,8 @@ export const AdminCommandPalette = () => {
 
   if (!commandPaletteOpen) return null;
 
-  const filteredOrders = orders.filter(o => 
-    (o.id || '').toLowerCase().includes(query.toLowerCase()) || 
+  const filteredOrders = orders.filter(o =>
+    (o.id || '').toLowerCase().includes(query.toLowerCase()) ||
     (o.customer?.name || '').toLowerCase().includes(query.toLowerCase()) ||
     (o.customer?.company || '').toLowerCase().includes(query.toLowerCase())
   );
@@ -37,7 +37,7 @@ export const AdminCommandPalette = () => {
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-start justify-center pt-20 p-4">
       <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
+
         {/* Search Header */}
         <div className="p-4 border-b border-slate-100 flex items-center gap-3">
           <Search className="w-5 h-5 text-blue-600" />
@@ -76,7 +76,7 @@ export const AdminCommandPalette = () => {
 
         {/* Search Results */}
         <div className="max-h-96 overflow-y-auto p-4 space-y-4 text-[14px]">
-          
+
           {/* Orders Section */}
           {filteredOrders.length > 0 && (
             <div>
@@ -98,7 +98,7 @@ export const AdminCommandPalette = () => {
                       <div className="font-bold text-slate-900 flex items-center gap-2">
                         <span>{order.id}</span>
                         {order.isExpress && (
-                          <span className="px-1.5 py-0.2 rounded bg-red-100 text-red-700 font-extrabold text-[9px] flex items-center gap-0.5">
+                          <span className="px-1.5 py-0.2 rounded bg-red-100 text-red-700 font-bold text-[9px] flex items-center gap-0.5">
                             <Zap className="w-3 h-3 fill-red-600" /> Express
                           </span>
                         )}
@@ -109,7 +109,7 @@ export const AdminCommandPalette = () => {
                       </p>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className="font-extrabold text-slate-900">₹{order.totalAmount.toLocaleString()}</div>
+                      <div className="font-bold text-slate-900">₹{order.totalAmount.toLocaleString()}</div>
                       <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700">
                         {order.status}
                       </span>
@@ -167,7 +167,7 @@ export const AdminCommandPalette = () => {
                       <span className="font-bold text-slate-900">{cust.name} ({cust.company})</span>
                       <p className="text-slate-500 text-[14px]">{cust.email} • {cust.phone}</p>
                     </div>
-                    <span className="font-extrabold text-slate-900">Total ₹{cust.totalSpend.toLocaleString()}</span>
+                    <span className="font-bold text-slate-900">Total ₹{cust.totalSpend.toLocaleString()}</span>
                   </div>
                 ))}
               </div>

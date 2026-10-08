@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  CheckCircle2, 
-  AlertTriangle, 
-  Download, 
-  Send, 
-  Printer, 
-  RefreshCw, 
-  FileCheck, 
+import {
+  X,
+  CheckCircle2,
+  AlertTriangle,
+  Download,
+  Send,
+  Printer,
+  RefreshCw,
+  FileCheck,
   Layers,
   ZoomIn,
   Phone,
@@ -18,11 +18,11 @@ import {
 import { useAdmin } from '../../context/AdminContext';
 
 export const PreflightFileInspector = () => {
-  const { 
-    selectedOrder, 
-    preflightModalOpen, 
-    setPreflightModalOpen, 
-    updateOrderStatus 
+  const {
+    selectedOrder,
+    preflightModalOpen,
+    setPreflightModalOpen,
+    updateOrderStatus
   } = useAdmin();
 
   const [showBleedOverlay, setShowBleedOverlay] = useState(true);
@@ -57,19 +57,19 @@ export const PreflightFileInspector = () => {
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        
+
         {/* Modal Top Bar */}
         <div className="p-4 border-b border-slate-200 bg-white text-slate-950 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 font-extrabold shadow-sm border border-blue-150">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold shadow-sm border border-blue-150">
               <FileCheck className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-base tracking-tight text-slate-900">
+                <h3 className="font-bold text-base tracking-tight text-slate-900">
                   Pre-Flight File Inspector & Inspector Engine
                 </h3>
-                <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-extrabold text-[14px] border border-blue-200">
+                <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold text-[14px] border border-blue-200">
                   {selectedOrder.id}
                 </span>
               </div>
@@ -89,29 +89,29 @@ export const PreflightFileInspector = () => {
 
         {/* Modal Main Body Grid */}
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 overflow-y-auto lg:overflow-hidden bg-slate-100">
-          
+
           {/* Left Canvas Preview Area (2 cols) */}
           <div className="lg:col-span-2 p-6 flex flex-col items-center justify-center relative overflow-hidden bg-slate-900/90 border-r border-slate-800">
-            
+
             {/* Bleed Overlay Controls Toolbar */}
             <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-xl p-2 text-[14px] text-white">
               <div className="flex items-center gap-3">
                 <span className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">Guide Overlays:</span>
                 <label className="flex items-center gap-1.5 cursor-pointer font-medium text-red-400">
-                  <input 
-                    type="checkbox" 
-                    checked={showBleedOverlay} 
-                    onChange={(e) => setShowBleedOverlay(e.target.checked)} 
+                  <input
+                    type="checkbox"
+                    checked={showBleedOverlay}
+                    onChange={(e) => setShowBleedOverlay(e.target.checked)}
                     className="rounded text-red-500"
                   />
                   <span>Red 3mm Bleed Line</span>
                 </label>
 
                 <label className="flex items-center gap-1.5 cursor-pointer font-medium text-emerald-400">
-                  <input 
-                    type="checkbox" 
-                    checked={showSafetyOverlay} 
-                    onChange={(e) => setShowSafetyOverlay(e.target.checked)} 
+                  <input
+                    type="checkbox"
+                    checked={showSafetyOverlay}
+                    onChange={(e) => setShowSafetyOverlay(e.target.checked)}
                     className="rounded text-emerald-500"
                   />
                   <span>Green Safety Safe-Zone</span>
@@ -142,7 +142,7 @@ export const PreflightFileInspector = () => {
               {art.previewUrl ? (
                 <div className="relative border-4 border-slate-700 shadow-2xl rounded-sm overflow-hidden bg-white max-h-[60vh]">
                   <img src={art.previewUrl} alt="Uploaded Artwork" className="max-h-[55vh] max-w-full object-contain" />
-                  
+
                   {/* Bleed Overlay Line */}
                   {showBleedOverlay && (
                     <div className="absolute inset-2 border-2 border-dashed border-red-500 pointer-events-none flex items-start justify-start p-1">
@@ -160,7 +160,7 @@ export const PreflightFileInspector = () => {
               ) : (
                 <div className="w-96 h-64 bg-slate-800 rounded-2xl border-2 border-dashed border-slate-700 flex flex-col items-center justify-center p-6 text-center text-slate-400">
                   <FileCheck className="w-12 h-12 text-slate-600 mb-2" />
-                  <p className="font-extrabold text-sm text-slate-300">File Type: {art.fileType.toUpperCase()}</p>
+                  <p className="font-bold text-sm text-slate-300">File Type: {art.fileType.toUpperCase()}</p>
                   <p className="text-[14px] text-slate-500 mt-1 font-mono">{art.fileName}</p>
                   <span className="mt-3 px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full font-bold text-[10px] border border-blue-500/30">
                     PDF Pre-flight Inspection Loaded
@@ -173,8 +173,8 @@ export const PreflightFileInspector = () => {
           {/* Right Inspector Controls & Telemetry Data (1 col) */}
           <div className="p-6 bg-white flex flex-col justify-between overflow-y-auto space-y-6">
             <div className="space-y-4">
-              
-              <h4 className="font-extrabold text-[14px] text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-2">
+
+              <h4 className="font-bold text-[14px] text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-2">
                 Automated Inspection Checklist
               </h4>
 

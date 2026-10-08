@@ -28,7 +28,7 @@ export function Categories() {
                 </div>
                 <div className="mt-5 flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="text-lg font-extrabold text-slate-950 dark:text-white">{category.title}</h3>
+                    <h3 className="text-lg font-bold text-slate-950 dark:text-white">{category.title}</h3>
                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{category.tag}</p>
                   </div>
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-100 text-slate-700 transition group-hover:bg-blue-600 group-hover:text-white dark:bg-white/10 dark:text-white">

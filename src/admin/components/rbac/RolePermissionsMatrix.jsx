@@ -48,7 +48,7 @@ export const RolePermissionsMatrix = () => {
           <div className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-wider text-blue-600 mb-1">
             <ShieldCheck className="w-4 h-4 text-blue-600" /> Firebase Auth Custom Claims & RBAC
           </div>
-          <h2 className="text-xl font-extrabold tracking-tight text-slate-900">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900">
             Role-Based Access Control (RBAC) Security Matrix
           </h2>
           <p className="text-[14px] text-slate-500 mt-1 max-w-xl">
@@ -63,7 +63,7 @@ export const RolePermissionsMatrix = () => {
             <select
               value={userRole}
               onChange={(e) => setUserRole(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded px-2.5 py-1 text-[14px] text-blue-600 font-extrabold focus:outline-none cursor-pointer"
+              className="bg-slate-50 border border-slate-200 rounded px-2.5 py-1 text-[14px] text-blue-600 font-bold focus:outline-none cursor-pointer"
             >
               <option value="Super Admin">Super Admin</option>
               <option value="Production Manager">Production Manager</option>
@@ -159,8 +159,8 @@ export const RolePermissionsMatrix = () => {
                     </td>
                     <td className="py-3 px-4">
                       <span className={`inline-flex items-center px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${log.type === 'login_success' ? 'bg-emerald-100 text-emerald-700' :
-                          log.type === 'login_failed' ? 'bg-amber-100 text-amber-700' :
-                            'bg-red-100 text-red-700'
+                        log.type === 'login_failed' ? 'bg-amber-100 text-amber-700' :
+                          'bg-red-100 text-red-700'
                         }`}>
                         {log.type.replace('_', ' ')}
                       </span>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  FiSearch, 
-  FiX, 
-  FiArrowRight, 
-  FiTrendingUp, 
-  FiClock, 
-  FiPackage, 
+import {
+  FiSearch,
+  FiX,
+  FiArrowRight,
+  FiTrendingUp,
+  FiClock,
+  FiPackage,
   FiChevronRight,
   FiShoppingBag,
   FiZap
@@ -26,7 +26,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
       if (stored) {
         setRecentSearches(JSON.parse(stored));
       }
-    } catch (e) {}
+    } catch (e) { }
   }, [isOpen]);
 
   // Subscribe to live Firestore products
@@ -67,28 +67,28 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
   const trimmed = query.trim().toLowerCase();
   const searchResults = trimmed
     ? products.filter((p) => {
-        const titleMatch = (p.title || p.name || '').toLowerCase().includes(trimmed);
-        const categoryMatch = (p.category || '').toLowerCase().includes(trimmed);
-        const descMatch = (p.description || '').toLowerCase().includes(trimmed);
-        const aliasMatch = (p.searchAliases || []).some(alias => alias.toLowerCase().includes(trimmed));
+      const titleMatch = (p.title || p.name || '').toLowerCase().includes(trimmed);
+      const categoryMatch = (p.category || '').toLowerCase().includes(trimmed);
+      const descMatch = (p.description || '').toLowerCase().includes(trimmed);
+      const aliasMatch = (p.searchAliases || []).some(alias => alias.toLowerCase().includes(trimmed));
 
-        // Built-in Vernacular Alias Fallbacks
-        let vernacularMatch = false;
-        if (trimmed.includes('parcha') || trimmed.includes('pamplet') || trimmed.includes('pamphlet') || trimmed.includes('leaflet')) {
-          if ((p.title + p.category).toLowerCase().includes('flyer') || (p.title + p.category).toLowerCase().includes('leaflet')) vernacularMatch = true;
-        }
-        if (trimmed.includes('rasid') || trimmed.includes('receipt') || trimmed.includes('challan') || trimmed.includes('invoice')) {
-          if ((p.title + p.category).toLowerCase().includes('bill') || (p.title + p.category).toLowerCase().includes('book')) vernacularMatch = true;
-        }
-        if (trimmed.includes('flex') || trimmed.includes('banner') || trimmed.includes('hoarding')) {
-          if ((p.title + p.category).toLowerCase().includes('banner') || (p.title + p.category).toLowerCase().includes('flex')) vernacularMatch = true;
-        }
-        if (trimmed.includes('visiting')) {
-          if ((p.title + p.category).toLowerCase().includes('card')) vernacularMatch = true;
-        }
+      // Built-in Vernacular Alias Fallbacks
+      let vernacularMatch = false;
+      if (trimmed.includes('parcha') || trimmed.includes('pamplet') || trimmed.includes('pamphlet') || trimmed.includes('leaflet')) {
+        if ((p.title + p.category).toLowerCase().includes('flyer') || (p.title + p.category).toLowerCase().includes('leaflet')) vernacularMatch = true;
+      }
+      if (trimmed.includes('rasid') || trimmed.includes('receipt') || trimmed.includes('challan') || trimmed.includes('invoice')) {
+        if ((p.title + p.category).toLowerCase().includes('bill') || (p.title + p.category).toLowerCase().includes('book')) vernacularMatch = true;
+      }
+      if (trimmed.includes('flex') || trimmed.includes('banner') || trimmed.includes('hoarding')) {
+        if ((p.title + p.category).toLowerCase().includes('banner') || (p.title + p.category).toLowerCase().includes('flex')) vernacularMatch = true;
+      }
+      if (trimmed.includes('visiting')) {
+        if ((p.title + p.category).toLowerCase().includes('card')) vernacularMatch = true;
+      }
 
-        return titleMatch || categoryMatch || descMatch || aliasMatch || vernacularMatch;
-      })
+      return titleMatch || categoryMatch || descMatch || aliasMatch || vernacularMatch;
+    })
     : [];
 
   const saveRecentSearch = (searchTerm) => {
@@ -96,7 +96,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
       const updated = [searchTerm, ...recentSearches.filter((s) => s !== searchTerm)].slice(0, 5);
       setRecentSearches(updated);
       localStorage.setItem('printo_recent_searches', JSON.stringify(updated));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const handleProductClick = (prod) => {
@@ -136,7 +136,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
 
       {/* Main Search Command Dialog */}
       <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden z-10 font-sans flex flex-col max-h-[80vh]">
-        
+
         {/* Search Input Bar */}
         <form onSubmit={handleSearchSubmit} className="relative flex items-center px-5 py-4 border-b border-slate-100 bg-slate-50/50">
           <FiSearch className="w-5 h-5 text-[#025afc] shrink-0 mr-3.5" />
@@ -146,7 +146,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search products (e.g. Business Cards, Banners, Packaging)..."
-            className="w-full bg-transparent text-sm sm:text-base font-extrabold text-slate-900 placeholder:text-slate-400 focus:outline-none"
+            className="w-full bg-transparent text-sm sm:text-base font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none"
           />
           {query && (
             <button
@@ -160,7 +160,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
           <button
             type="button"
             onClick={onClose}
-            className="px-2.5 py-1 rounded-xl bg-slate-200/80 hover:bg-slate-300/80 text-[14px] font-black text-slate-600 transition border-none cursor-pointer"
+            className="px-2.5 py-1 rounded-xl bg-slate-200/80 hover:bg-slate-300/80 text-[14px] font-bold text-slate-600 transition border-none cursor-pointer"
           >
             ESC
           </button>
@@ -171,7 +171,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
           {trimmed ? (
             /* Search Results */
             <div>
-              <div className="flex items-center justify-between mb-3 text-[14px] text-slate-400 font-extrabold uppercase tracking-wider">
+              <div className="flex items-center justify-between mb-3 text-[14px] text-slate-400 font-bold uppercase tracking-wider">
                 <span>Matching Products ({searchResults.length})</span>
                 {searchResults.length > 0 && <span className="text-[#025afc]">Press Enter to view all</span>}
               </div>
@@ -193,19 +193,19 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-0.5">
-                          <span className="px-2 py-0.5 rounded-full bg-[#025afc]/10 text-[#025afc] text-[10px] font-black uppercase">
+                          <span className="px-2 py-0.5 rounded-full bg-[#025afc]/10 text-[#025afc] text-[10px] font-bold uppercase">
                             {prod.category}
                           </span>
                           <span className="text-[14px] font-bold text-slate-400">
                             Min {prod.minOrderQty || 1} pcs
                           </span>
                         </div>
-                        <h4 className="text-sm font-extrabold text-slate-900 truncate group-hover:text-[#025afc] transition-colors">
+                        <h4 className="text-sm font-bold text-slate-900 truncate group-hover:text-[#025afc] transition-colors">
                           {prod.title}
                         </h4>
                       </div>
                       <div className="text-right shrink-0">
-                        <span className="text-sm font-black text-[#025afc] block">
+                        <span className="text-sm font-bold text-[#025afc] block">
                           ₹{prod.basePrice || prod.price || 0}
                         </span>
                         <span className="text-[10px] text-slate-400 font-bold block">Starting at</span>
@@ -227,7 +227,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
             <div className="space-y-6">
               {/* Popular Trending Queries */}
               <div>
-                <div className="flex items-center gap-1.5 text-[14px] text-slate-400 font-extrabold uppercase tracking-wider mb-3">
+                <div className="flex items-center gap-1.5 text-[14px] text-slate-400 font-bold uppercase tracking-wider mb-3">
                   <FiTrendingUp className="w-3.5 h-3.5 text-[#025afc]" />
                   <span>Popular Product Categories</span>
                 </div>
@@ -251,7 +251,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct, onNavigateSearch
               {/* Recent Search History if available */}
               {recentSearches.length > 0 && (
                 <div>
-                  <div className="flex items-center justify-between text-[14px] text-slate-400 font-extrabold uppercase tracking-wider mb-3">
+                  <div className="flex items-center justify-between text-[14px] text-slate-400 font-bold uppercase tracking-wider mb-3">
                     <span className="flex items-center gap-1.5">
                       <FiClock className="w-3.5 h-3.5 text-slate-400" />
                       <span>Recent Searches</span>

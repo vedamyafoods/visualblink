@@ -61,7 +61,7 @@ export function Footer({ setCurrentPage }) {
 
           {/* Col 2: Quick Links (2 Cols) */}
           <div className="lg:col-span-2 text-left">
-            <h4 className="text-[14px] font-black text-[#0F172A] uppercase tracking-wider mb-4">Quick Links</h4>
+            <h4 className="text-[14px] font-bold text-[#0F172A] uppercase tracking-wider mb-4">Quick Links</h4>
             <ul className="space-y-2.5 text-[14px] font-semibold text-slate-500">
               <li><button onClick={() => handleLink('home')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Home</button></li>
               <li><button onClick={() => handleLink('products')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Products</button></li>
@@ -73,7 +73,7 @@ export function Footer({ setCurrentPage }) {
 
           {/* Col 3: Our Services (3 Cols) */}
           <div className="lg:col-span-3 text-left">
-            <h4 className="text-[14px] font-black text-[#0F172A] uppercase tracking-wider mb-4">Our Services</h4>
+            <h4 className="text-[14px] font-bold text-[#0F172A] uppercase tracking-wider mb-4">Our Services</h4>
             <ul className="space-y-2.5 text-[14px] font-semibold text-slate-500">
               <li><button onClick={() => handleLink('services')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Design Support</button></li>
               <li><button onClick={() => handleLink('products')} className="hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer p-0">Custom Printing</button></li>
@@ -85,7 +85,7 @@ export function Footer({ setCurrentPage }) {
 
           {/* Col 4: Newsletter (3 Cols - Matching Screenshot 2) */}
           <div className="lg:col-span-3 text-left">
-            <h4 className="text-[14px] font-black text-[#0F172A] uppercase tracking-wider mb-2">Newsletter</h4>
+            <h4 className="text-[14px] font-bold text-[#0F172A] uppercase tracking-wider mb-2">Newsletter</h4>
             <p className="text-[14px] text-slate-500 font-normal leading-relaxed mb-4">
               Get updates on new products & offers.
             </p>
@@ -112,7 +112,12 @@ export function Footer({ setCurrentPage }) {
 
         {/* Bottom Sub-footer Row (Matching Screenshot 2) */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 text-[14px] font-semibold text-slate-400">
-          <p>© 2026 Visual Blink. All rights reserved.</p>
+          <div className="text-center sm:text-left">
+            <p>© 2026 Visual Blink. All rights reserved.</p>
+            <p className="mt-1 text-[13px] text-slate-500 font-normal">
+              A unit of <span className="font-bold text-slate-700">{BRANDING.parentCompany}</span>
+            </p>
+          </div>
           <p className="flex items-center gap-1">
             Designed to Print a Better Tomorrow. <span className="text-[#6a32f0]">❤️</span>
           </p>

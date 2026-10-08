@@ -176,12 +176,12 @@ export function LoginPage({ setCurrentPage }) {
                 <path d="M5 4v3H4a2 2 0 00-2 2v7a2 2 0 002 2h1v2a1 1 0 001 1h12a1 1 0 001-1v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a1 1 0 00-1-1H6a1 1 0 00-1 1zm2 0h10v3H7V4zm-3 7h16v5h-1v-1a1 1 0 00-1-1H6a1 1 0 00-1 1v1H4v-5zm3 6v-2h10v2H7z" />
               </svg>
             </div>
-            <span className="text-2xl font-black text-[#0B1633] tracking-tight">
+            <span className="text-2xl font-bold text-[#0B1633] tracking-tight">
               VisualBlink<span className="text-[#025afc]">.</span>
             </span>
           </button>
 
-          <h2 className="text-3xl font-extrabold text-[#0B1633] tracking-tight">
+          <h2 className="text-3xl font-bold text-[#0B1633] tracking-tight">
             {resetMode ? 'Reset Password' : 'Access Your Account'}
           </h2>
           <p className="mt-2 text-[14px] sm:text-sm text-slate-500 font-medium">
@@ -275,7 +275,7 @@ export function LoginPage({ setCurrentPage }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 rounded-2xl bg-[#0B1633] hover:bg-[#1a2542] text-white font-extrabold text-[14px] tracking-wider uppercase shadow-lg shadow-[#0B1633]/25 transition cursor-pointer border-none flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-2xl bg-[#0B1633] hover:bg-[#1a2542] text-white font-bold text-[14px] tracking-wider uppercase shadow-lg shadow-[#0B1633]/25 transition cursor-pointer border-none flex items-center justify-center gap-2"
             >
               {loading ? 'Processing...' : (resetMode ? 'Send Reset Link' : 'Sign In')}
             </button>
@@ -293,7 +293,7 @@ export function LoginPage({ setCurrentPage }) {
                 type="button"
                 disabled={loading}
                 onClick={handleGoogleLogin}
-                className="w-full py-3.5 px-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-extrabold text-[14px] flex items-center justify-center gap-3 transition cursor-pointer"
+                className="w-full py-3.5 px-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-[14px] flex items-center justify-center gap-3 transition cursor-pointer"
               >
                 <FcGoogle className="w-5 h-5 shrink-0" />
                 <span>Continue with Google</span>
@@ -305,7 +305,7 @@ export function LoginPage({ setCurrentPage }) {
             Don't have an account?{' '}
             <button
               onClick={() => setCurrentPage && setCurrentPage('signup')}
-              className="font-extrabold text-[#025afc] hover:underline bg-transparent border-none cursor-pointer"
+              className="font-bold text-[#025afc] hover:underline bg-transparent border-none cursor-pointer"
             >
               Join Now
             </button>

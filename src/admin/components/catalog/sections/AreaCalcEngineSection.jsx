@@ -49,11 +49,11 @@ export const AreaCalcEngineSection = ({ formData, setFormData, catalogOptions, u
   return (
     <div className="bg-blue-50/50 p-5 rounded-2xl border border-blue-200/80 shadow-3xs space-y-4">
       <div className="flex items-center justify-between border-b border-blue-200/60 pb-2.5">
-        <h4 className="font-extrabold text-blue-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
+        <h4 className="font-bold text-blue-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
           <Calculator className="w-4 h-4 text-blue-600" />
           Area Calculator & Rate Engine (Sq.Ft / Custom Size)
         </h4>
-        <span className="text-[10px] font-black text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-300">
+        <span className="text-[10px] font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-300">
           Height × Width Calculator Active
         </span>
       </div>
@@ -68,7 +68,7 @@ export const AreaCalcEngineSection = ({ formData, setFormData, catalogOptions, u
             step="0.5"
             value={areaConfig.ratePerSqFt}
             onChange={(e) => updateArea('ratePerSqFt', parseFloat(e.target.value) || 0)}
-            className="w-full p-2.5 rounded-xl border border-blue-300 font-extrabold text-slate-800 text-[14px] bg-white focus:outline-none focus:border-blue-600"
+            className="w-full p-2.5 rounded-xl border border-blue-300 font-bold text-slate-800 text-[14px] bg-white focus:outline-none focus:border-blue-600"
           />
         </div>
 
@@ -81,7 +81,7 @@ export const AreaCalcEngineSection = ({ formData, setFormData, catalogOptions, u
             step="1"
             value={areaConfig.minBillableSqFt}
             onChange={(e) => updateArea('minBillableSqFt', parseFloat(e.target.value) || 1)}
-            className="w-full p-2.5 rounded-xl border border-blue-300 font-extrabold text-slate-800 text-[14px] bg-white focus:outline-none focus:border-blue-600"
+            className="w-full p-2.5 rounded-xl border border-blue-300 font-bold text-slate-800 text-[14px] bg-white focus:outline-none focus:border-blue-600"
           />
         </div>
 
@@ -122,17 +122,16 @@ export const AreaCalcEngineSection = ({ formData, setFormData, catalogOptions, u
 
         <div className="flex items-center justify-between p-2.5 bg-white rounded-xl border border-blue-200">
           <div>
-            <span className="font-extrabold text-[12.5px] text-slate-800">Eyelets / Grommets Option</span>
+            <span className="font-bold text-[12.5px] text-slate-800">Eyelets / Grommets Option</span>
             <p className="text-[10px] text-slate-400 font-medium">Metal rings every 2ft</p>
           </div>
           <button
             type="button"
             onClick={() => updateArea('eyeletGrommets', !areaConfig.eyeletGrommets)}
-            className={`px-3 py-1 rounded-lg text-[11px] font-black cursor-pointer border transition ${
-              areaConfig.eyeletGrommets
-                ? 'bg-blue-600 text-white border-blue-600'
-                : 'bg-slate-100 text-slate-500 border-slate-200'
-            }`}
+            className={`px-3 py-1 rounded-lg text-[11px] font-bold cursor-pointer border transition ${areaConfig.eyeletGrommets
+              ? 'bg-blue-600 text-white border-blue-600'
+              : 'bg-slate-100 text-slate-500 border-slate-200'
+              }`}
           >
             {areaConfig.eyeletGrommets ? 'YES' : 'NO'}
           </button>

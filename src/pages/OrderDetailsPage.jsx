@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  FiArrowLeft, 
-  FiPackage, 
-  FiTruck, 
-  FiCheckCircle, 
-  FiClock, 
-  FiDownload, 
-  FiPrinter, 
-  FiMapPin, 
-  FiUser, 
-  FiShield, 
+import {
+  FiArrowLeft,
+  FiPackage,
+  FiTruck,
+  FiCheckCircle,
+  FiClock,
+  FiDownload,
+  FiPrinter,
+  FiMapPin,
+  FiUser,
+  FiShield,
   FiFileText,
   FiExternalLink
 } from 'react-icons/fi';
@@ -62,11 +62,11 @@ export function OrderDetailsPage({ setCurrentPage }) {
   if (!order) {
     return (
       <div className="min-h-screen bg-[#FAFBFD] font-sans text-[#0B1633] flex flex-col items-center justify-center p-6 text-center">
-        <h2 className="text-2xl font-extrabold text-[#0B1633] mb-2">Order Not Found</h2>
+        <h2 className="text-2xl font-bold text-[#0B1633] mb-2">Order Not Found</h2>
         <p className="text-slate-500 text-[14px] mb-6">Could not locate details for Order #{orderId}.</p>
         <button
           onClick={() => setCurrentPage('account')}
-          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-extrabold text-[14px] uppercase cursor-pointer border-none"
+          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-bold text-[14px] uppercase cursor-pointer border-none"
         >
           Return to My Account
         </button>
@@ -89,7 +89,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633] pb-24">
-      
+
       {/* Top Banner Header */}
       <section className="bg-[#07152F] text-white py-12 sm:py-16 relative overflow-hidden border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -103,19 +103,19 @@ export function OrderDetailsPage({ setCurrentPage }) {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="px-2.5 py-0.5 rounded-full bg-[#025afc]/20 text-[#025afc] text-[10px] font-black uppercase tracking-wider border border-[#025afc]/30">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#025afc]/20 text-[#025afc] text-[10px] font-bold uppercase tracking-wider border border-[#025afc]/30">
                   Live Press Status Tracking
                 </span>
                 <span className="text-slate-400 text-[14px]">• Placed {formattedDate}</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
                 Order #{order.orderId || order.id}
               </h1>
             </div>
 
             <button
               onClick={() => setIsInvoiceOpen(true)}
-              className="px-5 py-3 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] uppercase tracking-wider shadow-lg shadow-[#025afc]/20 flex items-center gap-2 transition cursor-pointer border-none"
+              className="px-5 py-3 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] uppercase tracking-wider shadow-lg shadow-[#025afc]/20 flex items-center gap-2 transition cursor-pointer border-none"
             >
               <FiPrinter className="w-4 h-4" /> Download Tax Invoice
             </button>
@@ -124,12 +124,12 @@ export function OrderDetailsPage({ setCurrentPage }) {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-        
+
         {/* REAL-TIME PRODUCTION TIMELINE CARD */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E7EAF0] shadow-sm space-y-6">
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <div>
-              <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2">
+              <h3 className="text-base font-bold text-[#0B1633] flex items-center gap-2">
                 <FiTruck className="w-5 h-5 text-[#025afc]" /> Real-Time Production & Dispatch Timeline
               </h3>
               <p className="text-[14px] text-slate-500 mt-0.5">
@@ -137,7 +137,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
               </p>
             </div>
 
-            <span className="px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#025afc] font-black text-[14px] border border-blue-200">
+            <span className="px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#025afc] font-bold text-[14px] border border-blue-200">
               Current Stage: {currentStatus}
             </span>
           </div>
@@ -151,22 +151,20 @@ export function OrderDetailsPage({ setCurrentPage }) {
               return (
                 <div
                   key={idx}
-                  className={`p-3.5 rounded-2xl border transition-all text-[14px] space-y-1.5 ${
-                    isCurrent
-                      ? 'border-[#025afc] bg-blue-50/60 ring-2 ring-[#025afc]/20'
-                      : isCompleted
+                  className={`p-3.5 rounded-2xl border transition-all text-[14px] space-y-1.5 ${isCurrent
+                    ? 'border-[#025afc] bg-blue-50/60 ring-2 ring-[#025afc]/20'
+                    : isCompleted
                       ? 'border-emerald-300 bg-emerald-50/40 text-emerald-950'
                       : 'border-slate-200 bg-slate-50/50 text-slate-400'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center font-black text-[10px] ${
-                      isCurrent
-                        ? 'bg-[#025afc] text-white'
-                        : isCompleted
+                    <span className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] ${isCurrent
+                      ? 'bg-[#025afc] text-white'
+                      : isCompleted
                         ? 'bg-emerald-600 text-white'
                         : 'bg-slate-200 text-slate-600'
-                    }`}>
+                      }`}>
                       {isCompleted ? <FiCheckCircle className="w-3.5 h-3.5" /> : idx + 1}
                     </span>
 
@@ -175,9 +173,8 @@ export function OrderDetailsPage({ setCurrentPage }) {
                     )}
                   </div>
 
-                  <strong className={`font-black block text-[14px] leading-tight ${
-                    isCurrent ? 'text-[#025afc]' : isCompleted ? 'text-emerald-900' : 'text-slate-700'
-                  }`}>
+                  <strong className={`font-bold block text-[14px] leading-tight ${isCurrent ? 'text-[#025afc]' : isCompleted ? 'text-emerald-900' : 'text-slate-700'
+                    }`}>
                     {stage.name}
                   </strong>
                   <p className="text-[10px] text-slate-500 leading-tight font-medium hidden md:block">
@@ -190,13 +187,13 @@ export function OrderDetailsPage({ setCurrentPage }) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* LEFT COLUMN: ITEMS & ARTWORK (8 cols) */}
           <div className="lg:col-span-8 space-y-6">
-            
+
             {/* Order Items */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
-              <h3 className="text-base font-extrabold text-[#0B1633] border-b border-slate-100 pb-3 flex items-center gap-2">
+              <h3 className="text-base font-bold text-[#0B1633] border-b border-slate-100 pb-3 flex items-center gap-2">
                 <FiPackage className="w-4 h-4 text-[#025afc]" /> Print Order Items
               </h3>
 
@@ -210,9 +207,9 @@ export function OrderDetailsPage({ setCurrentPage }) {
                         className="w-16 h-16 object-cover rounded-xl border border-slate-200 shrink-0"
                       />
                       <div className="space-y-1">
-                        <strong className="text-sm font-extrabold text-[#0B1633] block">{item.productName || item.name}</strong>
+                        <strong className="text-sm font-bold text-[#0B1633] block">{item.productName || item.name}</strong>
                         <p className="text-[14px] text-slate-500">{item.variant || 'Standard Specification'}</p>
-                        <span className="inline-block px-2.5 py-0.5 rounded-lg bg-slate-200/70 text-slate-800 text-[14px] font-extrabold">
+                        <span className="inline-block px-2.5 py-0.5 rounded-lg bg-slate-200/70 text-slate-800 text-[14px] font-bold">
                           {item.quantity || item.qty} Units
                         </span>
                       </div>
@@ -220,7 +217,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
 
                     <div className="text-left sm:text-right shrink-0">
                       <span className="text-[14px] text-slate-400 font-bold block">Item Subtotal</span>
-                      <strong className="text-base font-black text-[#025afc]">
+                      <strong className="text-base font-bold text-[#025afc]">
                         ₹{(item.totalPrice || (item.quantity * item.unitPrice) || 0).toLocaleString()}
                       </strong>
                     </div>
@@ -231,7 +228,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
 
             {/* Uploaded Artwork References */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
-              <h3 className="text-base font-extrabold text-[#0B1633] border-b border-slate-100 pb-3 flex items-center gap-2">
+              <h3 className="text-base font-bold text-[#0B1633] border-b border-slate-100 pb-3 flex items-center gap-2">
                 <FiFileText className="w-4 h-4 text-[#025afc]" /> Submitted Production Artwork Files ({artworkList.length})
               </h3>
 
@@ -242,8 +239,8 @@ export function OrderDetailsPage({ setCurrentPage }) {
                   {artworkList.map((art, idx) => (
                     <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between text-[14px] gap-3">
                       <div className="min-w-0">
-                        <strong className="font-extrabold text-slate-900 truncate block max-w-[180px]">
-                          {art.fileName || art.originalFileName || `Artwork File #${idx+1}`}
+                        <strong className="font-bold text-slate-900 truncate block max-w-[180px]">
+                          {art.fileName || art.originalFileName || `Artwork File #${idx + 1}`}
                         </strong>
                         <span className="text-[10px] text-slate-400 font-mono">Format: {art.format || 'doc'}</span>
                       </div>
@@ -268,60 +265,60 @@ export function OrderDetailsPage({ setCurrentPage }) {
 
           {/* RIGHT COLUMN: PRICING & DESTINATION (4 cols) */}
           <div className="lg:col-span-4 space-y-6">
-            
+
             {/* Pricing Snapshot Card */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
-              <h3 className="text-base font-extrabold text-[#0B1633] border-b border-slate-100 pb-3">
+              <h3 className="text-base font-bold text-[#0B1633] border-b border-slate-100 pb-3">
                 Pricing Snapshot
               </h3>
 
               <div className="space-y-2 text-[14px] font-semibold text-slate-600">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-extrabold text-slate-900">₹{(order.subtotal || order.pricing?.subtotal || 0).toLocaleString()}</span>
+                  <span className="font-bold text-slate-900">₹{(order.subtotal || order.pricing?.subtotal || 0).toLocaleString()}</span>
                 </div>
 
                 {order.pricing?.couponDiscount > 0 && (
                   <div className="flex justify-between text-emerald-600">
                     <span>Discount</span>
-                    <span className="font-extrabold">-₹{order.pricing.couponDiscount.toLocaleString()}</span>
+                    <span className="font-bold">-₹{order.pricing.couponDiscount.toLocaleString()}</span>
                   </div>
                 )}
 
                 {order.isExpress && (
                   <div className="flex justify-between text-amber-700">
                     <span>Express Turnaround</span>
-                    <span className="font-extrabold">+₹{order.pricing?.expressFee || 299}</span>
+                    <span className="font-bold">+₹{order.pricing?.expressFee || 299}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between">
                   <span>Shipping Fee</span>
-                  <span className="font-extrabold text-slate-900">
+                  <span className="font-bold text-slate-900">
                     {(order.shippingFee || order.pricing?.shippingFee) === 0 ? 'FREE' : `₹${order.shippingFee || order.pricing?.shippingFee || 0}`}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
                   <span>GST</span>
-                  <span className="font-extrabold text-emerald-600">Inclusive</span>
+                  <span className="font-bold text-emerald-600">Inclusive</span>
                 </div>
               </div>
 
               <div className="pt-3 border-t border-slate-200 flex justify-between items-baseline">
                 <span className="text-[14px] font-bold text-slate-500">Grand Total</span>
-                <span className="text-2xl font-black text-[#025afc]">₹{(order.totalAmount || order.pricing?.grandTotal || 0).toLocaleString()}</span>
+                <span className="text-2xl font-bold text-[#025afc]">₹{(order.totalAmount || order.pricing?.grandTotal || 0).toLocaleString()}</span>
               </div>
             </div>
 
             {/* Delivery Destination Card */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-3 text-[14px]">
-              <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
+              <h3 className="text-base font-bold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
                 <FiMapPin className="w-4 h-4 text-[#025afc]" /> Shipping Destination
               </h3>
 
               <div className="space-y-1 text-slate-700 font-medium leading-relaxed">
-                <strong className="font-extrabold text-slate-900 block text-[14px]">{order.customer?.name}</strong>
+                <strong className="font-bold text-slate-900 block text-[14px]">{order.customer?.name}</strong>
                 <p>{order.deliveryAddress || order.shippingAddress?.fullAddress}</p>
                 <p className="text-slate-500 font-mono pt-1">Phone: {order.customer?.phone}</p>
               </div>

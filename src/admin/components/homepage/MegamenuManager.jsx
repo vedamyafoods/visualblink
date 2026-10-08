@@ -92,7 +92,7 @@ export const MegamenuManager = () => {
         <div className="space-y-6 animate-in fade-in duration-200">
             <div className="flex items-center justify-between bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                 <div>
-                    <h3 className="font-extrabold text-[16px] text-slate-900 border-b border-slate-100 pb-2 mb-1 flex items-center gap-2">
+                    <h3 className="font-bold text-[16px] text-slate-900 border-b border-slate-100 pb-2 mb-1 flex items-center gap-2">
                         <Settings2 className="w-5 h-5 text-blue-600" /> Dynamic Navigation Menu Manager
                     </h3>
                     <p className="text-[12px] text-slate-500 font-medium">
@@ -168,7 +168,7 @@ export const MegamenuManager = () => {
                         {expandedCat === cat.id && (
                             <div className="p-4 bg-white border-t border-slate-100">
                                 <div className="space-y-3">
-                                    <div className="grid grid-cols-12 gap-3 px-2 text-[10px] font-black uppercase text-slate-400">
+                                    <div className="grid grid-cols-12 gap-3 px-2 text-[10px] font-bold uppercase text-slate-400">
                                         <div className="col-span-5">Sub-Menu Label</div>
                                         <div className="col-span-6">Search Query (Links to catalog search)</div>
                                         <div className="col-span-1 text-right">Delete</div>

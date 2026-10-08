@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Eye, 
-  Zap, 
-  Clock, 
-  Truck, 
-  CheckCircle, 
-  FileCheck, 
-  ChevronRight, 
+import {
+  Eye,
+  Zap,
+  Clock,
+  Truck,
+  CheckCircle,
+  FileCheck,
+  ChevronRight,
   ChevronLeft,
   MessageSquare
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 
 export const ProductionKanban = () => {
-  const { 
-    orders, 
-    updateOrderStatus, 
-    setSelectedOrder, 
-    setPreflightModalOpen 
+  const {
+    orders,
+    updateOrderStatus,
+    setSelectedOrder,
+    setPreflightModalOpen
   } = useAdmin();
 
   const stages = [
@@ -61,14 +61,13 @@ export const ProductionKanban = () => {
             <button
               key={stage.name}
               onClick={() => setActiveStageTab(stage.name)}
-              className={`px-3 py-1.5 rounded-full text-[14px] font-bold whitespace-nowrap transition-all border shrink-0 cursor-pointer ${
-                isActive 
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
-                  : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
-              }`}
+              className={`px-3 py-1.5 rounded-full text-[14px] font-bold whitespace-nowrap transition-all border shrink-0 cursor-pointer ${isActive
+                ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+                }`}
             >
               {stage.name}
-              <span className={`ml-1.5 px-1.5 py-0.2 rounded-full text-[9px] font-black ${isActive ? 'bg-white text-blue-600' : 'bg-slate-100 text-slate-600'}`}>
+              <span className={`ml-1.5 px-1.5 py-0.2 rounded-full text-[9px] font-bold ${isActive ? 'bg-white text-blue-600' : 'bg-slate-100 text-slate-600'}`}>
                 {count}
               </span>
             </button>
@@ -87,14 +86,13 @@ export const ProductionKanban = () => {
               key={stage.name}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, stage.name)}
-              className={`w-full max-w-md lg:w-80 shrink-0 bg-slate-50/80 rounded-2xl border border-slate-200 p-3 flex flex-col h-full ${
-                isVisibleOnMobile ? 'block' : 'hidden lg:flex'
-              }`}
+              className={`w-full max-w-md lg:w-80 shrink-0 bg-slate-50/80 rounded-2xl border border-slate-200 p-3 flex flex-col h-full ${isVisibleOnMobile ? 'block' : 'hidden lg:flex'
+                }`}
             >
               {/* Stage Header */}
               <div className={`p-3 rounded-xl border font-bold text-[14px] flex items-center justify-between mb-3 shadow-3xs ${stage.color}`}>
                 <span className="truncate">{stage.name}</span>
-                <span className="px-2 py-0.5 rounded-full bg-white text-slate-800 font-extrabold text-[14px] border border-slate-200">
+                <span className="px-2 py-0.5 rounded-full bg-white text-slate-800 font-bold text-[14px] border border-slate-200">
                   {stageOrders.length}
                 </span>
               </div>
@@ -115,9 +113,9 @@ export const ProductionKanban = () => {
                       className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-3xs hover:shadow-xs transition-all cursor-grab active:cursor-grabbing hover:border-blue-300 space-y-2.5 group"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-extrabold text-[14px] text-slate-900">{targetId}</span>
+                        <span className="font-bold text-[14px] text-slate-900">{targetId}</span>
                         {order.isExpress && (
-                          <span className="px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-extrabold text-[10px] flex items-center gap-0.5">
+                          <span className="px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-bold text-[10px] flex items-center gap-0.5">
                             <Zap className="w-3 h-3 fill-red-600 animate-pulse" /> Express
                           </span>
                         )}

@@ -104,11 +104,11 @@ export const NcrEngineSection = ({ formData, setFormData, catalogOptions, update
   return (
     <div className="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-200/80 shadow-3xs space-y-4">
       <div className="flex items-center justify-between border-b border-emerald-200/60 pb-2.5">
-        <h4 className="font-extrabold text-emerald-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
+        <h4 className="font-bold text-emerald-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
           <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
           NCR Bill Book Engine Settings
         </h4>
-        <span className="text-[10px] font-black text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">
+        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">
           Carbonless Receipt Engine Active
         </span>
       </div>
@@ -145,11 +145,10 @@ export const NcrEngineSection = ({ formData, setFormData, catalogOptions, update
             <button
               type="button"
               onClick={() => updateNcr('numbering', !ncrConfig.numbering)}
-              className={`px-3 py-1.5 rounded-lg text-[12px] font-bold border cursor-pointer transition ${
-                ncrConfig.numbering
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-slate-100 text-slate-500 border-slate-200'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-[12px] font-bold border cursor-pointer transition ${ncrConfig.numbering
+                ? 'bg-emerald-600 text-white border-emerald-600'
+                : 'bg-slate-100 text-slate-500 border-slate-200'
+                }`}
             >
               {ncrConfig.numbering ? '✓ Numbering Included' : 'No Numbering'}
             </button>

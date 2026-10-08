@@ -415,7 +415,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-[13.5px] font-extrabold text-slate-700 hover:text-[#025afc] transition cursor-pointer bg-transparent border-none"
+            className="inline-flex items-center gap-2 text-[13.5px] font-bold text-slate-700 hover:text-[#025afc] transition cursor-pointer bg-transparent border-none"
           >
             <FiArrowLeft className="w-4 h-4 text-[#025afc]" /> Back to Products
           </button>
@@ -496,7 +496,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
             )}
 
             {/* Trust Badges Strip below image */}
-            <div className="pt-2 flex items-center justify-center gap-6 text-[12px] font-extrabold text-slate-600">
+            <div className="pt-2 flex items-center justify-center gap-6 text-[12px] font-bold text-slate-600">
               <span className="flex items-center gap-1">
                 <FiStar className="w-4 h-4 text-amber-500 fill-amber-400" /> 4.9/5 Rating
               </span>
@@ -521,7 +521,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                 <FiAlertTriangle className="w-5 h-5 text-amber-600" />
               </div>
               <p className="text-slate-700 text-sm font-medium leading-relaxed m-0 mt-0.5">
-                We do not print <strong className="font-extrabold">{product.title || product.category || 'this item'}</strong> for government-related works without proper authorization. If you place an order, you must provide an authorization letter from a higher authority. Failure to submit documentation will result in the cancellation of your order.
+                We do not print <strong className="font-bold">{product.title || product.category || 'this item'}</strong> for government-related works without proper authorization. If you place an order, you must provide an authorization letter from a higher authority. Failure to submit documentation will result in the cancellation of your order.
               </p>
             </div>
 
@@ -529,13 +529,13 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
             <div className="space-y-2.5">
               {/* Category Pill Tag */}
               <div>
-                <span className="px-3.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider text-[#025afc] bg-[#eff6ff] border border-[#025afc]/40 inline-block">
+                <span className="px-3.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#025afc] bg-[#eff6ff] border border-[#025afc]/40 inline-block">
                   {product.category || 'PRINTING'}
                 </span>
               </div>
 
               {/* Main Title */}
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
                 {product.title}
               </h1>
 
@@ -546,7 +546,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                     <FiStar key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
-                <span className="font-extrabold text-slate-900">{avgRating}</span>
+                <span className="font-bold text-slate-900">{avgRating}</span>
                 <span className="text-slate-500 font-medium">({totalReviews} reviews)</span>
               </div>
 
@@ -576,7 +576,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                   <div className="flex items-center justify-between">
                     <label className="font-bold text-[14px] text-slate-900">Area Dimensions (Sq.Ft):</label>
                     {calculatedAreaSqCm > 0 && matchedAreaTier && (
-                      <span className="text-[12px] font-black text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-0.5 rounded-full">
+                      <span className="text-[12px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-0.5 rounded-full">
                         Matched Tier: {matchedAreaTier.name || `Up to ${matchedAreaTier.maxArea} sq.ft`} (+₹{matchedAreaTier.priceModifier || matchedAreaTier.price || 0})
                       </span>
                     )}
@@ -609,7 +609,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
                   <div className="p-2.5 bg-white rounded-xl border border-slate-200 flex items-center justify-between text-[13px] font-bold text-slate-700">
                     <span>Calculated Area:</span>
-                    <span className="text-sm font-black text-[#025afc]">
+                    <span className="text-sm font-bold text-[#025afc]">
                       {calculatedAreaSqCm > 0 ? `${customHeight}ft × ${customWidth}ft = ${calculatedAreaSqCm} sq.ft` : 'Enter dimensions'}
                     </span>
                   </div>
@@ -623,7 +623,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                     Quantity
                   </label>
                   {activeTier && (
-                    <span className="text-[11px] font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                       Tier Rate: ₹{activeTier.pricePerUnit}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}
                     </span>
                   )}
@@ -647,7 +647,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                           : 'bg-white border-slate-200 text-slate-800 hover:border-blue-300'
                           }`}
                       >
-                        <span className="font-black text-[14px]">{t.tierMin.toLocaleString()} {pUnit}</span>
+                        <span className="font-bold text-[14px]">{t.tierMin.toLocaleString()} {pUnit}</span>
                         <span className={`text-[11.5px] font-medium ${isSelected ? 'text-[#025afc]' : 'text-slate-500'}`}>
                           ₹{t.pricePerUnit.toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}
                         </span>
@@ -692,7 +692,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
               <div className="bg-[#FAFBFD] p-5 rounded-2xl border border-slate-200 space-y-4">
                 <div className="flex items-center gap-2">
                   <FiUploadCloud className="w-5 h-5 text-[#025afc]" />
-                  <h4 className="font-black text-[14px] text-slate-900 uppercase tracking-wide">
+                  <h4 className="font-bold text-[14px] text-slate-900 uppercase tracking-wide">
                     Upload Your Design
                   </h4>
                 </div>
@@ -795,7 +795,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="w-full py-4 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-black text-base uppercase tracking-wider shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer transition-all border-none active:scale-[0.99]"
+                  className="w-full py-4 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-base uppercase tracking-wider shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer transition-all border-none active:scale-[0.99]"
                 >
                   {addedSuccess ? (
                     <>
@@ -811,7 +811,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
               {/* MINT GREEN INFO CARD (Matching Screenshot 1) */}
               <div className="bg-[#ECFDF5] border border-emerald-200/90 rounded-2xl p-4.5 space-y-1 text-slate-800">
-                <div className="flex items-center gap-2 text-emerald-800 font-extrabold text-[14px]">
+                <div className="flex items-center gap-2 text-emerald-800 font-bold text-[14px]">
                   <FiCheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
                   <span>No design ready? No problem!</span>
                 </div>
@@ -832,7 +832,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                   <span>Dispatch: <strong className="text-slate-900">2-3 Working Days</strong></span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-600">
-                  <span className="text-[#25D366] font-black">💬</span>
+                  <span className="text-[#25D366] font-bold">💬</span>
                   <span>Need urgent delivery or custom sizes? <a href="https://wa.me/919669155225" target="_blank" rel="noopener noreferrer" className="text-[#025afc] hover:underline font-bold">WhatsApp us</a></span>
                 </div>
               </div>
@@ -843,13 +843,13 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                   href="https://wa.me/919669155225?text=Hello%20VisualBlink,%20I%20need%20a%20quote%20for%20product%20details"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition-colors border-none text-decoration-none"
+                  className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition-colors border-none text-decoration-none"
                 >
                   <FiFileText className="w-4 h-4" /> Get Quote On WhatsApp
                 </a>
                 <a
                   href="tel:+919669155225"
-                  className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition-colors border-none text-decoration-none"
+                  className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition-colors border-none text-decoration-none"
                 >
                   <FiZap className="w-4 h-4" /> Call Now
                 </a>
@@ -919,7 +919,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
       {relatedProductsList.length > 0 && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-6">
           <div className="border-t border-slate-200 pt-8">
-            <h3 className="text-2xl font-black text-slate-900 tracking-tight">
+            <h3 className="text-2xl font-bold text-slate-900 tracking-tight">
               Related products
             </h3>
           </div>
@@ -939,18 +939,18 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                           <FiPackage className="w-8 h-8 text-slate-300" />
                         </div>
                       )}
-                      <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-[#025afc] font-extrabold text-[10px] uppercase border border-blue-200">
+                      <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-[#025afc] font-bold text-[10px] uppercase border border-blue-200">
                         {relProd.category || 'Printing'}
                       </span>
                     </div>
 
                     <div className="p-4 space-y-2">
-                      <h4 className="font-extrabold text-sm text-slate-900 line-clamp-1 group-hover:text-[#025afc] transition-colors">
+                      <h4 className="font-bold text-sm text-slate-900 line-clamp-1 group-hover:text-[#025afc] transition-colors">
                         {relProd.title}
                       </h4>
                       <div className="flex items-baseline gap-1 text-slate-500 text-xs font-bold">
                         <span>From</span>
-                        <span className="text-base font-black text-[#025afc]">₹{relPrice}</span>
+                        <span className="text-base font-bold text-[#025afc]">₹{relPrice}</span>
                       </div>
                     </div>
                   </div>
@@ -964,7 +964,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                         }
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-[#025afc] text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors border-none cursor-pointer"
+                      className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-[#025afc] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors border-none cursor-pointer"
                     >
                       Select options
                     </button>
@@ -996,7 +996,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
           <button
             type="button"
             onClick={onNavigateCart}
-            className="bg-[#025afc] hover:bg-[#6a32f0] text-white px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-colors shadow-md shadow-blue-500/20 cursor-pointer border-none"
+            className="bg-[#025afc] hover:bg-[#6a32f0] text-white px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-colors shadow-md shadow-blue-500/20 cursor-pointer border-none"
           >
             Go To Cart
           </button>

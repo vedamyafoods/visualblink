@@ -39,10 +39,10 @@ export function PrintingProcess() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08 }}
               >
-                <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-slate-950 text-xl font-extrabold text-white shadow-xl shadow-blue-500/20 dark:bg-white dark:text-slate-950">
+                <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-slate-950 text-xl font-bold text-white shadow-xl shadow-blue-500/20 dark:bg-white dark:text-slate-950">
                   {index + 1}
                 </div>
-                <h3 className="mt-5 text-lg font-extrabold text-slate-950 dark:text-white">{step}</h3>
+                <h3 className="mt-5 text-lg font-bold text-slate-950 dark:text-white">{step}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                   {index === 0 && 'Select specs, quantity, finishes, and paper.'}
                   {index === 1 && 'Send artwork or request expert design support.'}

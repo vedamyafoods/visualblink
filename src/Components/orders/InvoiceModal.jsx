@@ -26,7 +26,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
         {/* Controls Bar (Hidden during print) */}
         <div className="bg-[#07152F] text-white p-4 sm:p-5 flex items-center justify-between print:hidden">
           <div className="flex items-center gap-2">
-            <span className="font-extrabold text-base">Tax Invoice</span>
+            <span className="font-bold text-base">Tax Invoice</span>
             <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-[14px] border border-emerald-400/30">
               #{order.orderId || order.id}
             </span>
@@ -35,7 +35,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrint}
-              className="px-4 py-2 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] flex items-center gap-1.5 transition cursor-pointer border-none shadow-md"
+              className="px-4 py-2 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] flex items-center gap-1.5 transition cursor-pointer border-none shadow-md"
             >
               <FiPrinter className="w-4 h-4" /> Print / Download PDF
             </button>
@@ -53,15 +53,15 @@ export function InvoiceModal({ isOpen, onClose, order }) {
           <div className="flex justify-between items-start border-b border-slate-200 pb-6">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="w-8 h-8 rounded-xl bg-[#025afc] text-white font-black flex items-center justify-center text-base">V</span>
-                <span className="text-xl font-black tracking-tight text-[#07152F]">VISUALBLINK</span>
+                <span className="w-8 h-8 rounded-xl bg-[#025afc] text-white font-bold flex items-center justify-center text-base">V</span>
+                <span className="text-xl font-bold tracking-tight text-[#07152F]">VISUALBLINK</span>
               </div>
               <p className="text-slate-500 text-[14px]">Enterprise Printing & Packaging Studio</p>
               <p className="text-slate-500 text-[14px]">GSTIN: 29ABCDE1234F1Z5 • Pan-India Logistics Hub</p>
             </div>
 
             <div className="text-right space-y-1">
-              <h2 className="text-xl font-black text-[#07152F] uppercase tracking-wider">TAX INVOICE</h2>
+              <h2 className="text-xl font-bold text-[#07152F] uppercase tracking-wider">TAX INVOICE</h2>
               <p className="font-mono text-[14px] text-slate-700">Invoice #: <strong>INV-{order.orderId || order.id}</strong></p>
               <p className="text-slate-500">Date: {invoiceDate}</p>
               <p className="text-slate-500">Payment Status: <strong className="uppercase text-emerald-700">{order.paymentStatus || 'PAID'}</strong></p>
@@ -71,8 +71,8 @@ export function InvoiceModal({ isOpen, onClose, order }) {
           {/* Customer & Shipping Addresses */}
           <div className="grid grid-cols-2 gap-6 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
             <div>
-              <span className="font-extrabold text-slate-400 uppercase tracking-wider text-[10px] block mb-1">Billed To:</span>
-              <strong className="text-sm font-extrabold text-slate-900 block">{order.customer?.name || 'Valued Customer'}</strong>
+              <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px] block mb-1">Billed To:</span>
+              <strong className="text-sm font-bold text-slate-900 block">{order.customer?.name || 'Valued Customer'}</strong>
               {order.customer?.company && <p className="text-slate-700 font-semibold">{order.customer.company}</p>}
               {order.customer?.gstin && <p className="font-mono text-[14px] text-slate-600">GSTIN: {order.customer.gstin}</p>}
               <p className="text-slate-600 mt-1">{order.customer?.email}</p>
@@ -80,7 +80,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
             </div>
 
             <div>
-              <span className="font-extrabold text-slate-400 uppercase tracking-wider text-[10px] block mb-1">Shipping Address:</span>
+              <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px] block mb-1">Shipping Address:</span>
               <p className="text-slate-800 font-medium leading-relaxed">
                 {order.deliveryAddress || order.shippingAddress?.fullAddress || 'Standard Shipping Address'}
               </p>
@@ -91,7 +91,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
           <div className="space-y-2">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b-2 border-slate-900 text-[10.5px] font-black uppercase text-slate-500">
+                <tr className="border-b-2 border-slate-900 text-[10.5px] font-bold uppercase text-slate-500">
                   <th className="py-2">Item Description & Specifications</th>
                   <th className="py-2 text-center">Qty</th>
                   <th className="py-2 text-right">Unit Price</th>
@@ -105,9 +105,9 @@ export function InvoiceModal({ isOpen, onClose, order }) {
                       <strong className="font-bold text-slate-900 block text-[14px]">{item.productName || item.name}</strong>
                       <span className="text-[14px] text-slate-500 font-medium block">{item.variant}</span>
                     </td>
-                    <td className="py-3 text-center font-extrabold">{item.quantity || item.qty}</td>
+                    <td className="py-3 text-center font-bold">{item.quantity || item.qty}</td>
                     <td className="py-3 text-right">₹{(item.unitPrice || 0).toLocaleString()}</td>
-                    <td className="py-3 text-right font-extrabold text-slate-900">
+                    <td className="py-3 text-right font-bold text-slate-900">
                       ₹{(item.totalPrice || (item.quantity * item.unitPrice) || 0).toLocaleString()}
                     </td>
                   </tr>
@@ -121,16 +121,16 @@ export function InvoiceModal({ isOpen, onClose, order }) {
             <div className="w-64 space-y-2 text-[14px] font-semibold text-slate-600">
               <div className="flex justify-between">
                 <span>Subtotal:</span>
-                <span className="font-extrabold text-slate-900">₹{subtotal.toLocaleString()}</span>
+                <span className="font-bold text-slate-900">₹{subtotal.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping & Delivery:</span>
-                <span className="font-extrabold text-slate-900">{shipping === 0 ? 'FREE' : `₹${shipping}`}</span>
+                <span className="font-bold text-slate-900">{shipping === 0 ? 'FREE' : `₹${shipping}`}</span>
               </div>
               {gstAmount > 0 ? (
                 <div className="flex justify-between">
                   <span>GST Tax:</span>
-                  <span className="font-extrabold text-slate-900">₹{gstAmount.toLocaleString()}</span>
+                  <span className="font-bold text-slate-900">₹{gstAmount.toLocaleString()}</span>
                 </div>
               ) : (
                 <div className="flex justify-between text-slate-500">
@@ -138,7 +138,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
                   <span className="font-bold">GST Inclusive</span>
                 </div>
               )}
-              <div className="flex justify-between pt-2 border-t-2 border-slate-900 text-sm font-black text-[#025afc]">
+              <div className="flex justify-between pt-2 border-t-2 border-slate-900 text-sm font-bold text-[#025afc]">
                 <span>Grand Total:</span>
                 <span>₹{totalAmount.toLocaleString()}</span>
               </div>

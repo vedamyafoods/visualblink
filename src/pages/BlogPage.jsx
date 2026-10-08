@@ -47,7 +47,7 @@ export function BlogPage() {
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633]">
-      
+
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
         <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
@@ -57,7 +57,7 @@ export function BlogPage() {
             <span>/</span>
             <span className="text-[#025afc] font-bold">Blog & Insights</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3">
             Print Design Insights
           </h1>
           <p className="text-slate-300 text-[15px] max-w-2xl leading-relaxed">
@@ -68,7 +68,7 @@ export function BlogPage() {
 
       {/* Main Articles Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        
+
         {/* Search */}
         <div className="mb-10 max-w-md relative">
           <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[#667085] w-5 h-5" />
@@ -93,7 +93,7 @@ export function BlogPage() {
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <span className="absolute top-4 left-4 bg-[#025afc] text-white text-[14px] font-extrabold px-3 py-1 rounded-full">
+                <span className="absolute top-4 left-4 bg-[#025afc] text-white text-[14px] font-bold px-3 py-1 rounded-full">
                   {post.tag}
                 </span>
               </div>

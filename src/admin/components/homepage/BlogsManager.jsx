@@ -79,7 +79,7 @@ export const BlogsManager = () => {
         <div className="space-y-6 animate-in fade-in duration-200">
             <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 className="font-extrabold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2">
+                    <h3 className="font-bold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2">
                         <BookOpen className="w-4 h-4" /> Latest Blog Posts
                     </h3>
                     <div className="flex gap-2">

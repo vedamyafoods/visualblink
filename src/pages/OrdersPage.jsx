@@ -52,13 +52,13 @@ export function OrdersPage({ setCurrentPage }) {
         <div className="w-16 h-16 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center text-2xl font-bold mb-4">
           <FiPackage className="w-8 h-8" />
         </div>
-        <h2 className="text-2xl font-extrabold text-[#0B1633] mb-2">Sign in to View Your Orders</h2>
+        <h2 className="text-2xl font-bold text-[#0B1633] mb-2">Sign in to View Your Orders</h2>
         <p className="text-slate-500 text-[14px] sm:text-sm max-w-md mb-6 font-medium">
           Access real-time print production tracking, view artwork uploads, and download tax invoices.
         </p>
         <button
           onClick={() => setCurrentPage('login')}
-          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-extrabold text-[14px] uppercase tracking-wider cursor-pointer border-none shadow-lg shadow-[#025afc]/20"
+          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-bold text-[14px] uppercase tracking-wider cursor-pointer border-none shadow-lg shadow-[#025afc]/20"
         >
           Sign In Now
         </button>
@@ -88,7 +88,7 @@ export function OrdersPage({ setCurrentPage }) {
             <span>/</span>
             <span className="text-[#025afc] font-bold">My Orders</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-2">
             My Print Orders & Pipeline Tracking
           </h1>
           <p className="text-slate-300 text-sm max-w-2xl">
@@ -105,21 +105,21 @@ export function OrdersPage({ setCurrentPage }) {
           <div className="flex items-center gap-2 bg-white p-1 rounded-2xl border border-slate-200 shadow-xs w-full sm:w-auto">
             <button
               onClick={() => setActiveFilter('all')}
-              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${activeFilter === 'all' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
+              className={`px-4 py-2 rounded-xl text-[14px] font-bold transition-all cursor-pointer border-none ${activeFilter === 'all' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
             >
               All Orders ({orders.length})
             </button>
             <button
               onClick={() => setActiveFilter('active')}
-              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${activeFilter === 'active' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
+              className={`px-4 py-2 rounded-xl text-[14px] font-bold transition-all cursor-pointer border-none ${activeFilter === 'active' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
             >
               In Production ({orders.filter(o => o.status !== 'Delivered').length})
             </button>
             <button
               onClick={() => setActiveFilter('delivered')}
-              className={`px-4 py-2 rounded-xl text-[14px] font-extrabold transition-all cursor-pointer border-none ${activeFilter === 'delivered' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
+              className={`px-4 py-2 rounded-xl text-[14px] font-bold transition-all cursor-pointer border-none ${activeFilter === 'delivered' ? 'bg-[#07152F] text-white' : 'text-slate-600 hover:text-slate-900 bg-transparent'
                 }`}
             >
               Delivered ({orders.filter(o => o.status === 'Delivered').length})
@@ -149,13 +149,13 @@ export function OrdersPage({ setCurrentPage }) {
             <div className="w-14 h-14 rounded-full bg-blue-50 text-[#025afc] flex items-center justify-center mx-auto">
               <FiPackage className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-extrabold text-[#0B1633]">No Orders Found</h3>
+            <h3 className="text-xl font-bold text-[#0B1633]">No Orders Found</h3>
             <p className="text-slate-500 text-[14px]">
               {searchQuery ? 'No orders match your search query.' : 'You haven’t placed any orders yet.'}
             </p>
             <button
               onClick={() => setCurrentPage('products')}
-              className="bg-[#025afc] text-white font-extrabold text-[14px] px-5 py-3 rounded-2xl inline-flex items-center gap-2 cursor-pointer border-none shadow-md"
+              className="bg-[#025afc] text-white font-bold text-[14px] px-5 py-3 rounded-2xl inline-flex items-center gap-2 cursor-pointer border-none shadow-md"
             >
               <FiShoppingBag className="w-4 h-4" /> Explore Catalog
             </button>
@@ -178,31 +178,31 @@ export function OrdersPage({ setCurrentPage }) {
                 >
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-slate-100">
                     <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-2xl bg-[#07152F] text-white font-black flex items-center justify-center text-sm shadow-sm">
+                      <div className="w-11 h-11 rounded-2xl bg-[#07152F] text-white font-bold flex items-center justify-center text-sm shadow-sm">
                         <FiPackage className="w-5 h-5 text-[#025afc]" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="text-lg font-black text-[#0B1633]">#{ord.orderId || ord.id}</h3>
+                          <h3 className="text-lg font-bold text-[#0B1633]">#{ord.orderId || ord.id}</h3>
                           <span className="text-[14px] text-slate-400 font-medium">• Placed on {formattedDate}</span>
                         </div>
                         <p className="text-[14px] text-slate-500 font-medium mt-0.5">
-                          {itemsList.length} Item(s) • Total: <strong className="text-[#025afc] font-black">₹{(ord.totalAmount || ord.pricing?.grandTotal || 0).toLocaleString()}</strong>
+                          {itemsList.length} Item(s) • Total: <strong className="text-[#025afc] font-bold">₹{(ord.totalAmount || ord.pricing?.grandTotal || 0).toLocaleString()}</strong>
                         </p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                      <span className={`px-3 py-1 rounded-xl text-[14px] font-extrabold border ${ord.status === 'Delivered'
-                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                          : 'bg-amber-50 text-amber-800 border-amber-200'
+                      <span className={`px-3 py-1 rounded-xl text-[14px] font-bold border ${ord.status === 'Delivered'
+                        ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                        : 'bg-amber-50 text-amber-800 border-amber-200'
                         }`}>
                         ● {ord.status || 'Payment Confirmed'}
                       </span>
 
                       <button
                         onClick={() => setCurrentPage('order-details', { orderId: ord.orderId || ord.id })}
-                        className="px-4 py-2 rounded-xl bg-[#07152F] hover:bg-slate-800 text-white font-extrabold text-[14px] flex items-center gap-1.5 transition cursor-pointer border-none shadow-sm"
+                        className="px-4 py-2 rounded-xl bg-[#07152F] hover:bg-slate-800 text-white font-bold text-[14px] flex items-center gap-1.5 transition cursor-pointer border-none shadow-sm"
                       >
                         <FiEye className="w-3.5 h-3.5" /> View Order
                       </button>
@@ -219,7 +219,7 @@ export function OrdersPage({ setCurrentPage }) {
                           className="w-12 h-12 object-cover rounded-xl border border-slate-200 shrink-0"
                         />
                         <div className="min-w-0">
-                          <strong className="font-extrabold text-slate-900 block truncate">{item.productName || item.name}</strong>
+                          <strong className="font-bold text-slate-900 block truncate">{item.productName || item.name}</strong>
                           <span className="text-[14px] text-slate-500 font-medium">{item.quantity || item.qty} Pcs • ₹{(item.totalPrice || item.unitPrice * item.quantity).toLocaleString()}</span>
                         </div>
                       </div>

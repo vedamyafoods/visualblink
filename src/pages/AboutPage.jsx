@@ -7,7 +7,7 @@ export function AboutPage() {
       desc: 'Our printing presses are calibrated weekly to the FOGRA ISO standard. CMYK color profiles are verified by senior prepress specialists prior to printing.',
       icon: <FiLayers className="w-6 h-6 text-[#025afc]" />
     },
-    { 
+    {
       title: 'Eco-Ethical Production',
       desc: 'We prioritize FSC-certified recycled paper stocks, vegetable soy inks, and glue-less packaging designs.',
       icon: <FiHeart className="w-6 h-6 text-[#025afc]" />
@@ -28,7 +28,7 @@ export function AboutPage() {
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633]">
-      
+
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
         <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
@@ -38,7 +38,7 @@ export function AboutPage() {
             <span>/</span>
             <span className="text-[#025afc] font-bold">About Us</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3">
             Legacy of Precision Printing
           </h1>
           <p className="text-slate-300 text-[15px] max-w-2xl leading-relaxed">
@@ -49,14 +49,14 @@ export function AboutPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        
+
         {/* Story Section */}
         <div className="bg-white rounded-[20px] p-8 sm:p-12 border border-[#E7EAF0] shadow-sm mb-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 text-left">
-            <span className="text-[#025afc] text-[14px] font-extrabold tracking-widest uppercase mb-2 block">
+            <span className="text-[#025afc] text-[14px] font-bold tracking-widest uppercase mb-2 block">
               OUR MISSION & CRAFT
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1633] mb-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#0B1633] mb-4">
               We Believe Print Builds Physical Trust
             </h2>
             <p className="text-[#667085] text-[15px] leading-relaxed mb-4">
@@ -82,7 +82,7 @@ export function AboutPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {stats.map((s) => (
             <div key={s.label} className="bg-white rounded-[16px] p-6 border border-[#E7EAF0] text-center shadow-xs">
-              <div className="text-3xl sm:text-4xl font-extrabold text-[#025afc] mb-1">{s.number}</div>
+              <div className="text-3xl sm:text-4xl font-bold text-[#025afc] mb-1">{s.number}</div>
               <div className="text-[14px] text-[#667085] font-semibold">{s.label}</div>
             </div>
           ))}

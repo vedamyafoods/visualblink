@@ -7,7 +7,7 @@ export const TieredPricingSection = ({ formData, setFormData }) => {
       <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-3xs space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <h4 className="font-extrabold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
+            <h4 className="font-bold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
               <DollarSign className="w-4 h-4" /> Volume Quantity Discount Matrix
             </h4>
             <p className="text-[13px] text-slate-500 mt-0.5">Automatically calculates tiered discounts based on order quantity threshold</p>
@@ -23,14 +23,14 @@ export const TieredPricingSection = ({ formData, setFormData }) => {
                 tieredPricing: [...currentTiers, { tierMin: lastMin, pricePerUnit: lastPrice }]
               });
             }}
-            className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-extrabold text-[13px] flex items-center gap-1.5 border border-blue-200 cursor-pointer shadow-3xs"
+            className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-[13px] flex items-center gap-1.5 border border-blue-200 cursor-pointer shadow-3xs"
           >
             <Plus className="w-3.5 h-3.5" /> Add Tier Rule
           </button>
         </div>
 
         <div className="space-y-2">
-          <div className="grid grid-cols-12 gap-3 px-3 py-2 bg-slate-100/70 rounded-xl text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">
+          <div className="grid grid-cols-12 gap-3 px-3 py-2 bg-slate-100/70 rounded-xl text-[10px] font-bold text-slate-500 uppercase tracking-wider">
             <span className="col-span-5">Minimum Quantity (pcs)</span>
             <span className="col-span-5">Price Per Unit (₹)</span>
             <span className="col-span-2 text-right">Action</span>

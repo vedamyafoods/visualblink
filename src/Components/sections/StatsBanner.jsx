@@ -55,7 +55,7 @@ export function StatsBanner() {
               className={`flex flex-col items-center text-center ${i !== 0 ? 'pt-4 sm:pt-0 sm:pl-6' : ''
                 }`}
             >
-              <div className="text-3xl sm:text-4xl lg:text-[44px] font-black text-white leading-none tracking-tight mb-2">
+              <div className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-white leading-none tracking-tight mb-2">
                 <CounterNumber value={st.value} suffix={st.suffix} decimals={st.decimals || 0} />
               </div>
               <div className="text-[14px] sm:text-[14px] text-slate-300 font-medium">

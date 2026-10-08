@@ -58,7 +58,7 @@ export function CredentialsBanner() {
               </div>
               {/* Text info */}
               <div className="flex flex-col">
-                <h3 className="text-sm sm:text-base font-black text-white tracking-wide">
+                <h3 className="text-sm sm:text-base font-bold text-white tracking-wide">
                   {cred.title}
                 </h3>
                 <p className="text-[14px] sm:text-[14px] text-gray-400 font-medium leading-relaxed mt-1">

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  Search, 
-  Filter, 
-  Download, 
-  Eye, 
-  Zap, 
-  Truck, 
-  FileText, 
-  Phone, 
+import {
+  Search,
+  Filter,
+  Download,
+  Eye,
+  Zap,
+  Truck,
+  FileText,
+  Phone,
   Calendar,
   ChevronLeft,
   ChevronRight
@@ -34,7 +34,7 @@ export const OrdersDataTable = () => {
     const custPhone = o.customer?.phone || '';
     const custCompany = o.customer?.company || '';
 
-    const matchesSearch = 
+    const matchesSearch =
       orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
       custName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       custPhone.includes(searchTerm) ||
@@ -76,7 +76,7 @@ export const OrdersDataTable = () => {
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden space-y-0">
-      
+
       {/* Quick Stage Status Telemetry Pills Bar */}
       <div className="p-3 sm:p-4 bg-slate-50/70 border-b border-slate-200/80 flex items-center gap-2 overflow-x-auto select-none">
         {[
@@ -90,16 +90,14 @@ export const OrdersDataTable = () => {
           <button
             key={pill.value}
             onClick={() => setStatusFilter(pill.value)}
-            className={`px-3 py-1.5 rounded-xl text-[14px] font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 border ${
-              statusFilter === pill.value
-                ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
-            }`}
+            className={`px-3 py-1.5 rounded-xl text-[14px] font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 border ${statusFilter === pill.value
+              ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+              : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+              }`}
           >
             <span>{pill.label}</span>
-            <span className={`px-1.5 py-0.2 rounded-md text-[10px] font-black ${
-              statusFilter === pill.value ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-700'
-            }`}>
+            <span className={`px-1.5 py-0.2 rounded-md text-[10px] font-bold ${statusFilter === pill.value ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-700'
+              }`}>
               {pill.count}
             </span>
           </button>
@@ -108,7 +106,7 @@ export const OrdersDataTable = () => {
 
       {/* Filtering Bar */}
       <div className="p-4 border-b border-slate-200/80 bg-white flex flex-wrap items-center justify-between gap-3">
-        
+
         {/* Search Field */}
         <div className="relative flex-1 min-w-[240px]">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -143,11 +141,10 @@ export const OrdersDataTable = () => {
         {/* Express Toggle */}
         <button
           onClick={() => setExpressOnly(!expressOnly)}
-          className={`px-3 py-2 rounded-xl text-[14px] font-bold border transition-colors flex items-center gap-1.5 cursor-pointer ${
-            expressOnly 
-              ? 'bg-red-600 text-white border-red-600 shadow-xs' 
-              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-          }`}
+          className={`px-3 py-2 rounded-xl text-[14px] font-bold border transition-colors flex items-center gap-1.5 cursor-pointer ${expressOnly
+            ? 'bg-red-600 text-white border-red-600 shadow-xs'
+            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+            }`}
         >
           <Zap className="w-3.5 h-3.5 fill-current text-red-500" /> Express Only
         </button>
@@ -167,10 +164,10 @@ export const OrdersDataTable = () => {
         {paginatedOrders.map((order) => (
           <div key={order.id} className="p-4 space-y-3 bg-white">
             <div className="flex items-center justify-between">
-              <div className="font-extrabold text-slate-900 flex items-center gap-1.5">
+              <div className="font-bold text-slate-900 flex items-center gap-1.5">
                 <span>{order.id}</span>
                 {order.isExpress && (
-                  <span className="px-1.5 py-0.2 rounded bg-red-100 text-red-700 font-extrabold text-[9px] flex items-center gap-0.5 animate-pulse">
+                  <span className="px-1.5 py-0.2 rounded bg-red-100 text-red-700 font-bold text-[9px] flex items-center gap-0.5 animate-pulse">
                     <Zap className="w-2.5 h-2.5 fill-red-600" /> Express
                   </span>
                 )}
@@ -199,9 +196,9 @@ export const OrdersDataTable = () => {
             <div className="flex items-center justify-between pt-1">
               <div>
                 <span className="text-slate-400 text-[9px] block uppercase font-bold tracking-wider">Total</span>
-                <span className="font-black text-slate-900 text-[14px]">₹{order.totalAmount.toLocaleString()}</span>
+                <span className="font-bold text-slate-900 text-[14px]">₹{order.totalAmount.toLocaleString()}</span>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <select
                   value={order.status}
@@ -253,7 +250,7 @@ export const OrdersDataTable = () => {
           </thead>
           <tbody className="divide-y divide-slate-100 text-[14px]">
             {paginatedOrders.map((order) => (
-              <tr 
+              <tr
                 key={order.id || order.orderId}
                 className="hover:bg-slate-50/80 transition-colors group cursor-pointer"
                 onClick={() => {
@@ -262,10 +259,10 @@ export const OrdersDataTable = () => {
                 }}
               >
                 <td className="py-3 px-4">
-                  <div className="font-extrabold text-slate-900 flex items-center gap-1.5">
+                  <div className="font-bold text-slate-900 flex items-center gap-1.5">
                     <span>{order.orderId || order.id}</span>
                     {order.isExpress && (
-                      <span className="px-1.5 py-0.2 rounded bg-red-100 text-red-700 font-extrabold text-[9px] flex items-center gap-0.5">
+                      <span className="px-1.5 py-0.2 rounded bg-red-100 text-red-700 font-bold text-[9px] flex items-center gap-0.5">
                         <Zap className="w-2.5 h-2.5 fill-red-600" /> Express
                       </span>
                     )}
@@ -317,7 +314,7 @@ export const OrdersDataTable = () => {
                 </td>
 
                 <td className="py-3 px-4 text-right">
-                  <div className="font-black text-slate-900">₹{(order.totalAmount || order.pricing?.grandTotal || 0).toLocaleString()}</div>
+                  <div className="font-bold text-slate-900">₹{(order.totalAmount || order.pricing?.grandTotal || 0).toLocaleString()}</div>
                   <span className="text-[10px] text-emerald-600 font-semibold">GST Inclusive</span>
                 </td>
 

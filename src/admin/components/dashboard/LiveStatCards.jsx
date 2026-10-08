@@ -132,7 +132,7 @@ export const LiveStatCards = () => {
             </div>
 
             <div className="flex items-baseline justify-between">
-              <div className="text-2xl font-black text-slate-900 tracking-tight">
+              <div className="text-2xl font-bold text-slate-900 tracking-tight">
                 {stat.value}
               </div>
             </div>

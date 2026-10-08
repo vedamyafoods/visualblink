@@ -55,13 +55,13 @@ export const TechSpecsSection = ({
   return (
     <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-3xs space-y-4">
       <div className="flex items-center justify-between">
-        <h4 className="font-extrabold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
+        <h4 className="font-bold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
           <span>Technical Specifications & Custom Attributes</span>
         </h4>
         <button
           type="button"
           onClick={() => setIsAdding(!isAdding)}
-          className="text-[11px] font-extrabold text-blue-600 hover:text-blue-800 bg-transparent border-none cursor-pointer flex items-center gap-1"
+          className="text-[11px] font-bold text-blue-600 hover:text-blue-800 bg-transparent border-none cursor-pointer flex items-center gap-1"
         >
           <Plus className="w-3.5 h-3.5" /> + Add Custom Spec
         </button>
@@ -117,7 +117,7 @@ export const TechSpecsSection = ({
           <button
             type="button"
             onClick={handleAddSpec}
-            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-[13px] hover:bg-blue-700 cursor-pointer border-none shadow-3xs"
+            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-[13px] hover:bg-blue-700 cursor-pointer border-none shadow-3xs"
           >
             Add Spec
           </button>

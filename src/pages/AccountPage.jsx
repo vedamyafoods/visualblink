@@ -22,6 +22,7 @@ import {
 import { FiCheck, FiX, FiSliders } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import { subscribeToUserOrders } from '../services/firebase';
+import { APP_CONFIG } from '../config/appConfig';
 
 export function AccountPage({ setCurrentPage }) {
   const {
@@ -115,6 +116,69 @@ export function AccountPage({ setCurrentPage }) {
     return null; // Don't render anything while redirecting
   }
 
+  const [expandedOrderForTracking, setExpandedOrderForTracking] = useState(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const trackId = params.get('track');
+    if (trackId && userOrders.length > 0) {
+      const found = userOrders.find(o => o.orderId === trackId || o.id === trackId);
+      if (found) {
+        setActiveTab('orders');
+        setExpandedOrderForTracking(found.id);
+      }
+    }
+  }, [userOrders]);
+
+  const handlePayRemaining = async (order) => {
+    try {
+      const remainingAmount = order.pricing?.remainingPaymentAmount;
+      if (!remainingAmount) return;
+
+      const res = await fetch('/api/create-cashfree-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: remainingAmount,
+          customerId: currentUser?.uid || 'guest',
+          customerName: order.customer?.name || 'Customer',
+          customerEmail: order.customer?.email || currentUser?.email,
+          customerPhone: order.customer?.phone || '9999999999'
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      // Load SDK
+      const loadCashfreeScript = () => new Promise(resolve => {
+        if (window.Cashfree) return resolve(window.Cashfree);
+        const script = document.createElement('script');
+        script.src = 'https://sdk.cashfree.com/js/v3/cashfree.js';
+        script.onload = () => resolve(window.Cashfree);
+        document.body.appendChild(script);
+      });
+
+      const Cashfree = await loadCashfreeScript();
+      const cf = new Cashfree({ mode: APP_CONFIG.CASHFREE_ENVIRONMENT === 'sandbox' ? 'sandbox' : 'production' });
+
+      cf.checkout({ paymentSessionId: data.paymentSessionId, redirectTarget: '_modal' }).then(async (result) => {
+        if (result.paymentDetails?.paymentMessage === 'SUCCESS') {
+          await fetch('/api/update-order-admin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              orderId: order.id,
+              newStatus: 'Fully Paid'
+            })
+          });
+          window.location.reload();
+        }
+      });
+    } catch (e) {
+      alert("Payment failed to initialize");
+    }
+  };
+
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
     await updateUserProfile(profileForm);
@@ -189,16 +253,16 @@ export function AccountPage({ setCurrentPage }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-[#025afc] text-white font-black text-2xl flex items-center justify-center shadow-lg shadow-[#025afc]/30 border border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-[#025afc] text-white font-bold text-2xl flex items-center justify-center shadow-lg shadow-[#025afc]/30 border border-white/20">
                 {(currentUser.displayName || userProfile?.displayName || currentUser.email || 'U').substring(0, 1).toUpperCase()}
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold border border-emerald-400/30 uppercase tracking-wider">
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30 uppercase tracking-wider">
                     Verified Customer Profile
                   </span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
                   {currentUser.displayName || userProfile?.displayName || 'My Account'}
                 </h1>
                 <p className="text-[14px] text-slate-300 font-mono mt-0.5">{currentUser.email}</p>
@@ -207,7 +271,7 @@ export function AccountPage({ setCurrentPage }) {
 
             <button
               onClick={() => logout()}
-              className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-red-600/20 hover:border-red-500/40 text-slate-200 hover:text-red-300 font-extrabold text-[14px] flex items-center gap-2 border border-slate-700 transition cursor-pointer"
+              className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-red-600/20 hover:border-red-500/40 text-slate-200 hover:text-red-300 font-bold text-[14px] flex items-center gap-2 border border-slate-700 transition cursor-pointer"
             >
               <FiLogOut className="w-4 h-4" /> Sign Out
             </button>
@@ -232,7 +296,7 @@ export function AccountPage({ setCurrentPage }) {
                 <span className="flex items-center gap-2.5">
                   <FiPackage className="w-4 h-4" /> My Print Orders
                 </span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${activeTab === 'orders' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${activeTab === 'orders' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'}`}>
                   {userOrders.length}
                 </span>
               </button>
@@ -247,7 +311,7 @@ export function AccountPage({ setCurrentPage }) {
                 <span className="flex items-center gap-2.5">
                   <FiMapPin className="w-4 h-4" /> Saved Address Book
                 </span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full font-black ${activeTab === 'addresses' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${activeTab === 'addresses' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'}`}>
                   {userProfile?.addresses?.length || 0}
                 </span>
               </button>
@@ -265,17 +329,17 @@ export function AccountPage({ setCurrentPage }) {
 
             {/* Quick Support Card */}
             <div className="bg-gradient-to-br from-slate-900 to-indigo-950 p-5 rounded-2xl text-white space-y-2 border border-slate-800 shadow-xs">
-              <span className="text-[10px] font-black uppercase text-amber-400 tracking-wider">Need Custom Assistance?</span>
-              <h4 className="font-extrabold text-[14px]">VisualBlink Dedicated Support</h4>
+              <span className="text-[10px] font-bold uppercase text-amber-400 tracking-wider">Need Custom Assistance?</span>
+              <h4 className="font-bold text-[14px]">VisualBlink Dedicated Support</h4>
               <p className="text-[14px] text-slate-300">
                 Call our press team directly for express 24h dispatch or custom packaging specs.
               </p>
               <div className="pt-2">
                 <a
-                  href="tel:+919800000000"
+                  href={`tel:${APP_CONFIG.CONTACT_NUMBER.replace(/\s+/g, '')}`}
                   className="inline-flex items-center gap-1.5 text-[14px] font-bold text-sky-400 hover:text-white transition"
                 >
-                  <FiPhone className="w-3.5 h-3.5" /> +91 98000 00000
+                  <FiPhone className="w-3.5 h-3.5" /> {APP_CONFIG.CONTACT_NUMBER}
                 </a>
               </div>
             </div>
@@ -288,7 +352,7 @@ export function AccountPage({ setCurrentPage }) {
             {activeTab === 'orders' && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-extrabold text-[#0B1633] flex items-center gap-2">
+                  <h3 className="text-lg font-bold text-[#0B1633] flex items-center gap-2">
                     <FiPackage className="w-5 h-5 text-[#025afc]" /> Print Orders History ({userOrders.length})
                   </h3>
                   <span className="text-[14px] text-slate-500 font-medium">Real-time sync with Firebase Firestore</span>
@@ -303,13 +367,13 @@ export function AccountPage({ setCurrentPage }) {
                     <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#025afc] flex items-center justify-center mx-auto text-xl font-bold">
                       <FiPackage className="w-7 h-7" />
                     </div>
-                    <h4 className="font-extrabold text-slate-900 text-sm">No Orders Placed Yet</h4>
+                    <h4 className="font-bold text-slate-900 text-sm">No Orders Placed Yet</h4>
                     <p className="text-[14px] text-slate-500 max-w-sm mx-auto">
                       Explore our products catalog, select custom options, and place your first print order!
                     </p>
                     <button
                       onClick={() => setCurrentPage && setCurrentPage('products')}
-                      className="px-6 py-2.5 rounded-xl bg-[#025afc] text-white font-extrabold text-[14px] hover:bg-[#6a32f0] cursor-pointer border-none shadow-md shadow-[#025afc]/20"
+                      className="px-6 py-2.5 rounded-xl bg-[#025afc] text-white font-bold text-[14px] hover:bg-[#6a32f0] cursor-pointer border-none shadow-md shadow-[#025afc]/20"
                     >
                       Browse Products Catalog
                     </button>
@@ -320,26 +384,61 @@ export function AccountPage({ setCurrentPage }) {
                       <div key={ord.id} className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-xs space-y-4 hover:border-blue-200 transition">
                         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
                           <div className="flex items-center gap-3">
-                            <span className="font-extrabold text-sm text-[#0B1633] font-mono">{ord.id}</span>
-                            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-extrabold border border-emerald-200">
+                            <span className="font-bold text-sm text-[#0B1633] font-mono">{ord.id}</span>
+                            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
                               ● {ord.status || 'Payment Confirmed'}
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
+                            {ord.status === 'Dispatched' && ord.pricing?.remainingPaymentAmount > 0 && ord.paymentStatus !== 'Fully Paid' && (
+                              <button
+                                onClick={() => handlePayRemaining(ord)}
+                                className="px-3 py-1.5 rounded-xl bg-[#25D366] text-white font-bold text-[14px] flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform shadow-xs"
+                              >
+                                <FiCreditCard className="w-3.5 h-3.5" /> Pay Remaining ₹{ord.pricing.remainingPaymentAmount}
+                              </button>
+                            )}
                             <button
                               onClick={() => setCurrentPage && setCurrentPage('order-details', { orderId: ord.orderId || ord.id })}
-                              className="px-3 py-1.5 rounded-xl bg-[#07152F] text-white font-extrabold text-[14px] flex items-center gap-1 cursor-pointer border-none shadow-xs"
+                              className="px-3 py-1.5 rounded-xl bg-[#07152F] text-white font-bold text-[14px] flex items-center gap-1 cursor-pointer border-none shadow-xs"
                             >
-                              <FiEye className="w-3.5 h-3.5" /> Order Details
+                              <FiEye className="w-3.5 h-3.5" /> Details
                             </button>
                             <button
-                              onClick={() => setCurrentPage && setCurrentPage('track', { orderId: ord.orderId || ord.id })}
-                              className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#025afc] font-extrabold text-[14px] flex items-center gap-1 border border-blue-200 cursor-pointer"
+                              onClick={() => setExpandedOrderForTracking(expandedOrderForTracking === ord.id ? null : ord.id)}
+                              className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#025afc] font-bold text-[14px] flex items-center gap-1 border border-blue-200 cursor-pointer"
                             >
                               <FiTruck className="w-3.5 h-3.5" /> Track Status
                             </button>
                           </div>
                         </div>
+
+                        {/* Expandable Order Tracking Timeline */}
+                        {expandedOrderForTracking === ord.id && (
+                          <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 my-2 shadow-inner">
+                            <h4 className="font-bold text-[#0B1633] mb-3 border-b border-slate-200 pb-2 text-[13px] uppercase tracking-wider">Order Status Timeline</h4>
+                            <div className="space-y-4">
+                              {['Order Received', 'Payment Confirmed', 'Processing', 'Packed', 'Dispatched', 'In Transit', 'Delivered'].map((step, idx, arr) => {
+                                const historyLog = (ord.statusHistory || []).find(h => h.status === step);
+                                const isCurrent = ord.status === step;
+                                const isPast = arr.indexOf(ord.status) > idx || historyLog;
+                                const isFuture = !isCurrent && !isPast;
+                                return (
+                                  <div key={idx} className={`flex items-start gap-3 ${isFuture ? 'opacity-40' : ''}`}>
+                                    <div className="flex flex-col items-center">
+                                      <div className={`w-3.5 h-3.5 rounded-full mt-1 ${isCurrent ? 'bg-[#025afc] shadow-[0_0_0_3px_rgba(2,90,252,0.2)]' : isPast ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                                      {idx !== arr.length - 1 && <div className={`w-0.5 h-8 mt-1 ${isPast ? 'bg-emerald-200' : 'bg-slate-200'}`} />}
+                                    </div>
+                                    <div className="pt-0.5">
+                                      <span className={`text-[14px] font-bold ${isCurrent ? 'text-[#025afc]' : isPast ? 'text-slate-800' : 'text-slate-500'}`}>{step}</span>
+                                      {historyLog && <span className="text-[10px] text-slate-500 block">{new Date(historyLog.timestamp).toLocaleString()}</span>}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
 
                         {/* Items preview */}
                         <div className="space-y-2">
@@ -352,11 +451,11 @@ export function AccountPage({ setCurrentPage }) {
                                   className="w-10 h-10 rounded-xl object-cover border border-slate-200 bg-slate-50 shrink-0"
                                 />
                                 <div>
-                                  <span className="font-extrabold text-slate-900 block">{item.productName || item.name}</span>
+                                  <span className="font-bold text-slate-900 block">{item.productName || item.name}</span>
                                   <span className="text-[14px] text-slate-500 font-medium">{item.variant || `${item.paper || ''} ${item.finish || ''}`} • Qty: {item.quantity || item.qty} pcs</span>
                                 </div>
                               </div>
-                              <span className="font-extrabold text-slate-900">₹{(item.totalPrice || (item.unitPrice * (item.quantity || item.qty)) || 0).toLocaleString()}</span>
+                              <span className="font-bold text-slate-900">₹{(item.totalPrice || (item.unitPrice * (item.quantity || item.qty)) || 0).toLocaleString()}</span>
                             </div>
                           ))}
                         </div>
@@ -365,7 +464,7 @@ export function AccountPage({ setCurrentPage }) {
                           <span className="text-slate-500 font-medium">Shipping Address: <strong className="text-slate-800">{ord.deliveryAddress || ord.customer?.city || 'India'}</strong></span>
                           <div className="text-right">
                             <span className="text-[10px] text-slate-400 block font-bold uppercase">Total Order Amount</span>
-                            <span className="font-black text-base text-[#025afc]">₹{(ord.totalAmount || ord.pricing?.grandTotal || 0).toLocaleString()}</span>
+                            <span className="font-bold text-base text-[#025afc]">₹{(ord.totalAmount || ord.pricing?.grandTotal || 0).toLocaleString()}</span>
                           </div>
                         </div>
                       </div>
@@ -380,14 +479,14 @@ export function AccountPage({ setCurrentPage }) {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-extrabold text-[#0B1633] flex items-center gap-2">
+                    <h3 className="text-lg font-bold text-[#0B1633] flex items-center gap-2">
                       <FiMapPin className="w-5 h-5 text-[#025afc]" /> Saved Shipping Address Book
                     </h3>
                     <p className="text-[14px] text-slate-500 font-medium">Select or add shipping addresses for instant 1-click checkout</p>
                   </div>
                   <button
                     onClick={() => openAddressModal()}
-                    className="px-4 py-2.5 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
+                    className="px-4 py-2.5 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] flex items-center gap-2 shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
                   >
                     <FiPlus className="w-4 h-4" /> Add New Address
                   </button>
@@ -396,13 +495,13 @@ export function AccountPage({ setCurrentPage }) {
                 {(!userProfile?.addresses || userProfile.addresses.length === 0) ? (
                   <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
                     <FiMapPin className="w-8 h-8 text-slate-300 mx-auto" />
-                    <h4 className="font-extrabold text-slate-900 text-sm">No Shipping Addresses Saved Yet</h4>
+                    <h4 className="font-bold text-slate-900 text-sm">No Shipping Addresses Saved Yet</h4>
                     <p className="text-[14px] text-slate-500 max-w-sm mx-auto">
                       Save your home, office, or client delivery addresses for faster checkout and automatic pre-fills.
                     </p>
                     <button
                       onClick={() => openAddressModal()}
-                      className="px-5 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-[14px] hover:bg-blue-700 cursor-pointer border-none"
+                      className="px-5 py-2 rounded-xl bg-blue-600 text-white font-bold text-[14px] hover:bg-blue-700 cursor-pointer border-none"
                     >
                       + Add First Address
                     </button>
@@ -417,17 +516,17 @@ export function AccountPage({ setCurrentPage }) {
                       >
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-extrabold border border-slate-200 uppercase tracking-wider">
+                            <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-bold border border-slate-200 uppercase tracking-wider">
                               {addr.type || 'Home'}
                             </span>
                             {addr.isDefault && (
-                              <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-extrabold border border-emerald-200">
+                              <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
                                 Default Shipping
                               </span>
                             )}
                           </div>
 
-                          <h4 className="font-extrabold text-sm text-slate-900">{addr.name}</h4>
+                          <h4 className="font-bold text-sm text-slate-900">{addr.name}</h4>
                           <p className="text-[14px] text-slate-600 mt-1 leading-relaxed">
                             {addr.addressLine1}{addr.addressLine2 ? `, ${addr.addressLine2}` : ''}<br />
                             {addr.city}, {addr.state} - <strong>{addr.pincode}</strong>
@@ -441,7 +540,7 @@ export function AccountPage({ setCurrentPage }) {
                           {!addr.isDefault ? (
                             <button
                               onClick={() => setDefaultAddress(addr.id)}
-                              className="text-[14px] font-extrabold text-blue-600 hover:text-blue-800 border-none bg-transparent cursor-pointer"
+                              className="text-[14px] font-bold text-blue-600 hover:text-blue-800 border-none bg-transparent cursor-pointer"
                             >
                               Set as Default
                             </button>
@@ -478,14 +577,14 @@ export function AccountPage({ setCurrentPage }) {
               <div className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-xs space-y-6">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <div>
-                    <h3 className="text-lg font-extrabold text-[#0B1633] flex items-center gap-2">
+                    <h3 className="text-lg font-bold text-[#0B1633] flex items-center gap-2">
                       <FiUser className="w-5 h-5 text-[#025afc]" /> Personal Profile & Business GSTIN
                     </h3>
                     <p className="text-[14px] text-slate-500 font-medium">Manage your personal contact info and B2B GST details for tax invoices</p>
                   </div>
                   <button
                     onClick={() => setIsEditingProfile(!isEditingProfile)}
-                    className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-[14px] flex items-center gap-1.5 border-none cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[14px] flex items-center gap-1.5 border-none cursor-pointer"
                   >
                     <FiEdit3 className="w-3.5 h-3.5" /> {isEditingProfile ? 'Cancel Edit' : 'Edit Profile'}
                   </button>
@@ -559,7 +658,7 @@ export function AccountPage({ setCurrentPage }) {
                     <div className="flex items-center gap-3 pt-2">
                       <button
                         type="submit"
-                        className="px-6 py-2.5 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
+                        className="px-6 py-2.5 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
                       >
                         Save Profile to Firebase
                       </button>
@@ -576,27 +675,27 @@ export function AccountPage({ setCurrentPage }) {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[14px]">
                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Full Name</span>
-                      <p className="font-extrabold text-sm text-slate-900">{userProfile?.displayName || currentUser.displayName || 'Not specified'}</p>
+                      <p className="font-bold text-sm text-slate-900">{userProfile?.displayName || currentUser.displayName || 'Not specified'}</p>
                     </div>
 
                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Email Address</span>
-                      <p className="font-extrabold text-sm text-slate-900 font-mono">{currentUser.email}</p>
+                      <p className="font-bold text-sm text-slate-900 font-mono">{currentUser.email}</p>
                     </div>
 
                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Phone Number</span>
-                      <p className="font-extrabold text-sm text-slate-900">{userProfile?.phone || 'Not provided'}</p>
+                      <p className="font-bold text-sm text-slate-900">{userProfile?.phone || 'Not provided'}</p>
                     </div>
 
                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Company Name</span>
-                      <p className="font-extrabold text-sm text-slate-900">{userProfile?.company || 'Direct Customer'}</p>
+                      <p className="font-bold text-sm text-slate-900">{userProfile?.company || 'Direct Customer'}</p>
                     </div>
 
                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1 md:col-span-2">
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">GSTIN Number</span>
-                      <p className="font-extrabold text-sm text-slate-900 font-mono">{userProfile?.gstin || 'No GSTIN provided (Consumer Invoice)'}</p>
+                      <p className="font-bold text-sm text-slate-900 font-mono">{userProfile?.gstin || 'No GSTIN provided (Consumer Invoice)'}</p>
                     </div>
                   </div>
                 )}
@@ -615,7 +714,7 @@ export function AccountPage({ setCurrentPage }) {
             className="bg-white rounded-3xl w-full max-w-lg p-6 space-y-4 shadow-2xl border border-slate-200 animate-in fade-in duration-200 text-[14px]"
           >
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
+              <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
                 <FiMapPin className="w-4 h-4 text-[#025afc]" />
                 {editingAddressId ? 'Edit Shipping Address' : 'Add New Shipping Address'}
               </h3>
@@ -740,7 +839,7 @@ export function AccountPage({ setCurrentPage }) {
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 rounded-xl bg-[#025afc] text-white font-extrabold shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
+                className="px-6 py-2 rounded-xl bg-[#025afc] text-white font-bold shadow-md shadow-[#025afc]/20 cursor-pointer border-none"
               >
                 Save Address
               </button>

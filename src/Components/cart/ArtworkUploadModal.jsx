@@ -1,14 +1,14 @@
 import React, { useState, useRef } from 'react';
-import { 
-  FiUploadCloud, 
-  FiX, 
-  FiCheckCircle, 
-  FiAlertCircle, 
-  FiFileText, 
-  FiImage, 
-  FiTrash2, 
-  FiRefreshCw, 
-  FiPlus, 
+import {
+  FiUploadCloud,
+  FiX,
+  FiCheckCircle,
+  FiAlertCircle,
+  FiFileText,
+  FiImage,
+  FiTrash2,
+  FiRefreshCw,
+  FiPlus,
   FiLock,
   FiInfo
 } from 'react-icons/fi';
@@ -87,7 +87,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
     if (newFileEntries.length > 0) {
       const updatedList = [...fileList, ...newFileEntries];
       setFileList(updatedList);
-      
+
       // Start upload for new entries
       newFileEntries.forEach(entry => uploadSingleFile(entry));
     }
@@ -188,14 +188,14 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
-        
+
         {/* Header */}
         <div className="bg-[#07152F] text-white p-5 sm:p-6 flex items-center justify-between border-b border-slate-800">
           <div>
             <div className="flex items-center gap-2 text-[14px] font-bold text-[#025afc] uppercase tracking-wider mb-1">
               <FiUploadCloud className="w-4 h-4" /> Prepress Artwork Uploader
             </div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-white">Upload Your Artwork</h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-white">Upload Your Artwork</h3>
             <p className="text-[14px] text-slate-300 mt-0.5">
               Upload high-resolution print files for <strong className="text-amber-400">{productTitle || 'your item'}</strong>.
             </p>
@@ -211,7 +211,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
 
         {/* Modal Content */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1">
-          
+
           {/* Error Banner */}
           {errorMessage && (
             <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-[14px] font-semibold flex items-center justify-between gap-3">
@@ -230,11 +230,10 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
             onDragOver={handleDrag}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current && fileInputRef.current.click()}
-            className={`border-2 border-dashed rounded-3xl p-8 text-center cursor-pointer transition-all duration-200 ${
-              dragActive 
-                ? 'border-[#025afc] bg-blue-50/50 scale-[1.01]' 
+            className={`border-2 border-dashed rounded-3xl p-8 text-center cursor-pointer transition-all duration-200 ${dragActive
+                ? 'border-[#025afc] bg-blue-50/50 scale-[1.01]'
                 : 'border-slate-300 hover:border-[#025afc] bg-[#F7F8FA] hover:bg-white'
-            }`}
+              }`}
           >
             <input
               ref={fileInputRef}
@@ -247,7 +246,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
             <div className="w-14 h-14 rounded-2xl bg-blue-100/70 text-[#025afc] flex items-center justify-center mx-auto mb-3">
               <FiUploadCloud className="w-7 h-7" />
             </div>
-            <h4 className="text-sm font-extrabold text-[#0B1633] mb-1">
+            <h4 className="text-sm font-bold text-[#0B1633] mb-1">
               Drag & Drop your artwork files here, or <span className="text-[#025afc]">Browse</span>
             </h4>
             <p className="text-[14px] text-slate-500 font-medium max-w-md mx-auto">
@@ -258,7 +257,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
           {/* Uploaded File List */}
           {fileList.length > 0 && (
             <div className="space-y-3">
-              <div className="flex items-center justify-between text-[14px] font-extrabold text-[#0B1633] border-b border-slate-100 pb-2">
+              <div className="flex items-center justify-between text-[14px] font-bold text-[#0B1633] border-b border-slate-100 pb-2">
                 <span>Selected Artwork Files ({fileList.length})</span>
                 <button
                   type="button"
@@ -280,14 +279,14 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
                       {file.localPreview ? (
                         <img src={file.localPreview} alt="Preview" className="w-11 h-11 object-cover rounded-xl border border-slate-200 shrink-0" />
                       ) : (
-                        <div className="w-11 h-11 rounded-xl bg-[#07152F] text-white flex items-center justify-center font-extrabold text-[14px] shrink-0 uppercase">
+                        <div className="w-11 h-11 rounded-xl bg-[#07152F] text-white flex items-center justify-center font-bold text-[14px] shrink-0 uppercase">
                           {file.format || 'DOC'}
                         </div>
                       )}
 
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-[14px] font-extrabold text-[#0B1633] truncate block max-w-[200px] sm:max-w-[300px]">
+                          <span className="text-[14px] font-bold text-[#0B1633] truncate block max-w-[200px] sm:max-w-[300px]">
                             {file.fileName}
                           </span>
                           <span className="text-[10px] font-mono text-slate-400">
@@ -319,7 +318,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
                             </span>
                             <button
                               onClick={() => uploadSingleFile(file)}
-                              className="text-[10px] font-extrabold text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
+                              className="text-[10px] font-bold text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
                             >
                               <FiRefreshCw className="w-3 h-3" /> Retry
                             </button>
@@ -343,7 +342,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
 
           {/* Artwork Special Instructions Notes */}
           <div className="space-y-1.5">
-            <label className="text-[14px] font-extrabold text-[#0B1633] flex items-center justify-between">
+            <label className="text-[14px] font-bold text-[#0B1633] flex items-center justify-between">
               <span>Special Printing Instructions (Optional)</span>
               <span className="text-[10px] text-slate-400 font-normal">e.g. Front & Back layout preference</span>
             </label>
@@ -369,7 +368,7 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
         <div className="p-5 bg-[#FAFBFD] border-t border-slate-200 flex items-center justify-between gap-4">
           <button
             onClick={onClose}
-            className="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-extrabold text-[14px] hover:bg-slate-100 transition cursor-pointer"
+            className="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-[14px] hover:bg-slate-100 transition cursor-pointer"
           >
             Cancel
           </button>
@@ -377,11 +376,10 @@ export function ArtworkUploadModal({ isOpen, onClose, onConfirmUpload, productTi
           <button
             onClick={handleFinalSubmit}
             disabled={isAnyUploading}
-            className={`px-7 py-3.5 rounded-xl font-extrabold text-[14px] uppercase tracking-wider shadow-lg flex items-center gap-2 cursor-pointer transition border-none ${
-              isAnyUploading 
-                ? 'bg-slate-300 text-slate-500 cursor-not-allowed' 
+            className={`px-7 py-3.5 rounded-xl font-bold text-[14px] uppercase tracking-wider shadow-lg flex items-center gap-2 cursor-pointer transition border-none ${isAnyUploading
+                ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
                 : 'bg-[#025afc] hover:bg-[#6a32f0] text-white shadow-[#025afc]/25 hover:scale-[1.02]'
-            }`}
+              }`}
           >
             {isAnyUploading ? (
               <>

@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  Download, 
-  ExternalLink, 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Building2, 
-  CheckCircle2, 
-  Truck, 
-  Package, 
-  FileText, 
-  Clock, 
-  DollarSign, 
-  Send, 
+import {
+  X,
+  Download,
+  ExternalLink,
+  Phone,
+  Mail,
+  MapPin,
+  Building2,
+  CheckCircle2,
+  Truck,
+  Package,
+  FileText,
+  Clock,
+  DollarSign,
+  Send,
   Layers
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
@@ -68,19 +68,19 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        
+
         {/* Top Header */}
         <div className="p-4 sm:p-5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black">
+            <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold">
               <Package className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-base tracking-tight text-white">
+                <h3 className="font-bold text-base tracking-tight text-white">
                   Order Details: #{order.orderId || order.id}
                 </h3>
-                <span className="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-extrabold text-[14px] border border-blue-400/30">
+                <span className="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold text-[14px] border border-blue-400/30">
                   {order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Paid Online'}
                 </span>
               </div>
@@ -98,12 +98,12 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
 
         {/* Modal Scrollable Body */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1 text-[14px] text-slate-900 bg-slate-50/50">
-          
+
           {/* Top Operational Status Changer Banner */}
           <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Current Order Status</span>
-              <strong className="text-sm font-extrabold text-blue-700">{currentStatus}</strong>
+              <strong className="text-sm font-bold text-blue-700">{currentStatus}</strong>
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -127,11 +127,11 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
           {/* Customer & Address Details Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs space-y-2">
-              <h4 className="font-extrabold text-slate-900 border-b border-slate-100 pb-2 text-[14px] uppercase tracking-wider text-slate-400">
+              <h4 className="font-bold text-slate-900 border-b border-slate-100 pb-2 text-[14px] uppercase tracking-wider text-slate-400">
                 Customer Info
               </h4>
               <div className="space-y-1.5 font-medium text-slate-700">
-                <strong className="text-sm font-extrabold text-slate-900 block">{order.customer?.name || 'Customer'}</strong>
+                <strong className="text-sm font-bold text-slate-900 block">{order.customer?.name || 'Customer'}</strong>
                 <p className="flex items-center gap-1.5 text-slate-600"><Mail className="w-3.5 h-3.5 text-slate-400" /> {order.customer?.email}</p>
                 <p className="flex items-center gap-1.5 text-slate-600"><Phone className="w-3.5 h-3.5 text-slate-400" /> {order.customer?.phone}</p>
                 {order.customer?.company && (
@@ -141,7 +141,7 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs space-y-2">
-              <h4 className="font-extrabold text-slate-900 border-b border-slate-100 pb-2 text-[14px] uppercase tracking-wider text-slate-400">
+              <h4 className="font-bold text-slate-900 border-b border-slate-100 pb-2 text-[14px] uppercase tracking-wider text-slate-400">
                 Shipping Destination
               </h4>
               <p className="text-slate-700 font-medium leading-relaxed">
@@ -158,7 +158,7 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
           {/* Client Uploaded Documents & Artwork Files Section */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h4 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+              <h4 className="font-bold text-sm text-slate-900 flex items-center gap-2">
                 <FileText className="w-4 h-4 text-blue-600" /> Client Uploaded Artwork Files ({artworkFiles.length})
               </h4>
               <span className="text-[10px] text-slate-400 font-semibold">Cloudinary Preserved Original Files</span>
@@ -181,13 +181,13 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
                         {isImage && url ? (
                           <img src={url} alt="Artwork" className="w-12 h-12 object-cover rounded-lg border border-slate-200 shrink-0" />
                         ) : (
-                          <div className="w-12 h-12 rounded-lg bg-slate-900 text-white font-extrabold text-[14px] flex items-center justify-center uppercase shrink-0">
+                          <div className="w-12 h-12 rounded-lg bg-slate-900 text-white font-bold text-[14px] flex items-center justify-center uppercase shrink-0">
                             {ext}
                           </div>
                         )}
 
                         <div className="min-w-0">
-                          <strong className="font-extrabold text-slate-900 truncate block text-[14px]">
+                          <strong className="font-bold text-slate-900 truncate block text-[14px]">
                             {art.fileName || art.originalFileName || `Artwork File #${idx + 1}`}
                           </strong>
                           <span className="text-[10px] text-slate-500 font-mono">
@@ -216,7 +216,7 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
 
           {/* Order Items Table & Pricing Summary */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
-            <h4 className="font-extrabold text-sm text-slate-900 border-b border-slate-100 pb-3">
+            <h4 className="font-bold text-sm text-slate-900 border-b border-slate-100 pb-3">
               Order Items & Pricing Snapshot
             </h4>
 
@@ -224,10 +224,10 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
               {(order.items || []).map((item, idx) => (
                 <div key={idx} className="py-3 flex items-center justify-between">
                   <div>
-                    <strong className="font-extrabold text-slate-900 block">{item.productName || item.name}</strong>
+                    <strong className="font-bold text-slate-900 block">{item.productName || item.name}</strong>
                     <span className="text-slate-500 text-[14px] font-medium">{item.variant || 'Standard Spec'} • Qty: {item.quantity || item.qty} Pcs</span>
                   </div>
-                  <span className="font-extrabold text-slate-900 text-sm">
+                  <span className="font-bold text-slate-900 text-sm">
                     ₹{(item.totalPrice || (item.unitPrice * (item.quantity || item.qty)) || 0).toLocaleString()}
                   </span>
                 </div>
@@ -238,17 +238,17 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
               <div className="w-64 space-y-1.5 text-[14px] font-semibold text-slate-600">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
-                  <span className="font-extrabold text-slate-900">₹{(order.subtotal || order.pricing?.subtotal || 0).toLocaleString()}</span>
+                  <span className="font-bold text-slate-900">₹{(order.subtotal || order.pricing?.subtotal || 0).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping Fee:</span>
-                  <span className="font-extrabold text-slate-900">₹{(order.shippingFee || order.pricing?.shippingFee || 0).toLocaleString()}</span>
+                  <span className="font-bold text-slate-900">₹{(order.shippingFee || order.pricing?.shippingFee || 0).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>GST (Inclusive):</span>
-                  <span className="font-extrabold text-slate-900">Incl. in Total</span>
+                  <span className="font-bold text-slate-900">Incl. in Total</span>
                 </div>
-                <div className="flex justify-between pt-2 border-t border-slate-200 text-sm font-black text-blue-600">
+                <div className="flex justify-between pt-2 border-t border-slate-200 text-sm font-bold text-blue-600">
                   <span>Total Amount:</span>
                   <span>₹{(order.totalAmount || order.pricing?.grandTotal || 0).toLocaleString()}</span>
                 </div>

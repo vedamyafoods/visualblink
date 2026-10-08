@@ -44,14 +44,14 @@ export function TemplatesPage() {
     },
   ]
 
-  const filtered = templatesList.filter(t => 
+  const filtered = templatesList.filter(t =>
     (activeTab === 'All' || t.category === activeTab) &&
     t.title.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633]">
-      
+
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
         <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
@@ -61,7 +61,7 @@ export function TemplatesPage() {
             <span>/</span>
             <span className="text-[#025afc] font-bold">Print Templates</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3">
             Free Print Dielines & Templates
           </h1>
           <p className="text-slate-300 text-[15px] max-w-2xl leading-relaxed">
@@ -72,7 +72,7 @@ export function TemplatesPage() {
 
       {/* Main Templates Gallery */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
+
         {/* Search Bar */}
         <div className="mb-8 relative max-w-md">
           <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[#667085] w-5 h-5" />
@@ -98,14 +98,14 @@ export function TemplatesPage() {
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <span className="absolute top-3 right-3 bg-[#07152F] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">
+                <span className="absolute top-3 right-3 bg-[#07152F] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">
                   {item.fileType}
                 </span>
               </div>
 
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
-                  <span className="text-[14px] font-extrabold text-[#025afc] uppercase tracking-wider block mb-1">
+                  <span className="text-[14px] font-bold text-[#025afc] uppercase tracking-wider block mb-1">
                     {item.category}
                   </span>
                   <h3 className="text-[16px] font-bold text-[#0B1633] group-hover:text-[#025afc] transition-colors leading-snug mb-2">

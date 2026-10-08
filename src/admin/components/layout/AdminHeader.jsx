@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  Search, 
-  Plus, 
-  FileText, 
-  Zap, 
-  ChevronDown, 
-  LogOut, 
+import {
+  Search,
+  Plus,
+  FileText,
+  Zap,
+  ChevronDown,
+  LogOut,
   Settings,
   Sparkles,
   Menu,
@@ -14,9 +14,9 @@ import {
 import { useAdmin } from '../../context/AdminContext';
 
 export const AdminHeader = ({ onOpenMobileSidebar }) => {
-  const { 
-    activeTab, 
-    expressOrdersCount, 
+  const {
+    activeTab,
+    expressOrdersCount,
     setCommandPaletteOpen,
     setWalkInModalOpen,
     setQuickInvoiceModalOpen,
@@ -43,7 +43,7 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
 
   return (
     <header className="h-16 bg-white/85 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs select-none">
-      
+
       {/* Left Area: Mobile Menu Trigger + Breadcrumb */}
       <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         {/* Mobile Hamburger Trigger */}
@@ -57,12 +57,12 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
 
         {/* Dynamic Title / Breadcrumb */}
         <div className="flex flex-col min-w-0">
-          <div className="hidden sm:flex items-center gap-1.5 text-[10px] text-slate-400 font-extrabold tracking-wider uppercase">
+          <div className="hidden sm:flex items-center gap-1.5 text-[10px] text-slate-400 font-bold tracking-wider uppercase">
             <span>VisualBlink</span>
             <span>/</span>
-            <span className="text-blue-600 font-black">{activeTab.replace('_', ' ')}</span>
+            <span className="text-blue-600 font-bold">{activeTab.replace('_', ' ')}</span>
           </div>
-          <h1 className="text-[14px] sm:text-sm font-extrabold text-slate-900 tracking-tight truncate">
+          <h1 className="text-[14px] sm:text-sm font-bold text-slate-900 tracking-tight truncate">
             {getBreadcrumbTitle()}
           </h1>
         </div>
@@ -70,7 +70,7 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
 
       {/* Right Header Controls Toolbar */}
       <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-        
+
         {/* Search Command Palette Trigger */}
         <button
           onClick={() => setCommandPaletteOpen(true)}
@@ -92,7 +92,7 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
         >
           <Zap className="w-3.5 h-3.5 text-red-600 fill-red-500 animate-pulse shrink-0" />
           <span className="hidden xl:inline">Express</span>
-          <span className="px-1.5 py-0.2 rounded-full bg-red-600 text-white font-black text-[9px]">
+          <span className="px-1.5 py-0.2 rounded-full bg-red-600 text-white font-bold text-[9px]">
             {expressOrdersCount}
           </span>
         </button>
@@ -121,7 +121,7 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
             className="flex items-center gap-1 pl-1 pr-0.5 py-0.5 rounded-xl hover:bg-slate-50 transition-colors border border-slate-200/50 cursor-pointer"
           >
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-blue-600 via-sky-500 to-indigo-600 text-white flex items-center justify-center font-extrabold text-[14px] shadow-3xs shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-blue-600 via-sky-500 to-indigo-600 text-white flex items-center justify-center font-bold text-[14px] shadow-3xs shrink-0">
               AD
             </div>
             <ChevronDown className="w-3 h-3 text-slate-400 hidden sm:block" />
@@ -130,20 +130,20 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
           {profileDropdownOpen && (
             <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-200/80 py-1.5 text-[14px] text-slate-700 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
               <div className="px-3 py-2 border-b border-slate-100">
-                <p className="font-extrabold text-slate-900">Admin User</p>
+                <p className="font-bold text-slate-900">Admin User</p>
                 <p className="text-slate-400 text-[10px] truncate">operations@visualblink.com</p>
                 <span className="inline-block mt-1 px-1.5 py-0.2 rounded bg-blue-50 text-blue-700 font-bold text-[9px]">
                   Role: {userRole}
                 </span>
               </div>
-              <button 
+              <button
                 onClick={() => { setActiveTab('rbac'); setProfileDropdownOpen(false); }}
                 className="w-full px-3 py-2 text-left hover:bg-slate-50 flex items-center gap-2 text-slate-700 font-semibold border-none bg-transparent cursor-pointer"
               >
                 <Settings className="w-3.5 h-3.5 text-slate-400" />
                 Security Settings
               </button>
-              <button 
+              <button
                 onClick={() => { setActiveTab('cloudinary'); setProfileDropdownOpen(false); }}
                 className="w-full px-3 py-2 text-left hover:bg-slate-50 flex items-center gap-2 text-slate-700 font-semibold border-none bg-transparent cursor-pointer"
               >
@@ -151,7 +151,7 @@ export const AdminHeader = ({ onOpenMobileSidebar }) => {
                 Cloudinary Asset API
               </button>
               <div className="border-t border-slate-100 my-1" />
-              <button 
+              <button
                 onClick={() => alert("Admin session active.")}
                 className="w-full px-3 py-2 text-left hover:bg-red-50 text-red-600 flex items-center gap-2 font-semibold border-none bg-transparent cursor-pointer"
               >

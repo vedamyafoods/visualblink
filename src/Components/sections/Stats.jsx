@@ -43,7 +43,7 @@ export function Stats() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="rounded-[1.75rem] border border-white/10 bg-white/5 p-7 text-center">
-              <div className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+              <div className="text-4xl font-bold tracking-tight sm:text-5xl">
                 {inView ? <AnimatedCount end={stat.value} suffix={stat.suffix} /> : `0${stat.suffix}`}
               </div>
               <p className="mt-3 text-sm font-semibold text-slate-300">{stat.label}</p>

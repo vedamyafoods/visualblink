@@ -24,14 +24,14 @@ export function Hero({ setCurrentPage }) {
           >
             {/* Eyebrow Tag */}
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-[#025afc] text-[14px] sm:text-[14px] font-black tracking-widest uppercase">
+              <span className="text-[#025afc] text-[14px] sm:text-[14px] font-bold tracking-widest uppercase">
                 PRINTING MEETS CREATIVITY
               </span>
               <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
             {/* Dominant Headline (Matching Screenshot 2) */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-[#0F172A] leading-[1.06] tracking-tight mb-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-bold text-[#0F172A] leading-[1.06] tracking-tight mb-4">
               Ideas in Print. <br />
               <span className="text-gradient">Impact in Real Life.</span>
             </h1>

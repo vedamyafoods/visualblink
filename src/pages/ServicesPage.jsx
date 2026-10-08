@@ -49,7 +49,7 @@ export function ServicesPage() {
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633]">
-      
+
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
         <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
@@ -59,7 +59,7 @@ export function ServicesPage() {
             <span>/</span>
             <span className="text-[#025afc] font-bold">Our Services</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3">
             Print Engineering & Services
           </h1>
           <p className="text-slate-300 text-[15px] max-w-2xl leading-relaxed">
@@ -81,7 +81,7 @@ export function ServicesPage() {
                   <div className="w-13 h-13 rounded-[14px] bg-[#025afc]/10 border border-[#025afc]/20 flex items-center justify-center">
                     {s.icon}
                   </div>
-                  <span className="bg-[#07152F] text-white text-[14px] font-extrabold px-3 py-1 rounded-full">
+                  <span className="bg-[#07152F] text-white text-[14px] font-bold px-3 py-1 rounded-full">
                     {s.badge}
                   </span>
                 </div>
@@ -89,7 +89,7 @@ export function ServicesPage() {
                 <h3 className="text-[19px] font-bold text-[#0B1633] mb-1 leading-snug">
                   {s.title}
                 </h3>
-                <span className="text-[14px] font-extrabold text-[#025afc] uppercase tracking-wider block mb-3">
+                <span className="text-[14px] font-bold text-[#025afc] uppercase tracking-wider block mb-3">
                   {s.subtitle}
                 </span>
                 <p className="text-[#667085] text-[14px] leading-relaxed mb-6">

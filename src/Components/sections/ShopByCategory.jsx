@@ -86,20 +86,20 @@ export function ShopByCategory({ setCurrentPage }) {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[#025afc] text-[14px] font-black tracking-widest uppercase">
+              <span className="text-[#025afc] text-[14px] font-bold tracking-widest uppercase">
                 OUR PRODUCTS
               </span>
               <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] tracking-tight">
               Shop by <span className="text-gradient">Category</span>
             </h2>
           </div>
 
           <button
             onClick={() => handleLink()}
-            className="inline-flex items-center gap-1.5 text-[14px] font-extrabold text-[#025afc] hover:text-[#6a32f0] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
+            className="inline-flex items-center gap-1.5 text-[14px] font-bold text-[#025afc] hover:text-[#6a32f0] transition-colors border-none bg-transparent cursor-pointer group shrink-0"
           >
             <span>View All Products</span>
             <FiIcons.FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -141,7 +141,7 @@ export function ShopByCategory({ setCurrentPage }) {
                 {/* Card Content Area */}
                 <div className="p-5 flex flex-col justify-between flex-1 bg-white">
                   <div>
-                    <h3 className="text-[16px] font-black text-[#0F172A] group-hover:text-[#025afc] transition-colors mb-1.5 leading-snug">
+                    <h3 className="text-[16px] font-bold text-[#0F172A] group-hover:text-[#025afc] transition-colors mb-1.5 leading-snug">
                       {cat.title}
                     </h3>
                     <p className="text-slate-500 text-[14px] font-normal leading-relaxed">

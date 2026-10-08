@@ -49,9 +49,9 @@ export const WalkInOrderModal = () => {
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
+
         <div className="p-4 border-b border-slate-200/80 bg-white text-slate-950 flex items-center justify-between">
-          <h3 className="font-extrabold text-sm flex items-center gap-2 text-slate-900">
+          <h3 className="font-bold text-sm flex items-center gap-2 text-slate-900">
             <Plus className="w-4 h-4 text-blue-600" /> Create Walk-In Counter Print Order
           </h3>
           <button onClick={() => setWalkInModalOpen(false)} className="text-slate-450 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-50 transition-colors border-none bg-transparent cursor-pointer">
@@ -144,7 +144,7 @@ export const WalkInOrderModal = () => {
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1 font-mono text-[14px]">
             <div className="flex justify-between"><span>Subtotal:</span><span>₹{subtotal.toLocaleString()}</span></div>
             <div className="flex justify-between"><span>18% GST:</span><span>₹{gstAmount.toLocaleString()}</span></div>
-            <div className="flex justify-between font-extrabold text-slate-900 text-[14px] pt-1 border-t">
+            <div className="flex justify-between font-bold text-slate-900 text-[14px] pt-1 border-t">
               <span>Total Payable:</span><span>₹{totalAmount.toLocaleString()}</span>
             </div>
           </div>

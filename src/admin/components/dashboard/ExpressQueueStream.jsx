@@ -19,7 +19,7 @@ export const ExpressQueueStream = () => {
 
   return (
     <div className="bg-gradient-to-br from-red-50/30 via-white to-amber-50/30 text-slate-800 rounded-2xl p-5 border border-red-100/60 shadow-md relative overflow-hidden">
-      
+
       {/* Background Subtle Pulsing Glow */}
       <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -29,14 +29,14 @@ export const ExpressQueueStream = () => {
             <Zap className="w-4 h-4 fill-red-600 animate-pulse" />
           </div>
           <div>
-            <h3 className="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+            <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
               Express Same-Day Priority Stream
             </h3>
             <p className="text-[14px] text-slate-500">Orders requiring local dispatch before 12:00 PM cutoff</p>
           </div>
         </div>
 
-        <button 
+        <button
           onClick={() => setActiveTab('orders')}
           className="text-[14px] text-red-600 hover:text-red-700 font-bold flex items-center gap-1 border-none bg-transparent cursor-pointer"
         >
@@ -46,12 +46,12 @@ export const ExpressQueueStream = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {expressOrders.map((order) => (
-          <div 
+          <div
             key={order.id}
             className="bg-white hover:bg-slate-50/40 border border-slate-200/80 rounded-xl p-4 transition-all relative group shadow-3xs"
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="font-extrabold text-sm text-slate-900 tracking-tight">{order.id}</span>
+              <span className="font-bold text-sm text-slate-900 tracking-tight">{order.id}</span>
               <span className="px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-100 text-[10px] font-bold flex items-center gap-1">
                 <Clock className="w-3 h-3 text-red-600" />
                 {calculateTimeLeft(order.expressDeadline)}

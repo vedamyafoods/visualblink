@@ -121,11 +121,11 @@ export const HomepageManager = () => {
       <div className="flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 p-6 rounded-3xl text-white shadow-xl relative overflow-hidden">
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-3 py-0.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[10px] font-extrabold uppercase tracking-widest backdrop-blur-md">
+            <span className="px-3 py-0.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md">
               Storefront Customization Studio
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2 text-white">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2 text-white">
             <Sparkles className="w-6 h-6 text-amber-400" />
             Homepage Banner & Category Manager
           </h2>
@@ -138,7 +138,7 @@ export const HomepageManager = () => {
           <button
             type="button"
             onClick={handleSave}
-            className="px-6 py-3 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-lg shadow-[#025afc]/30 transition cursor-pointer border-none"
+            className="px-6 py-3 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] flex items-center gap-2 shadow-lg shadow-[#025afc]/30 transition cursor-pointer border-none"
           >
             {saveSuccess ? (
               <>
@@ -237,7 +237,7 @@ export const HomepageManager = () => {
       {activeTab === 'hero' && (
         <div className="space-y-6 animate-in fade-in duration-200">
           <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
-            <h3 className="font-extrabold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <h3 className="font-bold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2 border-b border-slate-100 pb-3">
               <Type className="w-4 h-4" /> Main Hero Banner Copy & Headline Configuration
             </h3>
 
@@ -280,7 +280,7 @@ export const HomepageManager = () => {
                     hero: { ...formData.hero, headlineLine1: e.target.value }
                   })}
                   placeholder="e.g. Print Your Imagination,"
-                  className="w-full p-3 rounded-xl border border-slate-200 font-extrabold text-slate-900 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
@@ -294,7 +294,7 @@ export const HomepageManager = () => {
                     hero: { ...formData.hero, headlineLine2: e.target.value }
                   })}
                   placeholder="e.g. Perfected."
-                  className="w-full p-3 rounded-xl border border-slate-200 font-extrabold text-[#025afc] focus:outline-none focus:border-[#025afc]"
+                  className="w-full p-3 rounded-xl border border-slate-200 font-bold text-[#025afc] focus:outline-none focus:border-[#025afc]"
                 />
               </div>
 
@@ -342,7 +342,7 @@ export const HomepageManager = () => {
 
           {/* Cloudinary Hero Banner Image Upload Card */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="font-extrabold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <h3 className="font-bold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2 border-b border-slate-100 pb-3">
               <ImageIcon className="w-4 h-4" /> Cloudinary Hero Banner Showcase Image
             </h3>
 
@@ -353,7 +353,7 @@ export const HomepageManager = () => {
                   alt="Hero Banner Preview"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1 rounded-full border border-white/20">
+                <div className="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
                   Live Banner Preview
                 </div>
               </div>
@@ -374,7 +374,7 @@ export const HomepageManager = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <label className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[14px] flex items-center gap-2 cursor-pointer transition shadow-md shadow-blue-500/20">
+                  <label className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] flex items-center gap-2 cursor-pointer transition shadow-md shadow-blue-500/20">
                     <Upload className="w-4 h-4" />
                     {uploadingField === 'heroBanner' ? 'Uploading to Cloudinary...' : 'Upload New Hero Banner Image'}
                     <input
@@ -424,7 +424,7 @@ export const HomepageManager = () => {
       {activeTab === 'categories' && (
         <div className="space-y-6 animate-in fade-in duration-200">
           <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="font-extrabold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <h3 className="font-bold text-sm text-slate-900 uppercase tracking-wider text-blue-600 flex items-center gap-2 border-b border-slate-100 pb-3">
               <Grid className="w-4 h-4" /> Category Section Titles & Description
             </h3>
 
@@ -499,7 +499,7 @@ export const HomepageManager = () => {
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="font-extrabold text-[14px] text-slate-300 uppercase tracking-widest">
+                <span className="font-bold text-[14px] text-slate-300 uppercase tracking-widest">
                   Live Customer View Mockup
                 </span>
               </div>
@@ -508,7 +508,7 @@ export const HomepageManager = () => {
 
             {/* Mock Hero Section */}
             <div className="bg-[#07152F] rounded-2xl p-6 border border-slate-800 space-y-6">
-              <span className="bg-[#025afc]/15 border border-[#025afc]/30 text-[#025afc] text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full inline-block">
+              <span className="bg-[#025afc]/15 border border-[#025afc]/30 text-[#025afc] text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full inline-block">
                 {formData.hero?.eyebrowText}
               </span>
 
@@ -543,7 +543,7 @@ export const HomepageManager = () => {
             {/* Mock Categories Section */}
             <div className="space-y-4">
               <div>
-                <span className="text-[#025afc] text-[10px] font-extrabold uppercase tracking-widest">
+                <span className="text-[#025afc] text-[10px] font-bold uppercase tracking-widest">
                   {formData.categoriesSection?.badgeText}
                 </span>
                 <h2 className="text-xl font-bold text-white">

@@ -90,11 +90,11 @@ export const StickerEngineSection = ({ formData, setFormData, catalogOptions, up
   return (
     <div className="bg-amber-50/50 p-5 rounded-2xl border border-amber-200/80 shadow-3xs space-y-4">
       <div className="flex items-center justify-between border-b border-amber-200/60 pb-2.5">
-        <h4 className="font-extrabold text-amber-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
+        <h4 className="font-bold text-amber-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
           <Tag className="w-4 h-4 text-amber-600" />
           Sticker White Ink & Die-Cut Engine
         </h4>
-        <span className="text-[10px] font-black text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
+        <span className="text-[10px] font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
           Clear Vinyl & White Ink Engine Active
         </span>
       </div>

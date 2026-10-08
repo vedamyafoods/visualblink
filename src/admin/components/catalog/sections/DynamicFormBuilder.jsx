@@ -143,7 +143,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
       {/* Top Section Header & Global Add Button */}
       <div className="bg-gradient-to-r from-blue-900 via-[#07152F] to-slate-900 p-5 rounded-2xl text-white shadow-md flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h4 className="font-extrabold text-base uppercase tracking-wider text-white flex items-center gap-2">
+          <h4 className="font-bold text-base uppercase tracking-wider text-white flex items-center gap-2">
             <Sliders className="w-5 h-5 text-blue-400" />
             Dynamic Product Form Builder & Section Customizer
           </h4>
@@ -155,7 +155,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
         <button
           type="button"
           onClick={handleAddSection}
-          className="px-4 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-black text-[13px] shadow-sm flex items-center gap-2 cursor-pointer border-none transition active:scale-95 shrink-0"
+          className="px-4 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-[13px] shadow-sm flex items-center gap-2 cursor-pointer border-none transition active:scale-95 shrink-0"
         >
           <Plus className="w-4 h-4" /> + Add Section
         </button>
@@ -165,14 +165,14 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
       {customSections.length === 0 ? (
         <div className="p-8 text-center bg-white rounded-2xl border-2 border-dashed border-slate-300 space-y-3">
           <Layers className="w-12 h-12 text-slate-400 mx-auto" />
-          <h4 className="font-black text-slate-800 text-base">No Custom Sections Added Yet</h4>
+          <h4 className="font-bold text-slate-800 text-base">No Custom Sections Added Yet</h4>
           <p className="text-[13px] text-slate-500 max-w-md mx-auto font-medium">
             Click "+ Add Section" above to create custom product configuration sections like Paper Specs, Printing Options, or Delivery Info.
           </p>
           <button
             type="button"
             onClick={handleAddSection}
-            className="px-4 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-[13px] cursor-pointer border-none shadow-3xs"
+            className="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-[13px] cursor-pointer border-none shadow-3xs"
           >
             + Add First Section
           </button>
@@ -188,7 +188,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
               {/* SECTION HEADER BAR */}
               <div className="bg-slate-100/70 p-4 rounded-t-2xl border-b border-slate-200 flex items-center justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-3 flex-1 min-w-[280px]">
-                  <span className="w-7 h-7 rounded-lg bg-blue-600 text-white text-[12px] font-black flex items-center justify-center shrink-0">
+                  <span className="w-7 h-7 rounded-lg bg-blue-600 text-white text-[12px] font-bold flex items-center justify-center shrink-0">
                     {secIdx + 1}
                   </span>
                   <input
@@ -196,7 +196,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                     value={sec.title || ''}
                     onChange={(e) => updateSection(sec.id, { title: e.target.value })}
                     placeholder="Section Title (e.g. Printing Configuration)"
-                    className="flex-1 px-3 py-1.5 rounded-xl border border-slate-300 font-black text-slate-900 text-[14px] bg-white focus:outline-none focus:border-blue-600"
+                    className="flex-1 px-3 py-1.5 rounded-xl border border-slate-300 font-bold text-slate-900 text-[14px] bg-white focus:outline-none focus:border-blue-600"
                   />
                   <span className="text-[11px] font-bold text-slate-500 bg-slate-200 px-2 py-0.5 rounded">
                     {(sec.fields || []).length} field(s)
@@ -207,9 +207,9 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                   <button
                     type="button"
                     onClick={() => updateSection(sec.id, { enabled: sec.enabled === false })}
-                    className={`px-3 py-1 rounded-lg text-[11px] font-black cursor-pointer border transition ${sec.enabled !== false
-                        ? 'bg-emerald-600 text-white border-emerald-600'
-                        : 'bg-slate-200 text-slate-600 border-slate-300'
+                    className={`px-3 py-1 rounded-lg text-[11px] font-bold cursor-pointer border transition ${sec.enabled !== false
+                      ? 'bg-emerald-600 text-white border-emerald-600'
+                      : 'bg-slate-200 text-slate-600 border-slate-300'
                       }`}
                   >
                     {sec.enabled !== false ? 'ENABLED' : 'DISABLED'}
@@ -241,7 +241,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                       {/* FIELD TOP ROW */}
                       <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
                         <div className="sm:col-span-5">
-                          <label className="block text-[10px] font-black uppercase text-slate-500 tracking-wider mb-1">
+                          <label className="block text-[10px] font-bold uppercase text-slate-500 tracking-wider mb-1">
                             Field Label / Title
                           </label>
                           <input
@@ -249,12 +249,12 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                             value={field.label || ''}
                             onChange={(e) => updateField(sec.id, field.id, { label: e.target.value })}
                             placeholder="Field Label (e.g. Top Sheet Printing Colour)"
-                            className="w-full p-2 rounded-xl border border-slate-300 font-extrabold text-slate-900 text-[13.5px] bg-white focus:outline-none focus:border-blue-600"
+                            className="w-full p-2 rounded-xl border border-slate-300 font-bold text-slate-900 text-[13.5px] bg-white focus:outline-none focus:border-blue-600"
                           />
                         </div>
 
                         <div className="sm:col-span-4">
-                          <label className="block text-[10px] font-black uppercase text-slate-500 tracking-wider mb-1">
+                          <label className="block text-[10px] font-bold uppercase text-slate-500 tracking-wider mb-1">
                             Control Type
                           </label>
                           <select
@@ -275,9 +275,9 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                           <button
                             type="button"
                             onClick={() => updateField(sec.id, field.id, { required: !field.required })}
-                            className={`w-full py-2 px-2.5 rounded-xl text-[11px] font-black border cursor-pointer transition ${field.required
-                                ? 'bg-blue-600 text-white border-blue-600 shadow-3xs'
-                                : 'bg-slate-200 text-slate-600 border-slate-300'
+                            className={`w-full py-2 px-2.5 rounded-xl text-[11px] font-bold border cursor-pointer transition ${field.required
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-3xs'
+                              : 'bg-slate-200 text-slate-600 border-slate-300'
                               }`}
                           >
                             {field.required ? 'REQUIRED: ON' : 'REQUIRED: OFF'}
@@ -322,7 +322,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                       {['dropdown', 'radio', 'checkbox', 'orientation'].includes(field.type) && (
                         <div className="pt-2 border-t border-slate-200/80 space-y-2">
                           <div className="flex items-center justify-between">
-                            <span className="text-[10.5px] font-black uppercase text-blue-800 tracking-wider flex items-center gap-1">
+                            <span className="text-[10.5px] font-bold uppercase text-blue-800 tracking-wider flex items-center gap-1">
                               <List className="w-3.5 h-3.5 text-blue-600" /> Options & Price Adjustments ({(field.options || []).length})
                             </span>
                             <button
@@ -337,7 +337,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                           {field.type === 'orientation' ? (
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                               {(field.options || []).map((opt) => (
-                                <div key={opt.id} className="relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 border-blue-600 bg-blue-50 text-blue-700 shadow-sm transition-all font-extrabold text-[13px]">
+                                <div key={opt.id} className="relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 border-blue-600 bg-blue-50 text-blue-700 shadow-sm transition-all font-bold text-[13px]">
                                   <button
                                     type="button"
                                     onClick={() => handleDeleteOption(sec.id, field.id, opt.id)}
@@ -360,7 +360,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                                     value={opt.label || ''}
                                     onChange={(e) => updateOption(sec.id, field.id, opt.id, { label: e.target.value, value: e.target.value })}
                                     placeholder="e.g. Landscape"
-                                    className="w-full text-center p-1 rounded-md border border-blue-200 font-extrabold text-blue-800 text-[12px] bg-white focus:outline-none focus:border-blue-500"
+                                    className="w-full text-center p-1 rounded-md border border-blue-200 font-bold text-blue-800 text-[12px] bg-white focus:outline-none focus:border-blue-500"
                                   />
                                   <div className="flex items-center gap-1 w-full relative">
                                     <span className="absolute left-1 top-1.5 text-[10px] font-bold text-slate-400">₹</span>
@@ -425,7 +425,7 @@ export const DynamicFormBuilder = ({ customSections = [], onChange }) => {
                   <button
                     type="button"
                     onClick={() => handleAddField(sec.id)}
-                    className="w-full py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold text-[13px] border border-blue-200 shadow-3xs flex items-center justify-center gap-1.5 cursor-pointer transition"
+                    className="w-full py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[13px] border border-blue-200 shadow-3xs flex items-center justify-center gap-1.5 cursor-pointer transition"
                   >
                     <Plus className="w-4 h-4 text-blue-600" /> + Add Field to "{sec.title || 'Section'}"
                   </button>

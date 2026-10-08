@@ -121,8 +121,9 @@ export function CheckoutPage({ setCurrentPage }) {
 
   const expressFee = isExpress ? APP_CONFIG.EXPRESS_SHIPPING_FEE : 0;
   const shipping = subtotal > APP_CONFIG.FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : APP_CONFIG.STANDARD_SHIPPING_FEE;
-  const gstAmount = 0;
   const grandTotal = Math.max(0, Math.round(subtotal - couponDiscount + expressFee + shipping));
+  const advancePaymentAmount = Math.ceil(grandTotal / 2);
+  const remainingPaymentAmount = grandTotal - advancePaymentAmount;
 
   // Consolidate artwork files from all cart items
   const aggregatedArtwork = cartItems.reduce((acc, item) => {
@@ -264,7 +265,16 @@ export function CheckoutPage({ setCurrentPage }) {
         paymentProviderOrderId: paymentDetails.providerOrderId || null,
         isExpress,
         couponCode: initialCouponCode || null,
-        artwork: aggregatedArtwork
+        artwork: aggregatedArtwork,
+        pricing: {
+          subtotal,
+          couponDiscount,
+          shippingFee: shipping,
+          expressFee,
+          grandTotal,
+          advancePaymentAmount,
+          remainingPaymentAmount
+        }
       };
 
       let createdOrder;
@@ -322,7 +332,7 @@ export function CheckoutPage({ setCurrentPage }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          amount: grandTotal,
+          amount: advancePaymentAmount, // Request 50% advance
           customerId: currentUser?.uid || null,
           customerName,
           customerEmail,
@@ -378,7 +388,7 @@ export function CheckoutPage({ setCurrentPage }) {
           if (paymentMsg === 'SUCCESS') {
             handleFinalOrderCreation({
               method: 'cashfree',
-              status: 'paid',
+              status: 'Advance Paid',
               providerOrderId: cfOrderId
             });
           }
@@ -391,7 +401,7 @@ export function CheckoutPage({ setCurrentPage }) {
       if (err.message.includes('API')) {
         handleFinalOrderCreation({
           method: 'cashfree',
-          status: 'paid',
+          status: 'Advance Paid',
           providerOrderId: `cf_sim_${Date.now()}`
         });
       } else {
@@ -414,11 +424,11 @@ export function CheckoutPage({ setCurrentPage }) {
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-[#FAFBFD] font-sans text-[#0B1633] flex flex-col items-center justify-center p-6 text-center">
-        <h2 className="text-2xl font-extrabold text-[#0B1633] mb-2">Your Cart is Empty</h2>
+        <h2 className="text-2xl font-bold text-[#0B1633] mb-2">Your Cart is Empty</h2>
         <p className="text-slate-500 text-[14px] mb-6">Please add items to cart before proceeding to checkout.</p>
         <button
           onClick={() => setCurrentPage('products')}
-          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-extrabold text-[14px] uppercase tracking-wider cursor-pointer border-none"
+          className="px-6 py-3 rounded-2xl bg-[#025afc] text-white font-bold text-[14px] uppercase tracking-wider cursor-pointer border-none"
         >
           Return to Catalog
         </button>
@@ -437,7 +447,7 @@ export function CheckoutPage({ setCurrentPage }) {
             <span>/</span>
             <span className="text-[#025afc] font-bold">Secure Checkout</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
             Checkout & Order Authorization
           </h1>
         </div>
@@ -460,13 +470,13 @@ export function CheckoutPage({ setCurrentPage }) {
 
             {/* SECTION 1: CUSTOMER DETAILS */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
-              <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
+              <h3 className="text-base font-bold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
                 <FiUser className="w-4 h-4 text-[#025afc]" /> 1. Customer Information
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[14px]">
                 <div>
-                  <label className="font-extrabold text-slate-700 block mb-1">Full Name *</label>
+                  <label className="font-bold text-slate-700 block mb-1">Full Name *</label>
                   <input
                     type="text"
                     required
@@ -487,7 +497,7 @@ export function CheckoutPage({ setCurrentPage }) {
                 </div>
 
                 <div>
-                  <label className="font-extrabold text-slate-700 block mb-1">Email Address *</label>
+                  <label className="font-bold text-slate-700 block mb-1">Email Address *</label>
                   <input
                     type="email"
                     required
@@ -508,7 +518,7 @@ export function CheckoutPage({ setCurrentPage }) {
                 </div>
 
                 <div>
-                  <label className="font-extrabold text-slate-700 block mb-1 flex items-center justify-between">
+                  <label className="font-bold text-slate-700 block mb-1 flex items-center justify-between">
                     <span>Mobile Phone *</span>
                     <span className="text-[10px] text-slate-400 font-normal">10 digits</span>
                   </label>
@@ -540,7 +550,7 @@ export function CheckoutPage({ setCurrentPage }) {
             {/* SECTION 2: DELIVERY ADDRESS */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#0B1633] flex items-center gap-2">
                   <FiMapPin className="w-4 h-4 text-[#025afc]" /> 2. Delivery Address
                 </h3>
               </div>
@@ -553,7 +563,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     <button
                       type="button"
                       onClick={handleAddNewAddress}
-                      className={`text-[14px] font-extrabold flex items-center gap-1 cursor-pointer transition ${selectedAddressId === 'new' ? 'text-[#025afc]' : 'text-slate-500 hover:text-[#025afc]'
+                      className={`text-[14px] font-bold flex items-center gap-1 cursor-pointer transition ${selectedAddressId === 'new' ? 'text-[#025afc]' : 'text-slate-500 hover:text-[#025afc]'
                         }`}
                     >
                       <FiPlus className="w-3.5 h-3.5" /> Enter New Address
@@ -573,7 +583,7 @@ export function CheckoutPage({ setCurrentPage }) {
                             : 'border-slate-200 bg-[#F7F8FA] hover:border-slate-300'
                             }`}
                         >
-                          <div className="flex items-center justify-between font-extrabold text-[#0B1633] mb-1">
+                          <div className="flex items-center justify-between font-bold text-[#0B1633] mb-1">
                             <span className="flex items-center gap-1.5 truncate">
                               {isSelected && <FiCheckCircle className="w-3.5 h-3.5 text-[#025afc] shrink-0" />}
                               {addr.name || customerName || 'Saved Address'}
@@ -584,7 +594,7 @@ export function CheckoutPage({ setCurrentPage }) {
                             </span>
                           </div>
                           <p className="text-slate-600 line-clamp-2 leading-relaxed text-[14px]">
-                            {addr.addressLine1}{addr.addressLine2 ? `, ${addr.addressLine2}` : ''}, {addr.city}, {addr.state} - <strong className="font-extrabold text-slate-800">{addr.pincode}</strong>
+                            {addr.addressLine1}{addr.addressLine2 ? `, ${addr.addressLine2}` : ''}, {addr.city}, {addr.state} - <strong className="font-bold text-slate-800">{addr.pincode}</strong>
                           </p>
                         </button>
                       );
@@ -600,7 +610,7 @@ export function CheckoutPage({ setCurrentPage }) {
                         }`}
                     >
                       <FiPlus className="w-5 h-5 text-[#025afc]" />
-                      <span className="font-extrabold">Deliver to New Address</span>
+                      <span className="font-bold">Deliver to New Address</span>
                       <span className="text-[10px] text-slate-400">Fill in form details below</span>
                     </button>
                   </div>
@@ -610,7 +620,7 @@ export function CheckoutPage({ setCurrentPage }) {
               {/* Address Input Form */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[14px]">
                 <div className="sm:col-span-2">
-                  <label className="font-extrabold text-slate-700 block mb-1">Flat / Building / House No. & Street *</label>
+                  <label className="font-bold text-slate-700 block mb-1">Flat / Building / House No. & Street *</label>
                   <input
                     type="text"
                     required
@@ -631,7 +641,7 @@ export function CheckoutPage({ setCurrentPage }) {
                 </div>
 
                 <div>
-                  <label className="font-extrabold text-slate-700 block mb-1">Area / Locality</label>
+                  <label className="font-bold text-slate-700 block mb-1">Area / Locality</label>
                   <input
                     type="text"
                     value={addressLine2}
@@ -642,7 +652,7 @@ export function CheckoutPage({ setCurrentPage }) {
                 </div>
 
                 <div>
-                  <label className="font-extrabold text-slate-700 block mb-1">Landmark (Optional)</label>
+                  <label className="font-bold text-slate-700 block mb-1">Landmark (Optional)</label>
                   <input
                     type="text"
                     value={landmark}
@@ -653,7 +663,7 @@ export function CheckoutPage({ setCurrentPage }) {
                 </div>
 
                 <div>
-                  <label className="font-extrabold text-slate-700 block mb-1">City *</label>
+                  <label className="font-bold text-slate-700 block mb-1">City *</label>
                   <input
                     type="text"
                     required
@@ -674,7 +684,7 @@ export function CheckoutPage({ setCurrentPage }) {
                 </div>
 
                 <div>
-                  <label className="font-extrabold text-slate-700 block mb-1">State *</label>
+                  <label className="font-bold text-slate-700 block mb-1">State *</label>
                   <input
                     type="text"
                     required
@@ -695,7 +705,7 @@ export function CheckoutPage({ setCurrentPage }) {
                 </div>
 
                 <div>
-                  <label className="font-extrabold text-slate-700 block mb-1 flex items-center justify-between">
+                  <label className="font-bold text-slate-700 block mb-1 flex items-center justify-between">
                     <span>Pincode *</span>
                     <span className="text-[10px] text-slate-400 font-normal">6 digits</span>
                   </label>
@@ -739,11 +749,11 @@ export function CheckoutPage({ setCurrentPage }) {
             {/* SECTION 3: BUSINESS & GST DETAILS */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#0B1633] flex items-center gap-2">
                   <FiBriefcase className="w-4 h-4 text-[#025afc]" /> 3. GST & Business Details
                 </h3>
 
-                <label className="flex items-center gap-2 text-[14px] font-extrabold text-[#025afc] cursor-pointer">
+                <label className="flex items-center gap-2 text-[14px] font-bold text-[#025afc] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={isB2B}
@@ -757,7 +767,7 @@ export function CheckoutPage({ setCurrentPage }) {
               {isB2B && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[14px] pt-2 border-t border-slate-100 animate-in fade-in">
                   <div>
-                    <label className="font-extrabold text-slate-700 block mb-1">Registered Company Name</label>
+                    <label className="font-bold text-slate-700 block mb-1">Registered Company Name</label>
                     <input
                       type="text"
                       value={companyName}
@@ -768,7 +778,7 @@ export function CheckoutPage({ setCurrentPage }) {
                   </div>
 
                   <div>
-                    <label className="font-extrabold text-slate-700 block mb-1">GSTIN Number (15 digits)</label>
+                    <label className="font-bold text-slate-700 block mb-1">GSTIN Number (15 digits)</label>
                     <input
                       type="text"
                       maxLength={15}
@@ -784,7 +794,7 @@ export function CheckoutPage({ setCurrentPage }) {
 
             {/* SECTION 4: PAYMENT METHOD SELECTOR */}
             <div className="bg-white rounded-3xl p-6 border border-[#E7EAF0] shadow-sm space-y-4">
-              <h3 className="text-base font-extrabold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
+              <h3 className="text-base font-bold text-[#0B1633] flex items-center gap-2 border-b border-slate-100 pb-3">
                 <FiCreditCard className="w-4 h-4 text-[#025afc]" /> 4. Select Payment Method
               </h3>
 
@@ -799,8 +809,8 @@ export function CheckoutPage({ setCurrentPage }) {
                     }`}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-extrabold text-sm text-[#0B1633]">Online Payment (Secure)</span>
-                    <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase">Instant</span>
+                    <span className="font-bold text-sm text-[#0B1633]">Online Payment (Secure)</span>
+                    <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase">Instant</span>
                   </div>
                   <p className="text-[14px] text-slate-500 font-medium leading-relaxed">
                     Pay securely using UPI (Google Pay, PhonePe, Paytm), Credit/Debit Cards, NetBanking, or EMI via Cashfree.
@@ -818,8 +828,8 @@ export function CheckoutPage({ setCurrentPage }) {
                       }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-extrabold text-sm text-[#0B1633]">Cash on Delivery (COD)</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 text-[10px] font-black uppercase">Pay on Doorstep</span>
+                      <span className="font-bold text-sm text-[#0B1633]">Cash on Delivery (COD)</span>
+                      <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 text-[10px] font-bold uppercase">Pay on Doorstep</span>
                     </div>
                     <p className="text-[14px] text-slate-500 font-medium leading-relaxed">
                       Pay cash to courier partner upon doorstep delivery of your printed products.
@@ -846,11 +856,11 @@ export function CheckoutPage({ setCurrentPage }) {
                     <div className="flex items-center gap-2.5">
                       <img src={item.image} alt={item.name} className="w-10 h-10 object-cover rounded-xl border border-slate-100 shrink-0" />
                       <div>
-                        <span className="font-extrabold text-[#0B1633] block truncate max-w-[140px]">{item.name}</span>
+                        <span className="font-bold text-[#0B1633] block truncate max-w-[140px]">{item.name}</span>
                         <span className="text-[10px] text-slate-400 font-medium">{item.qty || item.quantity} units</span>
                       </div>
                     </div>
-                    <span className="font-black text-[#0B1633]">₹{(item.totalPrice || (item.qty * item.unitPrice)).toLocaleString()}</span>
+                    <span className="font-bold text-[#0B1633]">₹{(item.totalPrice || (item.qty * item.unitPrice)).toLocaleString()}</span>
                   </div>
                 ))}
               </div>
@@ -859,26 +869,26 @@ export function CheckoutPage({ setCurrentPage }) {
               <div className="space-y-2 pt-3 border-t border-blue-200/60 text-[14px] font-semibold text-slate-600">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-extrabold text-slate-900">₹{subtotal.toLocaleString()}</span>
+                  <span className="font-bold text-slate-900">₹{subtotal.toLocaleString()}</span>
                 </div>
 
                 {couponDiscount > 0 && (
                   <div className="flex justify-between text-emerald-600">
                     <span>Discount</span>
-                    <span className="font-extrabold">-₹{couponDiscount.toLocaleString()}</span>
+                    <span className="font-bold">-₹{couponDiscount.toLocaleString()}</span>
                   </div>
                 )}
 
                 {isExpress && (
                   <div className="flex justify-between text-amber-700">
                     <span>Express 24h Turnaround</span>
-                    <span className="font-extrabold">+₹{APP_CONFIG.EXPRESS_SHIPPING_FEE}</span>
+                    <span className="font-bold">+₹{APP_CONFIG.EXPRESS_SHIPPING_FEE}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between">
                   <span>Shipping Fee</span>
-                  <span className="font-extrabold text-slate-900">
+                  <span className="font-bold text-slate-900">
                     {shipping === 0 ? <strong className="text-emerald-600 uppercase">FREE</strong> : `₹${shipping}`}
                   </span>
                 </div>
@@ -892,20 +902,23 @@ export function CheckoutPage({ setCurrentPage }) {
 
               {/* Final Submit Button */}
               {paymentMethod === 'cashfree' ? (
-                <button
-                  type="button"
-                  disabled={isSubmitting}
-                  onClick={handleCashfreePayment}
-                  className="w-full py-4 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-[#025afc]/25 flex items-center justify-center gap-2 cursor-pointer transition border-none hover:scale-[1.02]"
-                >
-                  {isSubmitting ? 'Initializing Payment...' : `Pay Online ₹${grandTotal.toLocaleString()}`}
-                </button>
+                <div className="space-y-3">
+                  <button
+                    type="button"
+                    disabled={isSubmitting}
+                    onClick={handleCashfreePayment}
+                    className="w-full py-4 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[13px] uppercase tracking-wider shadow-xl shadow-[#025afc]/25 flex items-center justify-center gap-2 cursor-pointer transition border-none hover:scale-[1.02]"
+                  >
+                    {isSubmitting ? 'Initializing Payment...' : `Pay 50% Advance Online ₹${advancePaymentAmount.toLocaleString()}`}
+                  </button>
+                  <p className="text-[11px] text-slate-500 text-center px-2">Remaining 50% balance (₹{remainingPaymentAmount.toLocaleString()}) to be paid upon dispatch.</p>
+                </div>
               ) : (
                 <button
                   type="button"
                   disabled={isSubmitting}
                   onClick={handleCODOrder}
-                  className="w-full py-4 rounded-2xl bg-[#07152F] hover:bg-slate-800 text-white font-black text-sm uppercase tracking-wider shadow-xl flex items-center justify-center gap-2 cursor-pointer transition border-none hover:scale-[1.02]"
+                  className="w-full py-4 rounded-2xl bg-[#07152F] hover:bg-slate-800 text-white font-bold text-sm uppercase tracking-wider shadow-xl flex items-center justify-center gap-2 cursor-pointer transition border-none hover:scale-[1.02]"
                 >
                   {isSubmitting ? 'Confirming Order...' : 'Confirm Cash on Delivery Order'}
                 </button>

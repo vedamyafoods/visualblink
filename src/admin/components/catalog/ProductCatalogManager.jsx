@@ -103,10 +103,10 @@ const VariantSectionCard = React.memo(({
       {/* Header */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 gap-2">
         <div className="flex items-center gap-2">
-          <h4 className="font-extrabold text-slate-900 text-[13.5px] uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+          <h4 className="font-bold text-slate-900 text-[13.5px] uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
             {title}
           </h4>
-          <span className="text-[10px] font-extrabold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+          <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
             {activeItems.length} active
           </span>
         </div>
@@ -115,7 +115,7 @@ const VariantSectionCard = React.memo(({
           <button
             type="button"
             onClick={handleRemoveAllOptions}
-            className="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-[10.5px] font-black flex items-center gap-1 transition-colors cursor-pointer border border-red-200/80"
+            className="px-2.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-[10.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer border border-red-200/80"
             title="Remove all options in this category"
           >
             <Trash2 className="w-3.5 h-3.5 text-red-600" /> Clear All
@@ -188,7 +188,7 @@ const VariantSectionCard = React.memo(({
         {/* Add New Custom Option Form */}
         <div className="pt-2 border-t border-dashed border-blue-200 bg-blue-50/40 p-2.5 rounded-xl space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase text-blue-700 tracking-wider flex items-center gap-1">
+            <span className="text-[10px] font-bold uppercase text-blue-700 tracking-wider flex items-center gap-1">
               <Plus className="w-3.5 h-3.5 text-blue-600" /> Add Custom Option
             </span>
             {showSuccess && (
@@ -248,7 +248,7 @@ const VariantSectionCard = React.memo(({
             <button
               type="button"
               onClick={handleAddCustom}
-              className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[12.5px] cursor-pointer border-none shrink-0 shadow-3xs transition-transform active:scale-95"
+              className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[12.5px] cursor-pointer border-none shrink-0 shadow-3xs transition-transform active:scale-95"
             >
               Add
             </button>
@@ -632,11 +632,11 @@ export const ProductCatalogManager = () => {
       <div className="flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-blue-50/50 via-white to-slate-50 p-6 rounded-3xl border border-slate-200/80 text-slate-800 shadow-xs relative overflow-hidden">
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-extrabold border border-blue-200 uppercase tracking-wider">
+            <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200 uppercase tracking-wider">
               Admin Enterprise Catalog
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
             <Package className="w-6 h-6 text-blue-600" />
             Print Product Matrix & Pricing Engine
           </h2>
@@ -649,21 +649,21 @@ export const ProductCatalogManager = () => {
           <button
             type="button"
             onClick={() => setActiveTab && setActiveTab('print_matrix')}
-            className="px-4 py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-extrabold text-[14px] flex items-center gap-2 border border-purple-200 shadow-3xs transition-all cursor-pointer"
+            className="px-4 py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-[14px] flex items-center gap-2 border border-purple-200 shadow-3xs transition-all cursor-pointer"
           >
             <Layers className="w-4 h-4 text-purple-600" /> Options Matrix Center
           </button>
           <button
             type="button"
             onClick={() => setIsCategorySidebarOpen(true)}
-            className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-extrabold text-[14px] flex items-center gap-2 border border-slate-200 shadow-3xs transition-all cursor-pointer"
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-bold text-[14px] flex items-center gap-2 border border-slate-200 shadow-3xs transition-all cursor-pointer"
           >
             <FolderPlus className="w-4 h-4 text-blue-600" /> Categories
           </button>
           <button
             type="button"
             onClick={openCreateForm}
-            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[14px] flex items-center gap-2 shadow-md shadow-blue-500/20 transition-all cursor-pointer border-none"
+            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] flex items-center gap-2 shadow-md shadow-blue-500/20 transition-all cursor-pointer border-none"
           >
             <Plus className="w-4 h-4 text-white" /> Add New Print Product
           </button>
@@ -673,31 +673,31 @@ export const ProductCatalogManager = () => {
       {/* Metric Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-extrabold">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
             <Package className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-black text-slate-900">{products.length}</div>
+            <div className="text-lg font-bold text-slate-900">{products.length}</div>
             <div className="text-[14px] font-semibold text-slate-500">Active Product SKUs</div>
           </div>
         </div>
 
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-extrabold">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
             <Grid className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-black text-slate-900">{new Set(products.map(p => p.category)).size}</div>
+            <div className="text-lg font-bold text-slate-900">{new Set(products.map(p => p.category)).size}</div>
             <div className="text-[14px] font-semibold text-slate-500">Print Categories</div>
           </div>
         </div>
 
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-extrabold">
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
             <DollarSign className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-black text-slate-900">
+            <div className="text-lg font-bold text-slate-900">
               {products.reduce((acc, p) => acc + (p.tieredPricing?.length || 0), 0)}
             </div>
             <div className="text-[14px] font-semibold text-slate-500">Volume Tier Rules</div>
@@ -705,11 +705,11 @@ export const ProductCatalogManager = () => {
         </div>
 
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-extrabold">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
             <Layers className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-black text-slate-900">{Object.keys(catalogOptions || {}).length} Matrices</div>
+            <div className="text-lg font-bold text-slate-900">{Object.keys(catalogOptions || {}).length} Matrices</div>
             <div className="text-[14px] font-semibold text-slate-500">Firebase Presets Active</div>
           </div>
         </div>
@@ -765,10 +765,10 @@ export const ProductCatalogManager = () => {
                     <span className="text-[10px] font-bold">No Image Uploaded</span>
                   </div>
                 )}
-                <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-xs text-white font-black text-[14px] border border-white/20">
+                <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-xs text-white font-bold text-[14px] border border-white/20">
                   Base ₹{prod.basePrice}
                 </div>
-                <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-emerald-500 text-white font-extrabold text-[10px]">
+                <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-emerald-500 text-white font-bold text-[10px]">
                   MOQ {prod.minOrderQty || 100} pcs
                 </div>
               </div>
@@ -781,7 +781,7 @@ export const ProductCatalogManager = () => {
                   <span className="text-[14px] font-mono text-slate-400">{prod.id}</span>
                 </div>
 
-                <h3 className="font-extrabold text-sm text-slate-900 line-clamp-1">{prod.title}</h3>
+                <h3 className="font-bold text-sm text-slate-900 line-clamp-1">{prod.title}</h3>
                 <p className="text-[14px] text-slate-500 line-clamp-2">{prod.summary}</p>
 
                 {/* Variants Preview Pills */}
@@ -836,11 +836,11 @@ export const ProductCatalogManager = () => {
             {/* Sticky Top Header */}
             <div className="bg-white px-6 py-4 border-b border-slate-200/80 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-extrabold border border-blue-100 shadow-3xs">
+                <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold border border-blue-100 shadow-3xs">
                   <Sparkles className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <h3 className="font-black text-base sm:text-lg tracking-tight text-slate-900">
+                  <h3 className="font-bold text-base sm:text-lg tracking-tight text-slate-900">
                     {editingProduct ? `Edit SKU: ${formData.title}` : 'Create New Custom Print Product'}
                   </h3>
                   <p className="text-[13px] text-slate-500 font-medium">
@@ -851,7 +851,7 @@ export const ProductCatalogManager = () => {
               <button
                 type="button"
                 onClick={() => setIsCreating(false)}
-                className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 font-extrabold text-sm transition flex items-center justify-center border-none cursor-pointer"
+                className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 font-bold text-sm transition flex items-center justify-center border-none cursor-pointer"
                 title="Close"
               >
                 ✕
@@ -861,7 +861,7 @@ export const ProductCatalogManager = () => {
             {/* Quick 1-Click Preset Template Bar */}
             {!editingProduct && (
               <div className="bg-gradient-to-r from-blue-50 via-slate-50 to-indigo-50 px-6 py-2.5 border-b border-blue-100 flex items-center justify-between gap-3 text-[13px] flex-wrap shrink-0">
-                <span className="font-extrabold text-blue-900 flex items-center gap-1.5 shrink-0">
+                <span className="font-bold text-blue-900 flex items-center gap-1.5 shrink-0">
                   <Zap className="w-4 h-4 text-blue-600 fill-blue-500" />
                   Quick Presets:
                 </span>
@@ -1053,7 +1053,7 @@ export const ProductCatalogManager = () => {
                   {/* Media Gallery Upload */}
                   <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-3xs space-y-3">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-extrabold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
+                      <h4 className="font-bold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
                         <Upload className="w-4 h-4" /> Cloudinary Product Gallery Images ({formData.images?.length || 0})
                       </h4>
                       <span className="text-[10px] text-slate-400 font-medium">PNG, JPG, WEBP up to 10MB</span>
@@ -1064,7 +1064,7 @@ export const ProductCatalogManager = () => {
                         <div key={i} className="relative group/img aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-3xs bg-slate-100">
                           <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" />
                           {i === 0 && (
-                            <span className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-blue-600 text-white font-black text-[9px] uppercase tracking-wider shadow-2xs">
+                            <span className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-blue-600 text-white font-bold text-[9px] uppercase tracking-wider shadow-2xs">
                               Main Image
                             </span>
                           )}
@@ -1093,7 +1093,7 @@ export const ProductCatalogManager = () => {
 
                   {/* SEO Section */}
                   <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-3xs space-y-3">
-                    <h4 className="font-extrabold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600">
+                    <h4 className="font-bold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600">
                       SEO Optimization Controls
                     </h4>
                     <div>
@@ -1147,7 +1147,7 @@ export const ProductCatalogManager = () => {
                           setFormData(prev => ({ ...prev, variants: emptyVariants }));
                         }
                       }}
-                      className="px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-[12.5px] shadow-sm flex items-center gap-1.5 cursor-pointer border-none transition shrink-0"
+                      className="px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-[12.5px] shadow-sm flex items-center gap-1.5 cursor-pointer border-none transition shrink-0"
                       title="Clear options across all 12 sections in 1 click"
                     >
                       <Trash2 className="w-3.5 h-3.5" /> Clear All 12 Option Sections
@@ -1167,7 +1167,7 @@ export const ProductCatalogManager = () => {
                         key={f.id}
                         type="button"
                         onClick={() => setVariantFilterCategory(f.id)}
-                        className={`px-3 py-1.5 rounded-xl font-extrabold text-[12px] shrink-0 border cursor-pointer transition ${variantFilterCategory === f.id
+                        className={`px-3 py-1.5 rounded-xl font-bold text-[12px] shrink-0 border cursor-pointer transition ${variantFilterCategory === f.id
                           ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
                           : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
                           }`}
@@ -1323,7 +1323,7 @@ export const ProductCatalogManager = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[14px] shadow-md shadow-blue-500/20 transition cursor-pointer flex items-center gap-2 border-none active:scale-95"
+                  className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] shadow-md shadow-blue-500/20 transition cursor-pointer flex items-center gap-2 border-none active:scale-95"
                 >
                   <CheckCircle2 className="w-4 h-4 text-white" /> Save Product & Live Matrix
                 </button>
@@ -1344,7 +1344,7 @@ export const ProductCatalogManager = () => {
                     <FolderPlus className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-extrabold text-base text-slate-900">Manage Categories</h3>
+                    <h3 className="font-bold text-base text-slate-900">Manage Categories</h3>
                     <p className="text-[12px] text-slate-500">Add or delete store categories</p>
                   </div>
                 </div>
@@ -1387,7 +1387,7 @@ export const ProductCatalogManager = () => {
                           setInlineCatInput('');
                         }
                       }}
-                      className="px-4 py-2.5 rounded-xl bg-blue-600 text-white font-extrabold text-[14px] hover:bg-blue-700 cursor-pointer border-none shadow-3xs"
+                      className="px-4 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-[14px] hover:bg-blue-700 cursor-pointer border-none shadow-3xs"
                     >
                       Add
                     </button>
@@ -1405,10 +1405,10 @@ export const ProductCatalogManager = () => {
                         <div key={cat} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
                           <div className="flex items-center gap-2">
                             <FolderPlus className="w-4 h-4 text-blue-500" />
-                            <span className="font-extrabold text-[14px] text-slate-800">{cat}</span>
+                            <span className="font-bold text-[14px] text-slate-800">{cat}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-extrabold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
+                            <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
                               {prodCount} {prodCount === 1 ? 'product' : 'products'}
                             </span>
                             <button
@@ -1435,7 +1435,7 @@ export const ProductCatalogManager = () => {
                 <button
                   type="button"
                   onClick={() => setIsCategorySidebarOpen(false)}
-                  className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-[14px] cursor-pointer border-none"
+                  className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-[14px] cursor-pointer border-none"
                 >
                   Done / Close Sidebar
                 </button>

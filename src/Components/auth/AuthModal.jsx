@@ -37,16 +37,16 @@ export function AuthModal() {
   return (
     <div className="fixed inset-0 z-50 bg-[#07152F]/70 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-white rounded-[24px] shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
+
         {/* Modal Header */}
         <div className="p-6 bg-[#07152F] text-white flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-extrabold tracking-widest text-[#025afc] uppercase">VisualBlink Auth</span>
-            <h3 className="text-xl font-black text-white">
+            <span className="text-[10px] font-bold tracking-widest text-[#025afc] uppercase">VisualBlink Auth</span>
+            <h3 className="text-xl font-bold text-white">
               {authModalTab === 'login' ? 'Sign In to Account' : 'Create Customer Account'}
             </h3>
           </div>
-          <button 
+          <button
             onClick={() => setAuthModalOpen(false)}
             className="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition"
           >
@@ -72,7 +72,7 @@ export function AuthModal() {
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 text-[14px] font-sans">
-          
+
           {error && (
             <div className="p-3 rounded-xl bg-red-50 text-red-700 border border-red-200 flex items-start gap-2">
               <FiAlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -161,10 +161,10 @@ export function AuthModal() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] shadow-md transition cursor-pointer"
+            className="w-full py-3 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] shadow-md transition cursor-pointer"
           >
-            {submitting 
-              ? 'Connecting to Firebase...' 
+            {submitting
+              ? 'Connecting to Firebase...'
               : authModalTab === 'login' ? 'Sign In to Account' : 'Register Account'}
           </button>
         </form>

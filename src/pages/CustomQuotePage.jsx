@@ -88,7 +88,7 @@ export function CustomQuotePage() {
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633]">
-      
+
       {/* Page Hero Header — Deep Navy #07152F */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
         <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
@@ -98,7 +98,7 @@ export function CustomQuotePage() {
             <span>/</span>
             <span className="text-[#025afc] font-bold">Custom Quote</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3">
             Instant Custom Print Quote
           </h1>
           <p className="text-slate-300 text-[15px] max-w-2xl leading-relaxed">
@@ -110,7 +110,7 @@ export function CustomQuotePage() {
       {/* Quote Form Container */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="bg-white rounded-[20px] p-8 sm:p-12 border border-[#E7EAF0] shadow-sm">
-          <h2 className="text-2xl font-extrabold text-[#0B1633] mb-2">Enterprise Print Estimator</h2>
+          <h2 className="text-2xl font-bold text-[#0B1633] mb-2">Enterprise Print Estimator</h2>
           <p className="text-[#667085] text-[14px] mb-8">Specify your exact artwork dimensions, stock weight, and volume to get a formal quote within 1 hour.</p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -218,7 +218,7 @@ export function CustomQuotePage() {
 
             <button
               type="submit"
-              className="bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] px-8 py-3.5 rounded-[12px] transition border-none cursor-pointer flex items-center gap-2 shadow-md shadow-[#025afc]/20"
+              className="bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] px-8 py-3.5 rounded-[12px] transition border-none cursor-pointer flex items-center gap-2 shadow-md shadow-[#025afc]/20"
             >
               {submitted ? (
                 <>

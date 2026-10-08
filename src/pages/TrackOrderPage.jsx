@@ -51,7 +51,7 @@ export function TrackOrderPage() {
       url.searchParams.set('page', 'track');
       url.searchParams.set('orderId', cleanId);
       window.history.pushState(null, '', url.toString());
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const currentStatus = liveOrder?.status || liveOrder?.production?.status || 'Payment Confirmed';
@@ -59,7 +59,7 @@ export function TrackOrderPage() {
 
   return (
     <div className="bg-[#FAFBFD] font-sans min-h-screen text-[#0B1633] pb-20">
-      
+
       {/* Page Hero Header */}
       <section className="bg-[#07152F] text-white py-14 sm:py-18 relative overflow-hidden border-b border-slate-800">
         <div className="absolute top-0 right-1/3 w-[500px] h-[300px] bg-[#025afc]/10 blur-[120px] pointer-events-none" />
@@ -69,7 +69,7 @@ export function TrackOrderPage() {
             <span>/</span>
             <span className="text-[#025afc] font-bold">Track Order</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3">
             Real-Time Order Tracking
           </h1>
           <p className="text-slate-300 text-[15px] max-w-2xl leading-relaxed">
@@ -80,10 +80,10 @@ export function TrackOrderPage() {
 
       {/* Main Track Form & Status */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        
+
         {/* Track Card Form */}
         <div className="bg-white rounded-3xl p-8 border border-[#E7EAF0] shadow-sm mb-10">
-          <h2 className="text-xl font-extrabold text-[#0B1633] mb-4">Enter Your Order ID</h2>
+          <h2 className="text-xl font-bold text-[#0B1633] mb-4">Enter Your Order ID</h2>
 
           <form onSubmit={handleTrack} className="grid grid-cols-1 sm:grid-cols-12 gap-4">
             <div className="sm:col-span-9">
@@ -100,7 +100,7 @@ export function TrackOrderPage() {
             <div className="sm:col-span-3">
               <button
                 type="submit"
-                className="w-full bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] py-3.5 rounded-xl transition border-none cursor-pointer shadow-md shadow-[#025afc]/20 flex items-center justify-center gap-1.5 uppercase tracking-wider"
+                className="w-full bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] py-3.5 rounded-xl transition border-none cursor-pointer shadow-md shadow-[#025afc]/20 flex items-center justify-center gap-1.5 uppercase tracking-wider"
               >
                 <FiSearch className="w-4 h-4" /> Track Order
               </button>
@@ -119,7 +119,7 @@ export function TrackOrderPage() {
         {notFound && !loading && (
           <div className="bg-white rounded-3xl p-8 border border-rose-200 shadow-sm text-center space-y-3">
             <FiAlertCircle className="w-10 h-10 text-rose-500 mx-auto" />
-            <h3 className="text-lg font-extrabold text-slate-900">Order #{activeOrderId} Not Found</h3>
+            <h3 className="text-lg font-bold text-slate-900">Order #{activeOrderId} Not Found</h3>
             <p className="text-[14px] text-slate-500 max-w-sm mx-auto">
               Please double-check the Order ID from your confirmation email or order invoice.
             </p>
@@ -128,24 +128,24 @@ export function TrackOrderPage() {
 
         {liveOrder && !loading && (
           <div className="bg-white rounded-3xl p-8 border border-[#E7EAF0] shadow-md space-y-8 animate-in fade-in">
-            
+
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-[#E7EAF0]">
               <div>
                 <span className="text-[14px] text-slate-400 font-bold uppercase">Order Reference</span>
-                <h3 className="text-2xl font-black text-[#0B1633]">{liveOrder.orderId || liveOrder.id}</h3>
+                <h3 className="text-2xl font-bold text-[#0B1633]">{liveOrder.orderId || liveOrder.id}</h3>
                 <p className="text-[14px] text-slate-500 mt-0.5">
                   Customer: <strong>{liveOrder.customer?.name}</strong> • Items: {liveOrder.items?.length || 1}
                 </p>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 text-[#025afc] font-black text-[14px] px-4 py-2 rounded-xl">
+              <div className="bg-blue-50 border border-blue-200 text-[#025afc] font-bold text-[14px] px-4 py-2 rounded-xl">
                 Status: {currentStatus}
               </div>
             </div>
 
             {/* Stage Stepper list */}
             <div className="space-y-4">
-              <h4 className="font-extrabold text-sm text-[#0B1633]">Live Production Pipeline Stages:</h4>
+              <h4 className="font-bold text-sm text-[#0B1633]">Live Production Pipeline Stages:</h4>
 
               <div className="space-y-3">
                 {STAGES.map((stageName, idx) => {
@@ -155,27 +155,25 @@ export function TrackOrderPage() {
                   return (
                     <div
                       key={idx}
-                      className={`p-4 rounded-2xl border flex items-center justify-between transition-all text-[14px] ${
-                        isCurrent
-                          ? 'border-[#025afc] bg-blue-50/60 ring-2 ring-[#025afc]/20'
-                          : isCompleted
+                      className={`p-4 rounded-2xl border flex items-center justify-between transition-all text-[14px] ${isCurrent
+                        ? 'border-[#025afc] bg-blue-50/60 ring-2 ring-[#025afc]/20'
+                        : isCompleted
                           ? 'border-emerald-200 bg-emerald-50/40 text-emerald-950'
                           : 'border-slate-200 bg-slate-50 text-slate-400'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-[14px] shrink-0 ${
-                          isCurrent
-                            ? 'bg-[#025afc] text-white'
-                            : isCompleted
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 ${isCurrent
+                          ? 'bg-[#025afc] text-white'
+                          : isCompleted
                             ? 'bg-emerald-600 text-white'
                             : 'bg-slate-200 text-slate-500'
-                        }`}>
+                          }`}>
                           {isCompleted ? <FiCheckCircle className="w-4 h-4" /> : idx + 1}
                         </div>
 
                         <div>
-                          <strong className={`font-extrabold text-[14px] block ${isCurrent ? 'text-[#025afc]' : isCompleted ? 'text-emerald-950' : 'text-slate-700'}`}>
+                          <strong className={`font-bold text-[14px] block ${isCurrent ? 'text-[#025afc]' : isCompleted ? 'text-emerald-950' : 'text-slate-700'}`}>
                             {stageName}
                           </strong>
                           <span className="text-[14px] text-slate-500 font-medium">
@@ -185,7 +183,7 @@ export function TrackOrderPage() {
                       </div>
 
                       {isCurrent && (
-                        <span className="px-3 py-1 bg-[#025afc] text-white text-[10px] font-black rounded-full uppercase animate-pulse">
+                        <span className="px-3 py-1 bg-[#025afc] text-white text-[10px] font-bold rounded-full uppercase animate-pulse">
                           Active
                         </span>
                       )}

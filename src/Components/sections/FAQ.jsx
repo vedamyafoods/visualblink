@@ -15,7 +15,7 @@ export function FAQ() {
         <div className="mx-auto mt-12 max-w-3xl divide-y divide-slate-200 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl shadow-slate-950/5 dark:divide-white/10 dark:border-white/10 dark:bg-white/5">
           {faqs.map((faq, index) => (
             <div key={faq.question}>
-              <button className="flex min-h-16 w-full items-center justify-between gap-4 px-6 py-5 text-left font-extrabold text-slate-950 dark:text-white" onClick={() => setActive(active === index ? -1 : index)}>
+              <button className="flex min-h-16 w-full items-center justify-between gap-4 px-6 py-5 text-left font-bold text-slate-950 dark:text-white" onClick={() => setActive(active === index ? -1 : index)}>
                 {faq.question}
                 <FiChevronDown className={`shrink-0 transition ${active === index ? 'rotate-180' : ''}`} />
               </button>

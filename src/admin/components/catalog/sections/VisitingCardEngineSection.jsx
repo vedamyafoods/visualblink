@@ -68,11 +68,11 @@ export const VisitingCardEngineSection = ({ formData, setFormData, catalogOption
   return (
     <div className="bg-purple-50/50 p-5 rounded-2xl border border-purple-200/80 shadow-3xs space-y-4">
       <div className="flex items-center justify-between border-b border-purple-200/60 pb-2.5">
-        <h4 className="font-extrabold text-purple-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
+        <h4 className="font-bold text-purple-900 text-[14px] uppercase tracking-wider flex items-center gap-2">
           <CreditCard className="w-4 h-4 text-purple-600" />
           Visiting Card Masks & Artwork Rules Engine
         </h4>
-        <span className="text-[10px] font-black text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full border border-purple-300">
+        <span className="text-[10px] font-bold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full border border-purple-300">
           Spot UV & Foil Mask Engine Active
         </span>
       </div>
@@ -103,7 +103,7 @@ export const VisitingCardEngineSection = ({ formData, setFormData, catalogOption
         <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           <div className="p-3 bg-white rounded-xl border border-purple-200 flex items-center justify-between">
             <div>
-              <span className="font-extrabold text-[13px] text-purple-950 flex items-center gap-1.5">
+              <span className="font-bold text-[13px] text-purple-950 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-purple-600" /> Spot UV Mask File Upload
               </span>
               <p className="text-[11px] text-slate-500 font-medium">Require customer to upload 100% K Black mask layer</p>
@@ -111,11 +111,10 @@ export const VisitingCardEngineSection = ({ formData, setFormData, catalogOption
             <button
               type="button"
               onClick={() => updateCard('requireSpotUvMask', !cardConfig.requireSpotUvMask)}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-black cursor-pointer border transition ${
-                cardConfig.requireSpotUvMask
-                  ? 'bg-purple-600 text-white border-purple-600'
-                  : 'bg-slate-100 text-slate-500 border-slate-200'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-[11px] font-bold cursor-pointer border transition ${cardConfig.requireSpotUvMask
+                ? 'bg-purple-600 text-white border-purple-600'
+                : 'bg-slate-100 text-slate-500 border-slate-200'
+                }`}
             >
               {cardConfig.requireSpotUvMask ? 'REQUIRED' : 'OPTIONAL'}
             </button>
@@ -123,7 +122,7 @@ export const VisitingCardEngineSection = ({ formData, setFormData, catalogOption
 
           <div className="p-3 bg-white rounded-xl border border-purple-200 flex items-center justify-between">
             <div>
-              <span className="font-extrabold text-[13px] text-purple-950 flex items-center gap-1.5">
+              <span className="font-bold text-[13px] text-purple-950 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Metallic Foil Mask Layer
               </span>
               <p className="text-[11px] text-slate-500 font-medium">Require customer foil mask for Gold/Silver foil</p>
@@ -131,11 +130,10 @@ export const VisitingCardEngineSection = ({ formData, setFormData, catalogOption
             <button
               type="button"
               onClick={() => updateCard('requireFoilMask', !cardConfig.requireFoilMask)}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-black cursor-pointer border transition ${
-                cardConfig.requireFoilMask
-                  ? 'bg-purple-600 text-white border-purple-600'
-                  : 'bg-slate-100 text-slate-500 border-slate-200'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-[11px] font-bold cursor-pointer border transition ${cardConfig.requireFoilMask
+                ? 'bg-purple-600 text-white border-purple-600'
+                : 'bg-slate-100 text-slate-500 border-slate-200'
+                }`}
             >
               {cardConfig.requireFoilMask ? 'REQUIRED' : 'OPTIONAL'}
             </button>

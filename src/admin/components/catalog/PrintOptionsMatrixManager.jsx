@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  Layers, 
-  Plus, 
-  Trash2, 
-  CheckCircle2, 
-  Eye, 
-  EyeOff, 
-  Sparkles, 
-  Search, 
+import {
+  Layers,
+  Plus,
+  Trash2,
+  CheckCircle2,
+  Eye,
+  EyeOff,
+  Sparkles,
+  Search,
   RotateCcw,
   Sliders,
   DollarSign,
@@ -120,8 +120,8 @@ export const PrintOptionsMatrixManager = () => {
   // Add New Custom Matrix Section
   const handleCreateNewSection = async () => {
     if (!newSectionTitle.trim()) return;
-    const formattedKey = newSectionKey.trim() 
-      ? newSectionKey.trim().replace(/\s+/g, '') 
+    const formattedKey = newSectionKey.trim()
+      ? newSectionKey.trim().replace(/\s+/g, '')
       : newSectionTitle.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
 
     const updated = {
@@ -154,7 +154,7 @@ export const PrintOptionsMatrixManager = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
-      
+
       {/* Toast Notification */}
       {showSuccessToast && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#07152F] text-white px-5 py-3 rounded-2xl shadow-2xl border border-blue-500/40 flex items-center gap-3 animate-in slide-in-from-bottom duration-200 text-[14px] font-bold">
@@ -168,11 +168,11 @@ export const PrintOptionsMatrixManager = () => {
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="px-3 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-black border border-blue-400/30 uppercase tracking-widest">
+            <span className="px-3 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold border border-blue-400/30 uppercase tracking-widest">
               Global Matrix Controller
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2.5">
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
             <Layers className="w-6 h-6 text-blue-400" />
             Manage Print Options & Finishes Matrix
           </h2>
@@ -184,7 +184,7 @@ export const PrintOptionsMatrixManager = () => {
         <div className="flex items-center gap-3 relative z-10 shrink-0">
           <button
             onClick={() => setShowAddSectionModal(true)}
-            className="px-4 py-2.5 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[14px] flex items-center gap-2 shadow-lg shadow-[#025afc]/30 transition cursor-pointer border-none"
+            className="px-4 py-2.5 rounded-xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] flex items-center gap-2 shadow-lg shadow-[#025afc]/30 transition cursor-pointer border-none"
           >
             <Plus className="w-4 h-4" /> Add Custom Matrix Section
           </button>
@@ -194,41 +194,41 @@ export const PrintOptionsMatrixManager = () => {
       {/* Metrics Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-extrabold">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
             <Layers className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-black text-slate-900">{allMatrixKeys.length}</div>
+            <div className="text-lg font-bold text-slate-900">{allMatrixKeys.length}</div>
             <div className="text-[14px] font-semibold text-slate-500">Option Matrices</div>
           </div>
         </div>
 
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-extrabold">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
             <CheckCircle2 className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-black text-slate-900">{totalActiveOptionsCount}</div>
+            <div className="text-lg font-bold text-slate-900">{totalActiveOptionsCount}</div>
             <div className="text-[14px] font-semibold text-slate-500">Total Configured Options</div>
           </div>
         </div>
 
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-extrabold">
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
             <Eye className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-black text-slate-900">{allMatrixKeys.length - disabledSections.length}</div>
+            <div className="text-lg font-bold text-slate-900">{allMatrixKeys.length - disabledSections.length}</div>
             <div className="text-[14px] font-semibold text-slate-500">Active on Storefront</div>
           </div>
         </div>
 
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-extrabold">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
             <EyeOff className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-black text-slate-900">{disabledSections.length}</div>
+            <div className="text-lg font-bold text-slate-900">{disabledSections.length}</div>
             <div className="text-[14px] font-semibold text-slate-500">Disabled Matrices</div>
           </div>
         </div>
@@ -282,7 +282,7 @@ export const PrintOptionsMatrixManager = () => {
         <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center gap-2 text-slate-900 font-extrabold text-sm">
+              <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
                 <FolderPlus className="w-5 h-5 text-[#025afc]" />
                 <span>Add Custom Option Matrix</span>
               </div>
@@ -322,14 +322,14 @@ export const PrintOptionsMatrixManager = () => {
               <button
                 type="button"
                 onClick={() => setShowAddSectionModal(false)}
-                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-extrabold text-[14px] cursor-pointer border-none"
+                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-bold text-[14px] cursor-pointer border-none"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleCreateNewSection}
-                className="px-5 py-2 rounded-xl bg-[#025afc] text-white font-extrabold text-[14px] cursor-pointer border-none shadow-md shadow-[#025afc]/20"
+                className="px-5 py-2 rounded-xl bg-[#025afc] text-white font-bold text-[14px] cursor-pointer border-none shadow-md shadow-[#025afc]/20"
               >
                 Create Section
               </button>
@@ -363,8 +363,8 @@ const MatrixSectionCard = ({
     if (!newOptName.trim()) return;
     const priceVal = parseFloat(newOptPrice) || 0;
     const areaVal = parseFloat(newMaxArea) || 0;
-    onAddOption({ 
-      name: newOptName.trim(), 
+    onAddOption({
+      name: newOptName.trim(),
       priceModifier: priceVal,
       ...(groupKey === 'customAreaPricing' || areaVal > 0 ? { maxArea: areaVal } : {})
     });
@@ -376,17 +376,16 @@ const MatrixSectionCard = ({
   const isAreaSection = groupKey === 'customAreaPricing';
 
   return (
-    <div className={`bg-white rounded-2xl border transition-all duration-200 shadow-xs flex flex-col justify-between overflow-hidden ${
-      isDisabled ? 'border-amber-300/80 bg-amber-50/20' : 'border-slate-200/90 hover:border-slate-300'
-    }`}>
+    <div className={`bg-white rounded-2xl border transition-all duration-200 shadow-xs flex flex-col justify-between overflow-hidden ${isDisabled ? 'border-amber-300/80 bg-amber-50/20' : 'border-slate-200/90 hover:border-slate-300'
+      }`}>
       {/* Header Bar */}
       <div className="p-4 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${isDisabled ? 'bg-amber-400' : 'bg-emerald-500'}`} />
-          <h4 className="font-extrabold text-slate-900 text-[14px] uppercase tracking-wider truncate">
+          <h4 className="font-bold text-slate-900 text-[14px] uppercase tracking-wider truncate">
             {title}
           </h4>
-          <span className="text-[10px] font-black text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200 shrink-0">
+          <span className="text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200 shrink-0">
             ({items.length})
           </span>
         </div>
@@ -396,11 +395,10 @@ const MatrixSectionCard = ({
           <button
             type="button"
             onClick={onToggleVisibility}
-            className={`px-2.5 py-1 rounded-lg text-[10.5px] font-extrabold flex items-center gap-1 transition cursor-pointer border-none ${
-              isDisabled 
-                ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' 
-                : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200/60'
-            }`}
+            className={`px-2.5 py-1 rounded-lg text-[10.5px] font-bold flex items-center gap-1 transition cursor-pointer border-none ${isDisabled
+              ? 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+              : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200/60'
+              }`}
             title={isDisabled ? "Click to Show on Storefront" : "Click to Hide on Storefront"}
           >
             {isDisabled ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5 text-emerald-600" />}
@@ -429,7 +427,7 @@ const MatrixSectionCard = ({
             <button
               type="button"
               onClick={onRestoreDefaults}
-              className="text-[14px] font-extrabold text-blue-600 hover:text-blue-800 underline bg-transparent border-none cursor-pointer"
+              className="text-[14px] font-bold text-blue-600 hover:text-blue-800 underline bg-transparent border-none cursor-pointer"
             >
               Restore Standard Options
             </button>
@@ -513,7 +511,7 @@ const MatrixSectionCard = ({
         <button
           type="button"
           onClick={handleAdd}
-          className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[14px] cursor-pointer border-none shrink-0 shadow-3xs"
+          className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] cursor-pointer border-none shrink-0 shadow-3xs"
         >
           Add
         </button>

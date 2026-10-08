@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { FiArrowUp, FiMessageCircle } from 'react-icons/fi'
 import { motion } from 'framer-motion'
 import { Button } from '../ui/Button'
+import { getWhatsAppUrl } from '../../utils/whatsapp'
 
 export function FloatingActions() {
   const [visible, setVisible] = useState(false)
@@ -16,8 +17,10 @@ export function FloatingActions() {
   return (
     <>
       <motion.a
-        href="https://wa.me/10000000000"
-        className="fixed bottom-24 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-emerald-500 text-xl text-white shadow-2xl shadow-emerald-500/30 transition hover:-translate-y-1"
+        href={getWhatsAppUrl('Hi, I need assistance.')}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-24 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-xl text-white shadow-2xl shadow-emerald-500/30 transition hover:-translate-y-1"
         aria-label="Chat on WhatsApp"
         whileHover={{ scale: 1.06 }}
       >
@@ -25,7 +28,7 @@ export function FloatingActions() {
       </motion.a>
       <div className="fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 sm:block">
         <Button onClick={() => document.querySelector('#quote')?.scrollIntoView({ behavior: 'smooth' })}>
-          Get Quote
+          Need Bulk Pricing?
         </Button>
       </div>
       {visible && (

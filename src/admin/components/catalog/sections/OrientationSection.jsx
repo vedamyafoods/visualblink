@@ -66,7 +66,7 @@ export const OrientationSection = ({ formData, setFormData, catalogOptions, upda
         <button
           type="button"
           onClick={() => setIsAdding(!isAdding)}
-          className="text-[11px] font-extrabold text-blue-600 hover:text-blue-800 bg-transparent border-none cursor-pointer flex items-center gap-1"
+          className="text-[11px] font-bold text-blue-600 hover:text-blue-800 bg-transparent border-none cursor-pointer flex items-center gap-1"
         >
           <Plus className="w-3.5 h-3.5" /> + Custom Orientation
         </button>
@@ -79,9 +79,9 @@ export const OrientationSection = ({ formData, setFormData, catalogOptions, upda
             <div
               key={item.key}
               onClick={() => handleSelect(item.key)}
-              className={`group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 transition-all cursor-pointer font-extrabold text-[13px] ${isSelected
-                  ? 'border-blue-600 bg-blue-50 text-blue-700 shadow-sm'
-                  : 'border-slate-200 bg-white text-slate-600 hover:border-blue-300'
+              className={`group relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border-2 transition-all cursor-pointer font-bold text-[13px] ${isSelected
+                ? 'border-blue-600 bg-blue-50 text-blue-700 shadow-sm'
+                : 'border-slate-200 bg-white text-slate-600 hover:border-blue-300'
                 }`}
             >
               <button
@@ -110,7 +110,7 @@ export const OrientationSection = ({ formData, setFormData, catalogOptions, upda
 
       {isAdding && (
         <div className="p-3 bg-blue-50/80 border border-blue-300 rounded-xl space-y-2 animate-in fade-in">
-          <span className="text-[11px] font-black uppercase text-blue-900 tracking-wider flex items-center gap-1">
+          <span className="text-[11px] font-bold uppercase text-blue-900 tracking-wider flex items-center gap-1">
             <Plus className="w-3.5 h-3.5 text-blue-600" /> Enter Custom Orientation Name
           </span>
           <div className="flex items-center gap-2">
@@ -126,7 +126,7 @@ export const OrientationSection = ({ formData, setFormData, catalogOptions, upda
             <button
               type="button"
               onClick={handleAddCustom}
-              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[12.5px] cursor-pointer border-none shadow-3xs shrink-0"
+              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[12.5px] cursor-pointer border-none shadow-3xs shrink-0"
             >
               Add
             </button>

@@ -89,9 +89,9 @@ export const PaperSizesSection = ({ formData, setFormData, catalogOptions, updat
             <div
               key={size}
               onClick={() => handleToggleSize(size)}
-              className={`group relative px-3 py-1.5 rounded-xl border-2 font-extrabold text-[12px] transition-all cursor-pointer flex items-center gap-1.5 ${isSelected
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                  : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400'
+              className={`group relative px-3 py-1.5 rounded-xl border-2 font-bold text-[12px] transition-all cursor-pointer flex items-center gap-1.5 ${isSelected
+                ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400'
                 }`}
             >
               <Tag className="w-3 h-3" />
@@ -115,7 +115,7 @@ export const PaperSizesSection = ({ formData, setFormData, catalogOptions, updat
         <button
           type="button"
           onClick={() => setIsAddingCustom(!isAddingCustom)}
-          className="px-3 py-1.5 rounded-xl border-2 border-dashed border-blue-400 font-extrabold text-[12px] text-blue-600 bg-blue-50/60 hover:bg-blue-100 transition-all cursor-pointer flex items-center gap-1.5"
+          className="px-3 py-1.5 rounded-xl border-2 border-dashed border-blue-400 font-bold text-[12px] text-blue-600 bg-blue-50/60 hover:bg-blue-100 transition-all cursor-pointer flex items-center gap-1.5"
         >
           <Plus className="w-3.5 h-3.5" />
           Custom Size
@@ -125,7 +125,7 @@ export const PaperSizesSection = ({ formData, setFormData, catalogOptions, updat
       {/* Input box for Custom Paper Size */}
       {isAddingCustom && (
         <div className="p-3 bg-blue-50/80 border border-blue-300 rounded-xl space-y-2 animate-in fade-in">
-          <span className="text-[11px] font-black uppercase text-blue-900 tracking-wider flex items-center gap-1">
+          <span className="text-[11px] font-bold uppercase text-blue-900 tracking-wider flex items-center gap-1">
             <Plus className="w-3.5 h-3.5 text-blue-600" /> Enter Custom Paper Size
           </span>
           <div className="flex items-center gap-2">
@@ -141,7 +141,7 @@ export const PaperSizesSection = ({ formData, setFormData, catalogOptions, updat
             <button
               type="button"
               onClick={handleAddCustomSize}
-              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[12.5px] cursor-pointer border-none shadow-3xs shrink-0"
+              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[12.5px] cursor-pointer border-none shadow-3xs shrink-0"
             >
               Add
             </button>

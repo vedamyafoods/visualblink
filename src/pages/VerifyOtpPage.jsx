@@ -130,7 +130,7 @@ export function VerifyOtpPage({ setCurrentPage, destinationPage = 'account' }) {
                     <div className="w-16 h-16 bg-blue-50 text-[#025afc] rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100 shadow-sm">
                         <FiShield className="w-7 h-7" />
                     </div>
-                    <h2 className="text-2xl font-extrabold text-[#0B1633] mb-2 tracking-tight">
+                    <h2 className="text-2xl font-bold text-[#0B1633] mb-2 tracking-tight">
                         Verify Your Email
                     </h2>
                     <p className="text-slate-500 text-[14px]">
@@ -151,7 +151,7 @@ export function VerifyOtpPage({ setCurrentPage, destinationPage = 'account' }) {
                         <div className="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
                             <FiCheckCircle className="w-8 h-8" />
                         </div>
-                        <h3 className="text-lg font-black text-emerald-700">Verification Successful</h3>
+                        <h3 className="text-lg font-bold text-emerald-700">Verification Successful</h3>
                         <p className="text-emerald-600 text-sm mt-1">Redirecting securely...</p>
                     </div>
                 ) : (
@@ -172,7 +172,7 @@ export function VerifyOtpPage({ setCurrentPage, destinationPage = 'account' }) {
                         <button
                             type="submit"
                             disabled={loading || otp.length !== 6}
-                            className="w-full h-14 bg-[#025afc] hover:bg-[#6a32f0] text-white font-extrabold text-[15px] uppercase tracking-wider rounded-2xl shadow-lg shadow-[#025afc]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed border-none flex items-center justify-center gap-2"
+                            className="w-full h-14 bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[15px] uppercase tracking-wider rounded-2xl shadow-lg shadow-[#025afc]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed border-none flex items-center justify-center gap-2"
                         >
                             {loading ? (
                                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

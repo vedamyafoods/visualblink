@@ -26,13 +26,13 @@ export function DiscountCTA({ setCurrentPage }) {
             <div className="lg:col-span-7 flex flex-col items-start text-left">
 
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-slate-400 text-[14px] font-black tracking-widest uppercase">
+                <span className="text-slate-400 text-[14px] font-bold tracking-widest uppercase">
                   LET'S CREATE TOGETHER
                 </span>
                 <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
               </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-white leading-tight tracking-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-white leading-tight tracking-tight mb-3">
                 Bring Your Ideas to Life.
               </h2>
 
