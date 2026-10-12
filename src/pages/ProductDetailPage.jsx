@@ -63,8 +63,23 @@ const getOptionSubtitle = (val, optObj) => {
   return '';
 };
 
+const DEFAULT_DESIGN_GUIDELINES = [
+  "Submit files in CMYK. Printed colors may vary slightly from screen colors.",
+  "Add 3 mm bleed on all sides. Keep text and logos at least 3–5 mm inside the trim edge.",
+  "Convert fonts to curves/outlines and embed all images.",
+  "For CorelDRAW files, provide a .CDR file and print-ready PDF.",
+  "Use high-resolution images (300 DPI recommended).",
+  "Check all text, logos, QR codes, details, and alignment. Artwork will be printed exactly as submitted.",
+  "AI-generated images are not guaranteed to be error-free. Please review and approve the artwork before printing.",
+  "Printing and cutting may have slight color or alignment variations."
+];
+
 export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts = [], onSelectProduct }) {
   const { addToCart, toggleWishlist, isInWishlist } = useAuth();
+
+  const guidelinesList = (Array.isArray(product.designGuidelines) && product.designGuidelines.length > 0)
+    ? product.designGuidelines
+    : DEFAULT_DESIGN_GUIDELINES;
 
   const imagesList = product.images && product.images.length > 0
     ? product.images
@@ -502,7 +517,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
-                <FiShield className="w-4 h-4 text-blue-600" /> 40+ Years Trusted
+                <FiShield className="w-4 h-4 text-blue-600" /> Premium Quality
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
@@ -550,14 +565,16 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                 <span className="text-slate-500 font-medium">({totalReviews} reviews)</span>
               </div>
 
-              {/* Price Range Sub-Header (Matching Screenshot 1) */}
+              {/* Dynamic Auto-Calculated Price Sub-Header */}
               <div className="flex items-baseline gap-2 pt-1">
-                <span className="text-sm font-medium text-slate-500">From</span>
                 <span className="text-2xl sm:text-3xl font-bold text-[#025afc]">
-                  ₹{lowestPrice.toFixed(2)}
+                  ₹{totalPrice.toFixed(2)}
                 </span>
-                <span className="text-sm font-medium text-slate-500">
-                  for {lowestQty} {pUnit}
+                <span className="text-sm font-semibold text-slate-600">
+                  for {quantity} {pUnit}
+                </span>
+                <span className="text-xs text-slate-400 font-medium hidden sm:inline">
+                  (₹{unitPrice.toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')})
                 </span>
               </div>
             </div>
@@ -880,31 +897,35 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                 )}
               </div>
 
-              {/* Technical Specifications */}
-              {product.specs && Object.keys(product.specs).length > 0 && (
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setOpenAccordion(openAccordion === 'specs' ? null : 'specs')}
-                    className="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between cursor-pointer border-none bg-transparent hover:bg-slate-50 transition"
-                  >
-                    <span className="flex items-center gap-2">
-                      <FiInfo className="w-4 h-4 text-[#025afc]" /> Technical Specifications
-                    </span>
-                    {openAccordion === 'specs' ? <FiChevronUp className="w-4 h-4 text-slate-400" /> : <FiChevronDown className="w-4 h-4 text-slate-400" />}
-                  </button>
-                  {openAccordion === 'specs' && (
-                    <div className="p-4 pt-0 text-slate-600 text-[13px] grid grid-cols-2 gap-2">
-                      {Object.entries(product.specs).map(([k, v]) => (
-                        <div key={k} className="p-2 rounded-lg bg-slate-50 border border-slate-100">
-                          <span className="text-[10px] uppercase font-bold text-slate-400 block">{k}</span>
-                          <span className="font-bold text-slate-800">{v}</span>
-                        </div>
+              {/* Design Guidelines (Dynamic Storefront Preflight Rules) */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setOpenAccordion(openAccordion === 'guidelines' ? null : 'guidelines')}
+                  className="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between cursor-pointer border-none bg-transparent hover:bg-slate-50 transition"
+                >
+                  <span className="flex items-center gap-2">
+                    <FiCheckCircle className="w-4 h-4 text-[#025afc]" /> Design Guidelines
+                  </span>
+                  {openAccordion === 'guidelines' ? <FiChevronUp className="w-4 h-4 text-slate-400" /> : <FiChevronDown className="w-4 h-4 text-slate-400" />}
+                </button>
+                {openAccordion === 'guidelines' && (
+                  <div className="p-4 pt-0 text-slate-600 text-[13px]">
+                    <ul className="space-y-2 list-none p-0 m-0">
+                      {guidelinesList.map((guideline, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                          <span className="w-5 h-5 rounded-full bg-blue-100 text-[#025afc] flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+                            {idx + 1}
+                          </span>
+                          <span className="font-medium text-slate-700 leading-relaxed text-[13px]">
+                            {guideline}
+                          </span>
+                        </li>
                       ))}
-                    </div>
-                  )}
-                </div>
-              )}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
 
           </div>

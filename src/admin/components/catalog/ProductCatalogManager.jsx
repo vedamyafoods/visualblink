@@ -23,7 +23,7 @@ import { FormSectionCustomizerToolbar } from './sections/FormSectionCustomizerTo
 import { BasicDetailsSection } from './sections/BasicDetailsSection';
 import { OrientationSection } from './sections/OrientationSection';
 import { PaperSizesSection } from './sections/PaperSizesSection';
-import { TechSpecsSection } from './sections/TechSpecsSection';
+import { TechSpecsSection, DEFAULT_DESIGN_GUIDELINES } from './sections/TechSpecsSection';
 import { NcrEngineSection } from './sections/NcrEngineSection';
 import { VisitingCardEngineSection } from './sections/VisitingCardEngineSection';
 import { BrochureEngineSection } from './sections/BrochureEngineSection';
@@ -347,6 +347,8 @@ export const ProductCatalogManager = () => {
       turnaround: '24-48 Hours'
     },
     images: [],
+    image: '',
+    designGuidelines: DEFAULT_DESIGN_GUIDELINES,
     variants: catalogOptions || {},
     tieredPricing: [],
     seo: {
@@ -389,6 +391,8 @@ export const ProductCatalogManager = () => {
         turnaround: '24-48 Hours'
       },
       images: [],
+      image: '',
+      designGuidelines: DEFAULT_DESIGN_GUIDELINES,
       variants: {
         paperStock: catalogOptions?.paperStock ?? DEFAULT_CATALOG_OPTIONS.paperStock,
         finishes: catalogOptions?.finishes ?? DEFAULT_CATALOG_OPTIONS.finishes,
@@ -411,8 +415,18 @@ export const ProductCatalogManager = () => {
 
   const openEditForm = (prod) => {
     setFormActiveTab('general');
+    const initialImages = Array.isArray(prod.images) && prod.images.length > 0
+      ? prod.images
+      : (prod.image ? [prod.image] : []);
+    const initialGuidelines = Array.isArray(prod.designGuidelines) && prod.designGuidelines.length > 0
+      ? prod.designGuidelines
+      : DEFAULT_DESIGN_GUIDELINES;
+
     setFormData({
       ...prod,
+      images: initialImages,
+      image: initialImages[0] || prod.image || '',
+      designGuidelines: initialGuidelines,
       minOrderQty: prod.minOrderQty || 100,
       orientation: prod.orientation || 'horizontal',
       paperSizes: prod.paperSizes || [],
@@ -588,19 +602,43 @@ export const ProductCatalogManager = () => {
   };
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
     setUploadingImage(true);
-    const res = await uploadToCloudinary(file, 'products');
-    if (res.success) {
-      setFormData(prev => ({ ...prev, images: [...prev.images, res.url] }));
+    const uploadedUrls = [];
+    for (let i = 0; i < files.length; i++) {
+      try {
+        const res = await uploadToCloudinary(files[i], 'products');
+        if (res && (res.secureUrl || res.url)) {
+          uploadedUrls.push(res.secureUrl || res.url);
+        }
+      } catch (err) {
+        console.warn(`Failed to upload ${files[i].name}:`, err.message);
+      }
+    }
+    if (uploadedUrls.length > 0) {
+      setFormData(prev => {
+        const newImages = [...(prev.images || []), ...uploadedUrls];
+        return {
+          ...prev,
+          images: newImages,
+          image: newImages[0] || prev.image || ''
+        };
+      });
     }
     setUploadingImage(false);
+    e.target.value = '';
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    await saveProduct(formData);
+    const cleanImages = (formData.images || []).filter(Boolean);
+    const payload = {
+      ...formData,
+      images: cleanImages,
+      image: cleanImages[0] || formData.image || ''
+    };
+    await saveProduct(payload);
     if (formData.variants && updateCatalogOptions) {
       await updateCatalogOptions({
         ...catalogOptions,
@@ -753,12 +791,19 @@ export const ProductCatalogManager = () => {
           <div key={prod.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
             <div>
               <div className="h-48 bg-slate-100 relative overflow-hidden">
-                {prod.images && prod.images[0] ? (
-                  <img
-                    src={prod.images[0]}
-                    alt={prod.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                {((prod.images && prod.images[0]) || prod.image) ? (
+                  <>
+                    <img
+                      src={(prod.images && prod.images[0]) || prod.image}
+                      alt={prod.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {prod.images && prod.images.length > 1 && (
+                      <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-bold">
+                        +{prod.images.length - 1} photos
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center text-slate-400">
                     <Package className="w-8 h-8 mb-1 text-slate-300" />
@@ -1006,17 +1051,11 @@ export const ProductCatalogManager = () => {
                     </div>
                   )}
 
-                  {/* Technical Specifications Section HIDDEN */}
-                  {/* <TechSpecsSection
+                  {/* Dynamic Design Guidelines Section */}
+                  <TechSpecsSection
                     formData={formData}
                     setFormData={setFormData}
-                    newSpecKey={newSpecKey}
-                    setNewSpecKey={setNewSpecKey}
-                    newSpecVal={newSpecVal}
-                    setNewSpecVal={setNewSpecVal}
-                    catalogOptions={catalogOptions}
-                    updateCatalogOptions={updateCatalogOptions}
-                  /> */}
+                  />
 
                   {/* Dynamic Custom Printing Engines */}
                   <NcrEngineSection
@@ -1051,26 +1090,54 @@ export const ProductCatalogManager = () => {
                   />
 
                   {/* Media Gallery Upload */}
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-3xs space-y-3">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-bold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
-                        <Upload className="w-4 h-4" /> Cloudinary Product Gallery Images ({formData.images?.length || 0})
-                      </h4>
-                      <span className="text-[10px] text-slate-400 font-medium">PNG, JPG, WEBP up to 10MB</span>
+                  <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-3xs space-y-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <h4 className="font-bold text-slate-900 text-[14px] uppercase tracking-wider text-blue-600 flex items-center gap-2">
+                          <Upload className="w-4 h-4" /> Product Gallery Images ({formData.images?.length || 0})
+                        </h4>
+                        <p className="text-[12px] text-slate-500 font-medium mt-0.5">
+                          Select single or multiple images at once. The first image will be used as the primary cover photo.
+                        </p>
+                      </div>
+                      <span className="text-[11px] text-slate-500 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">
+                        PNG, JPG, WEBP • Multiple Allowed
+                      </span>
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
-                      {formData.images.map((imgUrl, i) => (
+                      {(formData.images || []).map((imgUrl, i) => (
                         <div key={i} className="relative group/img aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-3xs bg-slate-100">
-                          <img src={imgUrl} alt="Gallery" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" />
-                          {i === 0 && (
+                          <img src={imgUrl} alt={`Product ${i + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" />
+
+                          {i === 0 ? (
                             <span className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-blue-600 text-white font-bold text-[9px] uppercase tracking-wider shadow-2xs">
-                              Main Image
+                              Cover Photo
                             </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const reordered = [imgUrl, ...formData.images.filter((_, idx) => idx !== i)];
+                                setFormData(prev => ({ ...prev, images: reordered, image: reordered[0] }));
+                              }}
+                              className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md bg-slate-900/80 hover:bg-blue-600 text-white font-bold text-[9px] cursor-pointer border-none transition opacity-0 group-hover/img:opacity-100"
+                              title="Make Cover Image"
+                            >
+                              Set Cover
+                            </button>
                           )}
+
                           <button
                             type="button"
-                            onClick={() => setFormData(prev => ({ ...prev, images: prev.images.filter((_, idx) => idx !== i) }))}
+                            onClick={() => {
+                              const remaining = (formData.images || []).filter((_, idx) => idx !== i);
+                              setFormData(prev => ({
+                                ...prev,
+                                images: remaining,
+                                image: remaining[0] || ''
+                              }));
+                            }}
                             className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center shadow-md hover:bg-red-700 border-none cursor-pointer transition-colors"
                             title="Remove Image"
                           >
@@ -1079,15 +1146,64 @@ export const ProductCatalogManager = () => {
                         </div>
                       ))}
 
-                      {/* Dropzone Upload Button */}
+                      {/* Dropzone Upload Button - Multiple selection enabled */}
                       <label className="aspect-square rounded-2xl border-2 border-dashed border-blue-200 hover:border-blue-500 bg-blue-50/30 hover:bg-blue-50 flex flex-col items-center justify-center text-blue-600 cursor-pointer transition-colors p-3 text-center">
                         <Upload className="w-6 h-6 mb-1 text-blue-500" />
-                        <span className="text-[14px] font-bold text-slate-800">
-                          {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                        <span className="text-[13px] font-bold text-slate-800">
+                          {uploadingImage ? 'Uploading...' : 'Upload Images'}
                         </span>
-                        <span className="text-[9px] text-slate-400 font-medium mt-0.5">Click to browse</span>
-                        <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                        <span className="text-[10px] text-slate-500 font-semibold mt-0.5">Choose Multiple</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={handleImageUpload}
+                          disabled={uploadingImage}
+                          className="hidden"
+                        />
                       </label>
+                    </div>
+
+                    {/* Add by Image URL option */}
+                    <div className="pt-2 border-t border-dashed border-slate-200 flex flex-col sm:flex-row items-center gap-2">
+                      <input
+                        type="url"
+                        id="new-image-url-input"
+                        placeholder="Or paste direct image URL (https://...)..."
+                        className="w-full sm:flex-1 p-2 rounded-xl border border-slate-200 text-[13px] text-slate-800 font-medium focus:outline-none focus:border-blue-500 bg-slate-50"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            const val = e.currentTarget.value.trim();
+                            if (val) {
+                              setFormData(prev => ({
+                                ...prev,
+                                images: [...(prev.images || []), val],
+                                image: (prev.images && prev.images[0]) || val
+                              }));
+                              e.currentTarget.value = '';
+                            }
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const input = document.getElementById('new-image-url-input');
+                          if (input && input.value.trim()) {
+                            const val = input.value.trim();
+                            setFormData(prev => ({
+                              ...prev,
+                              images: [...(prev.images || []), val],
+                              image: (prev.images && prev.images[0]) || val
+                            }));
+                            input.value = '';
+                          }
+                        }}
+                        className="w-full sm:w-auto px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[12px] cursor-pointer border border-slate-200 transition shrink-0"
+                      >
+                        + Add Image URL
+                      </button>
                     </div>
                   </div>
 

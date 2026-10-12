@@ -119,7 +119,16 @@ export function Footer({ setCurrentPage }) {
             </p>
           </div>
           <p className="flex items-center gap-1">
-            Designed to Print a Better Tomorrow. <span className="text-[#6a32f0]">❤️</span>
+            designed by{' '}
+            <a
+              href="https://www.letskillify.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#6a32f0] hover:underline font-semibold"
+            >
+              Letskillify
+            </a>{' '}
+            <span className="text-[#6a32f0]">❤️</span>
           </p>
         </div>
 
