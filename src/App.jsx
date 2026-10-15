@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { CommandPalette } from './Components/layout/CommandPalette'
 import { CursorGlow } from './Components/layout/CursorGlow'
@@ -28,7 +28,8 @@ import { LoginPage } from './pages/LoginPage'
 import { SignupPage } from './pages/SignupPage'
 import { VerifyOtpPage } from './pages/VerifyOtpPage'
 import { AccountPage } from './pages/AccountPage'
-import { AdminApp } from './admin/AdminApp'
+
+const AdminApp = lazy(() => import('./admin/AdminApp').then(m => ({ default: m.AdminApp || m.default })))
 
 import { AuthProvider } from './context/AuthContext'
 import { AuthModal } from './Components/auth/AuthModal'
@@ -149,11 +150,22 @@ function AppContent() {
   }, [])
 
   if (currentPage === 'admin') {
-    return <AdminApp />
+    return (
+      <Suspense fallback={
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-sm font-semibold text-slate-300">Loading Admin Portal...</p>
+          </div>
+        </div>
+      }>
+        <AdminApp />
+      </Suspense>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-300 relative selection:bg-purple-500 selection:text-white">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-300 relative selection:bg-purple-500 selection:text-white w-full max-w-full overflow-x-clip">
       {/* Top Scroll Progress Indicator */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-purple-500 via-pink-500 to-[#025afc] z-50 transform-gpu origin-left"

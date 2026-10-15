@@ -59,6 +59,39 @@ export default defineConfig(({ mode }) => {
           });
         }
       }
-    ]
+    ],
+    build: {
+      chunkSizeWarningLimit: 600,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('@firebase/firestore') || id.includes('firebase/firestore')) {
+                return 'vendor-firestore';
+              }
+              if (id.includes('@firebase/auth') || id.includes('firebase/auth')) {
+                return 'vendor-auth';
+              }
+              if (id.includes('firebase')) {
+                return 'vendor-firebase';
+              }
+              if (id.includes('recharts')) {
+                return 'vendor-recharts';
+              }
+              if (id.includes('framer-motion')) {
+                return 'vendor-framer-motion';
+              }
+              if (id.includes('react-icons') || id.includes('lucide-react')) {
+                return 'vendor-icons';
+              }
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+                return 'vendor-react';
+              }
+              return 'vendor-utils';
+            }
+          }
+        }
+      }
+    }
   };
 });

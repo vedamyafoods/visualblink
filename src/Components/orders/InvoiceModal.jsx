@@ -63,6 +63,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
             <div className="text-right space-y-1">
               <h2 className="text-xl font-bold text-[#07152F] uppercase tracking-wider">TAX INVOICE</h2>
               <p className="font-mono text-[14px] text-slate-700">Invoice #: <strong>INV-{order.orderId || order.id}</strong></p>
+              <p className="font-mono text-xs font-bold text-[#025afc]">Customer ID: {order.customerId || order.customer?.customerId || 'VB-CUST-REGISTERED'}</p>
               <p className="text-slate-500">Date: {invoiceDate}</p>
               <p className="text-slate-500">Payment Status: <strong className="uppercase text-emerald-700">{order.paymentStatus || 'PAID'}</strong></p>
             </div>
@@ -73,6 +74,7 @@ export function InvoiceModal({ isOpen, onClose, order }) {
             <div>
               <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px] block mb-1">Billed To:</span>
               <strong className="text-sm font-bold text-slate-900 block">{order.customer?.name || 'Valued Customer'}</strong>
+              <p className="text-[12px] font-mono font-bold text-slate-700 mt-0.5">Cust ID: {order.customerId || order.customer?.customerId || 'VB-CUST-REGISTERED'}</p>
               {order.customer?.company && <p className="text-slate-700 font-semibold">{order.customer.company}</p>}
               {order.customer?.gstin && <p className="font-mono text-[14px] text-slate-600">GSTIN: {order.customer.gstin}</p>}
               <p className="text-slate-600 mt-1">{order.customer?.email}</p>

@@ -99,17 +99,29 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
       const cat = searchParams.get('category') || 'All';
       const q = searchParams.get('search') || '';
       const subcat = searchParams.get('subcategory') || 'All';
-      const currentSku = searchParams.get('sku');
+      // Support SEO-friendly slug as priority, with fallback to sku or product ID
+      const productSlugParam = searchParams.get('slug') || searchParams.get('product') || searchParams.get('sku');
 
       setActiveCategoryState(cat);
       setSearchTermState(q);
       setSelectedSubcategory(subcat);
 
       const allProds = liveProducts;
-      if (currentSku && allProds.length > 0) {
-        const found = allProds.find(p => p.id === currentSku || p.slug === currentSku);
-        if (found) setSelectedProductState(found);
-      } else if (!currentSku) {
+      if (productSlugParam && allProds.length > 0) {
+        const cleanParam = productSlugParam.toLowerCase().trim();
+        const found = allProds.find(p => {
+          const pSlug = (p.slug || '').toLowerCase().trim();
+          const pGeneratedSlug = createSlug(p.title || p.name);
+          return (
+            (pSlug && pSlug === cleanParam) ||
+            pGeneratedSlug === cleanParam ||
+            p.id === productSlugParam
+          );
+        });
+        if (found) {
+          setSelectedProductState(found);
+        }
+      } else if (!productSlugParam) {
         setSelectedProductState(null);
       }
     };
@@ -124,6 +136,16 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
       window.removeEventListener('hashchange', handleUrlSync);
     };
   }, [liveProducts]);
+
+  // Dynamic document title update for strong SEO
+  useEffect(() => {
+    if (selectedProduct) {
+      const title = selectedProduct.title || selectedProduct.name || 'Product Details';
+      document.title = `${title} | VisualBlink Custom Printing`;
+    } else {
+      document.title = 'Custom Printing & Personalized Products | VisualBlink';
+    }
+  }, [selectedProduct]);
 
   // Sidebar Category Selection Handler - Clears stale search queries
   const setActiveCategory = (cat) => {
@@ -155,7 +177,8 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
     setSelectedProductState(prod);
     if (setCurrentPage) {
       if (prod) {
-        setCurrentPage('products', { sku: prod.id, category: activeCategory !== 'All' ? activeCategory : '' }, '#specs');
+        const prodSlug = prod.slug || createSlug(prod.title || prod.name) || prod.id;
+        setCurrentPage('products', { slug: prodSlug, category: activeCategory !== 'All' ? activeCategory : '' }, '#specs');
       } else {
         setCurrentPage('products', { category: activeCategory !== 'All' ? activeCategory : '' }, '#catalog');
       }

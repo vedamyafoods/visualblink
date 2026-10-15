@@ -6,7 +6,7 @@ export function CursorGlow() {
   useEffect(() => {
     const move = (event) => {
       if (!glowRef.current) return
-      glowRef.current.style.transform = `translate3d(${event.clientX - 160}px, ${event.clientY - 160}px, 0)`
+      // glowRef.current.style.transform = `translate3d(${event.clientX - 160}px, ${event.clientY - 160}px, 0)`
     }
     window.addEventListener('pointermove', move)
     return () => window.removeEventListener('pointermove', move)

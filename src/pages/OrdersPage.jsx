@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import { subscribeToUserOrders } from '../services/firebase';
+import { InvoiceModal } from '../Components/orders/InvoiceModal';
 
 export function OrdersPage({ setCurrentPage }) {
   const { currentUser, otpSessionVerified } = useAuth();
@@ -19,6 +20,8 @@ export function OrdersPage({ setCurrentPage }) {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all'); // 'all', 'active', 'delivered'
+  const [selectedInvoiceOrder, setSelectedInvoiceOrder] = useState(null);
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -192,8 +195,8 @@ export function OrdersPage({ setCurrentPage }) {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                      <span className={`px-3 py-1 rounded-xl text-[14px] font-bold border ${ord.status === 'Delivered'
+                    <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end flex-wrap">
+                      <span className={`px-3 py-1 rounded-xl text-[13px] font-bold border ${ord.status === 'Delivered'
                         ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                         : 'bg-amber-50 text-amber-800 border-amber-200'
                         }`}>
@@ -201,10 +204,28 @@ export function OrdersPage({ setCurrentPage }) {
                       </span>
 
                       <button
-                        onClick={() => setCurrentPage('order-details', { orderId: ord.orderId || ord.id })}
-                        className="px-4 py-2 rounded-xl bg-[#07152F] hover:bg-slate-800 text-white font-bold text-[14px] flex items-center gap-1.5 transition cursor-pointer border-none shadow-sm"
+                        onClick={() => {
+                          setSelectedInvoiceOrder(ord);
+                          setIsInvoiceModalOpen(true);
+                        }}
+                        className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-[13px] flex items-center gap-1.5 border border-emerald-200 cursor-pointer shadow-xs transition"
+                        title="View and download invoice bill"
                       >
-                        <FiEye className="w-3.5 h-3.5" /> View Order
+                        <FiFileText className="w-3.5 h-3.5 text-emerald-600" /> View Bill
+                      </button>
+
+                      <button
+                        onClick={() => setCurrentPage('track', { orderId: ord.orderId || ord.id })}
+                        className="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#025afc] font-bold text-[13px] flex items-center gap-1.5 border border-blue-200 cursor-pointer transition shadow-xs"
+                      >
+                        <FiTruck className="w-3.5 h-3.5 text-[#025afc]" /> Track Order
+                      </button>
+
+                      <button
+                        onClick={() => setCurrentPage('order-details', { orderId: ord.orderId || ord.id })}
+                        className="px-4 py-2 rounded-xl bg-[#07152F] hover:bg-slate-800 text-white font-bold text-[13px] flex items-center gap-1.5 transition cursor-pointer border-none shadow-sm"
+                      >
+                        <FiEye className="w-3.5 h-3.5" /> Details
                       </button>
                     </div>
                   </div>
@@ -233,6 +254,16 @@ export function OrdersPage({ setCurrentPage }) {
         )}
 
       </div>
+
+      {/* Tax Invoice Modal */}
+      <InvoiceModal
+        isOpen={isInvoiceModalOpen}
+        onClose={() => {
+          setIsInvoiceModalOpen(false);
+          setSelectedInvoiceOrder(null);
+        }}
+        order={selectedInvoiceOrder}
+      />
     </div>
   );
 }

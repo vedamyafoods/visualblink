@@ -22,7 +22,7 @@ import { addOrderToFirestore, createOrderOnServerApi } from '../services/firebas
 import { triggerOrderConfirmationEmail } from '../services/emailService';
 
 export function CheckoutPage({ setCurrentPage }) {
-  const { cartItems, clearCart, currentUser, userProfile, saveAddress } = useAuth();
+  const { cartItems, clearCart, currentUser, userProfile, saveAddress, updateUserProfile } = useAuth();
 
   // Search parameters for express & coupon passed from Cart
   const getSearchParams = () => new URLSearchParams(window.location.search);
@@ -225,10 +225,23 @@ export function CheckoutPage({ setCurrentPage }) {
         });
       }
 
+      // Generate or retrieve customer ID
+      const customerId = userProfile?.customerId || (currentUser?.uid ? `VB-CUST-${currentUser.uid.slice(0, 5).toUpperCase()}` : `VB-CUST-${Math.floor(10000 + Math.random() * 90000)}`);
+
+      if (currentUser && !userProfile?.customerId && updateUserProfile) {
+        try {
+          await updateUserProfile({ customerId });
+        } catch (e) {
+          console.warn("Could not save customerId to profile:", e);
+        }
+      }
+
       const orderPayload = {
         idempotencyKey,
         userId: currentUser?.uid || null,
+        customerId,
         customer: {
+          customerId,
           name: customerName.trim(),
           email: normalizedEmail,
           phone: customerPhone.trim(),
@@ -842,7 +855,7 @@ export function CheckoutPage({ setCurrentPage }) {
           </div>
 
           {/* RIGHT ORDER SUMMARY SIDEBAR (4 cols) */}
-          <div className="lg:col-span-4 space-y-5 sticky top-24">
+          <div className="lg:col-span-4 space-y-5 lg:sticky lg:top-24">
 
             <div className="bg-[#eff6ff] rounded-3xl p-6 border border-blue-100 shadow-sm space-y-5 text-slate-900">
               <h3 className="text-lg font-bold text-slate-900 border-b border-blue-200/60 pb-3">

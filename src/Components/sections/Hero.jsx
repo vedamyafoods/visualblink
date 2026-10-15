@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiArrowRight, FiShield, FiTruck, FiAward } from 'react-icons/fi'
-import heroBannerImg from '../../assets/hero_banner.png'
+import heroBannerImg from '../../assets/hero_banner.webp'
 
 export function Hero({ setCurrentPage }) {
   const handleLink = (page, extraParams = {}, fragment = '') => {

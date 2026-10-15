@@ -149,11 +149,13 @@ export default async function handler(req, res) {
         id: orderId,
         orderId: generatedOrderNum,
         orderNumber: generatedOrderNum,
+        customerId: req.body.customerId || customer.customerId || `VB-CUST-${Math.floor(10000 + Math.random() * 90000)}`,
         idempotencyKey: effectiveIdempotencyKey || orderId,
         userId: req.body.userId || null,
         isGuest: !req.body.userId,
         customerType: req.body.userId ? 'registered' : 'guest',
         customer: {
+          customerId: req.body.customerId || customer.customerId || `VB-CUST-${Math.floor(10000 + Math.random() * 90000)}`,
           name: customer.name.trim(),
           email: normalizedCustomerEmail,
           phone: customer.phone.trim(),

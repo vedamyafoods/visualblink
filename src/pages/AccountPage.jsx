@@ -19,10 +19,11 @@ import {
   FiEye
 } from 'react-icons/fi';
 
-import { FiCheck, FiX, FiSliders } from 'react-icons/fi';
+import { FiCheck, FiX, FiSliders, FiCreditCard } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import { subscribeToUserOrders } from '../services/firebase';
 import { APP_CONFIG } from '../config/appConfig';
+import { InvoiceModal } from '../Components/orders/InvoiceModal';
 
 export function AccountPage({ setCurrentPage }) {
   const {
@@ -39,6 +40,8 @@ export function AccountPage({ setCurrentPage }) {
   const [activeTab, setActiveTab] = useState('orders'); // 'orders', 'addresses', 'profile'
   const [userOrders, setUserOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
+  const [selectedInvoiceOrder, setSelectedInvoiceOrder] = useState(null);
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
 
   // Profile Edit Modal State
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -257,9 +260,13 @@ export function AccountPage({ setCurrentPage }) {
                 {(currentUser.displayName || userProfile?.displayName || currentUser.email || 'U').substring(0, 1).toUpperCase()}
               </div>
               <div>
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30 uppercase tracking-wider">
-                    Verified Customer Profile
+                    Verified Customer
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#025afc]/30 text-blue-200 text-[10.5px] font-mono font-bold border border-blue-400/40 flex items-center gap-1 shadow-xs">
+                    <FiShield className="w-3 h-3 text-[#025afc]" />
+                    Customer ID: {userProfile?.customerId || (currentUser?.uid ? `VB-CUST-${currentUser.uid.slice(0, 5).toUpperCase()}` : 'VB-CUST-84920')}
                   </span>
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
@@ -389,26 +396,43 @@ export function AccountPage({ setCurrentPage }) {
                               ● {ord.status || 'Payment Confirmed'}
                             </span>
                           </div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             {ord.status === 'Dispatched' && ord.pricing?.remainingPaymentAmount > 0 && ord.paymentStatus !== 'Fully Paid' && (
                               <button
                                 onClick={() => handlePayRemaining(ord)}
-                                className="px-3 py-1.5 rounded-xl bg-[#25D366] text-white font-bold text-[14px] flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform shadow-xs"
+                                className="px-3 py-1.5 rounded-xl bg-[#25D366] text-white font-bold text-[13px] flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform shadow-xs"
                               >
                                 <FiCreditCard className="w-3.5 h-3.5" /> Pay Remaining ₹{ord.pricing.remainingPaymentAmount}
                               </button>
                             )}
                             <button
+                              onClick={() => {
+                                setSelectedInvoiceOrder(ord);
+                                setIsInvoiceModalOpen(true);
+                              }}
+                              className="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-[13px] flex items-center gap-1.5 border border-emerald-200 cursor-pointer shadow-xs transition"
+                              title="View and download invoice bill"
+                            >
+                              <FiFileText className="w-3.5 h-3.5 text-emerald-600" /> View Bill
+                            </button>
+                            <button
+                              onClick={() => setCurrentPage && setCurrentPage('track', { orderId: ord.orderId || ord.id })}
+                              className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#025afc] font-bold text-[13px] flex items-center gap-1.5 border border-blue-200 cursor-pointer transition shadow-xs"
+                              title="Live production tracking"
+                            >
+                              <FiTruck className="w-3.5 h-3.5 text-[#025afc]" /> Track Order
+                            </button>
+                            <button
                               onClick={() => setCurrentPage && setCurrentPage('order-details', { orderId: ord.orderId || ord.id })}
-                              className="px-3 py-1.5 rounded-xl bg-[#07152F] text-white font-bold text-[14px] flex items-center gap-1 cursor-pointer border-none shadow-xs"
+                              className="px-3 py-1.5 rounded-xl bg-[#07152F] text-white font-bold text-[13px] flex items-center gap-1 cursor-pointer border-none shadow-xs hover:bg-slate-800 transition"
                             >
                               <FiEye className="w-3.5 h-3.5" /> Details
                             </button>
                             <button
                               onClick={() => setExpandedOrderForTracking(expandedOrderForTracking === ord.id ? null : ord.id)}
-                              className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#025afc] font-bold text-[14px] flex items-center gap-1 border border-blue-200 cursor-pointer"
+                              className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[13px] flex items-center gap-1 border border-slate-200 cursor-pointer transition"
                             >
-                              <FiTruck className="w-3.5 h-3.5" /> Track Status
+                              <FiClock className="w-3.5 h-3.5" /> {expandedOrderForTracking === ord.id ? 'Hide Timeline' : 'Timeline'}
                             </button>
                           </div>
                         </div>
@@ -847,6 +871,16 @@ export function AccountPage({ setCurrentPage }) {
           </form>
         </div>
       )}
+
+      {/* Tax Invoice Modal */}
+      <InvoiceModal
+        isOpen={isInvoiceModalOpen}
+        onClose={() => {
+          setIsInvoiceModalOpen(false);
+          setSelectedInvoiceOrder(null);
+        }}
+        order={selectedInvoiceOrder}
+      />
     </div>
   );
 }

@@ -8,9 +8,11 @@ import {
   FiClock,
   FiFileText,
   FiShield,
-  FiMail
+  FiMail,
+  FiPrinter
 } from 'react-icons/fi';
 import { subscribeToOrderById } from '../services/firebase';
+import { InvoiceModal } from '../Components/orders/InvoiceModal';
 
 export function OrderSuccessPage({ setCurrentPage }) {
   const getSearchParams = () => new URLSearchParams(window.location.search);
@@ -18,6 +20,7 @@ export function OrderSuccessPage({ setCurrentPage }) {
 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
 
   useEffect(() => {
     if (orderId) {
@@ -84,10 +87,18 @@ export function OrderSuccessPage({ setCurrentPage }) {
           </div>
 
           {/* Quick Metrics Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[14px] font-semibold text-slate-700">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-[14px] font-semibold text-slate-700">
             <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-slate-200/80 space-y-1">
               <span className="text-[10px] text-slate-400 font-bold uppercase block">Total Amount</span>
               <strong className="text-xl font-bold text-[#025afc]">₹{(order?.totalAmount || order?.pricing?.grandTotal || 0).toLocaleString()}</strong>
+            </div>
+
+            <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-slate-200/80 space-y-1">
+              <span className="text-[10px] text-slate-400 font-bold uppercase block">Customer ID</span>
+              <strong className="text-sm font-bold text-slate-900 block font-mono">
+                {order?.customerId || order?.customer?.customerId || 'VB-CUST-84920'}
+              </strong>
+              <span className="text-[10px] text-emerald-700 font-bold">Registered Account</span>
             </div>
 
             <div className="bg-[#F7F8FA] p-4 rounded-2xl border border-slate-200/80 space-y-1">
@@ -151,30 +162,44 @@ export function OrderSuccessPage({ setCurrentPage }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 flex-wrap">
+          <button
+            onClick={() => setIsInvoiceOpen(true)}
+            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[14px] uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition border-none"
+          >
+            <FiPrinter className="w-4 h-4" /> View / Download Bill
+          </button>
+
           <button
             onClick={() => setCurrentPage('order-details', { orderId })}
-            className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] uppercase tracking-wider shadow-lg shadow-[#025afc]/20 flex items-center justify-center gap-2 cursor-pointer transition border-none"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] uppercase tracking-wider shadow-md shadow-[#025afc]/20 flex items-center justify-center gap-2 cursor-pointer transition border-none"
           >
             <FiTruck className="w-4 h-4" /> Track Order in Real-Time
           </button>
 
           <button
             onClick={() => setCurrentPage('account')}
-            className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-[#07152F] hover:bg-slate-800 text-white font-bold text-[14px] uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition border-none"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#07152F] hover:bg-slate-800 text-white font-bold text-[14px] uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition border-none"
           >
             <FiFileText className="w-4 h-4" /> View My Orders
           </button>
 
           <button
             onClick={() => setCurrentPage('products')}
-            className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold text-[14px] uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold text-[14px] uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition"
           >
             <FiShoppingBag className="w-4 h-4" /> Continue Shopping
           </button>
         </div>
 
       </div>
+
+      {/* Printable Invoice Modal */}
+      <InvoiceModal
+        isOpen={isInvoiceOpen}
+        onClose={() => setIsInvoiceOpen(false)}
+        order={order}
+      />
 
     </div>
   );

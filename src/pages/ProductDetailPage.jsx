@@ -334,6 +334,80 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
   const displayOptions = hasDynamicFields ? dynamicOptionsSummaryForUI : selectedVariants;
 
+  // Detailed Order Summary breakdown with price modifiers per unit
+  const orderSummaryItems = React.useMemo(() => {
+    const items = [];
+    const pUnitLabel = pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '');
+    const currentBasePrice = activeTier ? activeTier.pricePerUnit : (product.basePrice || product.price || 5.0);
+
+    // 1. Base Unit Price
+    items.push({
+      label: activeTier ? `Base Price (${activeTier.tierMin}+ pcs Tier)` : 'Base Unit Price',
+      value: `₹${currentBasePrice.toFixed(2)}/${pUnitLabel}`,
+      priceModifier: 0,
+      isBase: true
+    });
+
+    if (hasDynamicFields) {
+      effectiveCustomSections.forEach(sec => {
+        if (sec.enabled !== false && sec.fields) {
+          sec.fields.forEach(field => {
+            const val = dynamicValues[field.id];
+            if (val !== undefined && val !== '') {
+              let modifier = 0;
+              if (['dropdown', 'radio', 'orientation'].includes(field.type) && field.options) {
+                const match = field.options.find(o => (o.value || o.label || o) === val);
+                if (match && match.priceModifier) {
+                  modifier = Number(match.priceModifier) || 0;
+                }
+              } else if (field.type === 'checkbox' && Array.isArray(val) && field.options) {
+                val.forEach(v => {
+                  const match = field.options.find(o => (o.value || o.label || o) === v);
+                  if (match && match.priceModifier) {
+                    modifier += Number(match.priceModifier) || 0;
+                  }
+                });
+              }
+
+              items.push({
+                label: field.label || field.id,
+                value: Array.isArray(val) ? val.join(', ') : String(val),
+                priceModifier: modifier
+              });
+            }
+          });
+        }
+      });
+    } else {
+      Object.entries(effectiveVariants).forEach(([key, options]) => {
+        if (key === 'customAreaPricing') return;
+        if (Array.isArray(options) && options.length > 0) {
+          const selectedVal = selectedVariants[key];
+          const match = options.find(
+            (opt) => (typeof opt === 'string' ? opt : opt.name) === selectedVal
+          );
+          const modifier = (match && typeof match === 'object' && match.priceModifier) ? Number(match.priceModifier) || 0 : 0;
+          items.push({
+            label: formatKeyToTitle(key),
+            value: selectedVal,
+            priceModifier: modifier
+          });
+        }
+      });
+    }
+
+    if (matchedAreaTier && calculatedAreaSqCm > 0) {
+      const areaPriceVal = Number(matchedAreaTier.priceModifier !== undefined ? matchedAreaTier.priceModifier : (matchedAreaTier.price || 0)) || 0;
+      items.push({
+        label: 'Dimensions',
+        value: `${customHeight} ft × ${customWidth} ft (${calculatedAreaSqCm} sq. ft)`,
+        priceModifier: areaPriceVal
+      });
+    }
+
+    return items;
+  }, [hasDynamicFields, effectiveCustomSections, dynamicValues, effectiveVariants, selectedVariants, matchedAreaTier, calculatedAreaSqCm, customHeight, customWidth, activeTier, product.basePrice, product.price, pUnit]);
+
 
   const handleAddToCart = () => {
     // Validate design upload is required before adding to cart
@@ -423,10 +497,10 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
   const relatedProductsList = getRelatedProducts();
 
   return (
-    <div className="bg-white font-sans min-h-screen text-slate-900 pb-20">
+    <div className="bg-white font-sans min-h-screen text-slate-900 pb-20 w-full overflow-x-clip">
 
       {/* Top Breadcrumb Header Bar */}
-      <div className="bg-slate-50 border-b border-slate-200 py-3.5 px-4 sm:px-8 sticky top-0 z-30 backdrop-blur-md bg-white/90">
+      <div className="bg-slate-50 border-b border-slate-200 py-3.5 px-4 sm:px-8 relative z-20 bg-white">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <button
             onClick={onBack}
@@ -449,8 +523,8 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-          {/* LEFT COLUMN: PRODUCT IMAGES & GALLERY (5 cols) */}
-          <div className="lg:col-span-5 sticky top-20 self-start space-y-4">
+          {/* LEFT COLUMN: PRODUCT IMAGES & GALLERY (5 cols) - Sticky ONLY on desktop (lg:), scrolls normally on mobile */}
+          <div className="lg:col-span-5 lg:sticky lg:top-24 lg:self-start space-y-4">
 
             {/* Stage Image Container (Matching Screenshot 1) */}
             <div className="relative bg-[#F2F4F7] rounded-3xl overflow-hidden border border-slate-200/90 shadow-xs h-[380px] sm:h-[450px] flex items-center justify-center group">
@@ -769,17 +843,43 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
               </div>
 
               {/* ORDER SUMMARY LIGHT BLUE CARD */}
-              <div className="bg-[#eff6ff] text-slate-900 rounded-2xl p-6 border border-blue-100 space-y-4">
-                <h4 className="font-bold text-lg text-slate-900 border-b border-blue-200/60 pb-3">
-                  Order Summary
-                </h4>
+              <div className="bg-[#eff6ff] text-slate-900 rounded-2xl p-6 border border-blue-100 space-y-4 shadow-sm">
+                <div className="flex items-center justify-between border-b border-blue-200/60 pb-3">
+                  <h4 className="font-bold text-lg text-slate-900 m-0">
+                    Order Summary
+                  </h4>
+                  <span className="text-[11px] font-bold text-[#025afc] bg-blue-100/70 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                    Price Breakdown
+                  </span>
+                </div>
 
                 <div className="space-y-2.5 text-[13.5px]">
-                  {/* Selected Options List */}
-                  {Object.entries(displayOptions).map(([key, val]) => (
-                    <div key={key} className="flex items-center justify-between font-medium">
-                      <span className="text-slate-500 uppercase text-xs font-bold tracking-wider">{hasDynamicFields ? key : formatKeyToTitle(key)}</span>
-                      <span className="font-bold text-slate-800 text-right">{val}</span>
+                  {/* Selected Options List with Price Modifiers */}
+                  {orderSummaryItems.map((item, idx) => (
+                    <div key={idx} className="flex items-start justify-between gap-3 font-medium">
+                      <span className="text-slate-500 uppercase text-xs font-bold tracking-wider shrink-0 mt-0.5">
+                        {item.label}
+                      </span>
+                      <div className="text-right">
+                        <span className="font-bold text-slate-800">
+                          {item.value}
+                        </span>
+                        {item.priceModifier > 0 && (
+                          <span className="ml-1.5 inline-block text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/80">
+                            @ +₹{item.priceModifier.toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}
+                          </span>
+                        )}
+                        {item.priceModifier < 0 && (
+                          <span className="ml-1.5 inline-block text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/80">
+                            @ -₹{Math.abs(item.priceModifier).toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}
+                          </span>
+                        )}
+                        {!item.isBase && item.priceModifier === 0 && (
+                          <span className="ml-1.5 inline-block text-[10px] font-semibold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+                            Included
+                          </span>
+                        )}
+                      </div>
                     </div>
                   ))}
 
@@ -792,13 +892,16 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
                   <div className="pt-3 mt-1 border-t border-blue-200/60 space-y-2">
                     {/* Unit Price Row */}
                     <div className="flex items-center justify-between font-medium">
-                      <span className="text-slate-500 uppercase text-xs font-bold tracking-wider">Unit Price</span>
-                      <span className="font-bold text-slate-800">₹{unitPrice.toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}</span>
+                      <span className="text-slate-500 uppercase text-xs font-bold tracking-wider">Net Unit Price</span>
+                      <span className="font-bold text-slate-900 text-sm">₹{unitPrice.toFixed(2)}/{pUnit === 'pcs' ? 'pc' : pUnit.replace(/s$/, '')}</span>
                     </div>
 
                     {/* Total Row */}
                     <div className="flex items-center justify-between pt-2">
-                      <span className="font-bold text-slate-900 text-lg">Total</span>
+                      <div>
+                        <span className="font-bold text-slate-900 text-lg block leading-tight">Total</span>
+                        <span className="text-[11px] text-slate-500 font-medium">({quantity} × ₹{unitPrice.toFixed(2)})</span>
+                      </div>
                       <span className="font-bold text-2xl text-[#025afc]">
                         ₹{totalPrice.toFixed(2)}
                       </span>
