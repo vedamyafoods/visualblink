@@ -17,8 +17,22 @@ export default defineConfig(({ mode }) => {
           server.middlewares.use(async (req, res, next) => {
             if (req.url && req.url.startsWith('/api/')) {
               try {
-                const urlPath = req.url.split('?')[0]; // e.g. /api/send-otp
-                const modulePath = `${urlPath}.js`; // e.g. /api/send-otp.js
+                let urlPath = req.url.split('?')[0];
+                let modulePath = `${urlPath}.js`;
+
+                req.query = req.query || {};
+                try {
+                  const urlObj = new URL(req.url, 'http://localhost');
+                  urlObj.searchParams.forEach((val, key) => { req.query[key] = val; });
+                } catch (e) {}
+
+                if (urlPath === '/api/send-otp' || urlPath === '/api/verify-otp' || urlPath === '/api/check-email') {
+                  modulePath = '/api/auth.js';
+                  req.query.action = urlPath.replace('/api/', '');
+                } else if (urlPath === '/api/sign-cloudinary' || urlPath === '/api/upload-image') {
+                  modulePath = '/api/cloudinary.js';
+                  req.query.action = urlPath.replace('/api/', '');
+                }
 
                 let bodyStr = '';
                 req.on('data', chunk => { bodyStr += chunk; });

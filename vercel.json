@@ -1,6 +1,26 @@
 {
   "rewrites": [
     {
+      "source": "/api/check-email",
+      "destination": "/api/auth?action=check-email"
+    },
+    {
+      "source": "/api/send-otp",
+      "destination": "/api/auth?action=send-otp"
+    },
+    {
+      "source": "/api/verify-otp",
+      "destination": "/api/auth?action=verify-otp"
+    },
+    {
+      "source": "/api/sign-cloudinary",
+      "destination": "/api/cloudinary"
+    },
+    {
+      "source": "/api/upload-image",
+      "destination": "/api/cloudinary"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/$1"
     },
