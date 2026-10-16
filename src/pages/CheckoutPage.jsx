@@ -1158,7 +1158,7 @@ export function CheckoutPage({ setCurrentPage }) {
               {/* Grand Total */}
               <div className="pt-3 border-t border-blue-200/60 flex justify-between items-baseline">
                 <span className="text-[13px] font-bold text-slate-700 uppercase tracking-wider">TOTAL PAYABLE</span>
-                <span className="text-2xl font-black text-[#0B1633]">₹{grandTotal.toLocaleString()}</span>
+                <span className="text-2xl font-bold text-[#0B1633]">₹{grandTotal.toLocaleString()}</span>
               </div>
 
               {/* Advance & Remaining Balance Breakdown */}
@@ -1168,7 +1168,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
                     Advance Payable Now ({advancePercentage}%)
                   </span>
-                  <span className="text-[14px] text-purple-700 font-black">₹{advancePaymentAmount.toLocaleString()}</span>
+                  <span className="text-[14px] text-purple-700 font-bold">₹{advancePaymentAmount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between items-center text-slate-500 font-medium">
                   <span>Remaining Balance</span>
@@ -1195,7 +1195,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     )}
                   </button>
                   <p className="text-[11.5px] text-slate-500 text-center font-medium px-2">
-                    {remainingPaymentAmount > 0 
+                    {remainingPaymentAmount > 0
                       ? `Remaining ${100 - advancePercentage}% balance (₹${remainingPaymentAmount.toLocaleString()}) to be paid upon dispatch.`
                       : 'Full 100% payment settled online securely.'}
                   </p>
@@ -1228,7 +1228,7 @@ export function CheckoutPage({ setCurrentPage }) {
       {isTermsModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/75 backdrop-blur-sm">
           <div className="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden relative">
-            
+
             {/* Modal Header */}
             <div className="px-5 sm:px-6 py-4.5 bg-gradient-to-r from-[#07152F] to-[#0d224d] text-white flex items-center justify-between shrink-0">
               <div className="space-y-1">
@@ -1237,7 +1237,7 @@ export function CheckoutPage({ setCurrentPage }) {
                     Mandatory Policy Review
                   </span>
                 </div>
-                <h3 className="text-lg font-black tracking-tight text-white m-0">
+                <h3 className="text-lg font-bold tracking-tight text-white m-0">
                   Terms of Service &amp; Printing Agreement
                 </h3>
               </div>
@@ -1254,7 +1254,7 @@ export function CheckoutPage({ setCurrentPage }) {
             <div className="px-5 sm:px-6 py-3 bg-purple-50/80 border-b border-purple-100 flex items-center justify-between text-[13px] shrink-0">
               <div>
                 <span className="text-purple-800 font-semibold">Advance Due Now: </span>
-                <span className="font-black text-purple-900 text-[14px]">₹{advancePaymentAmount.toLocaleString()}</span>
+                <span className="font-bold text-purple-900 text-[14px]">₹{advancePaymentAmount.toLocaleString()}</span>
                 <span className="text-purple-600 text-[11px] ml-1">({advancePercentage}%)</span>
               </div>
               {remainingPaymentAmount > 0 && (
@@ -1327,9 +1327,8 @@ export function CheckoutPage({ setCurrentPage }) {
             </div>
 
             {/* Scroll Indicator Bar */}
-            <div className={`px-5 sm:px-6 py-2.5 text-[12px] font-bold flex items-center justify-between border-t transition-colors ${
-              hasScrolledTerms ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'
-            }`}>
+            <div className={`px-5 sm:px-6 py-2.5 text-[12px] font-bold flex items-center justify-between border-t transition-colors ${hasScrolledTerms ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'
+              }`}>
               {hasScrolledTerms ? (
                 <span className="flex items-center gap-1.5">
                   <FiCheckCircle className="w-4 h-4 text-emerald-600" /> Terms reviewed completely to the bottom
@@ -1346,33 +1345,30 @@ export function CheckoutPage({ setCurrentPage }) {
 
             {/* Footer with I Confirm & Pay Button */}
             <div className="p-5 sm:p-6 bg-slate-50 border-t border-slate-200 space-y-3 shrink-0">
-              
+
               {/* I Confirm Button */}
               <button
                 type="button"
                 disabled={!hasScrolledTerms}
                 onClick={() => setIsTermsConfirmed(!isTermsConfirmed)}
-                className={`w-full py-3 px-4 rounded-xl flex items-center justify-between transition-all border ${
-                  !hasScrolledTerms
+                className={`w-full py-3 px-4 rounded-xl flex items-center justify-between transition-all border ${!hasScrolledTerms
                     ? 'opacity-50 cursor-not-allowed bg-slate-100 text-slate-400 border-slate-200'
                     : isTermsConfirmed
                       ? 'bg-emerald-50 border-emerald-500 text-emerald-900 shadow-xs cursor-pointer'
                       : 'bg-white border-purple-400 text-purple-950 hover:bg-purple-50/50 cursor-pointer shadow-xs'
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-2.5 text-left">
-                  <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
-                    isTermsConfirmed ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 bg-white'
-                  }`}>
+                  <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${isTermsConfirmed ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 bg-white'
+                    }`}>
                     {isTermsConfirmed && <FiCheck className="w-3.5 h-3.5 stroke-[3]" />}
                   </div>
                   <span className="text-[13px] font-bold">
                     I confirm and accept the terms &amp; printing agreement
                   </span>
                 </div>
-                <span className={`text-[11px] font-extrabold uppercase px-2 py-0.5 rounded ${
-                  isTermsConfirmed ? 'bg-emerald-200 text-emerald-800' : 'bg-purple-100 text-purple-800'
-                }`}>
+                <span className={`text-[11px] font-extrabold uppercase px-2 py-0.5 rounded ${isTermsConfirmed ? 'bg-emerald-200 text-emerald-800' : 'bg-purple-100 text-purple-800'
+                  }`}>
                   {isTermsConfirmed ? 'Confirmed' : 'Click to Confirm'}
                 </span>
               </button>
@@ -1398,11 +1394,10 @@ export function CheckoutPage({ setCurrentPage }) {
                       handleCODOrder();
                     }
                   }}
-                  className={`w-2/3 py-3.5 px-4 rounded-xl font-extrabold text-[13.5px] uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md border-none ${
-                    !hasScrolledTerms || !isTermsConfirmed || isSubmitting
+                  className={`w-2/3 py-3.5 px-4 rounded-xl font-extrabold text-[13.5px] uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md border-none ${!hasScrolledTerms || !isTermsConfirmed || isSubmitting
                       ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
                       : 'bg-[#612af6] hover:bg-[#521fd6] text-white cursor-pointer shadow-purple-600/30 hover:scale-[1.01] active:scale-[0.99]'
-                  }`}
+                    }`}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">

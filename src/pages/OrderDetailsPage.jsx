@@ -326,17 +326,17 @@ export function OrderDetailsPage({ setCurrentPage }) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-[#FAFBFD] p-4 rounded-2xl border border-slate-200/80">
               <span className="text-xs text-slate-500 font-semibold block">Total Order Payable</span>
-              <strong className="text-2xl font-black text-[#0B1633] block mt-0.5">₹{grandTotal.toLocaleString()}</strong>
+              <strong className="text-2xl font-bold text-[#0B1633] block mt-0.5">₹{grandTotal.toLocaleString()}</strong>
             </div>
 
             <div className="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100">
               <span className="text-xs text-emerald-800 font-semibold block">Total Amount Paid</span>
-              <strong className="text-2xl font-black text-emerald-600 block mt-0.5">₹{totalCollected.toLocaleString()}</strong>
+              <strong className="text-2xl font-bold text-emerald-600 block mt-0.5">₹{totalCollected.toLocaleString()}</strong>
             </div>
 
             <div className={`p-4 rounded-2xl border ${outstandingBalance > 0 ? 'bg-amber-50/50 border-amber-200' : 'bg-slate-50 border-slate-200'}`}>
               <span className="text-xs text-slate-600 font-semibold block">Outstanding Balance Due</span>
-              <strong className={`text-2xl font-black block mt-0.5 ${outstandingBalance > 0 ? 'text-amber-700' : 'text-slate-500'}`}>
+              <strong className={`text-2xl font-bold block mt-0.5 ${outstandingBalance > 0 ? 'text-amber-700' : 'text-slate-500'}`}>
                 ₹{outstandingBalance.toLocaleString()}
               </strong>
             </div>
@@ -391,7 +391,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
                     <div className="flex items-center justify-between md:justify-end gap-4 pl-8 md:pl-0">
                       <div className="text-left md:text-right">
                         <span className="text-xs text-slate-400 block font-medium">Installment Amount</span>
-                        <strong className="text-lg font-black text-[#0B1633]">₹{(inst.amount || 0).toLocaleString()}</strong>
+                        <strong className="text-lg font-bold text-[#0B1633]">₹{(inst.amount || 0).toLocaleString()}</strong>
                       </div>
 
                       {/* Pay Now Action for eligible unpaid installments */}
@@ -636,7 +636,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
 
               <div className="pt-3 border-t border-slate-200 flex justify-between items-baseline">
                 <span className="text-[13px] font-bold text-slate-700 uppercase">Grand Total</span>
-                <span className="text-2xl font-black text-[#0B1633]">₹{grandTotal.toLocaleString()}</span>
+                <span className="text-2xl font-bold text-[#0B1633]">₹{grandTotal.toLocaleString()}</span>
               </div>
 
               <div className="p-3 bg-purple-50/60 rounded-2xl border border-purple-100 space-y-1 text-xs">
