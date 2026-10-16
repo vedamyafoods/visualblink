@@ -12,7 +12,8 @@ import {
   Sparkles,
   DollarSign,
   FolderPlus,
-  Zap
+  Zap,
+  CreditCard
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 import { uploadToCloudinary } from '../../../services/cloudinary';
@@ -31,6 +32,7 @@ import { StickerEngineSection } from './sections/StickerEngineSection';
 import { AreaCalcEngineSection } from './sections/AreaCalcEngineSection';
 import { TieredPricingSection } from './sections/TieredPricingSection';
 import { DynamicFormBuilder } from './sections/DynamicFormBuilder';
+import { PaymentAdvanceSettingsSection } from './sections/PaymentAdvanceSettingsSection';
 import { ensureCustomSections, PRESET_CUSTOM_SECTIONS } from '../../../utils/customSectionsHelper';
 
 // ============================================================================
@@ -351,6 +353,16 @@ export const ProductCatalogManager = () => {
     designGuidelines: DEFAULT_DESIGN_GUIDELINES,
     variants: catalogOptions || {},
     tieredPricing: [],
+    paymentPolicy: {
+      type: 'percentage',
+      percentage: 50,
+      fixedAmount: 0,
+      minAdvance: 0,
+      maxAdvance: 0
+    },
+    taxRate: 18,
+    taxInclusive: true,
+    hsnCode: '4911',
     seo: {
       metaTitle: '',
       metaDescription: '',
@@ -408,6 +420,16 @@ export const ProductCatalogManager = () => {
         customAreaPricing: catalogOptions?.customAreaPricing ?? DEFAULT_CATALOG_OPTIONS.customAreaPricing
       },
       tieredPricing: [],
+      paymentPolicy: {
+        type: 'percentage',
+        percentage: 50,
+        fixedAmount: 0,
+        minAdvance: 0,
+        maxAdvance: 0
+      },
+      taxRate: 18,
+      taxInclusive: true,
+      hsnCode: '4911',
       seo: { metaTitle: '', metaDescription: '', indexable: true }
     });
     setIsCreating(true);
@@ -444,6 +466,16 @@ export const ProductCatalogManager = () => {
       relatedProductIds: prod.relatedProductIds || [],
       customSections: ensureCustomSections(prod),
       specs: prod.specs || { paperGsm: '350 GSM', dimensions: '91mm x 53mm', printTech: 'Offset Litho', turnaround: '24 Hours' },
+      paymentPolicy: prod.paymentPolicy || {
+        type: 'percentage',
+        percentage: 50,
+        fixedAmount: 0,
+        minAdvance: 0,
+        maxAdvance: 0
+      },
+      taxRate: prod.taxRate !== undefined ? prod.taxRate : 18,
+      taxInclusive: prod.taxInclusive !== undefined ? prod.taxInclusive : true,
+      hsnCode: prod.hsnCode || '4911',
       variants: {
         paperStock: prod.variants?.paperStock ?? catalogOptions?.paperStock ?? DEFAULT_CATALOG_OPTIONS.paperStock,
         finishes: prod.variants?.finishes ?? catalogOptions?.finishes ?? DEFAULT_CATALOG_OPTIONS.finishes,
@@ -993,6 +1025,18 @@ export const ProductCatalogManager = () => {
               >
                 <Layers className="w-4 h-4" /> 3. Options Matrices
               </button>
+
+              {/* Tab 4: Payment & Advance Settings */}
+              <button
+                type="button"
+                onClick={() => setFormActiveTab('payment')}
+                className={`px-4 py-2 rounded-xl text-[13.5px] font-bold transition-all flex items-center gap-2 cursor-pointer border ${formActiveTab === 'payment'
+                  ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
+                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                  }`}
+              >
+                <CreditCard className="w-4 h-4" /> 4. Payment & Advance Settings
+              </button>
             </div>
 
             {/* Tabbed Form Body - STRICT INDEPENDENT SCROLL CONTAINER */}
@@ -1420,6 +1464,14 @@ export const ProductCatalogManager = () => {
                     )}
                   </div>
                 </div>
+              )}
+
+              {/* TAB 4: PAYMENT & ADVANCE SETTINGS */}
+              {formActiveTab === 'payment' && (
+                <PaymentAdvanceSettingsSection
+                  formData={formData}
+                  setFormData={setFormData}
+                />
               )}
 
             </div>

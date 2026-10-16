@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer';
 import { adminDb } from './_services/firebaseAdmin.js';
+import { calculateGstBreakdown } from './_services/taxService.js';
+import { resolveOrderAdvancePolicy } from './_services/advancePolicyService.js';
 
 function getTransporter() {
   const host = process.env.SMTP_HOST;
@@ -111,12 +113,19 @@ export default async function handler(req, res) {
           }
         }
 
-        const itemTotal = actualUnitPrice * requestedQty;
+        const submittedUnitPrice = Math.max(0, Number(item.unitPrice) || 0);
+        const submittedTotalPrice = Math.max(0, Number(item.totalPrice) || (submittedUnitPrice * requestedQty));
+        const itemTotal = submittedTotalPrice > 0 ? submittedTotalPrice : (actualUnitPrice * requestedQty);
+        actualUnitPrice = requestedQty > 0 ? Math.round((itemTotal / requestedQty) * 100) / 100 : itemTotal;
         recalculatedSubtotal += itemTotal;
 
         validatedItems.push({
           productId: prodId || null,
           productName: pName,
+          paper: item.paper || item.selectedOptions?.paperStock || '',
+          finish: item.finish || item.selectedOptions?.finishes || item.selectedOptions?.lamination || '',
+          sides: item.sides || item.selectedOptions?.sides || '',
+          corners: item.corners || item.selectedOptions?.corners || '',
           variant: item.variant || `Paper: ${item.paper || 'Standard'} | Finish: ${item.finish || 'Standard'} | Sides: ${item.sides || 'Single'}`,
           selectedOptions: item.selectedOptions || {},
           quantity: requestedQty,
@@ -127,20 +136,41 @@ export default async function handler(req, res) {
         });
       }
 
-      // Calculate final pricing breakdown server-side
-      const expressFee = isExpress ? 250 : 0;
-      const shippingFee = recalculatedSubtotal > 999 || recalculatedSubtotal === 0 ? 0 : 99;
+      // Calculate official GST breakdown and advance policy server-side
+      const expressFee = isExpress ? 299 : 0;
+      const shippingFee = (recalculatedSubtotal > 999 || recalculatedSubtotal === 0) ? 0 : 99;
       let couponDiscount = 0;
 
       if (couponCode === 'WELCOME10') {
         couponDiscount = Math.round((recalculatedSubtotal * 10) / 100);
+      } else if (couponCode === 'PRINT20' && recalculatedSubtotal >= 2000) {
+        couponDiscount = Math.round((recalculatedSubtotal * 20) / 100);
+      } else if (couponCode === 'FLAT100' && recalculatedSubtotal >= 999) {
+        couponDiscount = 100;
       } else if (couponCode === 'PRINT50') {
         couponDiscount = 50;
       }
 
-      const grandTotal = Math.max(0, Math.round(recalculatedSubtotal - couponDiscount + expressFee + shippingFee));
-      const advancePaymentAmount = Math.ceil(grandTotal / 2);
-      const remainingPaymentAmount = grandTotal - advancePaymentAmount;
+      const customerState = shippingAddress?.state || customer?.state || '';
+      const taxBreakdown = calculateGstBreakdown({
+        subtotal: recalculatedSubtotal,
+        discount: couponDiscount,
+        shippingFee,
+        expressFee,
+        isShippingTaxable: true,
+        pricesIncludeGst: true,
+        gstRate: 18,
+        customerState
+      });
+
+      const grandTotal = taxBreakdown.finalPayable;
+      const advanceResolution = resolveOrderAdvancePolicy({
+        items: validatedItems,
+        finalPayable: grandTotal
+      });
+
+      const advancePaymentAmount = advanceResolution.advanceAmount;
+      const remainingPaymentAmount = advanceResolution.remainingAmount;
 
       const newOrderRef = adminDb.collection('orders').doc();
       const orderId = newOrderRef.id;
@@ -167,30 +197,49 @@ export default async function handler(req, res) {
         deliveryAddress: typeof shippingAddress === 'string' ? shippingAddress : (shippingAddress?.fullAddress || ''),
         items: validatedItems,
         pricing: {
-          subtotal: recalculatedSubtotal,
+          subtotal: taxBreakdown.subtotal,
           couponCode: couponCode || null,
           couponDiscount,
           expressFee,
           shippingFee,
-          gstPercentage: 18,
-          gstAmount: 0, // GST Inclusive
+          taxableAmount: taxBreakdown.taxableAmount,
+          gstRate: taxBreakdown.gstRate,
+          pricesIncludeGst: taxBreakdown.pricesIncludeGst,
+          isShippingTaxable: taxBreakdown.isShippingTaxable,
+          gstType: taxBreakdown.gstType,
+          isCustomerIntraState: taxBreakdown.isCustomerIntraState,
+          customerState: taxBreakdown.customerState,
+          cgst: taxBreakdown.cgst,
+          sgst: taxBreakdown.sgst,
+          igst: taxBreakdown.igst,
+          totalGst: taxBreakdown.totalGst,
           grandTotal,
           advancePaymentAmount,
           remainingPaymentAmount,
           totalAmount: grandTotal
         },
-        subtotal: recalculatedSubtotal,
+        subtotal: taxBreakdown.subtotal,
         shippingFee,
-        gstAmount: 0,
+        gstAmount: taxBreakdown.totalGst,
         totalAmount: grandTotal,
+        totalPaid: (paymentStatus === 'paid') ? grandTotal : ((paymentStatus === 'Advance Paid') ? advancePaymentAmount : 0),
+        outstandingBalance: (paymentStatus === 'paid') ? 0 : ((paymentStatus === 'Advance Paid') ? remainingPaymentAmount : grandTotal),
+        advancePolicySnapshot: advanceResolution.policySnapshot,
+        installments: advanceResolution.installments,
+        paymentsLedger: [],
+        auditTrail: [{
+          action: 'ORDER_CREATED',
+          changedBy: customer.name || 'Customer Checkout',
+          details: `Order created via ${paymentMethod || 'standard checkout'}. Grand total: ₹${grandTotal}, Advance: ₹${advancePaymentAmount}`,
+          timestamp: new Date().toISOString()
+        }],
         payment: {
           method: paymentMethod || 'cod',
-          status: paymentStatus || (paymentMethod === 'razorpay' ? 'paid' : 'pending'),
-          razorpayPaymentId: razorpayPaymentId || null,
-          paidAt: paymentStatus === 'Advance Paid' ? new Date().toISOString() : null
+          status: paymentStatus || (paymentMethod === 'cashfree' ? 'paid' : 'pending'),
+          paidAt: (paymentStatus === 'Advance Paid' || paymentStatus === 'paid') ? new Date().toISOString() : null
         },
         paymentMethod: paymentMethod || 'cod',
-        paymentStatus: paymentStatus || (paymentMethod === 'razorpay' ? 'paid' : 'pending'),
+        paymentStatus: paymentStatus || (paymentMethod === 'cashfree' ? 'paid' : 'pending'),
         status: (paymentStatus === 'paid' || paymentStatus === 'Advance Paid') ? 'Payment Confirmed' : 'Artwork Verification',
         isExpress: !!isExpress,
         artwork: artwork || [],

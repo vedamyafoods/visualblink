@@ -18,6 +18,7 @@ import { RolePermissionsMatrix } from './components/rbac/RolePermissionsMatrix';
 import { HomepageManager } from './components/homepage/HomepageManager';
 import { WalkInOrderModal } from './components/modals/WalkInOrderModal';
 import { QuickInvoiceModal } from './components/modals/QuickInvoiceModal';
+import { InstallmentManagerHub } from './components/installments/InstallmentManagerHub';
 
 const AdminContent = ({ onSwitchToWebsite }) => {
   const { activeTab } = useAdmin();
@@ -29,6 +30,8 @@ const AdminContent = ({ onSwitchToWebsite }) => {
         return <DashboardOverview />;
       case 'orders':
         return <OrderPipelineHub />;
+      case 'installments':
+        return <InstallmentManagerHub />;
       // case 'design_desk':
       //   return <DesignTicketDesk />;
       case 'catalog':

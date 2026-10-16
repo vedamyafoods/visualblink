@@ -14,12 +14,23 @@ import {
   Clock,
   DollarSign,
   Send,
-  Layers
+  Layers,
+  CreditCard,
+  Link as LinkIcon,
+  Copy,
+  Share2,
+  Check,
+  Plus
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 
 export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
-  const { updateOrderStatus } = useAdmin();
+  const { updateOrderStatus, setActiveTab } = useAdmin();
+  const [generatingInstId, setGeneratingInstId] = useState(null);
+  const [copiedLink, setCopiedLink] = useState('');
+  const [linkResult, setLinkResult] = useState(null);
+  const [modalFeedback, setModalFeedback] = useState('');
+
   if (!isOpen || !order) return null;
 
   const currentStatus = order.status || order.production?.status || 'Payment Confirmed';
@@ -245,8 +256,10 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
                   <span className="font-bold text-slate-900">₹{(order.shippingFee || order.pricing?.shippingFee || 0).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>GST (Inclusive):</span>
-                  <span className="font-bold text-slate-900">Incl. in Total</span>
+                  <span>GST (Total):</span>
+                  <span className="font-bold text-slate-900">
+                    {order.pricing?.totalGst ? `₹${Number(order.pricing.totalGst).toLocaleString()}` : 'Included in Total'}
+                  </span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-slate-200 text-sm font-bold text-blue-600">
                   <span>Total Amount:</span>
@@ -256,16 +269,208 @@ export const AdminOrderDetailModal = ({ isOpen, onClose, order }) => {
             </div>
           </div>
 
+          {/* Installments & Collections Overview Card */}
+          {(() => {
+            const grandTotal = Number(order.pricing?.grandTotal ?? order.totalAmount ?? 0);
+            const paid = Number(
+              order.totalCollected ??
+              order.totalPaid ??
+              order.payment?.paidAmount ??
+              (order.paymentStatus === 'paid' ? grandTotal : 0)
+            );
+            const outstanding = Number(
+              order.outstandingBalance ??
+              order.payment?.remainingBalance ??
+              Math.max(0, grandTotal - paid)
+            );
+
+            const handleGenerateModalPaymentLink = async (inst) => {
+              setGeneratingInstId(inst.installmentId || inst.sequence || 1);
+              setLinkResult(null);
+              setModalFeedback('');
+
+              try {
+                const res = await fetch('/api/generate-payment-link', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    orderId: order.id || order.orderId,
+                    installmentId: inst.installmentId || `inst_${inst.sequence || 1}`,
+                    customAmount: inst.amount - (inst.paidAmount || 0)
+                  })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to create payment link.');
+
+                setLinkResult({
+                  instId: inst.installmentId,
+                  linkUrl: data.linkUrl,
+                  linkId: data.linkId
+                });
+                setModalFeedback('Cashfree link generated!');
+              } catch (err) {
+                alert(`Error generating payment link: ${err.message}`);
+              } finally {
+                setGeneratingInstId(null);
+              }
+            };
+
+            const handleShareWhatsAppModal = (url, amount, instName) => {
+              const rawPhone = (order.customer?.phone || '').replace(/[^0-9]/g, '');
+              const cleanPhone = rawPhone.length === 10 ? `91${rawPhone}` : rawPhone;
+              const msg = `Hello ${order.customer?.name || 'Customer'},\n\nHere is your secure Cashfree payment link for *Order #${order.orderNumber || order.orderId || order.id}* (${instName}):\n*Amount Due: ₹${Number(amount).toLocaleString()}*\n\n👉 Pay securely online here: ${url}\n\nThank you for choosing VisualBlink Printing!`;
+              window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+            };
+
+            return (
+              <div className="bg-white p-5 rounded-2xl border border-purple-200 shadow-2xs space-y-3">
+                <div className="flex items-center justify-between border-b border-purple-100 pb-2.5">
+                  <h4 className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                    <CreditCard className="w-4 h-4 text-purple-600" /> Cashfree Installments & Collections
+                  </h4>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (setActiveTab) setActiveTab('installments');
+                      onClose();
+                    }}
+                    className="px-3 py-1 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs flex items-center gap-1 cursor-pointer border border-purple-200 transition"
+                  >
+                    Open Full Installments Hub →
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Order</span>
+                    <strong className="text-sm font-bold text-slate-900">
+                      ₹{grandTotal.toLocaleString()}
+                    </strong>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100">
+                    <span className="text-[10px] uppercase font-bold text-emerald-600 block">Verified Collected</span>
+                    <strong className="text-sm font-bold text-emerald-700">
+                      ₹{paid.toLocaleString()}
+                    </strong>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-amber-50 border border-amber-100">
+                    <span className="text-[10px] uppercase font-bold text-amber-600 block">Outstanding Balance</span>
+                    <strong className="text-sm font-bold text-amber-700">
+                      ₹{outstanding.toLocaleString()}
+                    </strong>
+                  </div>
+                </div>
+
+                {linkResult && (
+                  <div className="p-3 rounded-xl bg-purple-50 border border-purple-200 text-xs flex items-center justify-between gap-2">
+                    <span className="font-mono text-purple-900 truncate">{linkResult.linkUrl}</span>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(linkResult.linkUrl);
+                          setCopiedLink('Copied');
+                          setTimeout(() => setCopiedLink(''), 2000);
+                        }}
+                        className="px-2.5 py-1 bg-purple-600 text-white rounded-lg font-bold text-[11px] cursor-pointer"
+                      >
+                        {copiedLink ? 'Copied!' : 'Copy'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {order.installments && order.installments.length > 0 && (
+                  <div className="space-y-1.5 pt-1">
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Milestones & Payment Links:</span>
+                    <div className="divide-y divide-slate-100 text-xs">
+                      {order.installments.map((inst, i) => {
+                        const isPaid = inst.status === 'Paid';
+                        const activeUrl = linkResult?.instId === inst.installmentId ? linkResult.linkUrl : inst.paymentLink?.linkUrl;
+
+                        return (
+                          <div key={inst.installmentId || i} className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>
+                                {inst.status}
+                              </span>
+                              <span className="font-bold text-slate-800">{inst.name}</span>
+                            </div>
+
+                            <div className="flex items-center gap-3 justify-between sm:justify-end">
+                              <span className="font-bold font-mono text-slate-900">₹{Number(inst.amount).toLocaleString()}</span>
+
+                              {!isPaid && (
+                                <div className="flex items-center gap-1.5">
+                                  <button
+                                    disabled={generatingInstId === (inst.installmentId || inst.sequence)}
+                                    onClick={() => handleGenerateModalPaymentLink(inst)}
+                                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold text-[11px] flex items-center gap-1 cursor-pointer transition border-none"
+                                  >
+                                    <LinkIcon className="w-3 h-3" />
+                                    {generatingInstId === (inst.installmentId || inst.sequence) ? 'Generating...' : 'Payment Link'}
+                                  </button>
+
+                                  {activeUrl && (
+                                    <>
+                                      <button
+                                        onClick={() => {
+                                          navigator.clipboard.writeText(activeUrl);
+                                          setCopiedLink('Copied');
+                                          setTimeout(() => setCopiedLink(''), 2000);
+                                        }}
+                                        title="Copy Link"
+                                        className="p-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md cursor-pointer"
+                                      >
+                                        <Copy className="w-3 h-3" />
+                                      </button>
+                                      <button
+                                        onClick={() => handleShareWhatsAppModal(activeUrl, inst.amount, inst.name)}
+                                        title="Share on WhatsApp"
+                                        className="p-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-md cursor-pointer"
+                                      >
+                                        <Share2 className="w-3 h-3" />
+                                      </button>
+                                    </>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 bg-slate-100 border-t border-slate-200 flex items-center justify-between">
-          <button
-            onClick={sendWhatsAppProof}
-            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[14px] flex items-center gap-1.5 transition-colors cursor-pointer border-none"
-          >
-            <Send className="w-3.5 h-3.5" /> WhatsApp Status Update
-          </button>
+        <div className="p-4 bg-slate-100 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={sendWhatsAppProof}
+              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[14px] flex items-center gap-1.5 transition-colors cursor-pointer border-none"
+            >
+              <Send className="w-3.5 h-3.5" /> WhatsApp Status Update
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (setActiveTab) setActiveTab('installments');
+                onClose();
+              }}
+              className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-[14px] flex items-center gap-1.5 transition-colors cursor-pointer border-none shadow-sm"
+            >
+              <CreditCard className="w-3.5 h-3.5" /> Manage Installments & Links
+            </button>
+          </div>
 
           <button
             onClick={onClose}

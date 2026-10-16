@@ -63,6 +63,7 @@ export const AdminProvider = ({ children }) => {
   }, []);
   const [userRole, setUserRole] = useState('Super Admin');
   const [orders, setOrders] = useState([]);
+  const [allOrdersRaw, setAllOrdersRaw] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [products, setProducts] = useState([]);
   const [designRequests, setDesignRequests] = useState([]);
@@ -125,8 +126,16 @@ export const AdminProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribeOrders = subscribeToOrders((firestoreOrders) => {
       if (firestoreOrders) {
-        setOrders(firestoreOrders);
-        const extractedCustomers = firestoreOrders.map((o, idx) => ({
+        setAllOrdersRaw(firestoreOrders);
+        // Production orders must strictly exclude in-flight/incomplete checkouts
+        const confirmedOrders = firestoreOrders.filter(o =>
+          !o.isPendingCheckout &&
+          o.status !== 'Payment Pending' &&
+          o.status !== 'Draft' &&
+          o.status !== 'Checkout Pending'
+        );
+        setOrders(confirmedOrders);
+        const extractedCustomers = confirmedOrders.map((o, idx) => ({
           id: `CUST-${100 + idx}`,
           name: o.customer?.name || 'Customer',
           company: o.customer?.company || 'Direct Client',
@@ -359,6 +368,8 @@ export const AdminProvider = ({ children }) => {
       setSearchQuery,
       expressOrdersCount,
       pendingArtworkCount,
+      allOrdersRaw,
+      pendingCheckoutsCount: (allOrdersRaw || []).filter(o => o.isPendingCheckout || o.status === 'Payment Pending' || o.status === 'Draft').length,
     }}>
       {children}
     </AdminContext.Provider>

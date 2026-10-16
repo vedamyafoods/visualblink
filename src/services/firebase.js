@@ -257,10 +257,16 @@ export const subscribeToUserOrders = (userId, userEmail, onUpdate) => {
     const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
     return onSnapshot(q, (snapshot) => {
       const allOrders = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-      const userOrders = allOrders.filter(o =>
-        (userId && o.userId === userId) ||
-        (userEmail && o.customer?.email?.toLowerCase() === userEmail.toLowerCase())
-      );
+      const userOrders = allOrders.filter(o => {
+        // Never show incomplete draft checkouts in customer account
+        if (o.isPendingCheckout || o.status === 'Payment Pending' || o.status === 'Draft' || o.status === 'Checkout Pending') {
+          return false;
+        }
+        return (
+          (userId && o.userId === userId) ||
+          (userEmail && o.customer?.email?.toLowerCase() === userEmail.toLowerCase())
+        );
+      });
       onUpdate(userOrders);
     }, (err) => {
       console.warn("User orders subscription note:", err.message);

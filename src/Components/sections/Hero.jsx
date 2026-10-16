@@ -30,11 +30,30 @@ export function Hero({ setCurrentPage }) {
               <span className="h-[2px] w-8 bg-gradient-to-r from-[#05defd] to-[#6a32f0] inline-block rounded-full" />
             </div>
 
-            {/* Dominant Headline (Matching Screenshot 2) */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-bold text-[#0F172A] leading-[1.06] tracking-tight mb-4">
+            {/* SEO-Only H1 Heading - Hidden with CSS for search engines while keeping UI untouched */}
+            <h1
+              className="sr-only"
+              style={{
+                position: 'absolute',
+                width: '1px',
+                height: '1px',
+                padding: 0,
+                margin: '-1px',
+                overflow: 'hidden',
+                clip: 'rect(0, 0, 0, 0)',
+                whiteSpace: 'nowrap',
+                border: 0,
+                visibility: 'hidden'
+              }}
+            >
+              visualblink | Premium Custom Printing & Packaging Studio
+            </h1>
+
+            {/* Dominant Headline */}
+            <h2 className="text-4xl sm:text-5xl lg:text-[54px] font-bold text-[#0F172A] leading-[1.06] tracking-tight mb-4">
               Ideas in Print. <br />
               <span className="text-gradient">Impact in Real Life.</span>
-            </h1>
+            </h2>
 
             {/* Subtitle */}
             <p className="text-slate-600 text-[15.5px] sm:text-[16.5px] font-normal leading-relaxed mb-8 max-w-lg">

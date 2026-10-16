@@ -21,6 +21,7 @@ import { BlogPage } from './pages/BlogPage'
 import { CartPage } from './pages/CartPage'
 import { CheckoutPage } from './pages/CheckoutPage'
 import { OrderSuccessPage } from './pages/OrderSuccessPage'
+import { PaymentPendingPage, PaymentFailedPage } from './pages/PaymentResultPages'
 import { OrdersPage } from './pages/OrdersPage'
 import { OrderDetailsPage } from './pages/OrderDetailsPage'
 import { CustomQuotePage } from './pages/CustomQuotePage'
@@ -48,6 +49,9 @@ function AppContent() {
 
     const path = window.location.pathname.toLowerCase();
     if (path === '/admin' || path.startsWith('/admin/')) return 'admin';
+    if (path === '/payment/success' || path === '/payment-success') return 'order-success';
+    if (path === '/payment/failed' || path === '/payment-failed') return 'payment-failed';
+    if (path === '/payment/pending' || path === '/payment-pending') return 'payment-pending';
     return 'home';
   };
 
@@ -209,6 +213,16 @@ function AppContent() {
           <OrderSuccessPage
             onNavigateHome={() => setCurrentPage('home')}
             onNavigateOrders={() => setCurrentPage('orders')}
+          />
+        )}
+        {currentPage === 'payment-pending' && (
+          <PaymentPendingPage
+            setCurrentPage={setCurrentPage}
+          />
+        )}
+        {currentPage === 'payment-failed' && (
+          <PaymentFailedPage
+            setCurrentPage={setCurrentPage}
           />
         )}
         {currentPage === 'orders' && (

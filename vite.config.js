@@ -8,6 +8,14 @@ export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd(), '') };
 
   return {
+    server: {
+      headers: {
+        'X-Frame-Options': 'SAMEORIGIN',
+        'X-Content-Type-Options': 'nosniff',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), browsing-topics=()'
+      }
+    },
     plugins: [
       react(),
       tailwindcss(),
@@ -37,6 +45,7 @@ export default defineConfig(({ mode }) => {
                 let bodyStr = '';
                 req.on('data', chunk => { bodyStr += chunk; });
                 req.on('end', async () => {
+                  req.rawBody = bodyStr;
                   try {
                     req.body = bodyStr ? JSON.parse(bodyStr) : {};
                   } catch (e) {

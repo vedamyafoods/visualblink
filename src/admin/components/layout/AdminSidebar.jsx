@@ -19,7 +19,8 @@ import {
   UserCheck,
   ArrowLeftRight,
   X,
-  LogOut
+  LogOut,
+  CreditCard
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 import { useAuth } from '../../../context/AuthContext';
@@ -49,6 +50,13 @@ export const AdminSidebar = ({ onSwitchToWebsite, isMobileOpen, onCloseMobileSid
           icon: Kanban,
           badge: expressOrdersCount > 0 ? `${expressOrdersCount} Express` : null,
           badgeColor: 'bg-red-500 text-white animate-pulse'
+        },
+        {
+          id: 'installments',
+          label: 'Installments & Collections',
+          icon: CreditCard,
+          badge: 'Cashfree',
+          badgeColor: 'bg-purple-600 text-white'
         },
         // Hiding Dedicated Design Assistance Hub per architecture consolidation
         // { 

@@ -16,7 +16,7 @@ import { useAdmin } from '../../context/AdminContext';
 import { AdminOrderDetailModal } from '../modals/AdminOrderDetailModal';
 
 export const OrdersDataTable = () => {
-  const { orders, setSelectedOrder, updateOrderStatus } = useAdmin();
+  const { orders, setSelectedOrder, updateOrderStatus, allOrdersRaw, pendingCheckoutsCount } = useAdmin();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
@@ -26,10 +26,13 @@ export const OrdersDataTable = () => {
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const itemsPerPage = 8;
 
+  // Multi-column filtering: Show pending checkouts ONLY when specifically filtered, otherwise show confirmed orders
+  const baseOrders = statusFilter === 'Payment Pending'
+    ? (allOrdersRaw || []).filter(o => o.isPendingCheckout || o.status === 'Payment Pending' || o.status === 'Draft')
+    : orders;
 
-  // Multi-column filtering
-  const filteredOrders = orders.filter((o) => {
-    const orderId = o.id || '';
+  const filteredOrders = baseOrders.filter((o) => {
+    const orderId = o.id || o.orderId || '';
     const custName = o.customer?.name || '';
     const custPhone = o.customer?.phone || '';
     const custCompany = o.customer?.company || '';
@@ -40,7 +43,7 @@ export const OrdersDataTable = () => {
       custPhone.includes(searchTerm) ||
       custCompany.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesStatus = statusFilter === 'ALL' || o.status === statusFilter;
+    const matchesStatus = statusFilter === 'ALL' || statusFilter === 'Payment Pending' || o.status === statusFilter;
     const matchesExpress = !expressOnly || o.isExpress;
 
     return matchesSearch && matchesStatus && matchesExpress;
@@ -55,7 +58,7 @@ export const OrdersDataTable = () => {
   const exportToCSV = () => {
     const headers = ["Order ID", "Customer", "Company", "Phone", "Status", "Delivery", "Total (INR)", "Created At"];
     const rows = filteredOrders.map(o => [
-      o.id || '',
+      o.id || o.orderId || '',
       `"${o.customer?.name || ''}"`,
       `"${o.customer?.company || ''}"`,
       o.customer?.phone || '',
@@ -86,6 +89,7 @@ export const OrdersDataTable = () => {
           { label: 'Quality Check', value: 'Quality Check', count: orders.filter(o => o.status === 'Quality Check').length },
           { label: 'Dispatched', value: 'Dispatched', count: orders.filter(o => o.status === 'Dispatched').length },
           { label: 'Delivered', value: 'Delivered', count: orders.filter(o => o.status === 'Delivered').length },
+          ...(pendingCheckoutsCount > 0 ? [{ label: 'Incomplete Checkouts', value: 'Payment Pending', count: pendingCheckoutsCount }] : [])
         ].map((pill) => (
           <button
             key={pill.value}
@@ -201,10 +205,13 @@ export const OrdersDataTable = () => {
 
               <div className="flex items-center gap-2">
                 <select
-                  value={order.status}
+                  value={order.status || 'Payment Confirmed'}
                   onChange={(e) => updateOrderStatus(order.id, e.target.value)}
                   className="px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-[14px] font-semibold text-slate-800 focus:outline-none cursor-pointer"
                 >
+                  {(order.status === 'Payment Pending' || order.status === 'Draft') && (
+                    <option value="Payment Pending">⏳ Payment Pending</option>
+                  )}
                   <option value="Payment Confirmed">Payment Confirmed</option>
                   <option value="Artwork Verification">Artwork Verification</option>
                   <option value="In Production">In Production</option>
@@ -296,6 +303,9 @@ export const OrdersDataTable = () => {
                     onChange={(e) => updateOrderStatus(order.id || order.orderId, e.target.value)}
                     className="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-[14px] font-semibold text-slate-800 focus:outline-none focus:border-blue-500 cursor-pointer"
                   >
+                    {(order.status === 'Payment Pending' || order.status === 'Draft') && (
+                      <option value="Payment Pending">⏳ Payment Pending</option>
+                    )}
                     <option value="Payment Confirmed">Payment Confirmed</option>
                     <option value="Artwork Verification">Artwork Verification</option>
                     <option value="In Production">In Production</option>

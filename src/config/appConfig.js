@@ -13,6 +13,7 @@ export const APP_CONFIG = {
   ALLOW_COD: true,
   COD_MIN_ORDER_AMOUNT: 0,
   COD_MAX_ORDER_AMOUNT: 50000,
+  CASHFREE_ENVIRONMENT: import.meta.env.VITE_CASHFREE_ENVIRONMENT || 'production',
   RAZORPAY_KEY_ID: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_51MockKeyIdForVisualBlink',
 
   // Tax & Shipping Configuration
