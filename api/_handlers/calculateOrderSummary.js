@@ -1,6 +1,6 @@
-import { adminDb } from './_services/firebaseAdmin.js';
-import { calculateGstBreakdown } from './_services/taxService.js';
-import { resolveOrderAdvancePolicy, DEFAULT_ADVANCE_POLICY } from './_services/advancePolicyService.js';
+import { adminDb } from '../_services/firebaseAdmin.js';
+import { calculateGstBreakdown } from '../_services/taxService.js';
+import { resolveOrderAdvancePolicy, DEFAULT_ADVANCE_POLICY } from '../_services/advancePolicyService.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');

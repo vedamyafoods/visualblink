@@ -1,4 +1,4 @@
-import { adminDb } from './_services/firebaseAdmin.js';
+import { adminDb } from '../_services/firebaseAdmin.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');

@@ -40,6 +40,23 @@ export default defineConfig(({ mode }) => {
                 } else if (urlPath === '/api/sign-cloudinary' || urlPath === '/api/upload-image') {
                   modulePath = '/api/cloudinary.js';
                   req.query.action = urlPath.replace('/api/', '');
+                } else if (
+                  urlPath === '/api/calculate-order-summary' ||
+                  urlPath === '/api/create-order' ||
+                  urlPath === '/api/update-order-admin' ||
+                  urlPath === '/api/sync-guest-orders'
+                ) {
+                  modulePath = '/api/order.js';
+                  req.query.action = urlPath.replace('/api/', '');
+                } else if (
+                  urlPath === '/api/create-cashfree-order' ||
+                  urlPath === '/api/verify-cashfree-payment' ||
+                  urlPath === '/api/generate-payment-link' ||
+                  urlPath === '/api/record-manual-payment' ||
+                  urlPath === '/api/manage-installment-schedule'
+                ) {
+                  modulePath = '/api/payment.js';
+                  req.query.action = urlPath.replace('/api/', '');
                 }
 
                 let bodyStr = '';

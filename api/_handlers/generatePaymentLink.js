@@ -1,5 +1,5 @@
-import { adminDb } from './_services/firebaseAdmin.js';
-import { createCashfreePaymentLink } from './_services/cashfreeService.js';
+import { adminDb } from '../_services/firebaseAdmin.js';
+import { createCashfreePaymentLink } from '../_services/cashfreeService.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');

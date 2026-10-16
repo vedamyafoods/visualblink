@@ -48,6 +48,42 @@
       "destination": "/api/cloudinary"
     },
     {
+      "source": "/api/calculate-order-summary",
+      "destination": "/api/order?action=calculate-summary"
+    },
+    {
+      "source": "/api/create-order",
+      "destination": "/api/order?action=create"
+    },
+    {
+      "source": "/api/update-order-admin",
+      "destination": "/api/order?action=update-admin"
+    },
+    {
+      "source": "/api/sync-guest-orders",
+      "destination": "/api/order?action=sync-guest"
+    },
+    {
+      "source": "/api/create-cashfree-order",
+      "destination": "/api/payment?action=create-order"
+    },
+    {
+      "source": "/api/verify-cashfree-payment",
+      "destination": "/api/payment?action=verify-payment"
+    },
+    {
+      "source": "/api/generate-payment-link",
+      "destination": "/api/payment?action=generate-link"
+    },
+    {
+      "source": "/api/record-manual-payment",
+      "destination": "/api/payment?action=record-manual"
+    },
+    {
+      "source": "/api/manage-installment-schedule",
+      "destination": "/api/payment?action=manage-schedule"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/$1"
     },

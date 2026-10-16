@@ -556,3 +556,21 @@ export default async function handler(req, res) {
     });
   }
 }
+
+/**
+ * Direct programmatic trigger for confirmation emails
+ */
+export async function triggerOrderConfirmationEmail(orderId, docId) {
+  try {
+    const resMock = {
+      setHeader: () => resMock,
+      status: () => resMock,
+      json: (d) => d,
+      end: () => resMock
+    };
+    await handler({ method: 'POST', body: { orderId, docId } }, resMock);
+  } catch (err) {
+    console.error('[triggerOrderConfirmationEmail Error]', err.message);
+  }
+}
+

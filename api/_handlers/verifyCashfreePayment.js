@@ -1,6 +1,6 @@
-import { adminDb } from './_services/firebaseAdmin.js';
-import { getCashfreeOrderPayments } from './_services/cashfreeService.js';
-import { triggerOrderConfirmationEmail } from './send-order-email.js';
+import { adminDb } from '../_services/firebaseAdmin.js';
+import { getCashfreeOrderPayments } from '../_services/cashfreeService.js';
+import { triggerOrderConfirmationEmail } from '../send-order-email.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');

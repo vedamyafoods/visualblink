@@ -1,4 +1,4 @@
-import { adminDb } from './_services/firebaseAdmin.js';
+import { adminDb } from '../_services/firebaseAdmin.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       orderId,
       installmentId,
       amount,
-      paymentMethod = 'Bank Transfer', // Bank Transfer, UPI, Cash, Cheque, Other
+      paymentMethod = 'Bank Transfer',
       utrReference = '',
       paymentDate,
       receiptUrl = '',
@@ -133,7 +133,7 @@ export default async function handler(req, res) {
     const newLedgerRecord = {
       paymentId: manualPaymentId,
       installmentId: installmentId || installments[0]?.installmentId || 'inst_1',
-      source: 'manual', // Explicitly marked as manual, never Cashfree
+      source: 'manual',
       amount: numericAmount,
       currency: 'INR',
       status: 'VERIFIED',
@@ -158,7 +158,6 @@ export default async function handler(req, res) {
       installments,
       paymentsLedger: [...paymentsLedger, newLedgerRecord],
       paymentStatus,
-      // If was unpaid or payment pending, move forward
       status: orderData.status === 'Payment Pending' ? 'Payment Confirmed' : orderData.status,
       auditTrail: [...(orderData.auditTrail || []), auditEntry],
       updatedAt: new Date().toISOString()

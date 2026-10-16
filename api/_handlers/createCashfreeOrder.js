@@ -1,8 +1,8 @@
 import crypto from 'crypto';
-import { adminDb } from './_services/firebaseAdmin.js';
-import { calculateGstBreakdown } from './_services/taxService.js';
-import { resolveOrderAdvancePolicy, DEFAULT_ADVANCE_POLICY } from './_services/advancePolicyService.js';
-import { createCashfreeOrder } from './_services/cashfreeService.js';
+import { adminDb } from '../_services/firebaseAdmin.js';
+import { calculateGstBreakdown } from '../_services/taxService.js';
+import { resolveOrderAdvancePolicy, DEFAULT_ADVANCE_POLICY } from '../_services/advancePolicyService.js';
+import { createCashfreeOrder } from '../_services/cashfreeService.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -143,8 +143,6 @@ export default async function handler(req, res) {
     const requiredAdvanceAmount = advanceResolution.advanceAmount;
 
     // 2. Safe Checkout Session Resolution (Prevent duplicate sessions on retries)
-    // NOTE: In-flight checkouts are saved in 'checkout_sessions', NEVER in 'orders'!
-    // A document only enters 'orders' once online payment is completed and verified.
     let sessionDocRef = null;
     let sessionData = null;
     let internalOrderId = null;
@@ -241,7 +239,7 @@ export default async function handler(req, res) {
           advancePolicySnapshot: advanceResolution.policySnapshot,
           installments: advanceResolution.installments,
           paymentMethod: 'cashfree',
-          paymentStatus: 'pending', // pending, partial, paid, failed
+          paymentStatus: 'pending',
           status: 'Payment Pending',
           isPendingCheckout: true,
           isExpress: !!isExpress,
@@ -270,7 +268,6 @@ export default async function handler(req, res) {
     }
 
     // 3. Create Cashfree Payment Order
-    // Cashfree order_id: must be unique per payment attempt, prefixed with internal order
     const cfAttemptId = `cf_${orderNumber}_${Date.now()}_${crypto.randomBytes(3).toString('hex')}`;
     const returnUrl = `${process.env.APP_BASE_URL || 'http://localhost:5173'}/payment-callback?order_id=${orderNumber}&cf_order_id={order_id}`;
 
@@ -320,7 +317,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // 5. Return payment session to frontend (Never return secrets!)
+    // 5. Return payment session to frontend
     return res.status(200).json({
       success: true,
       internalOrderId,

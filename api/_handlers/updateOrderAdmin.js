@@ -1,5 +1,5 @@
-import { adminDb } from './_services/firebaseAdmin.js';
-import { mailService } from './_services/mailService.js';
+import { adminDb } from '../_services/firebaseAdmin.js';
+import { mailService } from '../_services/mailService.js';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
     try {
-        const { orderId, newStatus } = req.body;
+        const { orderId, newStatus } = req.body || {};
         if (!orderId || !newStatus) return res.status(400).json({ error: 'Missing orderId or newStatus' });
 
         if (!adminDb) return res.status(500).json({ error: 'Firebase Admin not initialized' });
@@ -32,7 +32,6 @@ export default async function handler(req, res) {
 
         // Step 3: Check if Dispatched to handle Remaining 50%
         const isDispatched = newStatus === 'Dispatched';
-        let finalPaymentLink = '';
 
         // We can direct them to the account page to pay the remaining
         const accountUrl = `${process.env.APP_BASE_URL || 'https://visualblink.com'}/account?track=${orderData.orderId || orderId}`;

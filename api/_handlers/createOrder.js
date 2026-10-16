@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
-import { adminDb } from './_services/firebaseAdmin.js';
-import { calculateGstBreakdown } from './_services/taxService.js';
-import { resolveOrderAdvancePolicy } from './_services/advancePolicyService.js';
+import { adminDb } from '../_services/firebaseAdmin.js';
+import { calculateGstBreakdown } from '../_services/taxService.js';
+import { resolveOrderAdvancePolicy } from '../_services/advancePolicyService.js';
 
 function getTransporter() {
   const host = process.env.SMTP_HOST;
