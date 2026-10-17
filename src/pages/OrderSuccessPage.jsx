@@ -9,7 +9,7 @@ import {
   FiFileText,
   FiShield,
   FiMail,
-  FiPrinter,
+  FiDownload,
   FiCreditCard,
   FiCheck,
   FiAlertCircle
@@ -17,7 +17,7 @@ import {
 import { subscribeToOrderById } from '../services/firebase';
 import { InvoiceModal } from '../Components/orders/InvoiceModal';
 
-export function OrderSuccessPage({ setCurrentPage }) {
+export function OrderSuccessPage({ setCurrentPage, onNavigateHome, onNavigateOrders }) {
   const getSearchParams = () => new URLSearchParams(window.location.search);
   const orderId = getSearchParams().get('orderId') || 'PRT-100000';
 
@@ -57,10 +57,6 @@ export function OrderSuccessPage({ setCurrentPage }) {
   const expressFee = isExpress ? (pricing.expressFee || 299) : 0;
   const taxableAmount = pricing.taxableAmount || subtotal;
   const totalGst = pricing.totalGst || 0;
-  const cgst = pricing.cgst || 0;
-  const sgst = pricing.sgst || 0;
-  const igst = pricing.igst || 0;
-  const isIntraState = pricing.isCustomerIntraState ?? true;
   const gstRate = pricing.gstRate || 18;
 
   // Payments & Ledger
@@ -255,27 +251,8 @@ export function OrderSuccessPage({ setCurrentPage }) {
               <span>Taxable Value of Goods & Logistics</span>
               <span className="font-semibold text-slate-800">₹{taxableAmount.toLocaleString()}</span>
             </div>
-
-            {isIntraState ? (
-              <>
-                <div className="flex justify-between">
-                  <span>CGST ({gstRate / 2}%)</span>
-                  <span className="font-semibold text-slate-800">₹{cgst.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>SGST ({gstRate / 2}%)</span>
-                  <span className="font-semibold text-slate-800">₹{sgst.toLocaleString()}</span>
-                </div>
-              </>
-            ) : (
-              <div className="flex justify-between">
-                <span>IGST ({gstRate}%)</span>
-                <span className="font-semibold text-slate-800">₹{igst.toLocaleString()}</span>
-              </div>
-            )}
-
             <div className="flex justify-between text-slate-800 font-bold pt-2 border-t border-slate-200">
-              <span>Total GST Snapshot ({gstRate}%)</span>
+              <span>Total GST (18%)</span>
               <span>₹{totalGst.toLocaleString()}</span>
             </div>
           </div>
@@ -312,25 +289,48 @@ export function OrderSuccessPage({ setCurrentPage }) {
             onClick={() => setIsInvoiceOpen(true)}
             className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[13.5px] uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition border-none"
           >
-            <FiPrinter className="w-4 h-4" /> Download Official Tax Invoice
+            <FiDownload className="w-4 h-4" /> Download Official Tax Invoice (JPG)
           </button>
 
           <button
-            onClick={() => setCurrentPage('order-details', { orderId })}
+            onClick={() => {
+              const targetId = order?.orderId || order?.id || orderId;
+              if (typeof setCurrentPage === 'function') {
+                setCurrentPage('order-details', { orderId: targetId, id: targetId });
+              } else {
+                window.location.href = `/?page=order-details&orderId=${targetId}`;
+              }
+            }}
             className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[13.5px] uppercase tracking-wider shadow-md shadow-[#025afc]/20 flex items-center justify-center gap-2 cursor-pointer transition border-none"
           >
             <FiTruck className="w-4 h-4" /> Track Order in Real-Time
           </button>
 
           <button
-            onClick={() => setCurrentPage('account')}
+            onClick={() => {
+              if (typeof setCurrentPage === 'function') {
+                setCurrentPage('orders');
+              } else if (typeof onNavigateOrders === 'function') {
+                onNavigateOrders();
+              } else {
+                window.location.href = '/?page=orders';
+              }
+            }}
             className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#07152F] hover:bg-slate-800 text-white font-bold text-[13.5px] uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition border-none"
           >
             <FiFileText className="w-4 h-4" /> View My Orders
           </button>
 
           <button
-            onClick={() => setCurrentPage('products')}
+            onClick={() => {
+              if (typeof setCurrentPage === 'function') {
+                setCurrentPage('products');
+              } else if (typeof onNavigateHome === 'function') {
+                onNavigateHome();
+              } else {
+                window.location.href = '/?page=products';
+              }
+            }}
             className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold text-[13.5px] uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition"
           >
             <FiShoppingBag className="w-4 h-4" /> Continue Shopping

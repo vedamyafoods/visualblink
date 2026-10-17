@@ -157,8 +157,8 @@ export default async function handler(req, res) {
         discount: couponDiscount,
         shippingFee,
         expressFee,
-        isShippingTaxable: true,
-        pricesIncludeGst: true,
+        isShippingTaxable: false,
+        pricesIncludeGst: false,
         gstRate: 18,
         customerState
       });

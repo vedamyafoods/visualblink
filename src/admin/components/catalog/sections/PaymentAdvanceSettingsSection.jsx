@@ -371,7 +371,7 @@ export const PaymentAdvanceSettingsSection = ({ formData, setFormData }) => {
               </div>
             </div>
             <p className="text-[11.5px] text-slate-500 font-medium">
-              Tax is calculated with integer paise precision and automatically partitioned into CGST (9%) + SGST (9%) for Karnataka buyers or IGST (18%) for inter-state deliveries.
+              Tax is calculated with integer paise precision as unified Total Tax (GST 18%).
             </p>
           </div>
 

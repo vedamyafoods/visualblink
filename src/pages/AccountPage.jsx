@@ -82,6 +82,24 @@ export function AccountPage({ setCurrentPage }) {
     }
   }, [currentUser, userProfile]);
 
+  // Deduplicate saved addresses list by addressLine1, city, and pincode
+  const uniqueAddresses = (userProfile?.addresses || []).reduce((acc, addr) => {
+    const isDup = acc.some(a => 
+      (a.addressLine1 || '').trim().toLowerCase() === (addr.addressLine1 || '').trim().toLowerCase() &&
+      (a.city || '').trim().toLowerCase() === (addr.city || '').trim().toLowerCase() &&
+      (a.pincode || '').trim() === (addr.pincode || '').trim()
+    );
+    if (!isDup) acc.push(addr);
+    return acc;
+  }, []);
+
+  // Silently clean up duplicate addresses in Firestore
+  useEffect(() => {
+    if (userProfile?.addresses && userProfile.addresses.length > uniqueAddresses.length && updateUserProfile) {
+      updateUserProfile({ addresses: uniqueAddresses }).catch(() => {});
+    }
+  }, [userProfile?.addresses?.length, uniqueAddresses.length]);
+
   // Subscribe to logged-in user's real-time orders in Firestore
   useEffect(() => {
     if (currentUser) {
@@ -516,7 +534,7 @@ export function AccountPage({ setCurrentPage }) {
                   </button>
                 </div>
 
-                {(!userProfile?.addresses || userProfile.addresses.length === 0) ? (
+                {(!uniqueAddresses || uniqueAddresses.length === 0) ? (
                   <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
                     <FiMapPin className="w-8 h-8 text-slate-300 mx-auto" />
                     <h4 className="font-bold text-slate-900 text-sm">No Shipping Addresses Saved Yet</h4>
@@ -532,7 +550,7 @@ export function AccountPage({ setCurrentPage }) {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {userProfile.addresses.map((addr) => (
+                    {uniqueAddresses.map((addr) => (
                       <div
                         key={addr.id}
                         className={`bg-white p-5 rounded-3xl border transition relative flex flex-col justify-between ${addr.isDefault ? 'border-[#025afc] shadow-sm ring-1 ring-[#025afc]/20' : 'border-slate-200 hover:border-slate-300'

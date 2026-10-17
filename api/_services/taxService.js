@@ -6,7 +6,8 @@
  * Inter-state transactions apply IGST.
  */
 
-export const MERCHANT_STATE = 'Karnataka';
+export const MERCHANT_STATE = 'Madhya Pradesh';
+export const MERCHANT_GSTIN = '23AVCPL5031D1Z6';
 export const DEFAULT_GST_RATE = 18; // 18% standard GST rate for commercial printing
 
 /**
@@ -18,12 +19,12 @@ export function normalizeState(state) {
 }
 
 /**
- * Determines whether a transaction is Intra-state (CGST + SGST) or Inter-state (IGST)
+ * Determines whether a transaction is Intra-state (CGST + SGST)
  */
 export function isIntraStateTransaction(customerState, merchantState = MERCHANT_STATE) {
   const normCustomer = normalizeState(customerState);
   const normMerchant = normalizeState(merchantState);
-  if (!normCustomer) return false; // Default to IGST if customer state is unknown
+  if (!normCustomer) return true;
   return normCustomer === normMerchant;
 }
 
@@ -35,9 +36,9 @@ export function isIntraStateTransaction(customerState, merchantState = MERCHANT_
  * @param {number} params.discount - Applicable discount in Rupees
  * @param {number} params.shippingFee - Shipping fee in Rupees
  * @param {number} [params.expressFee=0] - Express turnaround fee in Rupees
- * @param {boolean} [params.isShippingTaxable=true] - Whether shipping and express fee are taxable
+ * @param {boolean} [params.isShippingTaxable=false] - Whether shipping and express fee are taxable (default false to avoid extra shipping surcharge)
  * @param {boolean} [params.pricesIncludeGst=true] - Whether product prices already include GST
- * @param {number} [params.gstRate=DEFAULT_GST_RATE] - GST percentage (e.g. 18 for 18%)
+ * @param {number} [params.gstRate=DEFAULT_GST_RATE] - GST percentage (18 for 18%)
  * @param {string} [params.customerState=''] - Customer delivery state
  * @param {string} [params.merchantState=MERCHANT_STATE] - Merchant origin state
  * 
@@ -48,7 +49,7 @@ export function calculateGstBreakdown({
   discount = 0,
   shippingFee = 0,
   expressFee = 0,
-  isShippingTaxable = true,
+  isShippingTaxable = false,
   pricesIncludeGst = true,
   gstRate = DEFAULT_GST_RATE,
   customerState = '',
@@ -66,53 +67,34 @@ export function calculateGstBreakdown({
   const expressPaise = Math.round(Math.max(0, Number(expressFee) || 0) * 100);
   const totalLogisticsPaise = shippingPaise + expressPaise;
 
-  let taxableGoodsPaise = 0;
-  let gstOnGoodsPaise = 0;
+  let taxableGoodsPaise = netGoodsPaise;
+  let gstOnGoodsPaise = effectiveGstRate > 0 ? Math.round((taxableGoodsPaise * effectiveGstRate) / 100) : 0;
 
   if (pricesIncludeGst && effectiveGstRate > 0) {
-    // Reverse-calculate taxable amount from inclusive price:
-    // Taxable = Inclusive / (1 + Rate / 100) = (Inclusive * 10000) / (10000 + Rate * 100)
-    taxableGoodsPaise = Math.round((netGoodsPaise * 100) / (100 + effectiveGstRate));
-    gstOnGoodsPaise = netGoodsPaise - taxableGoodsPaise;
-  } else {
-    // Exclusive: Taxable is the net price, GST is added on top
+    // If explicitly configured inclusive, taxable is netGoods
     taxableGoodsPaise = netGoodsPaise;
-    gstOnGoodsPaise = effectiveGstRate > 0 ? Math.round((taxableGoodsPaise * effectiveGstRate) / 100) : 0;
+    gstOnGoodsPaise = Math.round((netGoodsPaise * effectiveGstRate) / 100);
   }
 
-  // Calculate tax on logistics (shipping & express turnaround)
-  let taxableLogisticsPaise = totalLogisticsPaise;
+  // Calculate tax on logistics only if explicitly configured
+  let taxableLogisticsPaise = 0;
   let gstOnLogisticsPaise = 0;
 
   if (isShippingTaxable && totalLogisticsPaise > 0 && effectiveGstRate > 0) {
-    // Shipping prices are quoted exclusive in current cart UI, so GST is applied on shipping
+    taxableLogisticsPaise = totalLogisticsPaise;
     gstOnLogisticsPaise = Math.round((taxableLogisticsPaise * effectiveGstRate) / 100);
   }
 
-  const totalTaxablePaise = taxableGoodsPaise + taxableLogisticsPaise;
+  const totalTaxablePaise = taxableGoodsPaise; // Taxable value of goods and services is exactly net product subtotal
   const totalGstPaise = gstOnGoodsPaise + gstOnLogisticsPaise;
 
-  let cgstPaise = 0;
-  let sgstPaise = 0;
-  let igstPaise = 0;
+  // Split all GST equally into CGST & SGST (9% each for 18% GST).
+  const cgstPaise = Math.floor(totalGstPaise / 2);
+  const sgstPaise = totalGstPaise - cgstPaise;
+  const igstPaise = 0;
 
-  if (intraState) {
-    // Intra-state: Split equally into CGST & SGST
-    cgstPaise = Math.floor(totalGstPaise / 2);
-    sgstPaise = totalGstPaise - cgstPaise; // Prevent rounding drop
-  } else {
-    // Inter-state: Full tax is IGST
-    igstPaise = totalGstPaise;
-  }
-
-  let finalPayablePaise = 0;
-  if (pricesIncludeGst) {
-    // Goods already have GST included; add logistics and tax on logistics
-    finalPayablePaise = netGoodsPaise + totalLogisticsPaise + gstOnLogisticsPaise;
-  } else {
-    // Goods are GST exclusive; add tax on goods and tax on logistics
-    finalPayablePaise = totalTaxablePaise + totalGstPaise;
-  }
+  // Final Payable = Taxable Goods + GST (18%) + Shipping Logistics
+  const finalPayablePaise = taxableGoodsPaise + totalGstPaise + totalLogisticsPaise;
 
   return {
     subtotal: subtotalPaise / 100,
@@ -120,18 +102,18 @@ export function calculateGstBreakdown({
     shippingFee: shippingPaise / 100,
     expressFee: expressPaise / 100,
     taxableAmount: totalTaxablePaise / 100,
+    taxableGoodsAmount: taxableGoodsPaise / 100,
     gstRate: effectiveGstRate,
     pricesIncludeGst,
     isShippingTaxable,
-    gstType: intraState ? 'CGST_SGST' : 'IGST',
-    isCustomerIntraState: intraState,
-    customerState: customerState || 'Unspecified (IGST Default)',
+    gstType: 'CGST_SGST',
+    isCustomerIntraState: true,
+    customerState: customerState || 'Madhya Pradesh',
     cgst: cgstPaise / 100,
     sgst: sgstPaise / 100,
-    igst: igstPaise / 100,
+    igst: 0,
     totalGst: totalGstPaise / 100,
     finalPayable: finalPayablePaise / 100,
-    // Exact paise for strict database ledger reconciliation
     paiseBreakdown: {
       subtotalPaise,
       discountPaise,
@@ -141,7 +123,7 @@ export function calculateGstBreakdown({
       totalGstPaise,
       cgstPaise,
       sgstPaise,
-      igstPaise,
+      igstPaise: 0,
       finalPayablePaise
     }
   };

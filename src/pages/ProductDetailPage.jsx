@@ -418,6 +418,16 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
     // Use already calculated summary
     const dynamicOptionsSummary = dynamicOptionsSummaryForUI;
+    const currentBasePrice = activeTier ? activeTier.pricePerUnit : (product.basePrice || product.price || 5.0);
+
+    const serviceBreakdown = (orderSummaryItems || []).map(item => ({
+      label: item.label,
+      value: item.value,
+      rate: item.isBase ? currentBasePrice : (item.priceModifier || 0),
+      amount: item.isBase
+        ? Math.round(currentBasePrice * Math.max(1, quantity) * 100) / 100
+        : Math.round((item.priceModifier || 0) * Math.max(1, quantity) * 100) / 100
+    }));
 
     addToCart({
       id: product.id,
@@ -425,6 +435,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
       qty: quantity,
       selectedOptions: { ...selectedVariants, ...dynamicOptionsSummary },
       dynamicFormValues: dynamicValues,
+      serviceBreakdown,
       paper: selectedVariants.paperStock || '',
       finish: selectedVariants.finishes || '',
       sides: selectedVariants.sides || '',
@@ -453,11 +464,22 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
   };
 
   const handleConfirmArtworkUpload = ({ artworkFiles, artworkNotes }) => {
+    const currentBasePrice = activeTier ? activeTier.pricePerUnit : (product.basePrice || product.price || 5.0);
+    const serviceBreakdown = (orderSummaryItems || []).map(item => ({
+      label: item.label,
+      value: item.value,
+      rate: item.isBase ? currentBasePrice : (item.priceModifier || 0),
+      amount: item.isBase
+        ? Math.round(currentBasePrice * Math.max(1, quantity) * 100) / 100
+        : Math.round((item.priceModifier || 0) * Math.max(1, quantity) * 100) / 100
+    }));
+
     addToCart({
       id: product.id,
       name: product.title || product.name,
       qty: quantity,
       selectedOptions: selectedVariants,
+      serviceBreakdown,
       paper: selectedVariants.paperStock || '',
       finish: selectedVariants.finishes || '',
       sides: selectedVariants.sides || '',

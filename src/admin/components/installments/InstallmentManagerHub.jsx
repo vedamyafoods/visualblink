@@ -487,11 +487,9 @@ export const InstallmentManagerHub = ({ initialSelectedOrderId = null }) => {
                       <strong className="text-slate-900">₹{selectedOrderFinancials.grandTotal.toLocaleString()}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">GST Breakdown:</span>
+                      <span className="text-slate-500">Total Tax (GST 18%):</span>
                       <span className="font-bold text-slate-700">
-                        {selectedOrder.pricing?.gstType === 'CGST_SGST'
-                          ? `CGST: ₹${selectedOrder.pricing?.cgst} | SGST: ₹${selectedOrder.pricing?.sgst}`
-                          : `IGST (18%): ₹${selectedOrder.pricing?.totalGst || 0}`}
+                        ₹{selectedOrder.pricing?.totalGst || 0}
                       </span>
                     </div>
                     <div className="flex justify-between text-emerald-700 font-bold">

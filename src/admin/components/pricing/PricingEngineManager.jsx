@@ -80,7 +80,7 @@ export const PricingEngineManager = () => {
                 />
                 <span className="font-bold text-slate-500">% GST</span>
               </div>
-              <p className="text-[14px] text-slate-500 mt-1">Applied automatically to subtotal as IGST (18%) or CGST+SGST (9%+9%).</p>
+              <p className="text-[14px] text-slate-500 mt-1">Applied automatically to subtotal as Total Tax (GST 18%).</p>
             </div>
           </div>
         </div>

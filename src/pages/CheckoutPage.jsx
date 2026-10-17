@@ -16,7 +16,8 @@ import {
   FiFileText,
   FiPlus,
   FiX,
-  FiChevronDown
+  FiChevronDown,
+  FiTrash2
 } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import { APP_CONFIG } from '../config/appConfig';
@@ -24,7 +25,7 @@ import { addOrderToFirestore, createOrderOnServerApi } from '../services/firebas
 import { triggerOrderConfirmationEmail } from '../services/emailService';
 
 export function CheckoutPage({ setCurrentPage }) {
-  const { cartItems, clearCart, currentUser, userProfile, saveAddress, updateUserProfile } = useAuth();
+  const { cartItems, clearCart, currentUser, userProfile, saveAddress, updateUserProfile, deleteAddress } = useAuth();
 
   // Search parameters for express & coupon passed from Cart
   const getSearchParams = () => new URLSearchParams(window.location.search);
@@ -92,6 +93,24 @@ export function CheckoutPage({ setCurrentPage }) {
     }
   }, [isTermsModalOpen]);
 
+  // Deduplicate saved addresses list by addressLine1, city, and pincode
+  const uniqueSavedAddresses = (userProfile?.addresses || []).reduce((acc, addr) => {
+    const isDup = acc.some(a => 
+      (a.addressLine1 || '').trim().toLowerCase() === (addr.addressLine1 || '').trim().toLowerCase() &&
+      (a.city || '').trim().toLowerCase() === (addr.city || '').trim().toLowerCase() &&
+      (a.pincode || '').trim() === (addr.pincode || '').trim()
+    );
+    if (!isDup) acc.push(addr);
+    return acc;
+  }, []);
+
+  // Silently clean up duplicates in Firestore if any exist
+  useEffect(() => {
+    if (userProfile?.addresses && userProfile.addresses.length > uniqueSavedAddresses.length && updateUserProfile) {
+      updateUserProfile({ addresses: uniqueSavedAddresses }).catch(() => {});
+    }
+  }, [userProfile?.addresses?.length, uniqueSavedAddresses.length]);
+
   // Auto-fill logged-in user details & default address
   useEffect(() => {
     if (currentUser || userProfile) {
@@ -104,13 +123,13 @@ export function CheckoutPage({ setCurrentPage }) {
         if (userProfile.gstin) setGstin(userProfile.gstin);
       }
 
-      const defaultAddr = (userProfile?.addresses || []).find(a => a.isDefault) || (userProfile?.addresses || [])[0];
+      const defaultAddr = uniqueSavedAddresses.find(a => a.isDefault) || uniqueSavedAddresses[0];
       if (defaultAddr) {
         setSelectedAddressId(defaultAddr.id);
         setAddressLine1(defaultAddr.addressLine1 || '');
         setAddressLine2(defaultAddr.addressLine2 || '');
-        setCity(defaultAddr.city || 'Bengaluru');
-        setState(defaultAddr.state || 'Karnataka');
+        setCity(defaultAddr.city || 'Indore');
+        setState(defaultAddr.state || 'Madhya Pradesh');
         setPincode(defaultAddr.pincode || '');
         setLandmark(defaultAddr.landmark || '');
         if (defaultAddr.phone) setCustomerPhone(defaultAddr.phone);
@@ -193,33 +212,18 @@ export function CheckoutPage({ setCurrentPage }) {
   // Intra-state vs Inter-state check (Merchant origin state: Karnataka)
   const isIntraState = serverSummary ? serverSummary.isCustomerIntraState : (state || '').trim().toLowerCase() === 'karnataka';
   const gstRate = serverSummary?.gstRate ?? 18;
-  const pricesIncludeGst = serverSummary?.pricesIncludeGst ?? true;
+  const pricesIncludeGst = serverSummary?.pricesIncludeGst ?? false;
 
-  // Taxable Value
+  // Taxable Value is strictly the net product subtotal (Goods & Services value)
   const netGoods = Math.max(0, subtotal - couponDiscount);
   const totalLogistics = shipping + expressFee;
-  const taxableAmount = serverSummary?.taxableAmount ?? (
-    pricesIncludeGst
-      ? Math.round((netGoods * 100) / (100 + gstRate)) + totalLogistics
-      : (netGoods + totalLogistics)
-  );
+  const taxableAmount = serverSummary?.taxableAmount ?? netGoods;
 
-  // GST Breakdown
-  const gstOnGoods = pricesIncludeGst
-    ? (netGoods - Math.round((netGoods * 100) / (100 + gstRate)))
-    : Math.round((netGoods * gstRate) / 100);
-  const gstOnLogistics = Math.round((totalLogistics * gstRate) / 100);
-  const totalGst = serverSummary?.totalGst ?? (gstOnGoods + gstOnLogistics);
+  // GST 18% on Taxable Goods & Services
+  const totalGst = serverSummary?.totalGst ?? Math.round((taxableAmount * gstRate) / 100);
 
-  const cgst = serverSummary?.cgst ?? (isIntraState ? Math.floor(totalGst / 2) : 0);
-  const sgst = serverSummary?.sgst ?? (isIntraState ? (totalGst - cgst) : 0);
-  const igst = serverSummary?.igst ?? (!isIntraState ? totalGst : 0);
-
-  const grandTotal = serverSummary?.finalPayable ?? (
-    pricesIncludeGst
-      ? (netGoods + totalLogistics + gstOnLogistics)
-      : (taxableAmount + totalGst)
-  );
+  // Grand Total: Taxable Goods + Total GST (18%) + Shipping Logistics
+  const grandTotal = serverSummary?.finalPayable ?? Math.round(taxableAmount + totalGst + totalLogistics);
 
   // Dynamic Advance Policy Resolution
   const advancePercentage = serverSummary?.advancePercentage ?? 50;
@@ -742,7 +746,7 @@ export function CheckoutPage({ setCurrentPage }) {
               </div>
 
               {/* Saved Address Quick Selector if user has profile addresses */}
-              {userProfile?.addresses && userProfile.addresses.length > 0 && (
+              {uniqueSavedAddresses && uniqueSavedAddresses.length > 0 && (
                 <div className="space-y-2 pb-2">
                   <div className="flex items-center justify-between">
                     <span className="text-[14px] font-bold text-slate-400 uppercase tracking-wider">Select Saved Address:</span>
@@ -757,14 +761,13 @@ export function CheckoutPage({ setCurrentPage }) {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {userProfile.addresses.map((addr) => {
+                    {uniqueSavedAddresses.map((addr) => {
                       const isSelected = selectedAddressId === addr.id;
                       return (
-                        <button
+                        <div
                           key={addr.id}
-                          type="button"
                           onClick={() => handleSelectSavedAddress(addr)}
-                          className={`p-3.5 rounded-2xl border text-left text-[14px] transition cursor-pointer relative ${isSelected
+                          className={`p-3.5 rounded-2xl border text-left text-[14px] transition cursor-pointer relative flex flex-col justify-between ${isSelected
                             ? 'border-[#025afc] bg-blue-50/40 ring-2 ring-[#025afc]/20'
                             : 'border-slate-200 bg-[#F7F8FA] hover:border-slate-300'
                             }`}
@@ -774,15 +777,33 @@ export function CheckoutPage({ setCurrentPage }) {
                               {isSelected && <FiCheckCircle className="w-3.5 h-3.5 text-[#025afc] shrink-0" />}
                               {addr.name || customerName || 'Saved Address'}
                             </span>
-                            <span className={`px-2 py-0.5 rounded-md text-[9.5px] uppercase font-bold shrink-0 ${isSelected ? 'bg-[#025afc] text-white' : 'bg-slate-200 text-slate-700'
-                              }`}>
-                              {addr.type || (addr.isDefault ? 'Default' : 'Address')}
-                            </span>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <span className={`px-2 py-0.5 rounded-md text-[9.5px] uppercase font-bold ${isSelected ? 'bg-[#025afc] text-white' : 'bg-slate-200 text-slate-700'
+                                }`}>
+                                {addr.type || (addr.isDefault ? 'Default' : 'Address')}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (window.confirm('Delete this saved address?')) {
+                                    deleteAddress(addr.id);
+                                    if (selectedAddressId === addr.id) {
+                                      handleAddNewAddress();
+                                    }
+                                  }
+                                }}
+                                className="p-1 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer border-none bg-transparent"
+                                title="Delete address"
+                              >
+                                <FiTrash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </div>
                           <p className="text-slate-600 line-clamp-2 leading-relaxed text-[14px]">
                             {addr.addressLine1}{addr.addressLine2 ? `, ${addr.addressLine2}` : ''}, {addr.city}, {addr.state} - <strong className="font-bold text-slate-800">{addr.pincode}</strong>
                           </p>
-                        </button>
+                        </div>
                       );
                     })}
 
@@ -1121,37 +1142,16 @@ export function CheckoutPage({ setCurrentPage }) {
                   </span>
                 </div>
 
-                <div className="pt-2 border-t border-blue-200/40 space-y-1.5 text-[12.5px] text-slate-500">
+                <div className="pt-2 border-t border-blue-200/40 space-y-1.5 text-[12.5px] text-slate-600">
                   <div className="flex justify-between">
                     <span>Taxable Value</span>
-                    <span className="font-medium text-slate-700">₹{taxableAmount.toLocaleString()}</span>
+                    <span className="font-semibold text-slate-800">₹{taxableAmount.toLocaleString()}</span>
                   </div>
 
-                  {isIntraState ? (
-                    <>
-                      <div className="flex justify-between">
-                        <span>CGST ({gstRate / 2}%)</span>
-                        <span className="font-medium text-slate-700">₹{cgst.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>SGST ({gstRate / 2}%)</span>
-                        <span className="font-medium text-slate-700">₹{sgst.toLocaleString()}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex justify-between">
-                      <span>IGST ({gstRate}%)</span>
-                      <span className="font-medium text-slate-700">₹{igst.toLocaleString()}</span>
-                    </div>
-                  )}
-
-                  <div className="flex justify-between text-slate-600 font-semibold">
-                    <span>Total GST ({gstRate}%)</span>
-                    <span>₹{totalGst.toLocaleString()}</span>
+                  <div className="flex justify-between font-semibold text-slate-700">
+                    <span>Total Tax (GST 18%)</span>
+                    <span className="text-slate-900 font-bold">₹{totalGst.toLocaleString()}</span>
                   </div>
-                  {pricesIncludeGst && (
-                    <p className="text-[10px] text-slate-400 italic text-right">* Product catalog prices are GST-inclusive</p>
-                  )}
                 </div>
               </div>
 
@@ -1317,7 +1317,7 @@ export function CheckoutPage({ setCurrentPage }) {
               <div>
                 <h4 className="font-bold text-slate-900 text-[13.5px] mb-1">6. Official GST Tax Invoicing</h4>
                 <p>
-                  All transactions include applicable GST (18% default). A compliant tax invoice featuring your provided GSTIN and state tax breakdown (CGST/SGST or IGST) will be generated and issued upon order confirmation.
+                  All transactions include applicable GST (18% default). A compliant tax invoice featuring your provided GSTIN and total tax (GST 18%) will be generated and issued upon order confirmation.
                 </p>
               </div>
 

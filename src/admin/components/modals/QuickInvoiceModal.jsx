@@ -65,7 +65,7 @@ export const QuickInvoiceModal = () => {
           {/* Tax Breakdown Preview */}
           <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2 font-mono text-[14px]">
             <div className="flex justify-between"><span>Base Taxable Amount:</span><span>₹{amount.toLocaleString()}</span></div>
-            <div className="flex justify-between text-blue-600"><span>18% GST (CGST 9% + SGST 9%):</span><span>₹{gstTax.toLocaleString()}</span></div>
+            <div className="flex justify-between text-blue-600"><span>Total Tax (GST 18%):</span><span>₹{gstTax.toLocaleString()}</span></div>
             <div className="flex justify-between font-bold text-slate-900 text-[14px] pt-2 border-t">
               <span>Gross Invoice Total:</span><span>₹{total.toLocaleString()}</span>
             </div>

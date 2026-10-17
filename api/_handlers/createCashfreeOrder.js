@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     let recalculatedSubtotal = 0;
     const validatedItems = [];
     let dominantGstRate = 18;
-    let pricesIncludeGst = true;
+    let pricesIncludeGst = false;
 
     for (const item of items) {
       const prodId = item.productId || item.id;
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       let productName = item.productName || item.name || 'Custom Printed Product';
       let paymentPolicy = item.paymentPolicy || DEFAULT_ADVANCE_POLICY;
       let itemTaxRate = 18;
-      let itemTaxInclusive = true;
+      let itemTaxInclusive = false;
 
       let dbBasePrice = 0;
 
@@ -126,7 +126,7 @@ export default async function handler(req, res) {
       discount: couponDiscount,
       shippingFee,
       expressFee,
-      isShippingTaxable: true,
+      isShippingTaxable: false,
       pricesIncludeGst,
       gstRate: dominantGstRate,
       customerState

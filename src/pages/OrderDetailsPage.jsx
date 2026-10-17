@@ -23,7 +23,7 @@ import { InvoiceModal } from '../Components/orders/InvoiceModal';
 
 export function OrderDetailsPage({ setCurrentPage }) {
   const getSearchParams = () => new URLSearchParams(window.location.search);
-  const orderId = getSearchParams().get('orderId') || '';
+  const orderId = getSearchParams().get('orderId') || getSearchParams().get('id') || '';
 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -104,10 +104,8 @@ export function OrderDetailsPage({ setCurrentPage }) {
   const expressFee = order.isExpress ? (pricing.expressFee || 299) : 0;
   const taxableAmount = pricing.taxableAmount || subtotal;
   const totalGst = pricing.totalGst || 0;
-  const cgst = pricing.cgst || 0;
-  const sgst = pricing.sgst || 0;
-  const igst = pricing.igst || 0;
-  const isIntraState = pricing.isCustomerIntraState ?? true;
+  const cgst = pricing.cgst || Math.floor(totalGst / 2);
+  const sgst = pricing.sgst || (totalGst - cgst);
   const gstRate = pricing.gstRate || 18;
 
   // Payments & Ledger
@@ -215,7 +213,7 @@ export function OrderDetailsPage({ setCurrentPage }) {
               onClick={() => setIsInvoiceOpen(true)}
               className="px-5 py-3 rounded-2xl bg-[#025afc] hover:bg-[#6a32f0] text-white font-bold text-[14px] uppercase tracking-wider shadow-lg shadow-[#025afc]/20 flex items-center gap-2 transition cursor-pointer border-none"
             >
-              <FiPrinter className="w-4 h-4" /> Download Tax Invoice
+              <FiDownload className="w-4 h-4" /> Download Tax Invoice (JPG)
             </button>
           </div>
         </div>
@@ -603,33 +601,15 @@ export function OrderDetailsPage({ setCurrentPage }) {
                   </span>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 space-y-1.5 text-xs text-slate-500">
+                <div className="pt-2 border-t border-slate-100 space-y-1.5 text-xs text-slate-600">
                   <div className="flex justify-between">
                     <span>Taxable Base Value</span>
-                    <span className="font-medium text-slate-700">₹{taxableAmount.toLocaleString()}</span>
+                    <span className="font-semibold text-slate-800">₹{taxableAmount.toLocaleString()}</span>
                   </div>
 
-                  {isIntraState ? (
-                    <>
-                      <div className="flex justify-between">
-                        <span>CGST ({gstRate / 2}%)</span>
-                        <span className="font-medium text-slate-700">₹{cgst.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>SGST ({gstRate / 2}%)</span>
-                        <span className="font-medium text-slate-700">₹{sgst.toLocaleString()}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex justify-between">
-                      <span>IGST ({gstRate}%)</span>
-                      <span className="font-medium text-slate-700">₹{igst.toLocaleString()}</span>
-                    </div>
-                  )}
-
-                  <div className="flex justify-between text-slate-700 font-bold">
-                    <span>Total GST ({gstRate}%)</span>
-                    <span>₹{totalGst.toLocaleString()}</span>
+                  <div className="flex justify-between font-bold text-slate-800">
+                    <span>Total Tax (GST 18%)</span>
+                    <span className="text-slate-900">₹{totalGst.toLocaleString()}</span>
                   </div>
                 </div>
               </div>

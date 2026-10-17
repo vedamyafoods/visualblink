@@ -211,6 +211,7 @@ function AppContent() {
         )}
         {currentPage === 'order-success' && (
           <OrderSuccessPage
+            setCurrentPage={setCurrentPage}
             onNavigateHome={() => setCurrentPage('home')}
             onNavigateOrders={() => setCurrentPage('orders')}
           />
@@ -229,11 +230,12 @@ function AppContent() {
           <OrdersPage
             setCurrentPage={setCurrentPage}
             onNavigateHome={() => setCurrentPage('home')}
-            onNavigateDetails={(orderId) => setCurrentPage('order-details', { id: orderId })}
+            onNavigateDetails={(orderId) => setCurrentPage('order-details', { id: orderId, orderId })}
           />
         )}
         {currentPage === 'order-details' && (
           <OrderDetailsPage
+            setCurrentPage={setCurrentPage}
             onBack={() => setCurrentPage('orders')}
           />
         )}

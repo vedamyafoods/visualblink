@@ -144,24 +144,46 @@ export const AuthProvider = ({ children }) => {
   const saveAddress = async (newAddr) => {
     if (!currentUser) return false;
     const currentAddresses = userProfile?.addresses || [];
-    const addrId = newAddr.id || `ADDR-${Date.now()}`;
+
+    // Check if an identical address already exists (same street, city, and pincode)
+    const duplicateIdx = currentAddresses.findIndex(a => 
+      (a.addressLine1 || '').trim().toLowerCase() === (newAddr.addressLine1 || '').trim().toLowerCase() &&
+      (a.city || '').trim().toLowerCase() === (newAddr.city || '').trim().toLowerCase() &&
+      (a.pincode || '').trim() === (newAddr.pincode || '').trim()
+    );
+
+    const addrId = newAddr.id || (duplicateIdx > -1 ? currentAddresses[duplicateIdx].id : `ADDR-${Date.now()}`);
     const formattedAddr = { ...newAddr, id: addrId };
 
     let updatedAddresses;
     if (newAddr.isDefault) {
-      updatedAddresses = currentAddresses.map(a => ({ ...a, isDefault: false }));
+      updatedAddresses = currentAddresses.filter(a => a.id !== addrId).map(a => ({ ...a, isDefault: false }));
       updatedAddresses.push(formattedAddr);
     } else {
       const existingIdx = currentAddresses.findIndex(a => a.id === addrId);
       if (existingIdx > -1) {
         updatedAddresses = [...currentAddresses];
         updatedAddresses[existingIdx] = formattedAddr;
+      } else if (duplicateIdx > -1) {
+        updatedAddresses = [...currentAddresses];
+        updatedAddresses[duplicateIdx] = formattedAddr;
       } else {
         updatedAddresses = [...currentAddresses, formattedAddr];
       }
     }
 
-    return await updateUserProfile({ addresses: updatedAddresses });
+    // Deduplicate addresses list
+    const uniqueAddresses = updatedAddresses.reduce((acc, addr) => {
+      const isDup = acc.some(a => 
+        (a.addressLine1 || '').trim().toLowerCase() === (addr.addressLine1 || '').trim().toLowerCase() &&
+        (a.city || '').trim().toLowerCase() === (addr.city || '').trim().toLowerCase() &&
+        (a.pincode || '').trim() === (addr.pincode || '').trim()
+      );
+      if (!isDup) acc.push(addr);
+      return acc;
+    }, []);
+
+    return await updateUserProfile({ addresses: uniqueAddresses });
   };
 
   const deleteAddress = async (addrId) => {

@@ -73,9 +73,11 @@ export function CartPage({ setCurrentPage }) {
     }
   }
 
+  const netSubtotal = Math.max(0, subtotal - couponDiscount);
+  const totalTax = Math.round((netSubtotal * 18) / 100);
   const expressFee = isExpress ? APP_CONFIG.EXPRESS_SHIPPING_FEE : 0;
   const shipping = subtotal > APP_CONFIG.FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : APP_CONFIG.STANDARD_SHIPPING_FEE;
-  const grandTotal = Math.max(0, Math.round(subtotal - couponDiscount + expressFee + shipping));
+  const grandTotal = Math.max(0, Math.round(netSubtotal + totalTax + expressFee + shipping));
 
 
   return (
@@ -303,7 +305,7 @@ export function CartPage({ setCurrentPage }) {
                 {/* Breakdown List */}
                 <div className="space-y-2.5 pt-3 border-t border-blue-200/60 text-[14px] font-semibold text-slate-600">
                   <div className="flex justify-between">
-                    <span>Items Subtotal</span>
+                    <span>Items Subtotal (Taxable Value)</span>
                     <span className="font-bold text-slate-900">₹{subtotal.toLocaleString()}</span>
                   </div>
 
@@ -314,6 +316,11 @@ export function CartPage({ setCurrentPage }) {
                     </div>
                   )}
 
+                  <div className="flex justify-between">
+                    <span>Total Tax (GST 18%)</span>
+                    <span className="font-bold text-slate-900">₹{totalTax.toLocaleString()}</span>
+                  </div>
+
                   {isExpress && (
                     <div className="flex justify-between text-amber-700">
                       <span>Express Priority Turnaround</span>
@@ -322,7 +329,7 @@ export function CartPage({ setCurrentPage }) {
                   )}
 
                   <div className="flex justify-between">
-                    <span>Estimated Pan-India Shipping</span>
+                    <span>Estimated Shipping</span>
                     <span className="font-bold text-slate-900">
                       {shipping === 0 ? <strong className="text-emerald-600 uppercase font-bold">FREE</strong> : `₹${shipping}`}
                     </span>
@@ -333,7 +340,7 @@ export function CartPage({ setCurrentPage }) {
                 <div className="pt-4 border-t border-blue-200/60 flex justify-between items-baseline">
                   <div>
                     <span className="text-[14px] font-bold text-slate-700 block text-uppercase">Grand Total</span>
-                    <span className="text-[10px] text-slate-500 font-medium">Incl. all taxes & delivery</span>
+                    <span className="text-[10px] text-slate-500 font-medium">Incl. 18% GST & delivery</span>
                   </div>
                   <span className="text-2xl font-bold text-[#025afc]">₹{grandTotal.toLocaleString()}</span>
                 </div>
