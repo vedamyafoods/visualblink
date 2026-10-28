@@ -506,6 +506,44 @@ export const DEFAULT_HOMEPAGE_SETTINGS = {
         iconName: 'FiImage',
       },
     ]
+  },
+  promoBannerSlider: {
+    autoPlayInterval: 4500,
+    banners: [
+      {
+        id: 'promo_1',
+        badge: "LET'S CREATE TOGETHER",
+        title: 'Bring Your Ideas to Life with Premium Prints.',
+        subtitle: 'High-quality prints with professional design support, custom finishes, and express dispatch.',
+        image: 'https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&q=80&w=1600',
+        ctaText: 'Get Quote Now',
+        ctaLink: 'quote',
+        secondaryCtaText: 'Explore Products',
+        secondaryCtaLink: 'products'
+      },
+      {
+        id: 'promo_2',
+        badge: 'LUXURY PACKAGING STUDIO',
+        title: 'Custom Rigid Boxes & Mailer Packaging.',
+        subtitle: 'Transform your unboxing experience with bespoke shapes, foil debossing, and eco-friendly cardstock.',
+        image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=1600',
+        ctaText: 'Shop Packaging',
+        ctaLink: 'products?category=Corporate Gifting',
+        secondaryCtaText: 'Custom Size Box',
+        secondaryCtaLink: 'quote'
+      },
+      {
+        id: 'promo_3',
+        badge: 'VOLUME COMMERCIAL PRINTING',
+        title: 'High-Impact Promotional Flyers & Leaflets.',
+        subtitle: 'Vibrant full-color promotional flyers, catalogues, and brochures printed on premium art paper at direct factory rates.',
+        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=1600',
+        ctaText: 'View Product Catalog',
+        ctaLink: 'products',
+        secondaryCtaText: 'Bulk Enquiry',
+        secondaryCtaLink: 'quote'
+      }
+    ]
   }
 };
 
@@ -1003,6 +1041,38 @@ export const saveMegamenuCategoriesToFirestore = async (categoriesData) => {
     console.warn("Saving megamenu categories note:", err.message);
     return false;
   }
+};
+
+// ── Newsletter Subscribers Storage (Marketing & Offers) ──
+export const subscribeNewsletter = async (email) => {
+  if (!email || !email.includes('@')) {
+    throw new Error('Please enter a valid email address.');
+  }
+  const cleanEmail = email.trim().toLowerCase();
+  const docId = cleanEmail.replace(/[^a-z0-9]/g, '_');
+
+  try {
+    const subscriberRef = doc(db, 'newsletter_subscribers', docId);
+    await setDoc(subscriberRef, {
+      email: cleanEmail,
+      status: 'active',
+      subscribedAt: serverTimestamp(),
+      source: 'footer_newsletter'
+    }, { merge: true });
+  } catch (err) {
+    console.warn("Newsletter Firestore write note:", err.message);
+  }
+
+  // Persist to local cache as well for offline reliability
+  try {
+    const existing = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
+    if (!existing.some(item => (typeof item === 'string' ? item : item.email) === cleanEmail)) {
+      existing.push({ email: cleanEmail, subscribedAt: new Date().toISOString() });
+      localStorage.setItem('newsletter_subscribers', JSON.stringify(existing));
+    }
+  } catch (e) { }
+
+  return { success: true, email: cleanEmail };
 };
 
 

@@ -27,8 +27,15 @@ export function FloatingActions() {
         <FiMessageCircle />
       </motion.a>
       <div className="fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 sm:block">
-        <Button onClick={() => document.querySelector('#quote')?.scrollIntoView({ behavior: 'smooth' })}>
-          Need Bulk Pricing?
+        <Button
+          onClick={() => {
+            const bulkMessage = "Hello VisualBlink Team! I am interested in bulk volume pricing and corporate rates for custom printing. Please share your catalog and bulk pricing details.";
+            window.open(getWhatsAppUrl(bulkMessage), '_blank', 'noopener,noreferrer');
+          }}
+          className="shadow-xl hover:shadow-2xl hover:scale-105 transition-all flex items-center gap-2 cursor-pointer font-bold"
+        >
+          <span>Need Bulk Pricing?</span>
+          <span className="text-emerald-400">→</span>
         </Button>
       </div>
       {visible && (

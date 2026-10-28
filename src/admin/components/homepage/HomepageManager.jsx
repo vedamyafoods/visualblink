@@ -13,7 +13,8 @@ import {
   Type,
   Star,
   ArrowRight,
-  RefreshCw
+  RefreshCw,
+  Sliders
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 import { uploadToCloudinary } from '../../../services/cloudinary';
@@ -22,6 +23,7 @@ import { TestimonialsManager } from './TestimonialsManager';
 import { BlogsManager } from './BlogsManager';
 import { HomepageCategoriesManager } from './HomepageCategoriesManager';
 import { MegamenuManager } from './MegamenuManager';
+import { PromoBannerSliderManager } from './PromoBannerSliderManager';
 
 export const HomepageManager = () => {
   const { homepageSettings, updateHomepageSettings } = useAdmin();
@@ -190,13 +192,24 @@ export const HomepageManager = () => {
 
         <button
           type="button"
+          onClick={() => setActiveTab('promo_slider')}
+          className={`px-5 py-2.5 rounded-xl text-[14px] font-bold transition flex items-center gap-2 cursor-pointer border shrink-0 ${activeTab === 'promo_slider'
+            ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+            : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+            }`}
+        >
+          <Sliders className="w-4 h-4" /> 4. Mid-Page Promo Slider
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveTab('stats')}
           className={`px-5 py-2.5 rounded-xl text-[14px] font-bold transition flex items-center gap-2 cursor-pointer border shrink-0 ${activeTab === 'stats'
             ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
             : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
             }`}
         >
-          <Sparkles className="w-4 h-4" /> 4. Built for Business Stats
+          <Sparkles className="w-4 h-4" /> 5. Built for Business Stats
         </button>
 
         <button
@@ -207,7 +220,7 @@ export const HomepageManager = () => {
             : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
             }`}
         >
-          <Star className="w-4 h-4" /> 5. Customer Testimonials
+          <Star className="w-4 h-4" /> 6. Customer Testimonials
         </button>
 
         <button
@@ -218,7 +231,7 @@ export const HomepageManager = () => {
             : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
             }`}
         >
-          <Type className="w-4 h-4" /> 6. Latest Blog Posts
+          <Type className="w-4 h-4" /> 7. Latest Blog Posts
         </button>
 
         <button
@@ -568,7 +581,17 @@ export const HomepageManager = () => {
         </div>
       )}
 
-      {/* TAB 4: STATS */}
+      {/* TAB 4: MID-PAGE PROMO BANNER SLIDER */}
+      {activeTab === 'promo_slider' && (
+        <PromoBannerSliderManager
+          formData={formData}
+          setFormData={setFormData}
+          onSave={handleSave}
+          isSaving={uploadingField !== null}
+        />
+      )}
+
+      {/* TAB 5: STATS */}
       {activeTab === 'stats' && <StatsManager />}
 
       {/* TAB 5: TESTIMONIALS */}

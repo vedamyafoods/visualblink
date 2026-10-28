@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { FiFacebook, FiInstagram, FiLinkedin, FiYoutube, FiArrowRight } from 'react-icons/fi'
 import { BRANDING } from '../../config/branding'
+import { subscribeNewsletter } from '../../services/firebase'
 
 export function Footer({ setCurrentPage }) {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleLink = (pageId, extraParams = {}, fragment = '') => {
     if (typeof setCurrentPage === 'function') {
@@ -13,12 +15,19 @@ export function Footer({ setCurrentPage }) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault()
-    if (email) {
+    if (!email || isSubmitting) return
+    setIsSubmitting(true)
+    try {
+      await subscribeNewsletter(email)
       setSubscribed(true)
       setEmail('')
-      setTimeout(() => setSubscribed(false), 3000)
+      setTimeout(() => setSubscribed(false), 5000)
+    } catch (err) {
+      console.warn("Failed to subscribe newsletter:", err)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -96,16 +105,23 @@ export function Footer({ setCurrentPage }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
+                disabled={isSubmitting}
                 className="w-full bg-slate-200/60 border border-slate-200 rounded-full py-2.5 pl-4 pr-12 text-[14px] text-[#0F172A] placeholder-slate-400 focus:outline-none focus:border-[#025afc] font-medium"
                 required
               />
               <button
                 type="submit"
-                className="absolute right-1 w-8.5 h-8.5 rounded-full btn-gradient text-white flex items-center justify-center transition-transform hover:scale-105 border-none cursor-pointer"
+                disabled={isSubmitting}
+                className="absolute right-1 w-8.5 h-8.5 rounded-full btn-gradient text-white flex items-center justify-center transition-transform hover:scale-105 border-none cursor-pointer disabled:opacity-60"
               >
                 {subscribed ? '✓' : <FiArrowRight className="w-4 h-4" />}
               </button>
             </form>
+            {subscribed && (
+              <p className="text-[12px] font-bold text-emerald-600 mt-2 animate-in fade-in flex items-center gap-1">
+                <span>✓</span> Subscribed! You will receive our latest offers.
+              </p>
+            )}
           </div>
 
         </div>
