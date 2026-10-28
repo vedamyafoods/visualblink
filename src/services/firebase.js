@@ -847,12 +847,12 @@ export const DEFAULT_MEGAMENU_CATEGORIES = [
     categoryQuery: 'Business Cards',
     iconName: 'FiCreditCard',
     items: [
-      { name: 'Standard Cards', search: 'Standard Cards', tag: '350 GSM Matte/Gloss' },
-      { name: 'Spot UV Cards', search: 'Spot UV Cards', tag: '3D Gloss Accent' },
-      { name: 'Die Cut Cards', search: 'Die Cut Cards', tag: 'Custom Shapes' },
-      { name: 'Metallic Foil Cards', search: 'Metallic Foil Cards', tag: 'Gold / Silver Foil' },
-      { name: 'Soft-Touch Velvet Cards', search: 'Velvet Cards', tag: 'Silk Touch Premium' },
-      { name: 'Luxury Thick Cards', search: 'Thick Cards', tag: '400+ GSM Triplex' },
+      { id: 'standard-cards', name: 'Standard Cards', search: 'Standard Cards', tag: '350 GSM Matte/Gloss' },
+      { id: 'spot-uv-cards', name: 'Spot UV Cards', search: 'Spot UV Cards', tag: '3D Gloss Accent' },
+      { id: 'die-cut-cards', name: 'Die Cut Cards', search: 'Die Cut Cards', tag: 'Custom Shapes' },
+      { id: 'metallic-foil-cards', name: 'Metallic Foil Cards', search: 'Metallic Foil Cards', tag: 'Gold / Silver Foil' },
+      { id: 'soft-touch-velvet-cards', name: 'Soft-Touch Velvet Cards', search: 'Velvet Cards', tag: 'Silk Touch Premium' },
+      { id: 'luxury-thick-cards', name: 'Luxury Thick Cards', search: 'Thick Cards', tag: '400+ GSM Triplex' },
     ]
   },
   {
@@ -862,11 +862,11 @@ export const DEFAULT_MEGAMENU_CATEGORIES = [
     categoryQuery: 'Apparel',
     iconName: 'FiShoppingBag',
     items: [
-      { name: 'T-Shirts', search: 'T-Shirts', tag: 'Round Neck Cotton' },
-      { name: 'Polo T-Shirts', search: 'Polo T-Shirts', tag: 'Corporate Collared' },
-      { name: 'Hoodies', search: 'Hoodies', tag: 'Winter Fleeced' },
-      { name: 'Caps & Hats', search: 'Caps & Hats', tag: 'Embroidered Branding' },
-      { name: 'Custom Sweatshirts', search: 'Sweatshirts', tag: 'Casual Premium' }
+      { id: 't-shirts', name: 'T-Shirts', search: 'T-Shirts', tag: 'Round Neck Cotton' },
+      { id: 'polo-t-shirts', name: 'Polo T-Shirts', search: 'Corporate Collared' },
+      { id: 'hoodies', name: 'Hoodies', search: 'Winter Fleeced' },
+      { id: 'caps-hats', name: 'Caps & Hats', search: 'Caps & Hats', tag: 'Embroidered Branding' },
+      { id: 'custom-sweatshirts', name: 'Custom Sweatshirts', search: 'Sweatshirts', tag: 'Casual Premium' }
     ]
   },
   {
@@ -876,12 +876,12 @@ export const DEFAULT_MEGAMENU_CATEGORIES = [
     categoryQuery: 'Gifts',
     iconName: 'FiGift',
     items: [
-      { name: 'Mugs', search: 'Mugs', tag: 'Ceramic Magic Mugs' },
-      { name: 'Keychains & Accessories', search: 'Keychains', tag: 'Metal & Acrylic' },
-      { name: 'Frames & Lamps', search: 'Frames & Lamps', tag: 'LED Acrylic Light' },
-      { name: 'Rakhi 2026', search: 'Rakhi 2026', tag: 'Festive Special' },
-      { name: 'Photo Books', search: 'Photo Books', tag: 'Hardcover Albums' },
-      { name: 'Personalised Gifts', search: 'Personalised Gifts', tag: 'Custom Keepsakes' }
+      { id: 'mugs', name: 'Mugs', search: 'Mugs', tag: 'Ceramic Magic Mugs' },
+      { id: 'keychains-accessories', name: 'Keychains & Accessories', search: 'Keychains', tag: 'Metal & Acrylic' },
+      { id: 'frames-lamps', name: 'Frames & Lamps', search: 'Frames & Lamps', tag: 'LED Acrylic Light' },
+      { id: 'rakhi-2026', name: 'Rakhi 2026', search: 'Rakhi 2026', tag: 'Festive Special' },
+      { id: 'photo-books', name: 'Photo Books', search: 'Photo Books', tag: 'Hardcover Albums' },
+      { id: 'personalised-gifts', name: 'Personalised Gifts', search: 'Personalised Gifts', tag: 'Custom Keepsakes' }
     ]
   },
   {
@@ -891,11 +891,11 @@ export const DEFAULT_MEGAMENU_CATEGORIES = [
     categoryQuery: 'Invitations',
     iconName: 'FiMail',
     items: [
-      { name: 'Wedding Cards', search: 'Wedding Cards', tag: 'Traditional & Foil' },
-      { name: 'Birthday Cards', search: 'Birthday Cards', tag: 'Vibrant & Themed' },
-      { name: 'Thank You Cards', search: 'Thank You Cards', tag: 'Personalized Notes' },
-      { name: 'Save the Date', search: 'Save the Date', tag: 'Announcements' },
-      { name: 'Envelope & Seal Sets', search: 'Envelopes', tag: 'Custom Wax Seals' }
+      { id: 'wedding-cards', name: 'Wedding Cards', search: 'Wedding Cards', tag: 'Traditional & Foil' },
+      { id: 'birthday-cards', name: 'Birthday Cards', search: 'Birthday Cards', tag: 'Vibrant & Themed' },
+      { id: 'thank-you-cards', name: 'Thank You Cards', search: 'Thank You Cards', tag: 'Personalized Notes' },
+      { id: 'save-the-date', name: 'Save the Date', search: 'Save the Date', tag: 'Announcements' },
+      { id: 'envelope-seal-sets', name: 'Envelope & Seal Sets', search: 'Envelopes', tag: 'Custom Wax Seals' }
     ]
   },
   {
@@ -905,11 +905,11 @@ export const DEFAULT_MEGAMENU_CATEGORIES = [
     categoryQuery: 'Corporate Gifting',
     iconName: 'FiBriefcase',
     items: [
-      { name: 'ID Cards & Lanyards', search: 'ID Cards', tag: 'PVC Badges & Satin' },
-      { name: 'Desk Calendars & Diaries', search: 'Calendars', tag: '365 Day Branding' },
-      { name: 'Executive Box Kits', search: 'Gift Kits', tag: 'Corporate Sets' },
-      { name: 'Rubber Stamps & Seals', search: 'Stamps', tag: 'Self-Inking Laser' },
-      { name: 'Corporate Drinkware', search: 'Drinkware', tag: 'Stainless Bottles' }
+      { id: 'id-cards-lanyards', name: 'ID Cards & Lanyards', search: 'ID Cards', tag: 'PVC Badges & Satin' },
+      { id: 'desk-calendars-diaries', name: 'Desk Calendars & Diaries', search: 'Calendars', tag: '365 Day Branding' },
+      { id: 'executive-box-kits', name: 'Executive Box Kits', search: 'Gift Kits', tag: 'Corporate Sets' },
+      { id: 'rubber-stamps-seals', name: 'Rubber Stamps & Seals', search: 'Stamps', tag: 'Self-Inking Laser' },
+      { id: 'corporate-drinkware', name: 'Corporate Drinkware', search: 'Drinkware', tag: 'Stainless Bottles' }
     ]
   },
   {
@@ -919,24 +919,43 @@ export const DEFAULT_MEGAMENU_CATEGORIES = [
     categoryQuery: 'Printing',
     iconName: 'FiPrinter',
     items: [
-      { name: 'Brochures & Flyers', search: 'Brochures & Flyers', tag: 'Tri-fold & Pamphlets' },
-      { name: 'Banners & Standees', search: 'Banners & Standees', tag: 'Flex & Roll-Up' },
-      { name: 'Stickers & Labels', search: 'Stickers & Labels', tag: 'Waterproof Vinyl' },
-      { name: 'Bill Books & NCR', search: 'Bill Books', tag: 'Carbonless Invoice' },
-      { name: 'Letterheads & Stationery', search: 'Letterheads', tag: 'Executive Papers' },
-      { name: 'Booklets & Catalogs', search: 'Booklets', tag: 'Saddle Stitch / Bound' },
-      { name: 'Custom Packaging & Boxes', search: 'Packaging', tag: 'Product Cartons' }
+      { id: 'brochures-flyers', name: 'Brochures & Flyers', search: 'Brochures & Flyers', tag: 'Tri-fold & Pamphlets' },
+      { id: 'banners-standees', name: 'Banners & Standees', search: 'Banners & Standees', tag: 'Flex & Roll-Up' },
+      { id: 'stickers-labels', name: 'Stickers & Labels', search: 'Stickers & Labels', tag: 'Waterproof Vinyl' },
+      { id: 'bill-books-ncr', name: 'Bill Books & NCR', search: 'Bill Books', tag: 'Carbonless Invoice' },
+      { id: 'letterheads-stationery', name: 'Letterheads & Stationery', search: 'Letterheads', tag: 'Executive Papers' },
+      { id: 'booklets-catalogs', name: 'Booklets & Catalogs', search: 'Booklets', tag: 'Saddle Stitch / Bound' },
+      { id: 'custom-packaging-boxes', name: 'Custom Packaging & Boxes', search: 'Packaging', tag: 'Product Cartons' }
     ]
   }
 ];
 
 const MEGAMENU_CATEGORIES_KEY = 'visualblink_megamenu_categories';
 
+const normalizeCategoriesData = (cats) => {
+  if (!Array.isArray(cats)) return DEFAULT_MEGAMENU_CATEGORIES;
+  return cats.map((cat, cIdx) => {
+    const catId = cat.id || (cat.title ? cat.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') : `nav_${cIdx}`);
+    const items = Array.isArray(cat.items) ? cat.items.map((item, iIdx) => {
+      const subId = item.id || (item.name ? item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') : `sub_${cIdx}_${iIdx}`);
+      return {
+        ...item,
+        id: subId
+      };
+    }) : [];
+    return {
+      ...cat,
+      id: catId,
+      items
+    };
+  });
+};
+
 export const subscribeToMegamenuCategories = (onUpdate) => {
   const getLocal = () => {
     try {
       const stored = localStorage.getItem(MEGAMENU_CATEGORIES_KEY);
-      return stored ? JSON.parse(stored) : DEFAULT_MEGAMENU_CATEGORIES;
+      return stored ? normalizeCategoriesData(JSON.parse(stored)) : DEFAULT_MEGAMENU_CATEGORIES;
     } catch (e) {
       return DEFAULT_MEGAMENU_CATEGORIES;
     }
@@ -949,7 +968,7 @@ export const subscribeToMegamenuCategories = (onUpdate) => {
     return onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         const firestoreData = docSnap.data().categories || docSnap.data();
-        const dataArr = Array.isArray(firestoreData) ? firestoreData : DEFAULT_MEGAMENU_CATEGORIES;
+        const dataArr = normalizeCategoriesData(Array.isArray(firestoreData) ? firestoreData : DEFAULT_MEGAMENU_CATEGORIES);
         try {
           localStorage.setItem(MEGAMENU_CATEGORIES_KEY, JSON.stringify(dataArr));
         } catch (e) { }

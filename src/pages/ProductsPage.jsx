@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import {
   FiArrowRight,
@@ -49,12 +49,20 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
     return getSearchParams().get('category') || 'All';
   });
 
+  const [activeMenu, setActiveMenuState] = useState(() => {
+    return getSearchParams().get('menu') || getSearchParams().get('navMenu') || '';
+  });
+
   const [searchTerm, setSearchTermState] = useState(() => {
     return getSearchParams().get('search') || '';
   });
 
   const [selectedSubcategory, setSelectedSubcategory] = useState(() => {
     return getSearchParams().get('subcategory') || 'All';
+  });
+
+  const [selectedSubmenu, setSelectedSubmenuState] = useState(() => {
+    return getSearchParams().get('submenu') || getSearchParams().get('navSubmenu') || '';
   });
   const [selectedFinish, setSelectedFinish] = useState('All');
   const [selectedTurnaround, setSelectedTurnaround] = useState('All');
@@ -97,14 +105,18 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
     const handleUrlSync = () => {
       const searchParams = getSearchParams();
       const cat = searchParams.get('category') || 'All';
+      const m = searchParams.get('menu') || searchParams.get('navMenu') || '';
       const q = searchParams.get('search') || '';
       const subcat = searchParams.get('subcategory') || 'All';
+      const sm = searchParams.get('submenu') || searchParams.get('navSubmenu') || '';
       // Support SEO-friendly slug as priority, with fallback to sku or product ID
       const productSlugParam = searchParams.get('slug') || searchParams.get('product') || searchParams.get('sku');
 
       setActiveCategoryState(cat);
+      setActiveMenuState(m);
       setSearchTermState(q);
       setSelectedSubcategory(subcat);
+      setSelectedSubmenuState(sm);
 
       const allProds = liveProducts;
       if (productSlugParam && allProds.length > 0) {
@@ -147,20 +159,76 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
     }
   }, [selectedProduct]);
 
-  // Sidebar Category Selection Handler - Clears stale search queries
+  // Resolve the active navigation menu from liveMegamenuCats
+  const activeNavMenu = useMemo(() => {
+    if (activeCategory === 'All' && (!activeMenu || activeMenu === 'All')) return null;
+    return (liveMegamenuCats || []).find(c =>
+      (activeMenu && (c.id === activeMenu || createSlug(c.id) === createSlug(activeMenu))) ||
+      (activeCategory !== 'All' && (
+        createSlug(c.id) === createSlug(activeCategory) ||
+        createSlug(c.title) === createSlug(activeCategory) ||
+        (c.categoryQuery && createSlug(c.categoryQuery) === createSlug(activeCategory))
+      ))
+    );
+  }, [liveMegamenuCats, activeCategory, activeMenu]);
+
+  // Dynamic Categories list from Homepage Studio live navigation menus
+  const categories = useMemo(() => {
+    const list = ['All'];
+    if (liveMegamenuCats && liveMegamenuCats.length > 0) {
+      liveMegamenuCats.forEach(c => {
+        if (c.title && !list.includes(c.title)) list.push(c.title);
+      });
+    } else {
+      list.push('Business Cards', 'Apparel', 'Gifts', 'Invitations', 'Corporate Gifting', 'Printing');
+    }
+    return list;
+  }, [liveMegamenuCats]);
+
+  // Sidebar Category Selection Handler
   const setActiveCategory = (cat) => {
     setActiveCategoryState(cat);
+    const targetMenuObj = (liveMegamenuCats || []).find(c => c.title === cat || c.id === cat);
+    const targetMenuId = cat === 'All' ? '' : (targetMenuObj?.id || createSlug(cat));
+    setActiveMenuState(targetMenuId);
     setSelectedSubcategory('All');
-    setSearchTermState(''); // Clear stale search term on sidebar category click!
+    setSelectedSubmenuState('');
+    setSearchTermState(''); // Clear stale search term on sidebar category click
     if (setCurrentPage) {
-      setCurrentPage('products', { category: cat === 'All' ? '' : cat }, '#catalog');
+      setCurrentPage('products', {
+        category: cat === 'All' ? '' : cat,
+        menu: targetMenuId
+      }, '#catalog');
+    }
+  };
+
+  // Subcategory / Submenu Selection Handler
+  const handleSelectSubcategory = (sub) => {
+    const subSlug = sub === 'All' ? 'All' : createSlug(sub);
+    const subObj = activeNavMenu?.items?.find(i =>
+      createSlug(i.name) === subSlug ||
+      (i.id && (i.id === sub || createSlug(i.id) === subSlug))
+    );
+    const subId = sub === 'All' ? '' : (subObj?.id || subSlug);
+
+    setSelectedSubcategory(subSlug);
+    setSelectedSubmenuState(subId);
+    if (setCurrentPage) {
+      setCurrentPage('products', {
+        category: activeCategory !== 'All' ? activeCategory : '',
+        menu: activeMenu || (activeNavMenu?.id) || '',
+        subcategory: subSlug === 'All' ? '' : subSlug,
+        submenu: subId
+      }, '#catalog');
     }
   };
 
   const clearAllFilters = () => {
     setSearchTermState('');
     setActiveCategoryState('All');
+    setActiveMenuState('');
     setSelectedSubcategory('All');
+    setSelectedSubmenuState('');
     setSelectedFinish('All');
     setSelectedTurnaround('All');
     setSelectedOrientation('All');
@@ -178,35 +246,26 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
     if (setCurrentPage) {
       if (prod) {
         const prodSlug = prod.slug || createSlug(prod.title || prod.name) || prod.id;
-        setCurrentPage('products', { slug: prodSlug, category: activeCategory !== 'All' ? activeCategory : '' }, '#specs');
+        setCurrentPage('products', {
+          slug: prodSlug,
+          category: activeCategory !== 'All' ? activeCategory : '',
+          menu: activeMenu || ''
+        }, '#specs');
       } else {
-        setCurrentPage('products', { category: activeCategory !== 'All' ? activeCategory : '' }, '#catalog');
+        setCurrentPage('products', {
+          category: activeCategory !== 'All' ? activeCategory : '',
+          menu: activeMenu || ''
+        }, '#catalog');
       }
     }
   };
 
-  const categories = [
-    'All',
-    'Business Cards',
-    'Apparel',
-    'Gifts',
-    'Invitations',
-    'Corporate Gifting',
-    'Printing'
-  ];
-
-  // Subcategories mapping by liveMegamenuCats
+  // Subcategories mapping by active menu
   const getSubcategoriesForActive = () => {
-    if (activeCategory === 'All') {
-      return liveMegamenuCats.flatMap(c => (c.items || []).map(i => i.name));
+    if (!activeNavMenu) {
+      return (liveMegamenuCats || []).flatMap(c => (c.items || []).map(i => i.name));
     }
-    // Try to find the exact match from liveMegamenuCats
-    const foundCat = liveMegamenuCats.find(c =>
-      (c.categoryQuery || c.title || '').toLowerCase() === activeCategory.toLowerCase() ||
-      (c.title || '').toLowerCase() === activeCategory.toLowerCase()
-    );
-    if (!foundCat) return [];
-    return (foundCat.items || []).map(sub => sub.name);
+    return (activeNavMenu.items || []).map(sub => sub.name);
   };
 
   const availableSubcategories = getSubcategoriesForActive();
@@ -215,22 +274,92 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
 
   const pool = liveProducts;
 
-  // Exact & Canonical Category Filtering
+  // Exact & Dynamic Navigation Header + Category Filtering
   const filteredProducts = pool.filter((p) => {
     const pCanonical = getCanonicalCategory(p.category);
 
-    // Subcategory Matching
-    const activeSubSlug = createSlug(selectedSubcategory);
-    const prodSubSlug = createSlug(p.subcategory);
-    const matchesSubcategory = selectedSubcategory === 'All' ||
-      prodSubSlug === activeSubSlug ||
-      (p.tags && Array.isArray(p.tags) && p.tags.some(t => createSlug(t) === activeSubSlug));
+    // 1. Header Menu & Main Category Matching
+    let matchesCategory = false;
+    const isAllCategories = activeCategory === 'All' && (!activeMenu || activeMenu === 'All');
 
-    // Category Matching
-    const matchesCategory = activeCategory === 'All' ||
-      createSlug(pCanonical) === createSlug(activeCategory) ||
-      (p.industries && Array.isArray(p.industries) && p.industries.some(i => createSlug(i) === createSlug(activeCategory))) ||
-      (selectedSubcategory !== 'All' && matchesSubcategory); // If subcategory exactly matches, ignore category spelling typos
+    if (isAllCategories) {
+      matchesCategory = true;
+    } else {
+      const pMenuId = p.navigationMenuId || p.headerMenuId;
+      const pMenuTitle = p.navigationMenuTitle || p.headerMenuTitle;
+
+      if (pMenuId || pMenuTitle) {
+        // Product has explicit navigation assignment!
+        if (p.showInNavigation === false) {
+          matchesCategory = false;
+        } else if (activeNavMenu) {
+          matchesCategory = (
+            pMenuId === activeNavMenu.id ||
+            createSlug(pMenuId) === createSlug(activeNavMenu.id) ||
+            (pMenuTitle && createSlug(pMenuTitle) === createSlug(activeNavMenu.title)) ||
+            (activeNavMenu.categoryQuery && createSlug(pMenuTitle || pMenuId) === createSlug(activeNavMenu.categoryQuery))
+          );
+        } else {
+          matchesCategory = (
+            createSlug(pMenuTitle || pMenuId) === createSlug(activeCategory) ||
+            createSlug(p.category) === createSlug(activeCategory)
+          );
+        }
+      } else {
+        // Legacy product without navigation assignment: safe backward-compatible fallback
+        matchesCategory = (
+          createSlug(pCanonical) === createSlug(activeCategory) ||
+          (activeNavMenu && activeNavMenu.categoryQuery && createSlug(pCanonical) === createSlug(activeNavMenu.categoryQuery)) ||
+          (activeNavMenu && createSlug(pCanonical) === createSlug(activeNavMenu.title)) ||
+          (p.industries && Array.isArray(p.industries) && p.industries.some(i => createSlug(i) === createSlug(activeCategory)))
+        );
+      }
+    }
+
+    // 2. Header Submenu & Subcategory Matching
+    const activeSub = (selectedSubmenu && selectedSubmenu !== 'All')
+      ? selectedSubmenu
+      : ((selectedSubcategory && selectedSubcategory !== 'All') ? selectedSubcategory : null);
+
+    let matchesSubcategory = false;
+    if (!activeSub) {
+      // No submenu filter applied: all products belonging to this menu match
+      matchesSubcategory = true;
+    } else {
+      const activeSubSlug = createSlug(activeSub);
+      const activeSubObj = activeNavMenu?.items?.find(i =>
+        (i.id && i.id === activeSub) ||
+        createSlug(i.id || '') === activeSubSlug ||
+        createSlug(i.name) === activeSubSlug ||
+        createSlug(i.search || '') === activeSubSlug
+      );
+      const targetSubId = activeSubObj?.id || activeSub;
+      const targetSubName = activeSubObj?.name || activeSub;
+
+      const pSubId = p.navigationSubmenuId || p.headerSubmenuId;
+      const pSubTitle = p.navigationSubmenuTitle || p.headerSubmenuTitle;
+
+      if (pSubId || pSubTitle) {
+        // Product has explicit navigation submenu assignment!
+        matchesSubcategory = (
+          pSubId === targetSubId ||
+          createSlug(pSubId) === createSlug(targetSubId) ||
+          createSlug(pSubId) === activeSubSlug ||
+          (pSubTitle && createSlug(pSubTitle) === createSlug(targetSubName)) ||
+          (pSubTitle && createSlug(pSubTitle) === activeSubSlug)
+        );
+      } else {
+        // Legacy product without submenu assignment: safe backward-compatible fallback
+        matchesSubcategory = (
+          createSlug(p.subcategory) === activeSubSlug ||
+          (p.tags && Array.isArray(p.tags) && p.tags.some(t => createSlug(t) === activeSubSlug)) ||
+          (activeSubObj?.search && (
+            (p.title || '').toLowerCase().includes(activeSubObj.search.toLowerCase()) ||
+            (p.summary || '').toLowerCase().includes(activeSubObj.search.toLowerCase())
+          ))
+        );
+      }
+    }
 
     // Finish Matching
     const matchesFinish = selectedFinish === 'All' ||
@@ -253,8 +382,10 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
       const summaryP = (p.summary || p.description || '').toLowerCase();
       const aliasesP = (p.searchAliases || []).map(a => a.toLowerCase()).join(' ');
       const tagsP = (p.tags || []).map(t => t.toLowerCase()).join(' ');
+      const navMenuP = (p.navigationMenuTitle || p.headerMenuTitle || '').toLowerCase();
+      const navSubP = (p.navigationSubmenuTitle || p.headerSubmenuTitle || '').toLowerCase();
 
-      const fullText = `${titleLower} ${catP} ${canonicalP} ${subcatP} ${summaryP} ${aliasesP} ${tagsP}`;
+      const fullText = `${titleLower} ${catP} ${canonicalP} ${subcatP} ${summaryP} ${aliasesP} ${tagsP} ${navMenuP} ${navSubP}`;
 
       if (fullText.includes(searchTrimmed)) {
         matchesSearch = true;
@@ -363,6 +494,19 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
               </span>
             )}
 
+            {/* Active Submenu Filter Chip */}
+            {((selectedSubmenu && selectedSubmenu !== 'All') || (selectedSubcategory && selectedSubcategory !== 'All')) && (
+              <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-[12px] font-bold flex items-center gap-1.5 border border-blue-200">
+                <span>Submenu: {activeNavMenu?.items?.find(i => i.id === selectedSubmenu || createSlug(i.name) === createSlug(selectedSubcategory))?.name || selectedSubcategory}</span>
+                <button
+                  onClick={() => handleSelectSubcategory('All')}
+                  className="hover:text-blue-950 bg-transparent border-none cursor-pointer"
+                >
+                  <FiX className="w-3.5 h-3.5" />
+                </button>
+              </span>
+            )}
+
             {/* Active Search Term Filter Chip */}
             {searchTerm && (
               <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-[12px] font-bold flex items-center gap-1.5 border border-purple-200">
@@ -381,7 +525,7 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
               </span>
             )}
 
-            {(activeCategory !== 'All' || searchTerm || selectedSubcategory !== 'All' || selectedFinish !== 'All') && (
+            {(activeCategory !== 'All' || searchTerm || selectedSubcategory !== 'All' || selectedFinish !== 'All' || (selectedSubmenu && selectedSubmenu !== 'All')) && (
               <button
                 onClick={clearAllFilters}
                 className="text-[12px] font-bold text-rose-600 hover:text-rose-800 underline bg-transparent border-none cursor-pointer ml-1"
@@ -433,7 +577,17 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                   // Calculate exact matching count
                   const catCount = cat === 'All'
                     ? pool.length
-                    : pool.filter(p => getCanonicalCategory(p.category) === cat).length;
+                    : pool.filter(p => {
+                      const pMenuId = p.navigationMenuId || p.headerMenuId;
+                      const pMenuTitle = p.navigationMenuTitle || p.headerMenuTitle;
+                      if (pMenuId || pMenuTitle) {
+                        return p.showInNavigation !== false && (
+                          createSlug(pMenuTitle || pMenuId) === createSlug(cat) ||
+                          (activeNavMenu && (pMenuId === activeNavMenu.id || createSlug(pMenuId) === createSlug(activeNavMenu.id)))
+                        );
+                      }
+                      return getCanonicalCategory(p.category) === cat || createSlug(p.category) === createSlug(cat);
+                    }).length;
 
                   return (
                     <button
@@ -464,11 +618,12 @@ export function ProductsPage({ onNavigateCart, setCurrentPage }) {
                 <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
                   {['All', ...availableSubcategories].map((sub) => {
                     const subSlug = sub === 'All' ? 'All' : createSlug(sub);
-                    const isSelected = selectedSubcategory === subSlug || selectedSubcategory === sub;
+                    const subObj = activeNavMenu?.items?.find(i => createSlug(i.name) === subSlug || (i.id && i.id === sub));
+                    const isSelected = selectedSubcategory === subSlug || selectedSubcategory === sub || (subObj && selectedSubmenu === subObj.id);
                     return (
                       <button
                         key={sub}
-                        onClick={() => setSelectedSubcategory(subSlug)}
+                        onClick={() => handleSelectSubcategory(sub)}
                         className={`w-full text-left px-3 py-2 rounded-xl text-[12px] font-bold transition border cursor-pointer ${isSelected
                           ? 'bg-[#07152F] text-white border-[#07152F]'
                           : 'bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-100'

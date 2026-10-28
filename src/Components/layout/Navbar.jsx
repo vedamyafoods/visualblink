@@ -70,12 +70,13 @@ export function Navbar({ currentPage, setCurrentPage }) {
           <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
             {liveMegamenuCats.map((catData, idx) => {
               const catName = catData.title;
+              const catId = catData.id || createSlug(catName);
               const subItems = catData.items || [];
 
               return (
                 <div key={`${catData.id || idx}`} className="relative group">
                   <button
-                    onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName }, '#catalog')}
+                    onClick={() => handleLinkClick('products', { menu: catId, category: catData.categoryQuery || catName }, '#catalog')}
                     className="flex items-center gap-1 py-1 text-[14px] xl:text-[14.5px] font-bold text-[#0F172A] group-hover:text-[#025afc] transition-colors border-none bg-transparent cursor-pointer whitespace-nowrap"
                   >
                     <span>{catName}</span>
@@ -89,15 +90,23 @@ export function Navbar({ currentPage, setCurrentPage }) {
                         <div className="text-[10px] font-bold text-[#025afc] uppercase tracking-wider px-2 py-1 border-b border-slate-100 mb-1">
                           {catName}
                         </div>
-                        {subItems.map((sub, sIdx) => (
-                          <button
-                            key={sIdx}
-                            onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, subcategory: createSlug(sub.name) }, '#catalog')}
-                            className="block w-full text-left px-2.5 py-1.5 text-[13px] font-bold text-slate-700 hover:text-[#025afc] hover:bg-blue-50/60 rounded-xl transition-colors border-none bg-transparent cursor-pointer"
-                          >
-                            {sub.name}
-                          </button>
-                        ))}
+                        {subItems.map((sub, sIdx) => {
+                          const subId = sub.id || createSlug(sub.name);
+                          return (
+                            <button
+                              key={subId || sIdx}
+                              onClick={() => handleLinkClick('products', {
+                                menu: catId,
+                                submenu: subId,
+                                category: catData.categoryQuery || catName,
+                                subcategory: createSlug(sub.name)
+                              }, '#catalog')}
+                              className="block w-full text-left px-2.5 py-1.5 text-[13px] font-bold text-slate-700 hover:text-[#025afc] hover:bg-blue-50/60 rounded-xl transition-colors border-none bg-transparent cursor-pointer"
+                            >
+                              {sub.name}
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -192,6 +201,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
 
           {liveMegamenuCats.map((catData, idx) => {
             const catName = catData.title;
+            const catId = catData.id || createSlug(catName);
             const subItems = catData.items || [];
             const isOpen = openMobileSubcat === catName;
 
@@ -202,7 +212,7 @@ export function Navbar({ currentPage, setCurrentPage }) {
                     if (subItems.length > 0) {
                       setOpenMobileSubcat(isOpen ? null : catName);
                     } else {
-                      handleLinkClick('products', { category: catData.categoryQuery || catName }, '#catalog');
+                      handleLinkClick('products', { menu: catId, category: catData.categoryQuery || catName }, '#catalog');
                     }
                   }}
                   className="w-full text-left px-3 py-2 text-[14px] font-bold text-[#0F172A] hover:bg-slate-50 rounded-xl flex items-center justify-between border-none bg-transparent cursor-pointer"
@@ -215,15 +225,23 @@ export function Navbar({ currentPage, setCurrentPage }) {
 
                 {isOpen && subItems.length > 0 && (
                   <div className="pl-4 space-y-1 border-l-2 border-pink-200 ml-3 py-1">
-                    {subItems.map((sub, sIdx) => (
-                      <button
-                        key={sIdx}
-                        onClick={() => handleLinkClick('products', { category: catData.categoryQuery || catName, subcategory: createSlug(sub.name) }, '#catalog')}
-                        className="block w-full text-left px-3 py-1.5 text-[13px] font-bold text-slate-600 hover:text-[#025afc] border-none bg-transparent cursor-pointer"
-                      >
-                        {sub.name}
-                      </button>
-                    ))}
+                    {subItems.map((sub, sIdx) => {
+                      const subId = sub.id || createSlug(sub.name);
+                      return (
+                        <button
+                          key={subId || sIdx}
+                          onClick={() => handleLinkClick('products', {
+                            menu: catId,
+                            submenu: subId,
+                            category: catData.categoryQuery || catName,
+                            subcategory: createSlug(sub.name)
+                          }, '#catalog')}
+                          className="block w-full text-left px-3 py-1.5 text-[13px] font-bold text-slate-600 hover:text-[#025afc] border-none bg-transparent cursor-pointer"
+                        >
+                          {sub.name}
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
               </div>

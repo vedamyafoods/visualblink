@@ -17,7 +17,16 @@ export const MegamenuManager = () => {
     }, []);
 
     const handleSave = async () => {
-        await saveMegamenuCategoriesToFirestore(categories);
+        const cleaned = categories.map((c, cIdx) => ({
+            ...c,
+            id: c.id || `nav_${cIdx}_${Date.now()}`,
+            items: (c.items || []).map((item, iIdx) => ({
+                ...item,
+                id: item.id || (item.name ? item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') : `sub_${cIdx}_${iIdx}`)
+            }))
+        }));
+        await saveMegamenuCategoriesToFirestore(cleaned);
+        setCategories(cleaned);
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
     };
@@ -45,9 +54,10 @@ export const MegamenuManager = () => {
     const addDropdownItem = (catId) => {
         setCategories(categories.map(c => {
             if (c.id === catId) {
+                const subId = `sub_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
                 return {
                     ...c,
-                    items: [...(c.items || []), { name: 'New Item', search: 'new-item', tag: '' }]
+                    items: [...(c.items || []), { id: subId, name: 'New Item', search: 'new-item', tag: '' }]
                 };
             }
             return c;

@@ -109,7 +109,7 @@ export function ProductDetailPage({ product, onBack, onNavigateCart, allProducts
 
 
   // Minimum Order Quantity from product or default 100
-  const minPieces = product.minOrderQty;
+  const minPieces = product.minOrderQty || (product.tieredPricing?.[0]?.tierMin) || 100;
 
   const [isCustomQty, setIsCustomQty] = useState(false);
   const [customQtyInput, setCustomQtyInput] = useState(minPieces);

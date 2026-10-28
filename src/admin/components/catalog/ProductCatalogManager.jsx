@@ -22,8 +22,8 @@ import { DEFAULT_CATALOG_OPTIONS, subscribeToHomepageCategories, subscribeToMega
 // Sub-Section Components
 import { FormSectionCustomizerToolbar } from './sections/FormSectionCustomizerToolbar';
 import { BasicDetailsSection } from './sections/BasicDetailsSection';
+import { HeaderNavigationSection } from './sections/HeaderNavigationSection';
 import { OrientationSection } from './sections/OrientationSection';
-import { PaperSizesSection } from './sections/PaperSizesSection';
 import { TechSpecsSection, DEFAULT_DESIGN_GUIDELINES } from './sections/TechSpecsSection';
 import { NcrEngineSection } from './sections/NcrEngineSection';
 import { VisitingCardEngineSection } from './sections/VisitingCardEngineSection';
@@ -336,6 +336,15 @@ export const ProductCatalogManager = () => {
     title: '',
     slug: '',
     category: 'Business Cards',
+    navigationMenuId: '',
+    navigationMenuTitle: '',
+    navigationSubmenuId: '',
+    navigationSubmenuTitle: '',
+    headerMenuId: '',
+    headerMenuTitle: '',
+    headerSubmenuId: '',
+    headerSubmenuTitle: '',
+    showInNavigation: true,
     basePrice: 5.0,
     minOrderQty: 100,
     summary: '',
@@ -377,6 +386,15 @@ export const ProductCatalogManager = () => {
       title: '',
       slug: '',
       category: categories[0] || 'Business Cards',
+      navigationMenuId: '',
+      navigationMenuTitle: '',
+      navigationSubmenuId: '',
+      navigationSubmenuTitle: '',
+      headerMenuId: '',
+      headerMenuTitle: '',
+      headerSubmenuId: '',
+      headerSubmenuTitle: '',
+      showInNavigation: true,
       basePrice: 5.0,
       minOrderQty: 100,
       summary: '',
@@ -446,6 +464,16 @@ export const ProductCatalogManager = () => {
 
     setFormData({
       ...prod,
+      navigationMenuId: prod.navigationMenuId || prod.headerMenuId || '',
+      navigationMenuTitle: prod.navigationMenuTitle || prod.headerMenuTitle || '',
+      navigationSubmenuId: prod.navigationSubmenuId || prod.headerSubmenuId || '',
+      navigationSubmenuTitle: prod.navigationSubmenuTitle || prod.headerSubmenuTitle || '',
+      headerMenuId: prod.headerMenuId || prod.navigationMenuId || '',
+      headerMenuTitle: prod.headerMenuTitle || prod.navigationMenuTitle || '',
+      headerSubmenuId: prod.headerSubmenuId || prod.navigationSubmenuId || '',
+      headerSubmenuTitle: prod.headerSubmenuTitle || prod.navigationSubmenuTitle || '',
+      showInNavigation: prod.showInNavigation !== false,
+      basePrice: prod.basePrice !== undefined ? prod.basePrice : (prod.price !== undefined ? prod.price : 5.0),
       images: initialImages,
       image: initialImages[0] || prod.image || '',
       designGuidelines: initialGuidelines,
@@ -664,9 +692,64 @@ export const ProductCatalogManager = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate Header Navigation
+    if (!formData.navigationMenuId) {
+      alert('Header Menu is required. Please select a main navigation menu in the HEADER NAVIGATION & PRODUCT PLACEMENT section.');
+      setFormActiveTab('general');
+      return;
+    }
+
+    const matchedNavMenu = (liveNavigationMenus || []).find(m =>
+      m.id === formData.navigationMenuId ||
+      (m.title && formData.navigationMenuId && m.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') === formData.navigationMenuId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''))
+    );
+
+    if (matchedNavMenu && Array.isArray(matchedNavMenu.items) && matchedNavMenu.items.length > 0) {
+      if (!formData.navigationSubmenuId) {
+        alert(`Header Submenu is required. Please select a submenu for "${matchedNavMenu.title}".`);
+        setFormActiveTab('general');
+        return;
+      }
+
+      const isValidSub = matchedNavMenu.items.some(i => {
+        const subId = (i.id || (i.name ? i.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') : '')).toLowerCase();
+        const targetId = (formData.navigationSubmenuId || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        const targetTitle = (formData.navigationSubmenuTitle || '').toLowerCase();
+        return subId === targetId || (i.name && i.name.toLowerCase() === targetTitle);
+      });
+
+      if (!isValidSub) {
+        alert(`The selected submenu does not belong to "${matchedNavMenu.title}". Please select a valid submenu.`);
+        setFormActiveTab('general');
+        return;
+      }
+    }
+
     const cleanImages = (formData.images || []).filter(Boolean);
+
+    // Safe fallback for basePrice and minOrderQty without breaking pricing engine
+    const derivedBasePrice = formData.basePrice !== undefined && !isNaN(Number(formData.basePrice))
+      ? Number(formData.basePrice)
+      : (formData.tieredPricing?.[0]?.pricePerUnit !== undefined ? Number(formData.tieredPricing[0].pricePerUnit) : 5.0);
+
+    const derivedMOQ = formData.minOrderQty && !isNaN(Number(formData.minOrderQty))
+      ? parseInt(formData.minOrderQty)
+      : (formData.tieredPricing?.[0]?.tierMin ? parseInt(formData.tieredPricing[0].tierMin) : 100);
+
     const payload = {
       ...formData,
+      basePrice: derivedBasePrice,
+      minOrderQty: derivedMOQ,
+      navigationMenuId: formData.navigationMenuId || '',
+      navigationMenuTitle: formData.navigationMenuTitle || matchedNavMenu?.title || '',
+      navigationSubmenuId: formData.navigationSubmenuId || '',
+      navigationSubmenuTitle: formData.navigationSubmenuTitle || '',
+      headerMenuId: formData.navigationMenuId || '',
+      headerMenuTitle: formData.navigationMenuTitle || matchedNavMenu?.title || '',
+      headerSubmenuId: formData.navigationSubmenuId || '',
+      headerSubmenuTitle: formData.navigationSubmenuTitle || '',
+      showInNavigation: formData.showInNavigation !== false,
       images: cleanImages,
       image: cleanImages[0] || formData.image || ''
     };
@@ -921,7 +1004,7 @@ export const ProductCatalogManager = () => {
                     {editingProduct ? `Edit SKU: ${formData.title}` : 'Create New Custom Print Product'}
                   </h3>
                   <p className="text-[13px] text-slate-500 font-medium">
-                    Configure details, quantity volume pricing, orientation, paper sizes, and options matrix
+                    Configure details, quantity volume pricing, and payment settings
                   </p>
                 </div>
               </div>
@@ -1014,19 +1097,7 @@ export const ProductCatalogManager = () => {
                 <DollarSign className="w-4 h-4" /> 2. Volume Tier Pricing
               </button>
 
-              {/* Tab 3: Options Matrices */}
-              <button
-                type="button"
-                onClick={() => setFormActiveTab('variants')}
-                className={`px-4 py-2 rounded-xl text-[13.5px] font-bold transition-all flex items-center gap-2 cursor-pointer border ${formActiveTab === 'variants'
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
-                  }`}
-              >
-                <Layers className="w-4 h-4" /> 3. Options Matrices
-              </button>
-
-              {/* Tab 4: Payment & Advance Settings */}
+              {/* Tab 3: Payment & Advance Settings */}
               <button
                 type="button"
                 onClick={() => setFormActiveTab('payment')}
@@ -1035,12 +1106,12 @@ export const ProductCatalogManager = () => {
                   : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
                   }`}
               >
-                <CreditCard className="w-4 h-4" /> 4. Payment & Advance Settings
+                <CreditCard className="w-4 h-4" /> 3. Payment & Advance Settings
               </button>
             </div>
 
             {/* Tabbed Form Body - STRICT INDEPENDENT SCROLL CONTAINER */}
-            <div className="p-6 space-y-6 overflow-y-auto flex-1 text-[14px] custom-scrollbar bg-slate-50/30">
+            <div className="p-6 pb-28 space-y-6 overflow-y-auto flex-1 text-[14px] custom-scrollbar bg-slate-50/30">
 
               {/* TAB 1: GENERAL INFO, ENGINES & MEDIA */}
               {formActiveTab === 'general' && (
@@ -1063,6 +1134,13 @@ export const ProductCatalogManager = () => {
                     setInlineSubcatInput={setInlineSubcatInput}
                   />
 
+                  {/* HEADER NAVIGATION & PRODUCT PLACEMENT */}
+                  <HeaderNavigationSection
+                    formData={formData}
+                    setFormData={setFormData}
+                    navigationMenus={liveNavigationMenus}
+                  />
+
                   {/* Form Section Customizer Toolbar */}
                   <FormSectionCustomizerToolbar
                     formData={formData}
@@ -1074,26 +1152,6 @@ export const ProductCatalogManager = () => {
                     customSections={formData.customSections || []}
                     onChange={(updatedSections) => setFormData({ ...formData, customSections: updatedSections })}
                   />
-
-                  {/* Optional Paper Sizes Card (Orientation Hidden) */}
-                  {(formData.enableOrientation !== false || formData.enablePaperSizes !== false) && (
-                    <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-3xs space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                        {/* <OrientationSection
-                          formData={formData}
-                          setFormData={setFormData}
-                          catalogOptions={catalogOptions}
-                          updateCatalogOptions={updateCatalogOptions}
-                        /> */}
-                        <PaperSizesSection
-                          formData={formData}
-                          setFormData={setFormData}
-                          catalogOptions={catalogOptions}
-                          updateCatalogOptions={updateCatalogOptions}
-                        />
-                      </div>
-                    </div>
-                  )}
 
                   {/* Dynamic Design Guidelines Section */}
                   <TechSpecsSection
@@ -1278,195 +1336,7 @@ export const ProductCatalogManager = () => {
                 />
               )}
 
-              {/* TAB 3: PRINT OPTIONS & FINISHES MATRIX (12 SECTIONS) */}
-              {formActiveTab === 'variants' && (
-                <div className="space-y-4 animate-in fade-in duration-150">
-                  <div className="p-3 bg-blue-50/80 border border-blue-200/80 rounded-2xl text-blue-900 text-[13.5px] flex flex-wrap items-center justify-between gap-3">
-                    <span className="font-bold flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-blue-600 shrink-0" />
-                      Add, edit, or remove options. All changes will save cleanly when you submit the form.
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (window.confirm("Are you sure you want to clear ALL options across all 12 option matrices in 1 click?")) {
-                          const emptyVariants = {
-                            paperStock: [],
-                            finishes: [],
-                            sides: [],
-                            corners: [],
-                            lamination: [],
-                            sizeFormat: [],
-                            foilAccents: [],
-                            spotUV: [],
-                            bindingStyle: [],
-                            proofService: [],
-                            packagingStyle: [],
-                            customAreaPricing: []
-                          };
-                          setFormData(prev => ({ ...prev, variants: emptyVariants }));
-                        }
-                      }}
-                      className="px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-[12.5px] shadow-sm flex items-center gap-1.5 cursor-pointer border-none transition shrink-0"
-                      title="Clear options across all 12 sections in 1 click"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" /> Clear All 12 Option Sections
-                    </button>
-                  </div>
-
-                  {/* Category Quick Filter Sub-Tabs */}
-                  <div className="flex items-center gap-2 overflow-x-auto pb-1">
-                    {[
-                      { id: 'all', label: 'All Sections (12)' },
-                      { id: 'paper', label: '📄 Paper & Finishes' },
-                      { id: 'sizing', label: '📐 Sizing & Area (sq.ft)' },
-                      { id: 'enhancements', label: '✨ Foils & Textures' },
-                      { id: 'binding', label: '📦 Binding & Delivery' }
-                    ].map(f => (
-                      <button
-                        key={f.id}
-                        type="button"
-                        onClick={() => setVariantFilterCategory(f.id)}
-                        className={`px-3 py-1.5 rounded-xl font-bold text-[12px] shrink-0 border cursor-pointer transition ${variantFilterCategory === f.id
-                          ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
-                          : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
-                          }`}
-                      >
-                        {f.label}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* 12 Option Cards Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {(variantFilterCategory === 'all' || variantFilterCategory === 'paper') && (
-                      <>
-                        <VariantSectionCard
-                          title="1. Paper Stock & Board Weight"
-                          groupKey="paperStock"
-                          items={formData.variants?.paperStock || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.paperStock}
-                        />
-
-                        <VariantSectionCard
-                          title="2. Special Finishes"
-                          groupKey="finishes"
-                          items={formData.variants?.finishes || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.finishes}
-                        />
-
-                        <VariantSectionCard
-                          title="5. Lamination Finish & Coating"
-                          groupKey="lamination"
-                          items={formData.variants?.lamination || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.lamination}
-                        />
-                      </>
-                    )}
-
-                    {(variantFilterCategory === 'all' || variantFilterCategory === 'sizing') && (
-                      <>
-                        <VariantSectionCard
-                          title="6. Size Formats & Aspect Ratio"
-                          groupKey="sizeFormat"
-                          items={formData.variants?.sizeFormat || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.sizeFormat}
-                        />
-
-                        <VariantSectionCard
-                          title="12. Custom Area Tier Pricing & Calculation (sq. feet)"
-                          groupKey="customAreaPricing"
-                          items={formData.variants?.customAreaPricing || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.customAreaPricing}
-                        />
-                      </>
-                    )}
-
-                    {(variantFilterCategory === 'all' || variantFilterCategory === 'enhancements') && (
-                      <>
-                        <VariantSectionCard
-                          title="3. Print Sides Option"
-                          groupKey="sides"
-                          items={formData.variants?.sides || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.sides}
-                        />
-
-                        <VariantSectionCard
-                          title="4. Edge Cuts & Corner Finishing"
-                          groupKey="corners"
-                          items={formData.variants?.corners || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.corners}
-                        />
-
-                        <VariantSectionCard
-                          title="7. Metallic Foil Accents & Stamping"
-                          groupKey="foilAccents"
-                          items={formData.variants?.foilAccents || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.foilAccents}
-                        />
-
-                        <VariantSectionCard
-                          title="8. Spot UV & Raised Gloss Textures"
-                          groupKey="spotUV"
-                          items={formData.variants?.spotUV || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.spotUV}
-                        />
-                      </>
-                    )}
-
-                    {(variantFilterCategory === 'all' || variantFilterCategory === 'binding') && (
-                      <>
-                        <VariantSectionCard
-                          title="9. Binding & Booklet Construction"
-                          groupKey="bindingStyle"
-                          items={formData.variants?.bindingStyle || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.bindingStyle}
-                        />
-
-                        <VariantSectionCard
-                          title="10. Prepress Proofing Service"
-                          groupKey="proofService"
-                          items={formData.variants?.proofService || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.proofService}
-                        />
-
-                        <VariantSectionCard
-                          title="11. Packaging & Presentation Style"
-                          groupKey="packagingStyle"
-                          items={formData.variants?.packagingStyle || []}
-                          onUpdateItems={handleUpdateVariantItems}
-                          onRestoreDefaults={handleRestoreDefaults}
-                          defaultItems={DEFAULT_CATALOG_OPTIONS.packagingStyle}
-                        />
-                      </>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 4: PAYMENT & ADVANCE SETTINGS */}
+              {/* TAB 3: PAYMENT & ADVANCE SETTINGS */}
               {formActiveTab === 'payment' && (
                 <PaymentAdvanceSettingsSection
                   formData={formData}
@@ -1479,7 +1349,7 @@ export const ProductCatalogManager = () => {
             {/* Sticky Bottom Action Bar */}
             <div className="bg-white px-6 py-3.5 border-t border-slate-200/80 flex items-center justify-between rounded-b-3xl shrink-0 shadow-md">
               <span className="text-[13px] font-semibold text-slate-500 hidden sm:inline-block">
-                💡 Saved product details and matrices instantly sync to live storefront.
+                💡 Saved product details and settings instantly sync to live storefront.
               </span>
               <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
                 <button
@@ -1493,7 +1363,7 @@ export const ProductCatalogManager = () => {
                   type="submit"
                   className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] shadow-md shadow-blue-500/20 transition cursor-pointer flex items-center gap-2 border-none active:scale-95"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-white" /> Save Product & Live Matrix
+                  <CheckCircle2 className="w-4 h-4 text-white" /> Save Product
                 </button>
               </div>
             </div>

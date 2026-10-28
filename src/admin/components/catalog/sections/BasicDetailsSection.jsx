@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, Plus, Check } from 'lucide-react';
+import { Package, Plus, Check, Tag, X } from 'lucide-react';
 import { saveHomepageCategory } from '../../../../services/firebase';
 
 export const BasicDetailsSection = ({
@@ -19,7 +19,41 @@ export const BasicDetailsSection = ({
   setInlineSubcatInput
 }) => {
   const [relatedSearch, setRelatedSearch] = useState('');
+  const [newKeywordInput, setNewKeywordInput] = useState('');
   const selectedRelatedIds = formData.relatedProductIds || [];
+
+  const handleAddKeyword = (kwToAdd) => {
+    const raw = typeof kwToAdd === 'string' ? kwToAdd : newKeywordInput;
+    if (!raw) return;
+    const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
+    if (parts.length === 0) return;
+
+    const currentLower = (formData.searchAliases || []).map(s => s.toLowerCase());
+    const newItems = parts.filter(p => !currentLower.includes(p.toLowerCase()));
+    if (newItems.length > 0) {
+      setFormData(prev => ({
+        ...prev,
+        searchAliases: [...(prev.searchAliases || []), ...newItems]
+      }));
+    }
+    setNewKeywordInput('');
+  };
+
+  const handleRemoveKeyword = (indexToRemove) => {
+    setFormData(prev => ({
+      ...prev,
+      searchAliases: (prev.searchAliases || []).filter((_, idx) => idx !== indexToRemove)
+    }));
+  };
+
+  const handleKeywordKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      handleAddKeyword();
+    } else if (e.key === 'Backspace' && !newKeywordInput && (formData.searchAliases || []).length > 0) {
+      handleRemoveKeyword((formData.searchAliases || []).length - 1);
+    }
+  };
 
   const toggleRelatedProduct = (prodId) => {
     const current = [...selectedRelatedIds];
@@ -55,35 +89,13 @@ export const BasicDetailsSection = ({
           />
         </div>
 
-        <div>
-          <label className="block font-bold text-slate-700 mb-1.5 uppercase text-[10px] tracking-wider">Base Price (₹) *</label>
-          <input
-            type="number"
-            step="0.01"
-            value={formData.basePrice}
-            onChange={(e) => setFormData({ ...formData, basePrice: parseFloat(e.target.value) || 0 })}
-            className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
-          />
-        </div>
-
-        <div>
+        <div className="md:col-span-2">
           <label className="block font-bold text-slate-700 mb-1.5 uppercase text-[10px] tracking-wider">Pricing Unit *</label>
           <input
             type="text"
             value={formData.unit || 'pcs'}
             onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
             placeholder="e.g. pcs, pages, kg, bundle"
-            className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
-          />
-        </div>
-
-        <div>
-          <label className="block font-bold text-slate-700 mb-1.5 uppercase text-[10px] tracking-wider">Minimum Order Qty (MOQ) *</label>
-          <input
-            type="number"
-            min="1"
-            value={formData.minOrderQty || 100}
-            onChange={(e) => setFormData({ ...formData, minOrderQty: parseInt(e.target.value) || 1 })}
             className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-[14px]"
           />
         </div>
@@ -157,16 +169,16 @@ export const BasicDetailsSection = ({
               value={formData.category}
               onChange={(e) => {
                 const newCat = e.target.value;
-                const matched = (megamenuCategories || []).find(c => (c.categoryQuery || c.title) === newCat || c.title === newCat);
-                const firstSub = matched?.items?.[0]?.name || '';
-                setFormData({ ...formData, category: newCat, subcategory: firstSub });
+                setFormData({ ...formData, category: newCat });
               }}
               className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-800 focus:outline-none focus:border-blue-500 bg-white text-[14px]"
             >
-              {(megamenuCategories && megamenuCategories.length > 0
-                ? megamenuCategories.map(c => c.categoryQuery || c.title)
-                : ['Business Cards', 'Apparel', 'Gifts', 'Invitations', 'Corporate Gifting', 'Printing']
-              ).map((catName, idx) => (
+              {Array.from(new Set([
+                ...(megamenuCategories && megamenuCategories.length > 0
+                  ? megamenuCategories.map(c => c.categoryQuery || c.title)
+                  : ['Business Cards', 'Apparel', 'Gifts', 'Invitations', 'Corporate Gifting', 'Printing']),
+                formData.category
+              ].filter(Boolean))).map((catName, idx) => (
                 <option key={idx} value={catName}>{catName}</option>
               ))}
             </select>
@@ -263,23 +275,75 @@ export const BasicDetailsSection = ({
         </div>
 
         {/* Search Keywords / Aliases Input */}
-        <div className="md:col-span-2">
-          <label className="block font-bold text-slate-700 mb-1.5 uppercase text-[10px] tracking-wider">
-            Search Keywords / Aliases (e.g. parcha, pamplet, rasid book, flex)
-          </label>
-          <input
-            type="text"
-            value={(formData.searchAliases || []).join(', ')}
-            onChange={(e) => {
-              const arr = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
-              setFormData({ ...formData, searchAliases: arr });
-            }}
-            placeholder="Enter keywords separated by comma..."
-            className="w-full p-3 rounded-xl border border-slate-200 font-bold text-slate-900 focus:outline-none focus:border-blue-500 text-[13.5px] bg-slate-50/50"
-          />
-          <span className="text-[10px] text-slate-400 font-medium mt-1 block">
-            Help customers find this product using local/vernacular search queries.
-          </span>
+        <div className="md:col-span-2 space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="block font-bold text-slate-700 uppercase text-[10px] tracking-wider flex items-center gap-1.5">
+              <Tag className="w-3.5 h-3.5 text-blue-600" /> Search Keywords / Aliases (e.g. parcha, pamplet, rasid book, flex)
+            </label>
+            <span className="text-[11px] text-slate-400 font-semibold">
+              {(formData.searchAliases || []).length} keywords active
+            </span>
+          </div>
+
+          {/* Active Keywords Container */}
+          <div className="min-h-[48px] p-2 bg-slate-50 border border-slate-200 rounded-xl flex flex-wrap items-center gap-1.5 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100 focus-within:bg-white transition">
+            {(formData.searchAliases || []).map((alias, idx) => (
+              <span
+                key={`${alias}-${idx}`}
+                className="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 bg-blue-50 border border-blue-200 text-blue-900 text-[12.5px] font-bold rounded-lg shadow-3xs"
+              >
+                <span>{alias}</span>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveKeyword(idx)}
+                  className="w-4 h-4 rounded-full hover:bg-red-100 text-slate-400 hover:text-red-600 flex items-center justify-center transition border-none cursor-pointer"
+                  title={`Remove "${alias}"`}
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            ))}
+
+            {/* Keyword Input Box */}
+            <div className="flex-1 flex items-center gap-1 min-w-[220px]">
+              <input
+                type="text"
+                value={newKeywordInput}
+                onChange={(e) => setNewKeywordInput(e.target.value)}
+                onKeyDown={handleKeywordKeyDown}
+                placeholder={(formData.searchAliases || []).length === 0 ? "Type keyword (e.g. parcha) and press Enter or comma..." : "Type and press Enter to add..."}
+                className="w-full px-2 py-1 bg-transparent text-[13px] font-semibold text-slate-900 placeholder-slate-400 focus:outline-none"
+              />
+              {newKeywordInput.trim() && (
+                <button
+                  type="button"
+                  onClick={() => handleAddKeyword()}
+                  className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[12px] font-bold rounded-lg shrink-0 cursor-pointer border-none shadow-3xs transition"
+                >
+                  + Add
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
+            <span className="text-[11px] text-slate-500 font-medium">
+              💡 Type a keyword and press <kbd className="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-[10px] font-mono font-bold text-slate-700">Enter</kbd> or <kbd className="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-[10px] font-mono font-bold text-slate-700">,</kbd> to add. Paste comma-separated text to add multiple at once.
+            </span>
+            <div className="flex items-center gap-1 text-[11px] text-slate-500">
+              <span className="text-slate-400 font-medium">Quick add:</span>
+              {['parcha', 'pamplet', 'visiting card', 'rasid book', 'flex'].filter(q => !(formData.searchAliases || []).map(s => s.toLowerCase()).includes(q.toLowerCase())).slice(0, 4).map(suggested => (
+                <button
+                  key={suggested}
+                  type="button"
+                  onClick={() => handleAddKeyword(suggested)}
+                  className="px-2 py-0.5 rounded-md bg-white hover:bg-blue-50 hover:text-blue-600 text-slate-600 text-[10.5px] font-bold border border-slate-200 transition cursor-pointer shadow-3xs"
+                >
+                  +{suggested}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Industry / Built for Your Business Selection */}
