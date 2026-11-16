@@ -17,6 +17,7 @@ import { DEFAULT_PROMO_BANNERS } from '../../../Components/sections/PromoBannerS
 
 export const PromoBannerSliderManager = ({ formData, setFormData, onSave, isSaving }) => {
   const [uploadingIndex, setUploadingIndex] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [previewSlideIdx, setPreviewSlideIdx] = useState(0);
 
   const sliderConfig = formData?.promoBannerSlider || {};
@@ -96,8 +97,11 @@ export const PromoBannerSliderManager = ({ formData, setFormData, onSave, isSavi
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadingIndex(index);
+    setUploadProgress(0);
     try {
-      const res = await uploadToCloudinary(file, 'promo_banners');
+      const res = await uploadToCloudinary(file, 'promo_banners', (pct) => {
+        setUploadProgress(pct);
+      });
       if (res && (res.secureUrl || res.url)) {
         updateBannerField(index, 'image', res.secureUrl || res.url);
       }
@@ -105,6 +109,7 @@ export const PromoBannerSliderManager = ({ formData, setFormData, onSave, isSavi
       console.warn("Upload failed:", err);
     } finally {
       setUploadingIndex(null);
+      setUploadProgress(0);
       e.target.value = '';
     }
   };
@@ -293,13 +298,26 @@ export const PromoBannerSliderManager = ({ formData, setFormData, onSave, isSavi
                     alt="Slide"
                     className="w-full h-full object-cover"
                   />
-                  <label className="absolute inset-0 bg-slate-950/70 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer text-xs font-bold p-2 text-center">
-                    <Upload className="w-5 h-5 mb-1" />
-                    <span>{uploadingIndex === idx ? 'Uploading...' : 'Upload Cloudinary Image'}</span>
+                  <label className={`absolute inset-0 bg-slate-950/75 text-white flex flex-col items-center justify-center transition cursor-pointer text-xs font-bold p-2 text-center ${uploadingIndex === idx ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                    {uploadingIndex === idx ? (
+                      <div className="flex flex-col items-center gap-1.5 w-full px-4">
+                        <div className="w-6 h-6 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                        <span className="text-blue-300 font-mono text-sm">{uploadProgress}%</span>
+                        <div className="w-full bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                          <div className="bg-blue-500 h-1.5 rounded-full transition-all duration-150" style={{ width: `${uploadProgress}%` }} />
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <Upload className="w-5 h-5 mb-1 text-blue-400" />
+                        <span>Upload Cloudinary Image</span>
+                      </>
+                    )}
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleImageUpload(e, idx)}
+                      disabled={uploadingIndex === idx}
                       className="hidden"
                     />
                   </label>

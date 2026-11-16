@@ -51,6 +51,7 @@ export const HomepageCategoriesManager = () => {
     const [categories, setCategories] = useState([]);
     const [saving, setSaving] = useState(false);
     const [uploadingObj, setUploadingObj] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const [activePickerIndex, setActivePickerIndex] = useState(null);
     const [iconSearch, setIconSearch] = useState('');
     const [iconFilterGroup, setIconFilterGroup] = useState('All');
@@ -124,16 +125,26 @@ export const HomepageCategoriesManager = () => {
     };
 
     const handleImageUpload = async (e, index) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
         if (!file) return;
         setUploadingObj(index);
-        const res = await uploadToCloudinary(file, 'homepage_categories');
-        if (res.success) {
-            const newData = [...categories];
-            newData[index].img = res.url;
-            setCategories(newData);
+        setUploadProgress(0);
+        try {
+            const res = await uploadToCloudinary(file, 'homepage_categories', (pct) => {
+                setUploadProgress(pct);
+            });
+            if (res && (res.secureUrl || res.url)) {
+                const newData = [...categories];
+                newData[index].img = res.secureUrl || res.url;
+                setCategories(newData);
+            }
+        } catch (err) {
+            console.warn("Category image upload error:", err);
+        } finally {
+            setUploadingObj(null);
+            setUploadProgress(0);
+            e.target.value = '';
         }
-        setUploadingObj(null);
     };
 
     return (
@@ -183,13 +194,23 @@ export const HomepageCategoriesManager = () => {
                                 ) : (
                                     <div className="w-full h-full flex justify-center items-center text-slate-400"><Grid className="w-6 h-6" /></div>
                                 )}
-                                <label className="absolute inset-0 bg-slate-950/60 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer text-[9px] font-bold p-1 text-center">
-                                    <Upload className="w-4 h-4 mb-0.5" />
-                                    {uploadingObj === idx ? 'Uploading...' : 'Change Image'}
+                                <label className={`absolute inset-0 bg-slate-950/75 text-white flex flex-col items-center justify-center transition cursor-pointer text-[9px] font-bold p-1 text-center ${uploadingObj === idx ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                                    {uploadingObj === idx ? (
+                                        <div className="flex flex-col items-center gap-1 w-full px-1">
+                                            <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                                            <span className="text-blue-300 font-mono text-[10px]">{uploadProgress}%</span>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <Upload className="w-4 h-4 mb-0.5" />
+                                            <span>Change Image</span>
+                                        </>
+                                    )}
                                     <input
                                         type="file"
                                         accept="image/*"
                                         onChange={(e) => handleImageUpload(e, idx)}
+                                        disabled={uploadingObj === idx}
                                         className="hidden"
                                     />
                                 </label>

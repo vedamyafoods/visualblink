@@ -31,6 +31,7 @@ export const HomepageManager = () => {
   const [formData, setFormData] = useState(homepageSettings || {});
   const [activeTab, setActiveTab] = useState('navigation'); // 'hero', 'categories', 'navigation', 'preview'
   const [uploadingField, setUploadingField] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Sync state if context changes
@@ -40,22 +41,36 @@ export const HomepageManager = () => {
     }
   }, [homepageSettings]);
 
-  // Cloudinary image upload handler for single banner image
+  // Cloudinary image upload handler for single banner image with auto-sync and progress
   const handleHeroImageUpload = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
     setUploadingField('heroBanner');
-    const res = await uploadToCloudinary(file, 'homepage');
-    if (res.success) {
-      setFormData(prev => ({
-        ...prev,
-        hero: {
-          ...prev.hero,
-          bannerImage: res.url
-        }
-      }));
+    setUploadProgress(0);
+    try {
+      const res = await uploadToCloudinary(file, 'homepage', (pct) => {
+        setUploadProgress(pct);
+      });
+      if (res && (res.secureUrl || res.url)) {
+        const uploadedUrl = res.secureUrl || res.url;
+        const newForm = {
+          ...formData,
+          hero: {
+            ...(formData.hero || {}),
+            bannerImage: uploadedUrl
+          }
+        };
+        setFormData(newForm);
+        // Automatically sync to Firestore & live website
+        await updateHomepageSettings(newForm);
+      }
+    } catch (err) {
+      console.warn("Hero image upload error:", err);
+    } finally {
+      setUploadingField(null);
+      setUploadProgress(0);
+      e.target.value = '';
     }
-    setUploadingField(null);
   };
 
   // Cloudinary image upload handler for category card images
@@ -360,12 +375,25 @@ export const HomepageManager = () => {
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-              <div className="md:col-span-5 h-64 rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 relative shadow-md">
-                <img
-                  src={formData.hero?.bannerImage}
-                  alt="Hero Banner Preview"
-                  className="w-full h-full object-cover"
-                />
+              <div className="md:col-span-5 h-64 rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 relative shadow-md flex items-center justify-center">
+                {formData.hero?.bannerImage ? (
+                  <img
+                    src={formData.hero.bannerImage}
+                    alt="Hero Banner Preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-slate-500 text-sm font-semibold">No Image Uploaded</span>
+                )}
+                {uploadingField === 'heroBanner' && (
+                  <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex flex-col items-center justify-center text-white gap-2 p-4">
+                    <div className="w-9 h-9 border-3 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                    <span className="text-xs font-bold font-mono text-blue-300">{uploadProgress}% Uploaded</span>
+                    <div className="w-36 bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700">
+                      <div className="bg-gradient-to-r from-blue-500 to-[#6a32f0] h-2 rounded-full transition-all duration-200" style={{ width: `${uploadProgress}%` }} />
+                    </div>
+                  </div>
+                )}
                 <div className="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
                   Live Banner Preview
                 </div>
@@ -386,18 +414,38 @@ export const HomepageManager = () => {
                   />
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <label className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] flex items-center gap-2 cursor-pointer transition shadow-md shadow-blue-500/20">
-                    <Upload className="w-4 h-4" />
-                    {uploadingField === 'heroBanner' ? 'Uploading to Cloudinary...' : 'Upload New Hero Banner Image'}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleHeroImageUpload}
-                      className="hidden"
-                    />
-                  </label>
-                  <span className="text-[10px] text-slate-400 font-medium">Auto uploads via Cloudinary preset print85</span>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3">
+                    <label className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] flex items-center gap-2 cursor-pointer transition shadow-md shadow-blue-500/20">
+                      <Upload className="w-4 h-4" />
+                      {uploadingField === 'heroBanner' ? `Uploading ${uploadProgress}%...` : 'Upload New Hero Banner Image'}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleHeroImageUpload}
+                        disabled={uploadingField === 'heroBanner'}
+                        className="hidden"
+                      />
+                    </label>
+                    <span className="text-[10px] text-slate-400 font-medium">Direct Cloudinary CDN upload</span>
+                  </div>
+
+                  {uploadingField === 'heroBanner' && (
+                    <div className="w-full max-w-md bg-blue-50/80 rounded-xl p-3 border border-blue-200 space-y-1.5 animate-in fade-in">
+                      <div className="flex justify-between text-xs font-bold text-slate-700">
+                        <span className="flex items-center gap-1.5 text-blue-600">
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Uploading to Cloudinary...
+                        </span>
+                        <span className="text-blue-600 font-mono text-sm">{uploadProgress}%</span>
+                      </div>
+                      <div className="w-full bg-blue-100 rounded-full h-2.5 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-blue-500 to-[#6a32f0] h-2.5 rounded-full transition-all duration-150"
+                          style={{ width: `${uploadProgress}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 pt-2">

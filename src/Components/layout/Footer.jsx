@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { FiFacebook, FiInstagram, FiLinkedin, FiYoutube, FiArrowRight } from 'react-icons/fi'
+import { FiArrowRight } from 'react-icons/fi'
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa6'
 import { BRANDING } from '../../config/branding'
 import { subscribeNewsletter } from '../../services/firebase'
 
@@ -51,19 +52,50 @@ export function Footer({ setCurrentPage }) {
               Turning your ideas into prints that people remember.
             </p>
 
-            {/* Social Icons (Rounded Outline Buttons matching Screenshot 2) */}
-            <div className="flex gap-2.5 text-slate-600">
-              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#05defd] hover:to-[#6a32f0] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
-                <FiInstagram className="w-4 h-4" />
+            {/* Real Social Media Brand Icons */}
+            <div className="flex items-center gap-2.5">
+              {/* Facebook */}
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-9 h-9 rounded-full bg-[#1877F2] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 hover:shadow-md hover:brightness-105 active:scale-95 shadow-xs"
+              >
+                <FaFacebookF className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#05defd] hover:to-[#6a32f0] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
-                <FiFacebook className="w-4 h-4" />
+
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 hover:shadow-md hover:brightness-105 active:scale-95 shadow-xs"
+              >
+                <FaInstagram className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#05defd] hover:to-[#6a32f0] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
-                <FiLinkedin className="w-4 h-4" />
+
+              {/* LinkedIn */}
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="w-9 h-9 rounded-full bg-[#0A66C2] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 hover:shadow-md hover:brightness-105 active:scale-95 shadow-xs"
+              >
+                <FaLinkedinIn className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8.5 h-8.5 rounded-full border border-slate-200 bg-white hover:bg-gradient-to-r hover:from-[#05defd] hover:to-[#6a32f0] hover:border-transparent hover:text-white flex items-center justify-center transition-all shadow-2xs">
-                <FiYoutube className="w-4 h-4" />
+
+              {/* YouTube */}
+              <a
+                href="https://www.youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="w-9 h-9 rounded-full bg-[#FF0000] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 hover:shadow-md hover:brightness-105 active:scale-95 shadow-xs"
+              >
+                <FaYoutube className="w-4 h-4" />
               </a>
             </div>
           </div>

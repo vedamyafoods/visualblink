@@ -281,6 +281,7 @@ export const ProductCatalogManager = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [homepageCats, setHomepageCats] = useState([]);
@@ -665,10 +666,14 @@ export const ProductCatalogManager = () => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
     setUploadingImage(true);
+    setUploadProgress(0);
     const uploadedUrls = [];
     for (let i = 0; i < files.length; i++) {
       try {
-        const res = await uploadToCloudinary(files[i], 'products');
+        const res = await uploadToCloudinary(files[i], 'products', (pct) => {
+          const overall = Math.round(((i + (pct / 100)) / files.length) * 100);
+          setUploadProgress(overall);
+        });
         if (res && (res.secureUrl || res.url)) {
           uploadedUrls.push(res.secureUrl || res.url);
         }
@@ -687,6 +692,7 @@ export const ProductCatalogManager = () => {
       });
     }
     setUploadingImage(false);
+    setUploadProgress(0);
     e.target.value = '';
   };
 
@@ -1248,13 +1254,31 @@ export const ProductCatalogManager = () => {
                         </div>
                       ))}
 
-                      {/* Dropzone Upload Button - Multiple selection enabled */}
-                      <label className="aspect-square rounded-2xl border-2 border-dashed border-blue-200 hover:border-blue-500 bg-blue-50/30 hover:bg-blue-50 flex flex-col items-center justify-center text-blue-600 cursor-pointer transition-colors p-3 text-center">
-                        <Upload className="w-6 h-6 mb-1 text-blue-500" />
-                        <span className="text-[13px] font-bold text-slate-800">
-                          {uploadingImage ? 'Uploading...' : 'Upload Images'}
-                        </span>
-                        <span className="text-[10px] text-slate-500 font-semibold mt-0.5">Choose Multiple</span>
+                      {/* Dropzone Upload Button - Multiple selection enabled with progress tracking */}
+                      <label className="aspect-square rounded-2xl border-2 border-dashed border-blue-200 hover:border-blue-500 bg-blue-50/30 hover:bg-blue-50 flex flex-col items-center justify-center text-blue-600 cursor-pointer transition-colors p-3 text-center relative overflow-hidden">
+                        {uploadingImage ? (
+                          <div className="flex flex-col items-center justify-center w-full px-2">
+                            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mb-1.5" />
+                            <span className="text-[12px] font-bold text-blue-600 font-mono">
+                              {uploadProgress}%
+                            </span>
+                            <span className="text-[10px] text-slate-500 font-semibold">Uploading...</span>
+                            <div className="w-full bg-blue-100 rounded-full h-1.5 mt-2 overflow-hidden">
+                              <div
+                                className="bg-blue-600 h-1.5 rounded-full transition-all duration-150"
+                                style={{ width: `${uploadProgress}%` }}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <Upload className="w-6 h-6 mb-1 text-blue-500" />
+                            <span className="text-[13px] font-bold text-slate-800">
+                              Upload Images
+                            </span>
+                            <span className="text-[10px] text-slate-500 font-semibold mt-0.5">Choose Multiple</span>
+                          </>
+                        )}
                         <input
                           type="file"
                           accept="image/*"

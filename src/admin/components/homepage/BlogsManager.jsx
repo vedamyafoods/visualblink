@@ -11,6 +11,7 @@ export const BlogsManager = () => {
     const [blogs, setBlogs] = useState([]);
     const [saving, setSaving] = useState(false);
     const [uploadingObj, setUploadingObj] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     useEffect(() => {
         const unsub = subscribeToHomepageBlogs((data) => {
@@ -67,12 +68,24 @@ export const BlogsManager = () => {
     };
 
     const handleImageUpload = async (e, index) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
         if (!file) return;
         setUploadingObj(index);
-        const res = await uploadToCloudinary(file, 'homepage_blogs');
-        if (res.success) handleUpdate(index, 'img', res.url);
-        setUploadingObj(null);
+        setUploadProgress(0);
+        try {
+            const res = await uploadToCloudinary(file, 'homepage_blogs', (pct) => {
+                setUploadProgress(pct);
+            });
+            if (res && (res.secureUrl || res.url)) {
+                handleUpdate(index, 'img', res.secureUrl || res.url);
+            }
+        } catch (err) {
+            console.warn("Blog image upload error:", err);
+        } finally {
+            setUploadingObj(null);
+            setUploadProgress(0);
+            e.target.value = '';
+        }
     };
 
     return (
@@ -102,10 +115,19 @@ export const BlogsManager = () => {
                             <div className="flex gap-3">
                                 <div className="w-24 h-24 rounded-xl border border-slate-200 overflow-hidden bg-slate-200 shrink-0 relative group">
                                     <img src={item.img} alt="cover" className="w-full h-full object-cover" />
-                                    <label className="absolute inset-0 bg-slate-950/60 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer text-[9px] font-bold p-1 text-center">
-                                        <Upload className="w-4 h-4 mb-0.5" />
-                                        {uploadingObj === i ? 'Uploading...' : 'Cover Image'}
-                                        <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, i)} className="hidden" />
+                                    <label className={`absolute inset-0 bg-slate-950/75 text-white flex flex-col items-center justify-center transition cursor-pointer text-[9px] font-bold p-1 text-center ${uploadingObj === i ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                                        {uploadingObj === i ? (
+                                            <div className="flex flex-col items-center gap-1 w-full px-1">
+                                                <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                                                <span className="text-blue-300 font-mono text-[10px]">{uploadProgress}%</span>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <Upload className="w-4 h-4 mb-0.5" />
+                                                <span>Cover Image</span>
+                                            </>
+                                        )}
+                                        <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, i)} disabled={uploadingObj === i} className="hidden" />
                                     </label>
                                 </div>
                                 <div className="flex-1 space-y-2">

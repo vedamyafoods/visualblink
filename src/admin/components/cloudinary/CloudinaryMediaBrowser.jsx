@@ -18,28 +18,39 @@ export const CloudinaryMediaBrowser = () => {
   const [copiedId, setCopiedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleUpload = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
-    const res = await uploadToCloudinary(file, 'mockups');
-    if (res.success) {
-      const newMedia = {
-        publicId: res.publicId,
-        url: res.url,
-        transformedUrl: getCloudinaryTransformedUrl(res.url, 'c_fill,w_800,q_auto,f_auto'),
-        title: file.name,
-        folder: "uploads",
-        format: res.format || 'png',
-        size: `${Math.round(res.bytes / 1024)} KB`,
-        dimensions: `${res.width || 1200} x ${res.height || 1800}`,
-        createdAt: new Date().toISOString().split('T')[0],
-        tags: ["upload", "custom"]
-      };
-      setCloudinaryMedia(prev => [newMedia, ...prev]);
+    setUploadProgress(0);
+    try {
+      const res = await uploadToCloudinary(file, 'mockups', (pct) => {
+        setUploadProgress(pct);
+      });
+      if (res && res.success) {
+        const newMedia = {
+          publicId: res.publicId,
+          url: res.url,
+          transformedUrl: getCloudinaryTransformedUrl(res.url, 'c_fill,w_800,q_auto,f_auto'),
+          title: file.name,
+          folder: "uploads",
+          format: res.format || 'png',
+          size: `${Math.round((res.bytes || res.fileSize || 0) / 1024)} KB`,
+          dimensions: `${res.width || 1200} x ${res.height || 1800}`,
+          createdAt: new Date().toISOString().split('T')[0],
+          tags: ["upload", "custom"]
+        };
+        setCloudinaryMedia(prev => [newMedia, ...prev]);
+      }
+    } catch (err) {
+      console.warn("Cloudinary upload error:", err);
+    } finally {
+      setUploading(false);
+      setUploadProgress(0);
+      e.target.value = '';
     }
-    setUploading(false);
   };
 
   const copyUrl = (url, id) => {
@@ -82,16 +93,28 @@ export const CloudinaryMediaBrowser = () => {
         <label className="block border-2 border-dashed border-blue-200 hover:border-blue-500 bg-blue-50/30 hover:bg-blue-50 rounded-2xl p-6 text-center cursor-pointer transition-colors">
           <div className="flex flex-col items-center justify-center space-y-2">
             <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
-              <Upload className="w-6 h-6" />
+              {uploading ? (
+                <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <Upload className="w-6 h-6" />
+              )}
             </div>
             <div>
               <span className="font-bold text-slate-900 text-[14px] block">
-                {uploading ? 'Processing & Optimizing Image...' : 'Click or Drag & Drop File to Upload to Cloudinary'}
+                {uploading ? `Uploading to Cloudinary: ${uploadProgress}%` : 'Click or Drag & Drop File to Upload to Cloudinary'}
               </span>
-              <span className="text-[14px] text-slate-500 font-medium">Supports PNG, JPG, WEBP, SVG • Auto-generated WebP thumbnails</span>
+              <span className="text-[14px] text-slate-500 font-medium">Supports PNG, JPG, WEBP, SVG • Fast signed CDN upload</span>
             </div>
+            {uploading && (
+              <div className="w-full max-w-xs bg-blue-100 rounded-full h-2 mt-2 overflow-hidden mx-auto">
+                <div
+                  className="bg-blue-600 h-2 rounded-full transition-all duration-150"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+            )}
           </div>
-          <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
+          <input type="file" accept="image/*" onChange={handleUpload} disabled={uploading} className="hidden" />
         </label>
       </div>
 
